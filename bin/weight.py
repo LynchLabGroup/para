@@ -6,7 +6,7 @@ Created on Thu Feb 27 17:47:23 2014
 @author: Rekyt
 """
 
-class WeigthSeq(object):
+class WeightSeq(object):
 	"""
 	Class for parsed StatAlign alignment sequence lines with three attributes:
 
@@ -30,7 +30,7 @@ class WeigthSeq(object):
 		seq = line[1].strip("\n") #aligned sequence, capitals are motifs
 
 		weighted = []
-		with open("pred","r") as f:
+		with open(pred,"r") as f:
 			for c in seq:
 				num = 0.0
 				if c != "-":
@@ -38,8 +38,18 @@ class WeigthSeq(object):
 					num = float(num) #convert string line to float coefficient
 				weighted.append([c,num])
 
-
 		#Initialize object
 		self._name = name
 		self._seq = seq
 		self._w = weighted
+
+	def __str__(self):
+		"""
+		Show name, length and sequence of sequence
+		"""
+		return "name: {}\nlength: {}\nseq: {}".format(self._name,len(self._seq),self._seq)
+
+	def __repr__(self):
+		return self.__str__()
+
+
