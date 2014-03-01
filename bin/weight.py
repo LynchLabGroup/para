@@ -70,5 +70,36 @@ class WeightSeq(object):
 				if w > thre:
 					print "index: {} base: {} mpd: {}".format(ind+1,nt,w)
 
+# pos = 0
+# known = [] #list of lists position where weight is higher than threshold [start,end]
+# while pos<len(self._w):
+# 	nt = self._w[pos][0]
+# 	w = self._w[pos][1]
+# 	t = 0
+# 	wide = []
+# 	while w>0.1:
+# 		if t==0:
+# 			wide.append(pos+1)
+# 		t += 1
+# 		print "{} time {} pos".format(t,pos+1)
+# 		pos += 1
+# 		nt = self._w[pos][0]
+# 		w = self._w[pos][1]
+# 	if t > 0:
+# 		wide.append(pos)
+# 		known.append(wide)
+# 	pos += 1
+
+# for e in known:
+# 	if e[0] == e[1]:
+# 		sub = self._seq[e[0]-1]
+# 	else:
+# 		sub = self._seq[e[0]-1:e[1]]
+# 	e.insert(0,sub)
+
+
+
+				
+
 
 
