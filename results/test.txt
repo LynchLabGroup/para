@@ -1,0 +1,44 @@
+Launched:Mon, 03 Mar 2014 21:32:30 GMT Threshold used: 0.3
+
+
+motif1 Start: 53 Stop: 60 AvgPhylogeneticScore: 0.6625 Size: 8
+
+Citr_kose_1          cagcagca
+Ente_638_1           cagcagca
+Esch_coli_1          cagcagca
+Salm_typh_1          cagcagca
+
+motif2 Start: 200 Stop: 203 AvgPhylogeneticScore: 0.425 Size: 4
+
+Citr_kose_1          gcct
+Ente_638_1           gcct
+Esch_coli_1          gcc-
+Salm_typh_1          gcc-
+
+motif3 Start: 205 Stop: 210 AvgPhylogeneticScore: 0.633333333333 Size: 6
+
+Citr_kose_1          aacgcC
+Ente_638_1           aacgcC
+Esch_coli_1          aacgtC
+Salm_typh_1          aacgcC
+
+motif4 Start: 242 Stop: 247 AvgPhylogeneticScore: 0.75 Size: 6
+
+Citr_kose_1          cgcttt
+Ente_638_1           cgcttt
+Esch_coli_1          cgcttt
+Salm_typh_1          cgcttt
+
+motif5 Start: 263 Stop: 270 AvgPhylogeneticScore: 0.45 Size: 8
+
+Citr_kose_1          cgggataA
+Ente_638_1           cgggataA
+Esch_coli_1          caggataA
+Salm_typh_1          cgggataA
+
+motif6 Start: 289 Stop: 300 AvgPhylogeneticScore: 0.858333333333 Size: 12
+
+Citr_kose_1          CGAAACAGGAAG
+Ente_638_1           CGAAACAGGAAG
+Esch_coli_1          CGACACAGGAAG
+Salm_typh_1          CGAAACAGGAAG

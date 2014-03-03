@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from weight import WeightSeq
+from time import gmtime, strftime, sleep
 
 class SeqParser(object):
 	"""
@@ -16,6 +17,7 @@ class SeqParser(object):
 		self._seqfile = seqfile
 		self._predfile = predfile
 		self._parse = None #to stock the parsed sequences
+		self._motifs = None
 
 	def __str__(self):
 
@@ -48,22 +50,23 @@ class SeqParser(object):
 		else:
 			return "Sequence file was already parsed"
 
-	def motifs(self,thre):
+	def motifs(self,thre,size):
 		"""
-		Returns a dictionary of sequences motifs
+		Returns a dictionary of sequences motifs, using the prediction threshold thre and bigger than given size
 		"""
 
 		if self._parse == None:
 			print "No previous parsing"
 			print "Parsing file..."
 			seqs = self.parse()
+			self._parse = seqs
 			print "Done"
 		else:
 			seqs = self._parse
 
 		seqs[0].weight(self._predfile) #weight first sequence
 
-		known = seqs[0].motifs(thre) #extract motifs with given threshold from first sequence
+		known = seqs[0].motifs(thre,size) #extract motifs with given threshold from first sequence
 
 		mot = {} #motifs dictionary
 
@@ -76,10 +79,49 @@ class SeqParser(object):
 			mot[name]["start"] = k[1] #start position of motif
 			mot[name]["stop"] = k[2] #end position of motif
 			mot[name]["score"] = k[3] # average score
+			mot[name]["size"]  = k[2] - k[1] + 1 #compute the size of the motif
 
 			for s in seqs:
 				mot[name][s.name()] = s[k[1]:k[2]] #extract motif from each sequence
 
+		mot["threshold"] = thre
+		self._motifs = mot
+
 		return mot
+
+	def write(self,output):
+		"""
+		Write the output file of all the found motifs. Compute the motifs search first.
+		"""
+
+		if self._motifs == None:
+			self.parse()
+			
+			thre = raw_input("What threshold should be used? ")
+			size = raw_input("What motif size? ")
+			
+			self.motifs(thre,size)
+
+
+		keys = self._motifs.keys()
+		keys.sort()
+		thre = self._motifs['threshold']
+		with open(output,"w") as o:
+
+			#Print the precise time of the computation and print the whole results file
+			print >> o, "Launched:{} GMT Threshold used: {}\n".format(strftime("%a, %d %b %Y %H:%M:%S", gmtime()),thre)
+			for k in keys:
+				if k != "threshold":
+					print >> o, "\n{} Start: {} Stop: {} AvgPhylogeneticScore: {} Size: {}\n".format(k,self._motifs[k]["start"],self._motifs[k]["stop"],self._motifs[k]["score"], self._motifs[k]["size"])
+
+					sub = self._motifs[k].keys()
+					sub.sort()
+					for s in sub:
+						if s != "start" and s != "stop" and s != "score" and s != "size":
+							print >> o, "{0:20} {1}".format(s,self._motifs[k][s])
+
+
+
+
 
 

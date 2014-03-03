@@ -81,10 +81,10 @@ class WeightSeq(object):
 
 		self._w = weighted
 
-	def motifs(self,thre):
+	def motifs(self,thre,size):
 		"""
 		If sequence has been weighted, shows all positions where prediction is higher than threshold.
-		Returns a list of motifs with there starting and ending position in the aligned sequence
+		Returns a list of motifs with there starting and ending position in the aligned sequence of given minimum size
 		"""
 		if self._w == []:
 			return "You first have to weight the sequence using prediction scores !"
@@ -108,7 +108,9 @@ class WeightSeq(object):
 					w = self._w[pos][1]
 					score += w
 				
-				if t > 0:
+				if t < size:
+					pass
+				elif t > 0:
 					wide.append(pos) #adding the exact end position of the loop
 					avg = score/t
 					wide.append(avg) #add average score
@@ -120,7 +122,7 @@ class WeightSeq(object):
 				if e[0] == e[1]:
 					sub = self[e[0]]
 				else:
-					sub = self[e[0]:e[1]+1]
+					sub = self[e[0]:e[1]+1] #extract the sequence of interest
 				e.insert(0,sub)
 
 			return known
