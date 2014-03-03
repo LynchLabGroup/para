@@ -42,6 +42,30 @@ class WeightSeq(object):
 	def __repr__(self):
 		return self.__str__()
 
+	def __getitem__(self,num):
+		"""
+		Returns position num in  object's sequence. Num should be the "natural" position of nucleotide in sequence, beginning with 1.
+		"""
+
+		pos = self._seq[num-1]
+		return pos
+
+	def __getslice__(self,beg,end):
+		"""
+		Returns a slice of object's sequence with "natural" numbers.
+
+		'ATTTGC'[2:6] = 'TTTG'
+		"""
+
+		extract = self._seq[beg-1:end]
+		return extract
+
+	def name(self):
+		"""
+		Returns name of sequence
+		"""
+		return self._name
+
 	def weight(self,pred):
 		"""
 		Function to weight the sequence according to pred scores in pred file. The pred file must be a column of each pred score.
@@ -66,13 +90,14 @@ class WeightSeq(object):
 			return "You first have to weight the sequence using prediction scores !"
 		else:
 			pos = 0 #position marker
-			known = [] #list of lists position where weight is higher than threshold [start,end]
+			known = [] #list of lists position where weight is higher than threshold [start, end, avg score]
 			
 			#this loop forces to go through the entire sequence
 			while pos<len(self._w):
 				nt = self._w[pos][0]
 				w = self._w[pos][1]
 				t = 0
+				score = 0.0
 				wide = []
 				while w>thre: #if the position appears to have a weight higher than threshold
 					if t==0:
@@ -81,17 +106,21 @@ class WeightSeq(object):
 					pos += 1
 					nt = self._w[pos][0]
 					w = self._w[pos][1]
+					score += w
 				
 				if t > 0:
-					wide.append(pos) #adding the end position of the loop
+					wide.append(pos) #adding the exact end position of the loop
+					avg = score/t
+					wide.append(avg) #add average score
 					known.append(wide)
 				pos += 1
 
+			#extract the motifs sequences using start and end position and insert them in the returned list
 			for e in known:
 				if e[0] == e[1]:
-					sub = self._seq[e[0]-1]
+					sub = self[e[0]]
 				else:
-					sub = self._seq[e[0]-1:e[1]]
+					sub = self[e[0]:e[1]+1]
 				e.insert(0,sub)
 
 			return known
