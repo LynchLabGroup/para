@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 from weight import WeightSeq
 from time import gmtime, strftime, sleep
-from TAMO import MotifTools
 
 
 class SeqParser(object):
@@ -92,7 +91,7 @@ class SeqParser(object):
 
 		return mot
 
-	def write(self,output,matrix=0):
+	def write(self,output):
 		"""
 		Write the output file of all the found motifs. Compute the motifs search first.
 		"""
@@ -114,14 +113,7 @@ class SeqParser(object):
 					seqs = []
 					for s in sub:
 						if s != "start" and s != "stop" and s != "score" and s != "size":
-							print >> o, "{0:20} {1}".format(s,self._motifs[k][s])
-							if matrix != 0:
-								seqs.append(self._motifs[k][s].upper())
-
-					if seqs != []:
-						print seqs
-						m = MotifTools.Motif(seqs)
-						print >> o, m._print_counts()
+							print >> o, "{0:20} {1}".format(s,self._motifs[k][s].upper())
 
 							
 
