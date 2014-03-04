@@ -100,21 +100,25 @@ class SeqParser(object):
 
 		keys = self._motifs.keys()
 		keys.sort()
-		thre = self._motifs['threshold']
-		size = self._motifs["size"]
-		align = self._motifs["align"]
+		
+		thre = self._motifs['threshold'] # threshold used for motif detection
+		size = self._motifs["size"] # size used to detect motifs
+		align = self._motifs["align"] # alignment score used to detect motifs
+		
 		with open(output,"w") as o:
 
 			#Print the precise time of the computation and print the whole results file
 			print >> o, "Launched:{} GMT Threshold used: {} AlignThreshold: {} Size(over): {}\n".format(strftime("%a, %d %b %Y %H:%M:%S", gmtime()),thre,align,size)
 			for k in keys:
-				smk = self._motifs[k]
 				if k != "threshold" and k != "size" and k != "align":
+					smk = self._motifs[k] # motif number X
+
+					# print the general information for this particular motif
 					print >> o, "\n{} Start: {} Stop: {} AvgPhylogeneticScore: {} AvgAlignScore: {} Size: {}\n".format(k,smk["start"],smk["stop"],smk["score"],smk["align"], smk["size"])
 
 					sub = smk.keys()
-					sub.sort()
-					seqs = []
+					sub.sort() # to have always the same order of sequences
+					# print sequences
 					for s in sub:
 						if s != "start" and s != "stop" and s != "score" and s != "size" and s != "align":
 							print >> o, "{0:20} {1}".format(s,smk[s].upper())
