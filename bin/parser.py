@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 from weight import WeightSeq
 from time import gmtime, strftime, sleep
+from TAMO import MotifTools
+
 
 class SeqParser(object):
 	"""
@@ -65,14 +67,14 @@ class SeqParser(object):
 			seqs = self._parse
 
 		seqs[0].weight(self._predfile) #weight first sequence
-
+		sleep(1)
 		known = seqs[0].motifs(thre,size) #extract motifs with given threshold from first sequence
 
 		mot = {} #motifs dictionary
 
 		for i,k in enumerate(known):
 
-			name = "motif"+str(i+1)
+			name = "motif"+str(i+1) #enumerate motifs
 
 			mot[name] = {}
 
@@ -85,43 +87,42 @@ class SeqParser(object):
 				mot[name][s.name()] = s[k[1]:k[2]] #extract motif from each sequence
 
 		mot["threshold"] = thre
+		mot["size"] = size
 		self._motifs = mot
 
 		return mot
 
-	def write(self,output):
+	def write(self,output,matrix=0):
 		"""
 		Write the output file of all the found motifs. Compute the motifs search first.
 		"""
 
-		if self._motifs == None:
-			self.parse()
-			
-			thre = raw_input("What threshold should be used? ")
-			size = raw_input("What motif size? ")
-			
-			self.motifs(thre,size)
-
-
 		keys = self._motifs.keys()
 		keys.sort()
 		thre = self._motifs['threshold']
+		size = self._motifs["size"]
 		with open(output,"w") as o:
 
 			#Print the precise time of the computation and print the whole results file
-			print >> o, "Launched:{} GMT Threshold used: {}\n".format(strftime("%a, %d %b %Y %H:%M:%S", gmtime()),thre)
+			print >> o, "Launched:{} GMT Threshold used: {} Size(over): {}\n".format(strftime("%a, %d %b %Y %H:%M:%S", gmtime()),thre,size)
 			for k in keys:
-				if k != "threshold":
+				if k != "threshold" and k != "size":
 					print >> o, "\n{} Start: {} Stop: {} AvgPhylogeneticScore: {} Size: {}\n".format(k,self._motifs[k]["start"],self._motifs[k]["stop"],self._motifs[k]["score"], self._motifs[k]["size"])
 
 					sub = self._motifs[k].keys()
 					sub.sort()
+					seqs = []
 					for s in sub:
 						if s != "start" and s != "stop" and s != "score" and s != "size":
 							print >> o, "{0:20} {1}".format(s,self._motifs[k][s])
+							if matrix != 0:
+								seqs.append(self._motifs[k][s].upper())
 
+					if seqs != []:
+						print seqs
+						m = MotifTools.Motif(seqs)
+						print >> o, m._print_counts()
 
-
-
+							
 
 

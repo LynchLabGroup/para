@@ -124,7 +124,7 @@ class WeightSeq(object):
 				else:
 					sub = self[e[0]:e[1]+1] #extract the sequence of interest
 				e.insert(0,sub)
-
+			print "Identified motifs: {}".format(known)
 			return known
 
 
