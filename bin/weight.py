@@ -21,7 +21,7 @@ class WeightSeq(object):
 		"""
 		self._name = '' #name of the sequence
 		self._seq = '' #aligned sequence
-		self._w = [] #list of [nt, mpd] index show position
+		self._w = [] #list of [nt, phyloscore, alignscore] index show position
 
 		#Parse line
 		line = line.split("\t")
@@ -66,9 +66,10 @@ class WeightSeq(object):
 		"""
 		return self._name
 
-	def weight(self,pred):
+	def weight(self,pred,mpd):
 		"""
-		Function to weight the sequence according to pred scores in pred file. The pred file must be a column of each pred score.
+		Function to weight the sequence according to pred scores in pred file. The pred file must be a column of each pred score in float format
+		mpd file is the alignment file with all alignment scores
 		"""
 		weighted = []
 		with open(pred,"r") as f:
@@ -79,9 +80,21 @@ class WeightSeq(object):
 					num = float(num) #convert string line to float coefficient
 				weighted.append([c,num])
 
+		with open(mpd,"r") as f:
+			j = 0
+			for i,line in enumerate(f.readlines()):
+				try:
+					align = float(line)
+				except ValueError:
+					j += 1 #count number of lines without number
+			f.seek(0) #rewinds the file
+			for i,line in enumerate(f.readlines()):
+				if i>=j:
+					weighted[i-j].insert(2,float(line)) #insert the alignment score
+
 		self._w = weighted
 
-	def motifs(self,thre,size):
+	def motifs(self,thre,size,align):
 		"""
 		If sequence has been weighted, shows all positions where prediction is higher than threshold.
 		Returns a list of motifs with there starting and ending position in the aligned sequence of given minimum size
@@ -94,37 +107,47 @@ class WeightSeq(object):
 			
 			#this loop forces to go through the entire sequence
 			while pos<len(self._w):
-				nt = self._w[pos][0]
-				w = self._w[pos][1]
-				t = 0
-				score = 0.0
-				wide = []
-				while w>thre: #if the position appears to have a weight higher than threshold
+				
+				nt = self._w[pos][0] #base
+				w = self._w[pos][1] #phylogenetic score
+				a = self._w[pos][2] #alignment score
+				
+				t = 0 #counter of successive bases
+				score = 0.0 #variable to calculate average phylogenetic score
+				al = 0.0 #variable for average alignment score
+				wide = []#simple
+
+				# Loop to identify motifs
+				while w>thre and a>align: #if the position appears to have a weight higher than threshold
 					if t==0:
 						wide.append(pos+1) #add the starting position (in term of real position in the sequence)
 					t += 1
 					pos += 1
-					nt = self._w[pos][0]
-					w = self._w[pos][1]
+					nt = self._w[pos][0] #base
+					w = self._w[pos][1] #phylogenetic score
+					a = self._w[pos][2] #alignment score
 					score += w
-				
-				if t < size:
+					al += a
+
+				#once the loop identified a motif
+				if t < size: #if it is smaller than expected
 					pass
-				elif t > 0:
+				elif t > 0: #else if we identified a motif
 					wide.append(pos) #adding the exact end position of the loop
 					avg = score/t
+					alavg = al/t
 					wide.append(avg) #add average score
+					wide.append(alavg) #add alignment score
 					known.append(wide)
 				pos += 1
 
 			#extract the motifs sequences using start and end position and insert them in the returned list
 			for e in known:
 				if e[0] == e[1]:
-					sub = self[e[0]]
+					sub = self[e[0]].upper()
 				else:
-					sub = self[e[0]:e[1]+1] #extract the sequence of interest
-				e.insert(0,sub)
-			print "Identified motifs: {}".format(known)
+					sub = self[e[0]:e[1]+1].upper() #extract the sequence of interest
+				e.insert(0,sub) #insert in the first position the extracted sequence
 			return known
 
 

@@ -51,7 +51,7 @@ class SeqParser(object):
 		else:
 			return "Sequence file was already parsed"
 
-	def motifs(self,thre,size):
+	def motifs(self,thre,size,align):
 		"""
 		Returns a dictionary of sequences motifs, using the prediction threshold thre and bigger than given size
 		"""
@@ -65,11 +65,11 @@ class SeqParser(object):
 		else:
 			seqs = self._parse
 
-		seqs[0].weight(self._predfile) #weight first sequence
+		seqs[0].weight(self._predfile,self._seqfile) #weight first sequence
 		sleep(1)
-		known = seqs[0].motifs(thre,size) #extract motifs with given threshold from first sequence
+		known = seqs[0].motifs(thre,size,align) #extract motifs with given threshold from first sequence
 
-		mot = {} #motifs dictionary
+		mot = {} # known motifs dictionary
 
 		for i,k in enumerate(known):
 
@@ -81,12 +81,14 @@ class SeqParser(object):
 			mot[name]["stop"] = k[2] #end position of motif
 			mot[name]["score"] = k[3] # average score
 			mot[name]["size"]  = k[2] - k[1] + 1 #compute the size of the motif
+			mot[name]["align"] = k[4] # average alignment score of sequence
 
 			for s in seqs:
 				mot[name][s.name()] = s[k[1]:k[2]] #extract motif from each sequence
 
-		mot["threshold"] = thre
-		mot["size"] = size
+		mot["threshold"] = thre # general threshold used
+		mot["size"] = size # size used to detect motifs
+		mot["align"] = align # used alignment score
 		self._motifs = mot
 
 		return mot
@@ -100,20 +102,22 @@ class SeqParser(object):
 		keys.sort()
 		thre = self._motifs['threshold']
 		size = self._motifs["size"]
+		align = self._motifs["align"]
 		with open(output,"w") as o:
 
 			#Print the precise time of the computation and print the whole results file
-			print >> o, "Launched:{} GMT Threshold used: {} Size(over): {}\n".format(strftime("%a, %d %b %Y %H:%M:%S", gmtime()),thre,size)
+			print >> o, "Launched:{} GMT Threshold used: {} AlignThreshold: {} Size(over): {}\n".format(strftime("%a, %d %b %Y %H:%M:%S", gmtime()),thre,align,size)
 			for k in keys:
-				if k != "threshold" and k != "size":
-					print >> o, "\n{} Start: {} Stop: {} AvgPhylogeneticScore: {} Size: {}\n".format(k,self._motifs[k]["start"],self._motifs[k]["stop"],self._motifs[k]["score"], self._motifs[k]["size"])
+				smk = self._motifs[k]
+				if k != "threshold" and k != "size" and k != "align":
+					print >> o, "\n{} Start: {} Stop: {} AvgPhylogeneticScore: {} AvgAlignScore: {} Size: {}\n".format(k,smk["start"],smk["stop"],smk["score"],smk["align"], smk["size"])
 
-					sub = self._motifs[k].keys()
+					sub = smk.keys()
 					sub.sort()
 					seqs = []
 					for s in sub:
-						if s != "start" and s != "stop" and s != "score" and s != "size":
-							print >> o, "{0:20} {1}".format(s,self._motifs[k][s].upper())
+						if s != "start" and s != "stop" and s != "score" and s != "size" and s != "align":
+							print >> o, "{0:20} {1}".format(s,smk[s].upper())
 
 							
 
