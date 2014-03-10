@@ -10,14 +10,13 @@ class WeightSeq(object):
 	"""
 	Class for parsed StatAlign alignment sequence lines with three attributes:
 
-	name - name of the sequence
-	seq - aligned sequence, capitals show determined motidfs
-	w - list of pairs of nt and their phylogenetic footpringtin coefficient
+	name -- name of the sequence
+	seq -- aligned sequence, capitals show determined motidfs
+	w -- list of pairs of nt and their phylogenetic footpringtin coefficient
 	"""
 	def __init__(self,line):
 		"""
 		line - Pass a sequence line of a StatAlign file
-		pred - pass name of pred file
 		"""
 		self._name = '' #name of the sequence
 		self._seq = '' #aligned sequence
@@ -54,7 +53,8 @@ class WeightSeq(object):
 		"""
 		Returns a slice of object's sequence with "natural" numbers.
 
-		'ATTTGC'[2:6] = 'TTTG'
+		>>>'ATTTGC'[2:6]
+		'TTTG'
 		"""
 
 		extract = self._seq[beg-1:end]
@@ -68,10 +68,14 @@ class WeightSeq(object):
 
 	def weight(self,pred,mpd):
 		"""
-		Function to weight the sequence according to pred scores in pred file. The pred file must be a column of each pred score in float format
-		mpd file is the alignment file with all alignment scores
+		Create a list of each base of the sequence object with its prediction and alignment scores.
+
+		pred -- file with phylogenetic prediction scores
+		mpd -- file with all alignment scores (.mpd format)
 		"""
 		weighted = []
+
+		# Create a list of each base with its prediction weight
 		with open(pred,"r") as f:
 			for c in self._seq:
 				num = 0.0
@@ -80,6 +84,7 @@ class WeightSeq(object):
 					num = float(num) #convert string line to float coefficient
 				weighted.append([c,num])
 
+		# Add alignment score
 		with open(mpd,"r") as f:
 			j = 0
 			for i,line in enumerate(f.readlines()):
@@ -97,7 +102,11 @@ class WeightSeq(object):
 	def motifs(self,thre,size,align):
 		"""
 		If sequence has been weighted, shows all positions where prediction is higher than threshold.
-		Returns a list of motifs with there starting and ending position in the aligned sequence of given minimum size
+		Returns a list of motifs with their starting and ending position in the aligned sequence of given minimum size.
+
+		thre -- phylogenetic prediction score threshold, motifs with score over that would be selected
+		size -- minimum motifs size to be returned
+		align -- alignment score threshold: sequence need to have a score over threshold to be selected
 		"""
 		if self._w == []:
 			return "You first have to weight the sequence using prediction scores !"

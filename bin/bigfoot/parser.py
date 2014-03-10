@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from weight import WeightSeq
+
+### IMPORTS ###
 from time import gmtime, strftime, sleep
+
+from weight import WeightSeq
 
 
 class SeqParser(object):
