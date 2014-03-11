@@ -4,6 +4,7 @@
 # Program that from a gene id of GFF file and specified length, gives you the number to extract the upstream sequence of this gene
 
 ### IMPORTS ###
+import sys
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
@@ -142,25 +143,43 @@ def write_fasta(file_name,upseqs):
 	SeqIO.write(records,file_name,"fasta")
 	print "File {} written !".format(file_name)
 
-def extract_cds(fasta_file,gff_file,output=None):
+def extract_cds(fasta_rec,gff_rec,gene_name=None,cds=None):
 	"""Returns a list of Coding Sequences extracted from gff_file and fasta_file."""
 	if output ==None:
 		output = "cds.fa"
 	# Load gff file in memory
-	rec = load_gff(gff_file)
+	rec = gff_rec
 
-	fasta = load_fasta(fasta_file)
+	fasta = fasta_rec
 
 	# Create a list
-	cds = retrieve_pos("CDS",rec) # list of CDS
+	if cds == None:
+		cds = retrieve_pos("CDS",rec) # list of CDS
 
 	# Append sequences at the end of each entry in cds
-	for c in cds:
-		start = c[0]
-		end = c[1]
-		seq_id = c[-1]
-		seq = seq_extract(seq_id,start,end,fasta)
-		c.append(seq)
+	if gene_name == None:
+		for c in cds:
+			start = c[0]
+			end = c[1]
+			seq_id = c[-1]
+			seq = seq_extract(seq_id,start,end,fasta)
+			c.append(seq)
+	else:
+		# Extract from a list of names
+		print "gene_name = {}".format(gene_name)
+		interest = []
+		for c in cds:
+			if c[4] in gene_name:
+				start = c[0]
+				end = c[1]
+				seq_id = c[-1]
+				seq = seq_extract(seq_id,start,end,fasta)
+				c.append(seq)
+				interest.append(c)
+		if interest == []:
+			sys.exit("Gene(s) of interest: {} was not found".format(gene_name))
+		cds = interest
+
 
 	
 	# This loop assemble translated genes
@@ -175,7 +194,9 @@ def extract_cds(fasta_file,gff_file,output=None):
 		dna_seq = Seq("")
 		dna = []
 		dna.append(cds[i][-1])
-		while cds[i+1][4] == gene_id and i+1 < len(cds)-1:
+
+
+		while i+1 <= len(cds)-1 and cds[i+1][4] == gene_id:
 			i += 1
 			dna.append(cds[i][-1])
 
@@ -192,9 +213,7 @@ def extract_cds(fasta_file,gff_file,output=None):
 		genes.append([start,phase,strand,gene_id,seq_id,prot_seq])
 		i += 1
 
-	write_fasta(output,genes)
-
-	return cds,genes
+	return genes
 
 def seq_extract(seq_name,start,end,fasta_rec):
 	"""Retrieves the DNA sequence in seq_name with positions start and end. fasta_rec is the results of load_fasta"""
@@ -206,7 +225,6 @@ def seq_extract(seq_name,start,end,fasta_rec):
 
 def retrieve_pos(seq_type,gff_rec):
 	"""Return a list of positions sequences of given type using a parsed gff."""
-
 	positions = []
 	for r in gff_rec:
 		seq_name = r.id # Scaffold name
@@ -225,7 +243,36 @@ def retrieve_pos(seq_type,gff_rec):
 
 						posinfo = [start,end,strand,phase,gene_name,seq_name]
 						positions.append(posinfo)
+
 	return positions
+
+# def recursive_seqtype(seqtype,gff_rec,seq_name=None,d=0):
+# 	"""Search recursively for a type in the gff_rec."""
+# 	if seq_name == None:
+# 		seq_name = ""
+# 	positions = []
+# 	types = set()
+# 	for r in gff_rec:
+# 		if seq_name == "":
+# 			seq_name = r.id
+# 		try:
+# 			if r.type == seqtype:
+# 				start = r.location.start.position # Beware it uses position in sequence using pythonic indexes
+# 				end = r.location.end.position
+# 				strand = r.location.strand
+# 				phase = int("".join(r.qualifiers["phase"]))
+# 				positions.append([start,end,strand,phase,r.id,seq_name])
+# 		except AttributeError:
+# 			pass
+# 		print "d = {}".format(d)
+# 		if d == 0:
+# 			d += 1
+# 			recursive_seqtype(seqtype,r.features,seq_name,d)
+# 		else:
+# 			d += 1
+# 			recursive_seqtype(seqtype,r.sub_features,seq_name,d)
+
+# 	return positions
 
 
 def load_gff(gff_file):
