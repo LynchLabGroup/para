@@ -5,9 +5,9 @@ import gff
 
 def main():
 
-	#family_file = raw_input("Family file? ")
+	family_file = raw_input("Family file? ")
 	
-	family_file = "data/families/tet_bi_sex_caud_orthoparalogons_WGD1.txt"
+	# family_file = "data/families/tet_bi_sex_caud_orthoparalogons_WGD1.txt"
 	
 	# Load family_file in memory
 	fam_parser = gff.family_parse(family_file,True)
