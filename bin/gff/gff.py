@@ -145,8 +145,7 @@ def write_fasta(file_name,upseqs):
 
 def extract_cds(fasta_rec,gff_rec,gene_name=None,cds=None):
 	"""Returns a list of Coding Sequences extracted from gff_file and fasta_file."""
-	if output ==None:
-		output = "cds.fa"
+
 	# Load gff file in memory
 	rec = gff_rec
 
@@ -272,38 +271,21 @@ def family_parse(family_file,header=None):
 
 	if header == None:
 		header = True
+
 	header_line = []
 	with open(family_file,"r") as f:
-		family = {}
+		family = []
 		for i,line in enumerate(f.readlines()):
 			if header == True and i == 0:
-				
-				header_line = line.rstrip("\n").rstrip("\r").split("\t") # Erase last chars "\r\n"
-				
-				print "Header line found: {}".format(header_line)
-				header_line = header_line[0:len(header_line)-1] # suppress column of gene family names
-			
-			elif i == 0:
-				
-				line = line.rstrip("\n").rstrip("\r").split("\t")
-				col = len(line) # number of columns
-				
-				header_line = ["SPEC"+str(j) for j in range(0,col)] # generate a header
-				print "Header line generated: {}".format(header_line)
-				
+				header_line = line.rstrip("\n").rstrip("\r").split("\t")
 				header_line = header_line[0:len(header_line)-1]
+				print "Detected header line: {}".format(header_line)
 			
-			line = line.rstrip("\n").rstrip("\r").split("\t")
-			if i != 0:
-				
-				# Create a dictionnary with dic[Species] = gene
-				dic = {}
-				for i,h in enumerate(header_line):
-					
-					dic[h] = line[i]
+			if header == False or i != 0:
+				line = line.rstrip("\n").rstrip("\r").split("\t")
 
-				# Index these dictionnary by gene family name: family[family_name] = dic
-				family[line[-1]] = dic # index each entry by gene family name
+				family.append(line)
 
-	return family,header_line
+	return family
+
 
