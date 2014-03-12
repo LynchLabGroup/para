@@ -5,9 +5,9 @@ import gff
 
 def main():
 
-	family_file = raw_input("Family file? ")
+	#family_file = raw_input("Family file? ")
 	
-	# family_file = "data/families/tet_bi_sex_caud_orthoparalogons_WGD1.txt"
+	family_file = "data/families/tet_bi_sex_caud_orthoparalogons_WGD1.txt"
 	
 	# Load family_file in memory
 	fam_parser = gff.family_parse(family_file,True)
@@ -47,12 +47,12 @@ def main():
 	for fam in fam_parser:
 		genes = []
 		for i,gene_name in enumerate(fam):
-			if i < len(fam)-1:
+			if i < len(fam)-1 and gene_name != ".":
 				genes.append(gff.extract_cds(fasta_rec[i],gff_rec[i],gene_name,cds_rec[i]))
 			elif i == len(fam)-1:
 				name = fam(i)
 
-		gff.write_fasta(name+".fasta",genes)
+		gff.write_fasta("data/"+name+".fasta",genes)
 
 
 	# genes = extract_cds(fasta_rec,gff_rec,None,cds)
