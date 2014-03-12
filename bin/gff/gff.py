@@ -145,8 +145,7 @@ def write_fasta(file_name,upseqs):
 
 def extract_cds(fasta_rec,gff_rec,gene_name=None,cds=None):
 	"""Returns a list of Coding Sequences extracted from gff_file and fasta_file."""
-	if output ==None:
-		output = "cds.fa"
+
 	# Load gff file in memory
 	rec = gff_rec
 
@@ -246,35 +245,6 @@ def retrieve_pos(seq_type,gff_rec):
 
 	return positions
 
-# def recursive_seqtype(seqtype,gff_rec,seq_name=None,d=0):
-# 	"""Search recursively for a type in the gff_rec."""
-# 	if seq_name == None:
-# 		seq_name = ""
-# 	positions = []
-# 	types = set()
-# 	for r in gff_rec:
-# 		if seq_name == "":
-# 			seq_name = r.id
-# 		try:
-# 			if r.type == seqtype:
-# 				start = r.location.start.position # Beware it uses position in sequence using pythonic indexes
-# 				end = r.location.end.position
-# 				strand = r.location.strand
-# 				phase = int("".join(r.qualifiers["phase"]))
-# 				positions.append([start,end,strand,phase,r.id,seq_name])
-# 		except AttributeError:
-# 			pass
-# 		print "d = {}".format(d)
-# 		if d == 0:
-# 			d += 1
-# 			recursive_seqtype(seqtype,r.features,seq_name,d)
-# 		else:
-# 			d += 1
-# 			recursive_seqtype(seqtype,r.sub_features,seq_name,d)
-
-# 	return positions
-
-
 def load_gff(gff_file):
 	"""Returns a list of parsed gff."""
 	with open(gff_file,"r") as f:
@@ -292,3 +262,30 @@ def load_fasta(fasta_file):
 		for seq in SeqIO.parse(f,"fasta"):
 			seqs.append(seq)
 	return seqs
+
+def family_parse(family_file,header=None):
+	"""Takes a tab-delimited file which gene families on each line.
+	By default, assume the file has a header. Last column of the file should be gene family name.
+	Return a dictionnary 
+	"""
+
+	if header == None:
+		header = True
+
+	header_line = []
+	with open(family_file,"r") as f:
+		family = []
+		for i,line in enumerate(f.readlines()):
+			if header == True and i == 0:
+				header_line = line.rstrip("\n").rstrip("\r").split("\t")
+				header_line = header_line[0:len(header_line)-1]
+				print "Detected header line: {}".format(header_line)
+			
+			if header == False or i != 0:
+				line = line.rstrip("\n").rstrip("\r").split("\t")
+
+				family.append(line)
+
+	return family
+
+
