@@ -19,8 +19,8 @@ def main():
 	print "{} species detected".format(spec)
 	fasta_files = {}
 
-	fasta_files["PSEX"] = "data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta","data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta"
-	fasta_files["PTET"] = "data/tetraurelia/ptetraurelia_mac_51.fa","data/tetraurelia/ptetraurelia_mac_51.fa"
+	fasta_files["PSEX"] = "data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta"
+	fasta_files["PTET"] = "data/tetraurelia/ptetraurelia_mac_51.fa"
 	fasta_files["PCAU"] = "data/caudatum/caudatum_43c3d_assembly_v1.fasta"
 	fasta_files["PBI"] = "data/biaurelia/biaurelia_V1-4_assembly_v1.fasta"
 
@@ -39,10 +39,7 @@ def main():
 	
 	# load all fasta files in memory
 	fasta_rec = {}
-	print "Fasta files: {}".format(fasta_files)
 	for fk in fasta_files.keys():
-		print "FK = {}".format(fk)
-		print "fasta_file[fk]= {}".format(fasta_files[fk])
 		fasta_rec[fk] = gff.load_fasta(fasta_files[fk])
 
 	# load all gff files in memory
