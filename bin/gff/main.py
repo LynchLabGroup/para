@@ -30,6 +30,8 @@ def main():
 	# gff_files = raw_input("Enter separated by spaces, the names of each gff file separated by spaces according to header\n")
 	# gff_files = gff_files.split(" ")
 
+	gff_files = {}
+	
 	gff_files["PSEX"] = "data/sexaurelia/sexaurelia_AZ8-4_annotation_v1.gff3"
 	gff_files["PTET"] = "data/tetraurelia/tetraurelia51_EuGene_annotation.gff3"
 	gff_files["PCAU"] = "data/caudatum/caudatum_43c3d_annotation_v1.gff3"
