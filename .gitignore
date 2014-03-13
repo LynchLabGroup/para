@@ -1,3 +1,4 @@
 data/
 src/
 bin/gff/BCBio
+.DS_Store
