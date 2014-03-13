@@ -39,7 +39,9 @@ def main():
 	
 	# load all fasta files in memory
 	fasta_rec = {}
+	print "Fasta files: {}".format(fasta_files)
 	for fk in fasta_files.keys():
+		print "FK = {}".format(fk)
 		fasta_rec[fk] = gff.load_fasta(fasta_files[fk])
 
 	# load all gff files in memory
