@@ -11,22 +11,22 @@ from Bio.SeqRecord import SeqRecord
 from Bio.SeqFeature import SeqFeature, FeatureLocation
 from BCBio import GFF
 
-def retrieve_up(geneids,gff_file,fasta_file,length=100):
+def retrieve_up(geneids,gff_rec,fasta_rec,length=100):
 	"""
 	DESCRIPTION:
 
-	Take a list of gene ids, and retrieve the upstream sequence (default = 100nt) from fasta_file, verifying in gff_file that there is no overlap. Return a list of genes, locations and sequences.
+	Take a list of gene ids, and retrieve the upstream sequence (default = 100nt) from fasta_rec, verifying in gff_file that there is no overlap. Return a list of genes, locations and sequences.
 
 	USAGE:
 
 	geneids -- list of gene ids in gff_file
-	gff_file -- a GFF file
-	fasta_file -- a Fasta file
+	gff_rec -- a records of GFF file
+	fasta_rec -- a Fasta rec
 	length (optional) -- length of the upstream sequence to extract
 	"""
 
 	# GFF file parser, puts GFF file in memory
-	rec = load_gff(gff_file) # list of records of each entry in gff file
+	rec = gff_rec
 
 	interest = [] # list of coordinates of gene of interest
 
@@ -58,6 +58,7 @@ def retrieve_up(geneids,gff_file,fasta_file,length=100):
 		gene = i[3] # gene id
 		seqid = i[4] # sequence id on which gene is located
 		extract = 0
+		
 		if strand == 1:
 			extract = start - length # beginning of the extract
 			if extract <= 0: # we don't want to extract negative bases!
@@ -65,10 +66,10 @@ def retrieve_up(geneids,gff_file,fasta_file,length=100):
 			for pos in postable:
 				if pos[-1] == seqid and pos[1] in range(extract,start):# if the gene is overlapping on the same scaffold
 					extract = pos[1]+1
-			upstream.append([extract,start,strand,gene,seqid])# gives the sequence you want to extract upstream of the gene
+			upstream.append([extract,start,strand,gene,seqid])# gives the sequence you want to extract upstream of the gene		
 		elif strand == -1:
 			extract = end + length # end of the extract
-			seqlen = fasta_len(fasta_file,seqid)
+			seqlen = fasta_len(fasta_rec,seqid)
 			if extract >= fasta_len : #if extract is over the sequence
 				extract = seqlen
 			for pos in postable:
@@ -77,31 +78,31 @@ def retrieve_up(geneids,gff_file,fasta_file,length=100):
 			upstream.append([end,extract,strand,gene,seqid])
 
 	print "Retrieving sequences..."
-	upstream = retrieve_seq(fasta_file,upstream)
+	upstream = retrieve_seq(fasta_rec,upstream)
 	
 	return upstream
 
-def fasta_len(fasta_file,seqid):
-	"""Return length of sequence seqid in fasta_file."""
+def fasta_len(fasta_rec,seqid):
+	"""Return length of sequence seqid in fasta_rec."""
 
 	length = 0
 
 	# Find the length in fasta_file of seqid
-	record = load_fasta(fasta_file)		
+	record = fasta_rec		
 	for r in record:
 		if record.id == seqid:
 			length = len(record.seq) #length of the sequence
 
 	if length == 0:
-		print "Sequence {} was not found in {}".format(seqid,fasta_file)
+		print "Sequence {} was not found".format(seqid)
 	return length
 
 
-def retrieve_seq(fasta_file,uplist):
-	"""Take retrieve_up return and return the same list with sequences appended."""
+def retrieve_seq(fasta_rec,uplist):
+	"""Append sequence to the passed list, based on fasta_rec."""
 
 	# Puts fasta file in memory and parses it
-	records = load_fasta(fasta_file) # list of sequences
+	records = fasta_rec # list of sequences
 
 
 	# retrieves upstream sequence of each gene
@@ -144,7 +145,7 @@ def write_fasta(file_name,upseqs):
 	print "File {} written !".format(file_name)
 
 def extract_cds(fasta_rec,gff_rec,gene_name=None,cds=None):
-	"""Returns a list of Coding Sequences extracted from gff_file and fasta_file."""
+	"""Returns a list of Coding Sequences extracted from gff_rec and fasta_rec."""
 
 	# Load gff file in memory
 	rec = gff_rec
@@ -262,30 +263,3 @@ def load_fasta(fasta_file):
 		for seq in SeqIO.parse(f,"fasta"):
 			seqs.append(seq)
 	return seqs
-
-def family_parse(family_file,header=None):
-	"""Takes a tab-delimited file which gene families on each line.
-	By default, assume the file has a header. Last column of the file should be gene family name.
-	Return a dictionnary 
-	"""
-
-	if header == None:
-		header = True
-
-	header_line = []
-	with open(family_file,"r") as f:
-		family = []
-		for i,line in enumerate(f.readlines()):
-			if header == True and i == 0:
-				header_line = line.rstrip("\n").rstrip("\r").split("\t")
-				header_line = header_line[0:len(header_line)-1]
-				print "Detected header line: {}".format(header_line)
-			
-			if header == False or i != 0:
-				line = line.rstrip("\n").rstrip("\r").split("\t")
-
-				family.append(line)
-
-	return family
-
-

@@ -2,15 +2,19 @@
 # -*- coding: utf-8 -*-
 
 import gff
+import family as fam
 
 def main():
 
 	#family_file = raw_input("Family file? ")
 	
-	family_file = "data/families/tet_bi_sex_caud_orthoparalogons_WGD1.txt"
+	family_file = "data/families/tet_bi_sex_caud_orthoparalogons_WGD2.txt"
 	
 	# Load family_file in memory
-	fam_parser = gff.family_parse(family_file,True)
+	args = {}
+	args["header"] = True
+	args["num"] = 7
+	fam_parser = fam.family_parse(family_file,**args)
 
 	length = len(fam_parser[0]) - 1
 	print "Detected {} columns apart from name".format(length)
@@ -43,17 +47,10 @@ def main():
 		cds_rec.append(gff.retrieve_pos("CDS",g))
 	
 	# extract all genes for each family
-	for fam in fam_parser:
-		genes = []
-		for i,gene_name in enumerate(fam):
-			if i < len(fam)-1 and gene_name != ".":
-				gene_extract = gff.extract_cds(fasta_rec[i],gff_rec[i],gene_name,cds_rec[i]) # Return a list of list
-				genes.append(gene_extract[0]) # extract a simple list
-			elif i == len(fam)-1:
-				name = fam[i]
-		print "Here are genes:\n{}".format(genes)
+	# fam.family_cds(fam_parser,fasta_rec,gff_rec,cds_rec,"data/families/WGD1")
 
-		gff.write_fasta("data/families/WGD1/"+name+".fasta",genes)
+	# extract upstream sequences
+	fam.family_up(fam_parser,fasta_rec,gff_rec,300,"data/families/WGD2/upstream")
 
 
 	# genes = extract_cds(fasta_rec,gff_rec,None,cds)
