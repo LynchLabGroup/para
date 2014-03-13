@@ -67,7 +67,10 @@ class GeneFamily():
 		return spec
 
 	def name_change(self,new_name):
-		"""Allow to change family name.""" print "Former name: {}".format(self._name) self._name = new_name print "New name: {}".format(self.name()) 
+		"""Allow to change family name."""
+		print "Former name: {}".format(self._name)
+		self._name = new_name
+		print "New name: {}".format(self.name()) 
 
 ### FUNCTIONS ###
 
