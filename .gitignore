@@ -1,2 +1,6 @@
 data/
+<<<<<<< HEAD
 bin/gff/BCBio
+=======
+src/
+>>>>>>> 3c9d2ab9e02c9870bc0bb26db22f98a64b2c3752
