@@ -47,7 +47,8 @@ def main():
 		genes = []
 		for i,gene_name in enumerate(fam):
 			if i < len(fam)-1 and gene_name != ".":
-				genes.append(gff.extract_cds(fasta_rec[i],gff_rec[i],gene_name,cds_rec[i]))
+				gene_extract = gff.extract_cds(fasta_rec[i],gff_rec[i],gene_name,cds_rec[i]) # Return a list of list
+				genes.append(gene_extract[0]) # extract a simple list
 			elif i == len(fam)-1:
 				name = fam[i]
 		print "Here are genes:\n{}".format(genes)
