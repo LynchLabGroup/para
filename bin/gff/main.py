@@ -43,7 +43,6 @@ def main():
 		cds_rec.append(gff.retrieve_pos("CDS",g))
 	
 	# extract all genes for each family
-	fam_parser = fam_parser[0:2] #for the moment
 	for fam in fam_parser:
 		genes = []
 		for i,gene_name in enumerate(fam):
