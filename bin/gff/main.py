@@ -14,12 +14,15 @@ def main():
 	args = {}
 	args["header"] = True
 	args["num"] = 7
-	fam_parser = fam.family_parse(family_file,**args)
+	fam_parser,spec = fam.family_parse(family_file,**args)
 
-	length = len(fam_parser[0]) - 1
-	print "Detected {} columns apart from name".format(length)
+	print "{} species detected".format(spec)
+	fasta_files = {}
 
-	files = []
+	fasta_files["PSEX"] = "data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta","data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta"
+	fasta_files["PTET"] = "data/tetraurelia/ptetraurelia_mac_51.fa","data/tetraurelia/ptetraurelia_mac_51.fa"
+	fasta_files["PCAU"] = "data/caudatum/caudatum_43c3d_assembly_v1.fasta"
+	fasta_files["PBI"] = "data/biaurelia/biaurelia_V1-4_assembly_v1.fasta"
 
 	# fasta_files = raw_input("Enter separated by spaces, the names of each fasta file separated by spaces according to header\n")
 	# fasta_files = fasta_files.split(" ")
@@ -27,24 +30,25 @@ def main():
 	# gff_files = raw_input("Enter separated by spaces, the names of each gff file separated by spaces according to header\n")
 	# gff_files = gff_files.split(" ")
 
-	fasta_files = ["data/tetraurelia/ptetraurelia_mac_51.fa","data/tetraurelia/ptetraurelia_mac_51.fa","data/biaurelia/biaurelia_V1-4_assembly_v1.fasta","data/biaurelia/biaurelia_V1-4_assembly_v1.fasta","data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta","data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta","data/caudatum/caudatum_43c3d_assembly_v1.fasta"]
-
-	gff_files = ["data/tetraurelia/tetraurelia51_EuGene_annotation.gff3","data/tetraurelia/tetraurelia51_EuGene_annotation.gff3","data/biaurelia/biaurelia_V1-4_annotation_v1.gff3","data/biaurelia/biaurelia_V1-4_annotation_v1.gff3","data/sexaurelia/sexaurelia_AZ8-4_annotation_v1.gff3","data/sexaurelia/sexaurelia_AZ8-4_annotation_v1.gff3","data/caudatum/caudatum_43c3d_annotation_v1.gff3"]
+	gff_files["PSEX"] = "data/sexaurelia/sexaurelia_AZ8-4_annotation_v1.gff3"
+	gff_files["PTET"] = "data/tetraurelia/tetraurelia51_EuGene_annotation.gff3"
+	gff_files["PCAU"] = "data/caudatum/caudatum_43c3d_annotation_v1.gff3"
+	gff_files["PBI"] = "data/biaurelia/biaurelia_V1-4_annotation_v1.gff3"
 	
 	# load all fasta files in memory
-	fasta_rec = []
-	for f in fasta_files:
-		fasta_rec.append(gff.load_fasta(f)) 
+	fasta_rec = {}
+	for fk in fasta_files.keys():
+		fasta_rec[fk] = gff.load_fasta(fasta_files[fk])
 
 	# load all gff files in memory
-	gff_rec = []
-	for g in gff_files:
-		gff_rec.append(gff.load_gff(g)) 
+	gff_rec = {}
+	for gk in gff_files.keys():
+		gff_rec[gk] = gff.load_gff(gff_files[gk]) 
 
 	# retrieve all CDS from all gff files and load them in memory
-	cds_rec = []
-	for g in gff_rec:
-		cds_rec.append(gff.retrieve_pos("CDS",g))
+	cds_rec = {}
+	for gk in gff_rec.keys():
+		cds_rec[gk]=gff.retrieve_pos("CDS",gff_rec[gk])
 	
 	# extract all genes for each family
 	# fam.family_cds(fam_parser,fasta_rec,gff_rec,cds_rec,"data/families/WGD1")

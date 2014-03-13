@@ -23,8 +23,6 @@ class GeneFamily():
 
 		name_index = first_substring(line,"WGD") # Assumes that first occurrence of "WGD"
 
-		print "NAME INDEX: {}".format(name_index)
-
 		self._name = line[name_index]
 
 		for s in line:
@@ -97,7 +95,7 @@ def get_species(string):
 		species = "".join(letters)
 
 		if len(species) > 4:
-			species = species[0:5] # Returns only the first four characters
+			species = species[0:4] # Returns only the first four characters
 		return species
 	else:
 		return -1
@@ -105,7 +103,7 @@ def get_species(string):
 def family_parse(family_file,num=None,header=None):
 	"""Takes a tab-delimited file which gene families on each line.
 	By default, assume the file has a header. Last column of the file should be gene family name.
-	Return a list of each column where family has at least num number of genes.
+	Return a list of each column where family has at least num number of genes. Return list of species found in file
 	"""
 	if num == None:
 		num = 0
@@ -120,38 +118,37 @@ def family_parse(family_file,num=None,header=None):
 			if header == True and i == 0:
 				header_line = GeneFamily(line)
 				print "Detected species: {}".format(header_line.species())
+				spec = header_line.species()
 			
 			if header == False or i != 0:
 				family = GeneFamily(line)
 				if len(family) >= num: # If the family have at least num genes
 					family_list.append(family)
 
-	return family_list
+	return family_list,spec
 
 def family_cds(family_list,fasta_rec_list,gff_rec_list,cds_rec_list,location):
-	"""Take a list of families, with associated list of fasta_rec, gff_rec and cds_rec. And write Fasta sequences of all CDSs of each family in precised location."""
+	"""Take a list of families, with associated dict of fasta_rec, gff_rec and cds_rec. And write Fasta sequences of all CDSs of each family in precised location."""
 	for fam in family_list:
 		genes = []
-		for i,gene_name in enumerate(fam):
-			if i < len(fam)-1 and gene_name != ".":
-				gene_extract = gff.extract_cds(fasta_rec_list[i],gff_rec_list[i],gene_name,cds_rec_list[i]) # Return a list of list
-				genes.append(gene_extract[0]) # extract a simple list
-			elif i == len(fam)-1:
-				name = fam[i]
-		gff.write_fasta(location+name+".fasta",genes)
+		for i,gene in enumerate(fam):
+			spec = get_species(gene)
+			gene_extract = gff.extract_cds(fasta_rec_list[spec],gff_rec_[spec],gene,cds_rec_list[spec]) # Return a list of list
+			genes.append(gene_extract[0]) # extract a simple list
+		
+		gff.write_fasta(location+fam.name()+".fasta",genes)
 
 def family_upstream(family_list,fasta_rec_list,gff_rec_list,length,location):
 	"""Take a list of families, with associated list of fasta_rec and gff_rec. And write upstream Fasta sequences of each family in precised location using length."""
 
 	for fam in family_list:
 		up = []
-		for i,gene_name in enumerate(fam):
-			if i < len(fam)-1 and gene_name != ".":
-				up_extract = gff.retrieve_up([gene_name],fasta_rec_list[i],gff_rec_list[i],length) # Return a list of list
-				up.append(up_extract[0]) # extract a simple list
-			elif i == len(fam)-1:
-				name = fam[i]
-		gff.write_fasta(location+name+".fasta",up)
+		for i,gene in enumerate(fam):
+			spec = get_species(gene)
+			up_extract = gff.retrieve_up([gene],fasta_rec_list[spec],gff_rec_list[spec],length) # Return a list of list
+			up.append(up_extract[0]) # extract a simple list
+
+		gff.write_fasta(location+fam.name()+".fasta",up)
 
 
 
