@@ -49,9 +49,10 @@ def main():
 			if i < len(fam)-1 and gene_name != ".":
 				genes.append(gff.extract_cds(fasta_rec[i],gff_rec[i],gene_name,cds_rec[i]))
 			elif i == len(fam)-1:
-				name = fam(i)
+				name = fam[i]
+		print "Here are genes:\n{}".format(genes)
 
-		gff.write_fasta("data/"+name+".fasta",genes)
+		gff.write_fasta("data/families/WGD1/"+name+".fasta",genes)
 
 
 	# genes = extract_cds(fasta_rec,gff_rec,None,cds)
