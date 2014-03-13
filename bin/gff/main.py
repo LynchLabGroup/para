@@ -54,7 +54,7 @@ def main():
 	# fam.family_cds(fam_parser,fasta_rec,gff_rec,cds_rec,"data/families/WGD1")
 
 	# extract upstream sequences
-	fam.family_up(fam_parser,fasta_rec,gff_rec,300,"data/families/WGD2/upstream")
+	fam.family_up(fam_parser,fasta_rec,gff_rec,400,"data/families/WGD2/upstream")
 
 
 	# genes = extract_cds(fasta_rec,gff_rec,None,cds)
