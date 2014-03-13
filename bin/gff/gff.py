@@ -45,9 +45,9 @@ def retrieve_up(geneids,gff_rec,fasta_rec,length=100):
 			for g in geneids:
 				if name == g:
 					interest.append([start,end,strand,g,r.id])
-			
+					
 			postable.append([start,end,strand,r.id]) #constructing a position matrix
-
+			
 	# Retrieves start and end position to extract, while verifying there is no overlapping genes
 	upstream = []
 	print "Retrieving upstream locations..."
