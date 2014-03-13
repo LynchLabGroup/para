@@ -51,7 +51,7 @@ def main():
 			elif i == len(fam)-1:
 				name = fam[i]
 
-		gff.write_fasta("data/"+name+".fasta",genes)
+		gff.write_fasta("data/families/WGD1/"+name+".fasta",genes)
 
 
 	# genes = extract_cds(fasta_rec,gff_rec,None,cds)
