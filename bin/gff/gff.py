@@ -260,6 +260,7 @@ def load_fasta(fasta_file):
 	"""Returns a list of parsed fasta."""
 	with open(fasta_file,"r") as f:
 		seqs = []
+		print "Parsing file {}...".format(fasta_file)
 		for seq in SeqIO.parse(f,"fasta"):
 			seqs.append(seq)
 	return seqs

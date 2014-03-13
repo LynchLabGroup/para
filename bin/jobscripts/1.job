@@ -12,4 +12,4 @@ ls
 cd para/
 python bin/gff/main.py
 ls data/families/WGD2/upstream
-echo "Job Finished at:"; date
+echo "Job Finished at:";date
