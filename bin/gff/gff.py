@@ -47,7 +47,8 @@ def retrieve_up(geneids,gff_rec,fasta_rec,length=100):
 					interest.append([start,end,strand,g,r.id])
 			
 			postable.append([start,end,strand,r.id]) #constructing a position matrix
-
+	print "Gene of interest: {}".format(interest)
+	
 	# Retrieves start and end position to extract, while verifying there is no overlapping genes
 	upstream = []
 	print "Retrieving upstream locations..."
@@ -76,7 +77,7 @@ def retrieve_up(geneids,gff_rec,fasta_rec,length=100):
 				if pos[-1] == seqid and pos[0] in range(end+1,extract+1):
 					extract = pos[0]
 			upstream.append([end,extract,strand,gene,seqid])
-
+	print "Upstream = {}".format(upstream)
 	print "Retrieving sequences..."
 	upstream = retrieve_seq(fasta_rec,upstream)
 	

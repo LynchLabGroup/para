@@ -67,11 +67,7 @@ class GeneFamily():
 		return spec
 
 	def name_change(self,new_name):
-		"""Allow to change family name."""
-		print "Former name: {}".format(self._name)
-		self._name = new_name
-		print "New name: {}".format(self.name())
-
+		"""Allow to change family name.""" print "Former name: {}".format(self._name) self._name = new_name print "New name: {}".format(self.name()) 
 
 ### FUNCTIONS ###
 
@@ -145,6 +141,7 @@ def family_upstream(family_list,fasta_rec_list,gff_rec_list,length,location):
 		up = []
 		for i,gene in enumerate(fam):
 			spec = get_species(gene)
+			print "For gene: {} spec: {}".format(gene,spec)
 			up_extract = gff.retrieve_up([gene],fasta_rec_list[spec],gff_rec_list[spec],length) # Return a list of list
 			print up_extract
 			up.append(up_extract) # extract a simple list
