@@ -39,14 +39,14 @@ def main():
     print 'done.'
 
     print 'Loading Fasta file in memory ...'
-    fastaDict = parse_gff.loadFasta(fastaFile)
+    fastaDict = parse_gff.load_fasta(fastaFile)
     print 'done.'
 
 
     #seq = parse_gff.getSequence(GFFdict, fastaDict, "PSEXGNT00001", "CDS")
     #print seq
 
-    prot_seq = parse_gff.getProteinSeq(GFFdict, fastaDict, "PSEXGNT00001")
+    prot_seq = parse_gff.get_prot_seq(GFFdict, fastaDict, "PSEXGNT00001")
     print prot_seq
 
 

@@ -87,7 +87,7 @@ def parseGFF3(filename):
 # Returns the DNA sequence
 #
 # WARNING: does not do any asserts. Passing an id that does not have any parent will crash the programm...
-def getSequence(GFFdict, fastaDict, seq_id, seq_type):
+def get_seq(GFFdict, fastaDict, seq_id, seq_type):
     """return the DNA sequence of a gene/transcript/mRNA based on its parent ID."""
     ll = list()
 
@@ -121,9 +121,9 @@ def getSequence(GFFdict, fastaDict, seq_id, seq_type):
 # Returns the translated (protein) sequence
 #
 # WARNING: does not do any asserts. Passing an id that does not have any parent will crash the programm...
-def getProteinSeq(GFFdict, fastaDict, id, table=6):
+def get_prot_seq(GFFdict, fastaDict, id, table=6):
     """Return the translated sequence of a gene/transcript/mRNA based on its parent ID"""
-    dna_seq = Seq(getSequence(GFFdict, fastaDict, id, "CDS"), Bio.Alphabet.generic_dna)
+    dna_seq = Seq(get_seq(GFFdict, fastaDict, id, "CDS"), Bio.Alphabet.generic_dna)
     prot_seq = dna_seq.translate(table=table)
     return str(prot_seq)
     
@@ -134,7 +134,7 @@ def getProteinSeq(GFFdict, fastaDict, id, table=6):
 # - in_file: path to the fasta file
 #
 # WARNING: does not do any check on the fasta file (providing a non-fasta file may crash the programm... or even worse, let it go without warning and lead to troubles downstream)
-def loadFasta(in_file):
+def load_fasta(in_file):
     """Return a dictionnary with sequences indexed by sequence id."""
     fastaDict = dict()
     with open(in_file, "rU") as handle:

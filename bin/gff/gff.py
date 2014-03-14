@@ -4,7 +4,7 @@
 # Program that from a gene id of GFF file and specified length, gives you the number to extract the upstream sequence of this gene
 
 ### IMPORTS ###
-import parse_gff
+from .. import gff_python # import sibling folder
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
