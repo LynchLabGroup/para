@@ -6,7 +6,7 @@
 #PBS -N GeneFamily
 #PBS -j oe
 echo "Job Started at: "; date
-module load python
+module load python/2.7.3
 module load biopython
 ls
 cd para/
