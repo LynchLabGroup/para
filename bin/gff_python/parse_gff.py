@@ -88,7 +88,7 @@ def parseGFF3(filename):
 #
 # WARNING: does not do any asserts. Passing an id that does not have any parent will crash the programm...
 def getSequence(GFFdict, fastaDict, id, type):
-
+    """return the DNA sequence of a gene/transcript/mRNA based on its parent ID."""
     ll = list()
 
     for key, gffEntry in GFFdict.items():
@@ -122,6 +122,7 @@ def getSequence(GFFdict, fastaDict, id, type):
 #
 # WARNING: does not do any asserts. Passing an id that does not have any parent will crash the programm...
 def getProteinSeq(GFFdict, fastaDict, id, table=6):
+    """Return the translated sequence of a gene/transcript/mRNA based on its parent ID"""
     dna_seq = Seq(getSequence(GFFdict, fastaDict, id, "CDS"), Bio.Alphabet.generic_dna)
     prot_seq = dna_seq.translate(table=table)
     return str(prot_seq)
@@ -134,14 +135,11 @@ def getProteinSeq(GFFdict, fastaDict, id, table=6):
 #
 # WARNING: does not do any check on the fasta file (providing a non-fasta file may crash the programm... or even worse, let it go without warning and lead to troubles downstream)
 def loadFasta(in_file):
+    """Return a dictionnary with sequences indexed by sequence id."""
     fastaDict = dict()
-    handle = open(in_file, "rU")
-    for record in SeqIO.parse(handle, "fasta") :
-        fastaDict[record.id] = record.seq
-        #print record.id
-        #print record.seq[1:60]  
-
-    handle.close()
+    with open(in_file, "rU") as handle:
+        for record in SeqIO.parse(handle, "fasta") :
+            fastaDict[record.id] = record.seq
     return fastaDict
         
 
