@@ -145,7 +145,8 @@ def family_upstream(family_list,fasta_rec_list,gff_rec_list,length,location):
 		for i,gene in enumerate(fam):
 			spec = get_species(gene)
 			print "For gene: {} spec: {}".format(gene,spec)
-			up_extract = gff.retrieve_up([gene],fasta_rec_list[spec],gff_rec_list[spec],length) # Return a list of list
+			gene_list = gene
+			up_extract = gff.retrieve_up(gene_list,fasta_rec_list[spec],gff_rec_list[spec],length) # Return a list of list
 			print up_extract
 			up.append(up_extract) # extract a simple list
 
