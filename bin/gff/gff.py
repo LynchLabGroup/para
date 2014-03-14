@@ -91,8 +91,8 @@ def fasta_len(fasta_rec,seqid):
 	# Find the length in fasta_file of seqid
 	record = fasta_rec		
 	for r in record:
-		if record.id == seqid:
-			length = len(record.seq) #length of the sequence
+		if r.id == seqid:
+			length = len(r.seq) #length of the sequence
 
 	if length == 0:
 		print "Sequence {} was not found".format(seqid)
