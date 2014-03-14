@@ -37,9 +37,9 @@ def retrieve_up(geneids,gff_rec,fasta_rec,length=100):
 		feat = r.features # features of each record
 		for f in feat: # looping in all features (genes) of each sequence (scaffold)
 			name = f.id
-			start = f.sub_features[0].location.start.position # retrieve int as position
-			end = f.sub_features[0].location.end.position 
-			strand = f.sub_features[0].location.strand
+			start = f.location.start.position # retrieve int as position
+			end = f.location.end.position 
+			strand = f.location.strand
 
 			# Retrieves data from genes of interest
 			for g in geneids:
