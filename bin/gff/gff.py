@@ -76,7 +76,7 @@ def retrieve_up(geneids,gff_rec,fasta_rec,length=100):
 				if pos[-1] == seqid and pos[0] in range(end+1,extract+1):
 					extract = pos[0]
 			upstream.append([end,extract,strand,gene,seqid])
-	upstream = retrieve_seq(fasta_rec,upstream)
+	upstream = retrieve_seq(fasta_rec,upstream,"upstream")
 	
 	return upstream
 
@@ -96,8 +96,8 @@ def fasta_len(fasta_rec,seqid):
 	return length
 
 
-def retrieve_seq(fasta_rec,uplist):
-	"""Append sequence to the passed list, based on fasta_rec."""
+def retrieve_seq(fasta_rec,uplist,seq_type=None):
+	"""Append sequence to the passed list, based on fasta_rec. If seq_type is \"upstream\" we want to retrieve sequences to be in the same order: meaning that first base should be the base at beginning of the gene and so on."""
 
 	# Puts fasta file in memory and parses it
 	records = fasta_rec # list of sequences
@@ -109,6 +109,11 @@ def retrieve_seq(fasta_rec,uplist):
 		for rec in records:
 			if rec.id == seqid:
 				seq = rec.seq[u[0]:u[1]] # extract sequence, beware of indexes, as BioPython indexes from 0
+				if seq_type = "upstream": #if we extract upstream sequences
+					if u[2] == -1: #if gene on minus strand
+						seq = seq.complement()
+					elif u[2] == 1:
+						seq = seq[::-1] #reverse it
 				u.append(seq)
 
 	return uplist
