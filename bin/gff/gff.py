@@ -32,7 +32,7 @@ def retrieve_up(geneids,gff_rec,fasta_rec,length=100):
 
 	# Looping into content to identify characteristics of gene of interest
 	postable = [] # table of start, end, strand and sequence data on each genes
-	print "Extracting genes of interest..."
+	
 	for r in rec:
 		feat = r.features # features of each record
 		for f in feat: # looping in all features (genes) of each sequence (scaffold)
@@ -47,10 +47,10 @@ def retrieve_up(geneids,gff_rec,fasta_rec,length=100):
 					interest.append([start,end,strand,g,r.id])
 					
 			postable.append([start,end,strand,r.id]) #constructing a position matrix
-	print "Gene of interest: {}".format(interest)
+	
 	# Retrieves start and end position to extract, while verifying there is no overlapping genes
 	upstream = []
-	print "Retrieving upstream locations..."
+	
 	for i in interest:
 		start = i[0] # pythonic beginning of the gene (begins with position 0)
 		end = i[1] # pythonic ending
@@ -76,7 +76,6 @@ def retrieve_up(geneids,gff_rec,fasta_rec,length=100):
 				if pos[-1] == seqid and pos[0] in range(end+1,extract+1):
 					extract = pos[0]
 			upstream.append([end,extract,strand,gene,seqid])
-	print "Retrieving sequences..."
 	upstream = retrieve_seq(fasta_rec,upstream)
 	
 	return upstream
@@ -165,7 +164,6 @@ def extract_cds(fasta_rec,gff_rec,gene_name=None,cds=None):
 			c.append(seq)
 	else:
 		# Extract from a list of names
-		print "gene_name = {}".format(gene_name)
 		interest = []
 		for c in cds:
 			if c[4] in gene_name:

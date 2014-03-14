@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -k o
-#PBS -l nodes=1:ppn=2,vmem=14gb,walltime=01:00:00
+#PBS -l nodes=1:ppn=2,vmem=14gb,walltime=03:00:00
 #PBS -M mgrenie@indiana.edu
 #PBS -m be
 #PBS -N GeneFamily
@@ -11,5 +11,4 @@ module load biopython
 ls
 cd para/
 python bin/gff/main.py
-ls data/families/WGD2/upstream
 echo "Job Finished at:";date

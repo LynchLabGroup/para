@@ -9,14 +9,18 @@ def main():
 	#family_file = raw_input("Family file? ")
 	
 	family_file = "data/families/tet_bi_sex_caud_orthoparalogons_WGD2.txt"
+	length = 400
 	
 	# Load family_file in memory
 	args = {}
 	args["header"] = True
 	args["num"] = 7
+	
+	print "Parameters used: {} genes at least, retrieve {}nt".format(args["num"],length)	
+
 	fam_parser,spec = fam.family_parse(family_file,**args)
 
-	print "{} species detected".format(spec)
+	print "{} species detected".format(spec)
 	fasta_files = {}
 
 	fasta_files["PSEX"] = "data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta"
@@ -56,7 +60,7 @@ def main():
 	# fam.family_cds(fam_parser,fasta_rec,gff_rec,cds_rec,"data/families/WGD1")
 
 	# extract upstream sequences
-	fam.family_upstream(fam_parser,fasta_rec,gff_rec,400,"data/families/WGD2/upstream/")
+	fam.family_upstream(fam_parser,fasta_rec,gff_rec,length,"data/families/WGD2/upstream/")
 
 
 	# genes = extract_cds(fasta_rec,gff_rec,None,cds)
