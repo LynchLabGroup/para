@@ -87,13 +87,13 @@ def parseGFF3(filename):
 # Returns the DNA sequence
 #
 # WARNING: does not do any asserts. Passing an id that does not have any parent will crash the programm...
-def getSequence(GFFdict, fastaDict, id, type):
+def getSequence(GFFdict, fastaDict, seq_id, seq_type):
     """return the DNA sequence of a gene/transcript/mRNA based on its parent ID."""
     ll = list()
 
     for key, gffEntry in GFFdict.items():
-        if gffEntry.type == type:
-            if gffEntry.attributes["Parent"] == id:
+        if gffEntry.type == seq_type:
+            if gffEntry.attributes["Parent"] == seq_id:
                 ll.append(gffEntry)
 
     ll.sort(key=lambda x: x.start, reverse=False)
