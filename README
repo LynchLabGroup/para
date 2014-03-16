@@ -1,0 +1,13 @@
+### Transcription Factor Binding Site Detection ###
+
+Code for the Transcription Factor Binding Site project.
+
+# Idea #
+
+Take genomes sequences of organisms -> annotate them to know genes
+
+Take genes sequences -> retrieve upstream sequences using annotation file and verify there is no overlapping genes
+
+Compare these upstream sequences among several lineages according to gene familes: Identify conserved or divergent motifs using **BigFoot**
+
+Relate these differences of motifs with expression data, GO terms, etc.
