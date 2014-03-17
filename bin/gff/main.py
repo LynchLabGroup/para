@@ -15,7 +15,7 @@ def main():
 	args["header"] = True
 	args["num"] = 7
 	fam_parser,spec = fam.family_parse(family_file,**args)
-	
+
 	fasta_files = {}
 
 	fasta_files["PSEX"] = "data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta"
@@ -50,7 +50,7 @@ def main():
 		cds_rec[gk]=gff.retrieve_pos("CDS",gff_rec[gk])
 
 	# extract upstream sequences
-	fam.family_upstream(fam_parser,gff_rec,fasta_rec,400,"data/families/WGD2/upstream")
+	fam.family_upstream(fam_parser,gff_rec,fasta_rec,400,"data/families/WGD2/upstream/")
 
 
 if __name__ == "__main__":
