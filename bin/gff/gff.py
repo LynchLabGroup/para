@@ -82,16 +82,15 @@ def retrieve_up(geneids,gff_rec,fasta_rec,length=100):
 	
 	return upstream
 
-def fasta_len(fasta_rec,seqid):
+def fasta_len(fasta_dic,seqid):
 	"""Return length of sequence seqid in fasta_rec."""
 
 	length = 0
 
-	# Find the length in fasta_file of seqid
-	record = fasta_rec		
-	for r in record:
-		if record.id == seqid:
-			length = len(record.seq) #length of the sequence
+	# Find the length in fasta_file of seqid	
+	for k in fasta_dic.keys():
+		if k == seqid:
+			length = len(fasta_dic[k]) #length of the sequence
 
 	if length == 0:
 		print "Sequence {} was not found".format(seqid)
@@ -144,7 +143,7 @@ def write_fasta(file_name,upseqs):
 	SeqIO.write(records,file_name,"fasta")
 	print "File {} written !".format(file_name)
 
-def extract_cds(fasta_rec,gff_rec,gene_name=None,cds=None):
+def extract_cds(fasta_dic,gff_dic,gene_name=None,cds=None):
 	"""Returns a list of Coding Sequences extracted from gff_rec and fasta_rec."""
 
 	# Load gff file in memory
@@ -215,18 +214,20 @@ def extract_cds(fasta_rec,gff_rec,gene_name=None,cds=None):
 
 	return genes
 
-def seq_extract(seq_name,start,end,fasta_dic):
-	"""Retrieves the DNA sequence in seq_name with positions start and end. fasta_rec is the results of load_fasta"""
-	seq = Seq("")
-	for f in fasta_dic.keys():
-		if f.id == seq_name:
-			seq = f.seq[start:end]
-	return seq
-
-def retrieve_pos(seq_type,gff_rec):
+def retrieve_pos(seq_type,gff_dic):
 	"""Return a list of positions sequences of given type using a parsed gff."""
 	positions = []
-	for r in gff_rec:
+	for k in gff_dic.keys():
+		if gff_dic[k].type == "seq_type":
+			start = gff_dic[k].start
+			end = gff_dic[k].end
+			strand = gff_dic[k].strand
+			phase = gff_dic[k].phase
+			name = k
+		
+
+
+
 		seq_name = r.id # Scaffold name
 		feat = r.features # list of all genes in scaffold
 		for f in feat:

@@ -121,20 +121,31 @@ def get_seq_pos(fasta_dict,seq_id,start,end):
     return seq 
 
 #####################################################################################################################################################
-# getProteinSeq : return the translated sequence of a gene/transcript/mRNA based on its parent ID
-# Arguments:
-#  - GFFdict: a dictionary containing all the GFF lines parsed into objects (key=seqid / value=object returned by the GFF parser for one line of GFF)
-#  - fastaDict: a simple dictionary of the fasta file (key=sequence ID / value=sequence)
-#  - id: the parent ID (typically: PSEXGNT00001)
-#
-# Returns the translated (protein) sequence
-#
-# WARNING: does not do any asserts. Passing an id that does not have any parent will crash the programm...
-def get_prot_seq(GFFdict, fastaDict, id, table=6):
-    """Return the translated sequence of a gene/transcript/mRNA based on its parent ID"""
+def get_prot_seq(GFFdict, fastaDict, id, table=None,translate=None):
+    """
+    getProteinSeq : return the translated sequence of a gene/transcript/mRNA based on its parent ID
+    Arguments:
+     - GFFdict: a dictionary containing all the GFF lines parsed into objects (key=seqid / value=object returned by the GFF parser for one line of GFF)
+     - fastaDict: a simple dictionary of the fasta file (key=sequence ID / value=sequence)
+     - id: the parent ID (typically: PSEXGNT00001)
+     - table, value of NCBI codons use tables default = 6
+     - translate, if you want the sequence returned to be translated (default = true)
+
+    Returns the translated (protein) sequence
+
+    WARNING: does not do any asserts. Passing an id that does not have any parent will crash the program...
+    """
+    if table == None:
+        table = 6
+    if translate == None:
+        translate = True
+
     dna_seq = Seq(get_seq(GFFdict, fastaDict, id, "CDS"), Bio.Alphabet.generic_dna)
-    prot_seq = dna_seq.translate(table=table)
-    return str(prot_seq)
+    if translate == True:
+        prot_seq = dna_seq.translate(table=table)
+        return str(prot_seq)
+    else:
+        return str(dna_seq)
 
 ######################################################################################
 # loadFasta: load a fasta file into a dictionary (key=sequence ID / value=sequence)
@@ -157,7 +168,7 @@ def load_gff(gff_file):
     gff_dict = {}
 
     for record in parseGFF3(gff_file):
-        seq_id = record.id
+        seq_id = record.attributes["ID"]
         gff_dict[seq_id] = record
 
     return gff_dict
