@@ -4,7 +4,7 @@
 # Program that from a gene id of GFF file and specified length, gives you the number to extract the upstream sequence of this gene
 
 ### IMPORTS ###
-from .. import gff_python # import sibling folder
+from .. import gff_python as gp # import sibling folder
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
@@ -215,10 +215,10 @@ def extract_cds(fasta_rec,gff_rec,gene_name=None,cds=None):
 
 	return genes
 
-def seq_extract(seq_name,start,end,fasta_rec):
+def seq_extract(seq_name,start,end,fasta_dic):
 	"""Retrieves the DNA sequence in seq_name with positions start and end. fasta_rec is the results of load_fasta"""
 	seq = Seq("")
-	for f in fasta_rec:
+	for f in fasta_dic.keys():
 		if f.id == seq_name:
 			seq = f.seq[start:end]
 	return seq
@@ -245,21 +245,3 @@ def retrieve_pos(seq_type,gff_rec):
 						positions.append(posinfo)
 
 	return positions
-
-def load_gff(gff_file):
-	"""Returns a list of parsed gff."""
-	with open(gff_file,"r") as f:
-		print "Parsing file {}...".format(gff_file)
-		rec = []
-		for line in GFF.parse(f):
-			rec.append(line)
-
-	return rec
-
-def load_fasta(fasta_file):
-	"""Returns a list of parsed fasta."""
-	with open(fasta_file,"r") as f:
-		seqs = []
-		for seq in SeqIO.parse(f,"fasta"):
-			seqs.append(seq)
-	return seqs

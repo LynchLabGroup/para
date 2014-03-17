@@ -110,6 +110,15 @@ def get_seq(GFFdict, fastaDict, seq_id, seq_type):
     seq = str(bseq)
     return seq
 
+#####
+
+def get_seq_pos(fasta_dict,seq_id,start,end):
+    """Retrieve given sequence in fasta_dict according to seq_id."""
+    seq = Seq("")
+    for k in fasta_dict.keys():
+        if k == seq_id:
+            seq = fasta_dict[seq_id][start-1:end]
+    return seq 
 
 #####################################################################################################################################################
 # getProteinSeq : return the translated sequence of a gene/transcript/mRNA based on its parent ID
@@ -126,7 +135,6 @@ def get_prot_seq(GFFdict, fastaDict, id, table=6):
     dna_seq = Seq(get_seq(GFFdict, fastaDict, id, "CDS"), Bio.Alphabet.generic_dna)
     prot_seq = dna_seq.translate(table=table)
     return str(prot_seq)
-    
 
 ######################################################################################
 # loadFasta: load a fasta file into a dictionary (key=sequence ID / value=sequence)
@@ -134,13 +142,27 @@ def get_prot_seq(GFFdict, fastaDict, id, table=6):
 # - in_file: path to the fasta file
 #
 # WARNING: does not do any check on the fasta file (providing a non-fasta file may crash the programm... or even worse, let it go without warning and lead to troubles downstream)
+
 def load_fasta(in_file):
     """Return a dictionnary with sequences indexed by sequence id."""
     fastaDict = dict()
+
     with open(in_file, "rU") as handle:
         for record in SeqIO.parse(handle, "fasta") :
             fastaDict[record.id] = record.seq
     return fastaDict
+#####
+def load_gff(gff_file):
+    """Returns a dictonnary of parsed gff file"""
+    gff_dict = {}
+
+    for record in parseGFF3(gff_file):
+        seq_id = record.id
+        gff_dict[seq_id] = record
+
+    return gff_dict
+
+
         
 
 
