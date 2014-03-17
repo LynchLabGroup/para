@@ -24,12 +24,6 @@ def main():
 	fasta_files["PCAU"] = "data/caudatum/caudatum_43c3d_assembly_v1.fasta"
 	fasta_files["PBI"] = "data/biaurelia/biaurelia_V1-4_assembly_v1.fasta"
 
-	# fasta_files = raw_input("Enter separated by spaces, the names of each fasta file separated by spaces according to header\n")
-	# fasta_files = fasta_files.split(" ")
-
-	# gff_files = raw_input("Enter separated by spaces, the names of each gff file separated by spaces according to header\n")
-	# gff_files = gff_files.split(" ")
-
 	gff_files = {}
 	
 	gff_files["PSEX"] = "data/sexaurelia/sexaurelia_AZ8-4_annotation_v1.gff3"

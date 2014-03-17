@@ -114,14 +114,6 @@ def write_fasta(file_name,upseqs):
 		seqid = u[4] # name of scaffold from which the gene is extracted
 		seq = u[-1] # Seq object
 
-		
-		if strand == 1:
-			strand = "+"
-		elif strand == -1:
-			strand = "-"
-		else:
-			strand = "?"
-
 		ident = seqid+"|"+gene+"|"+start+"-"+end+"|"+strand
 
 		rec = SeqRecord(seq,id=ident,name=gene,description="")
@@ -132,73 +124,59 @@ def write_fasta(file_name,upseqs):
 	SeqIO.write(records,file_name,"fasta")
 	print "File {} written !".format(file_name)
 
-def extract_cds(fasta_dic,gff_dic,gene_name=None,cds=None):
-	"""Returns a list of Coding Sequences extracted from gff_dic and fasta_dic."""
+def extract_cds(gff_dic,fasta_dic,gene_name=None):
+	"""
+	Returns a list of Coding Sequences extracted from gff_dic and fasta_dic.
+	
+	WARNING: functions strangely with gff files where there are several transcript for a single gene
+	"""
 
-	fasta = fasta_dic
-
-	# Create a list
-	if cds == None:
-		cds = retrieve_pos("CDS",gff_dic) # list of CDS
-
-	# Append sequences at the end of each entry in cds
+	interest = []
 	if gene_name == None:
-		for c in cds:
-			start = c[0]
-			end = c[1]
-			seq_id = c[-1]
-			seq = seq_extract(seq_id,start,end,fasta)
-			c.append(seq)
+		parents = set()
+		for g in gff_dic:
+			if gff_dic[g].type == "CDS":
+				par = gff_dic[g].attributes["Parent"]
+				parents.add(par)
+
+		for p in parents:
+			start = gff_dic[p].start
+			end = gff_dic[p].end
+			strand = gff_dic[p].strand
+
+			# Change name to have gene name
+			name = list(p)
+			name[-6] = "G"
+			name = "".join(name)
+			seq_id = gff_dic[p].id
+			seq = gp.parse_gff.get_prot_seq(gff_dic,fasta_dic,p)
+
+			interest.append([start,end,strand,name,seq_id,seq])
+
 	else:
 		# Extract from a list of names
 		print "gene_name = {}".format(gene_name)
-		interest = []
-		for c in cds:
-			if c[4] in gene_name:
-				start = c[0]
-				end = c[1]
-				seq_id = c[-1]
-				seq = seq_extract(seq_id,start,end,fasta)
-				c.append(seq)
-				interest.append(c)
+		
+		for g in gff_dic:
+			if gff_dic[g].id == gene_name:
+				gene = gff_dic[g]
+				start = gene.start
+				end = gene.end
+				strand = gene.strand
+				seq_id = gene.id
+
+				trans = list(gene_name)
+				trans[-6] = "T"
+				trans = "".join(trans)
+
+				seq = gp.parse_gff.get_prot_seq(gff_dic,fasta_dic,trans)
+
+				interest.append([start,end,strand,name,seq_id,seq])
+
 		if interest == []:
 			sys.exit("Gene(s) of interest: {} was not found".format(gene_name))
-		cds = interest
 
-
-	
-	# This loop assemble translated genes
-	genes = []
-	i = 0
-	while i < len(cds)-1:
-		start = cds[i][0]
-		strand = cds[i][2]
-		phase = cds[i][3]
-		gene_id = cds[i][4]
-		seq_id = cds[i][5]
-		dna_seq = Seq("")
-		dna = []
-		dna.append(cds[i][-1])
-
-
-		while i+1 <= len(cds)-1 and cds[i+1][4] == gene_id:
-			i += 1
-			dna.append(cds[i][-1])
-
-		if strand == 1:
-			for d in dna:
-				dna_seq += d
-		elif strand == -1:
-			dna.reverse()
-			for d in dna:
-				dna_seq += d.reverse_complement()
-		
-		prot_seq = dna_seq.translate(table=6)
-
-		genes.append([start,phase,strand,gene_id,seq_id,prot_seq])
-		i += 1
-
-	return genes
+	return interest
 
 def retrieve_pos(seq_type,gff_dic):
 	"""Return a list of positions sequences of given type using a parsed gff."""
@@ -219,6 +197,6 @@ def retrieve_pos(seq_type,gff_dic):
 			
 			positions.append(posinfo)
 	if positions == []:
-		print "No positions were found. For sequence of given type."
+		print "No positions were found for sequence of given type."
 	else:
 		return positions
