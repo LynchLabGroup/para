@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+from ..gff_python import parse_gff as pg
 import gff
 import family as fam
 
@@ -15,12 +15,11 @@ def main():
 	args["header"] = True
 	args["num"] = 7
 	fam_parser,spec = fam.family_parse(family_file,**args)
-
-	print "{} species detected".format(spec)
+	
 	fasta_files = {}
 
-	fasta_files["PSEX"] = "data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta","data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta"
-	fasta_files["PTET"] = "data/tetraurelia/ptetraurelia_mac_51.fa","data/tetraurelia/ptetraurelia_mac_51.fa"
+	fasta_files["PSEX"] = "data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta"
+	fasta_files["PTET"] = "data/tetraurelia/ptetraurelia_mac_51.fa"
 	fasta_files["PCAU"] = "data/caudatum/caudatum_43c3d_assembly_v1.fasta"
 	fasta_files["PBI"] = "data/biaurelia/biaurelia_V1-4_assembly_v1.fasta"
 
@@ -35,14 +34,14 @@ def main():
 	fasta_rec = {}
 	print "Loading fasta files..."
 	for fk in fasta_files.keys():
-		fasta_rec[fk] = gff.load_fasta(fasta_files[fk])
+		fasta_rec[fk] = pg.load_fasta(fasta_files[fk])
 	print "Done."
 
 	# load all gff files in memory
 	gff_rec = {}
 	print "Loading GFF files..."
 	for gk in gff_files.keys():
-		gff_rec[gk] = gff.load_gff(gff_files[gk]) 
+		gff_rec[gk] = pg.load_gff(gff_files[gk]) 
 	print "Done."
 
 	# retrieve all CDS from all gff files and load them in memory
@@ -51,7 +50,7 @@ def main():
 		cds_rec[gk]=gff.retrieve_pos("CDS",gff_rec[gk])
 
 	# extract upstream sequences
-	fam.family_up(fam_parser,gff_rec,fasta_rec,400,"data/families/WGD2/upstream")
+	fam.family_upstream(fam_parser,gff_rec,fasta_rec,400,"data/families/WGD2/upstream")
 
 
 if __name__ == "__main__":

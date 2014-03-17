@@ -4,7 +4,7 @@
 # Program that from a gene id of GFF file and specified length, gives you the number to extract the upstream sequence of this gene
 
 ### IMPORTS ###
-from .. import gff_python as gp # import sibling folder
+from ..gff_python import parse_gff # import sibling folder
 from Bio import SeqIO
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
@@ -29,7 +29,7 @@ def retrieve_up(geneids,gff_dic,fasta_dic,length=100):
 		start = gff_dic[g].start
 		end = gff_dic[g].end
 		strand = gff_dic[g].strand
-		seq_id = gff_dic[g].id
+		seq_id = gff_dic[g].seqid
 		seq = retrieve_up_single(g,gff_dic,fasta_dic,length)
 		upstream.append([start,end,strand,g,seq_id,seq])
 	return upstream
@@ -42,29 +42,29 @@ def retrieve_up_single(geneid,gff_dic,fasta_dic,length=100):
 	for k in gff_dic.keys():
 		if k == geneid:
 			start = gff_dic[k].start
-			end = gff_dic[k].stop
+			end = gff_dic[k].end
 			strand = gff_dic[k].strand
-			seq_id = gff_dic[k].id
+			seq_id = gff_dic[k].seqid
 
 	if strand == "+":
 		extract = start - length # We don't want to include first base of gene
 		if extract <= 0:
 			extract = 1 #No negative bases !
-		for g in gff_dic:
-			if g.id == seq_id and g.end in range(extract,start): # g.end is the last position of gene in sequence, whatever its strand
+		for i,g in gff_dic.items():
+			if g.seqid == seq_id and g.end in range(extract,start): # g.end is the last position of gene in sequence, whatever its strand
 				extract = g.end + 1
-			elif g.id == seq_id and g.start in range(extract,start):
+			elif g.seqid == seq_id and g.start in range(extract,start):
 				print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
 		
 		return fasta_dic[seq_id][extract-1:start-1].reverse_complement().complement() # extract natural position, reverse the return to begin with first base just before the beginning of the gene
 	elif strand == "-":
 		extract = end + length
-		if extract >= len(fasta_dic[k]):
-			extract = len(fasta_dic[k])
-		for g in gff_dic:
-			if g.id == seq_id and g.start in range(end+1,extract+1):
+		if extract >= len(fasta_dic[seq_id]):
+			extract = len(fasta_dic[seq_id])
+		for i,g in gff_dic.items():
+			if g.seqid == seq_id and g.start in range(end+1,extract+1):
 				extract = g.start
-			elif g.id == seq_id and g.end in range(end+1,extract+1):
+			elif g.seqid == seq_id and g.end in range(end+1,extract+1):
 				print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
 		return fasta_dic[seq_id][end:extract]
 
@@ -114,7 +114,7 @@ def write_fasta(file_name,upseqs):
 		seqid = u[4] # name of scaffold from which the gene is extracted
 		seq = u[-1] # Seq object
 
-		ident = seqid+"|"+gene+"|"+start+"-"+end+"|"+strand
+		ident = seqid+"|"+gene+"|"+str(start)+"-"+str(end)+"|"+strand
 
 		rec = SeqRecord(seq,id=ident,name=gene,description="")
 
@@ -148,8 +148,8 @@ def extract_cds(gff_dic,fasta_dic,gene_name=None):
 			name = list(p)
 			name[-6] = "G"
 			name = "".join(name)
-			seq_id = gff_dic[p].id
-			seq = gp.parse_gff.get_prot_seq(gff_dic,fasta_dic,p)
+			seq_id = gff_dic[p].seqid
+			seq = parse_gff.get_prot_seq(gff_dic,fasta_dic,p)
 
 			interest.append([start,end,strand,name,seq_id,seq])
 
@@ -158,18 +158,18 @@ def extract_cds(gff_dic,fasta_dic,gene_name=None):
 		print "gene_name = {}".format(gene_name)
 		
 		for g in gff_dic:
-			if gff_dic[g].id == gene_name:
+			if gff_dic[g].seqid == gene_name:
 				gene = gff_dic[g]
 				start = gene.start
 				end = gene.end
 				strand = gene.strand
-				seq_id = gene.id
+				seq_id = gene.seqid
 
 				trans = list(gene_name)
 				trans[-6] = "T"
 				trans = "".join(trans)
 
-				seq = gp.parse_gff.get_prot_seq(gff_dic,fasta_dic,trans)
+				seq = parse_gff.get_prot_seq(gff_dic,fasta_dic,trans)
 
 				interest.append([start,end,strand,name,seq_id,seq])
 
@@ -190,10 +190,10 @@ def retrieve_pos(seq_type,gff_dic):
 			strand = gff_dic[k].strand
 			phase = gff_dic[k].phase
 			name = k
-			seq_name = ggf_dic[k].seqid
+			seq_name = gff_dic[k].seqid
 
 			## What to append
-			posinfo = [start,end,strand,phase,gene_name,seq_name]
+			posinfo = [start,end,strand,phase,name,seq_name]
 			
 			positions.append(posinfo)
 	if positions == []:
