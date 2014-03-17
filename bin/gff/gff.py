@@ -144,16 +144,16 @@ def write_fasta(file_name,upseqs):
 	print "File {} written !".format(file_name)
 
 def extract_cds(fasta_dic,gff_dic,gene_name=None,cds=None):
-	"""Returns a list of Coding Sequences extracted from gff_rec and fasta_rec."""
+	"""Returns a list of Coding Sequences extracted from gff_dic and fasta_dic."""
 
 	# Load gff file in memory
-	rec = gff_rec
+	gff = gff_dic
 
-	fasta = fasta_rec
+	fasta = fasta_dic
 
 	# Create a list
 	if cds == None:
-		cds = retrieve_pos("CDS",rec) # list of CDS
+		cds = retrieve_pos("CDS",gff) # list of CDS
 
 	# Append sequences at the end of each entry in cds
 	if gene_name == None:
@@ -218,31 +218,21 @@ def retrieve_pos(seq_type,gff_dic):
 	"""Return a list of positions sequences of given type using a parsed gff."""
 	positions = []
 	for k in gff_dic.keys():
-		if gff_dic[k].type == "seq_type":
+		if gff_dic[k].type == seq_type:
+
+			## Attributes
 			start = gff_dic[k].start
 			end = gff_dic[k].end
 			strand = gff_dic[k].strand
 			phase = gff_dic[k].phase
 			name = k
-		
+			seq_name = ggf_dic[k].seqid
 
-
-
-		seq_name = r.id # Scaffold name
-		feat = r.features # list of all genes in scaffold
-		for f in feat:
-			gene_name = f.id
-			subfeat = f.sub_features # list of all mRNA from this gene
-			for s in subfeat:
-				subsubfeat = s.sub_features # list of all exons, CDSs and introns
-				for ss in subsubfeat:
-					if ss.type == seq_type:
-						start = ss.location.start.position # Beware it uses position in sequence using pythonic indexes
-						end = ss.location.end.position
-						strand = ss.location.strand
-						phase = int("".join(ss.qualifiers["phase"]))
-
-						posinfo = [start,end,strand,phase,gene_name,seq_name]
-						positions.append(posinfo)
-
-	return positions
+			## What to append
+			posinfo = [start,end,strand,phase,gene_name,seq_name]
+			
+			positions.append(posinfo)
+	if positions == []:
+		print "No positions were found. For sequence of given type."
+	else:
+		return positions

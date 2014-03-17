@@ -77,18 +77,19 @@ def parseGFF3(filename):
 
             
 
-# getSequence : return the DNA sequence of a gene/transcript/mRNA based on its parent ID
-# Arguments:
-#  - GFFdict: a dictionary containing all the GFF lines parsed into objects (key=seqid / value=object returned by the GFF parser for one line of GFF)
-#  - fastaDict: a simple dictionary of the fasta file (key=sequence ID / value=sequence)
-#  - id: the parent ID (typically: PSEXGNT00001)
-#  - type: the sequence type from GFF (typically one of 'CDS', 'exon', ...
-#
-# Returns the DNA sequence
-#
-# WARNING: does not do any asserts. Passing an id that does not have any parent will crash the programm...
 def get_seq(GFFdict, fastaDict, seq_id, seq_type):
-    """return the DNA sequence of a gene/transcript/mRNA based on its parent ID."""
+    """
+        getSequence : return the DNA sequence of a gene/transcript/mRNA based on its parent ID
+    Arguments:
+     - GFFdict: a dictionary containing all the GFF lines parsed into objects (key=seqid / value=object returned by the GFF parser for one line of GFF)
+     - fastaDict: a simple dictionary of the fasta file (key=sequence ID / value=sequence)
+     - seq_id: the parent ID (typically: PSEXGNT00001)
+     - seq_type: the sequence type from GFF (typically one of 'CDS', 'exon', ...
+
+    Returns the DNA sequence
+
+    WARNING: does not do any asserts. Passing an id that does not have any parent will crash the program...
+    """
     ll = list()
 
     for key, gffEntry in GFFdict.items():
@@ -163,6 +164,7 @@ def load_fasta(in_file):
             fastaDict[record.id] = record.seq
     return fastaDict
 #####
+
 def load_gff(gff_file):
     """Returns a dictonnary of parsed gff file"""
     gff_dict = {}
