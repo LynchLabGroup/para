@@ -109,7 +109,7 @@ def retrieve_seq(fasta_rec,uplist,seq_type=None):
 		for rec in records:
 			if rec.id == seqid:
 				seq = rec.seq[u[0]:u[1]] # extract sequence, beware of indexes, as BioPython indexes from 0
-				if seq_type = "upstream": #if we extract upstream sequences
+				if seq_type == "upstream": #if we extract upstream sequences
 					if u[2] == -1: #if gene on minus strand
 						seq = seq.complement()
 					elif u[2] == 1:
