@@ -127,7 +127,7 @@ def family_parse(family_file,num=None,header=None):
 
 	return family_list,spec
 
-def family_cds(family_list,fasta_rec_list,gff_rec_list,cds_rec_list,location):
+def family_cds(family_list,gff_rec_list,fasta_rec_list,location):
 	"""Take a list of families, with associated dict of fasta_rec, gff_rec and cds_rec. And write Fasta sequences of all CDSs of each family in precised location."""
 	for fam in family_list:
 		genes = []
@@ -138,7 +138,7 @@ def family_cds(family_list,fasta_rec_list,gff_rec_list,cds_rec_list,location):
 		
 		gff.write_fasta(location+fam.name()+".fasta",genes)
 
-def family_upstream(family_list,fasta_rec_list,gff_rec_list,length,location):
+def family_upstream(family_list,gff_rec_list,fasta_rec_list,length,location):
 	"""Take a list of families, with associated list of fasta_rec and gff_rec. And write upstream Fasta sequences of each family in precised location using length."""
 
 	for fam in family_list:

@@ -33,29 +33,26 @@ def main():
 	
 	# load all fasta files in memory
 	fasta_rec = {}
+	print "Loading fasta files..."
 	for fk in fasta_files.keys():
 		fasta_rec[fk] = gff.load_fasta(fasta_files[fk])
+	print "Done."
 
 	# load all gff files in memory
 	gff_rec = {}
+	print "Loading GFF files..."
 	for gk in gff_files.keys():
 		gff_rec[gk] = gff.load_gff(gff_files[gk]) 
+	print "Done."
 
 	# retrieve all CDS from all gff files and load them in memory
 	cds_rec = {}
 	for gk in gff_rec.keys():
 		cds_rec[gk]=gff.retrieve_pos("CDS",gff_rec[gk])
-	
-	# extract all genes for each family
-	# fam.family_cds(fam_parser,fasta_rec,gff_rec,cds_rec,"data/families/WGD1")
 
 	# extract upstream sequences
-	fam.family_up(fam_parser,fasta_rec,gff_rec,400,"data/families/WGD2/upstream")
+	fam.family_up(fam_parser,gff_rec,fasta_rec,400,"data/families/WGD2/upstream")
 
-
-	# genes = extract_cds(fasta_rec,gff_rec,None,cds)
-
-	# write_fasta(output,genes)
 
 if __name__ == "__main__":
 	main()
