@@ -24,67 +24,14 @@ def retrieve_up(geneids,gff_dic,fasta_dic,length=100):
 	fasta_dic -- a Fasta rec
 	length (optional) -- length of the upstream sequence to extract
 	"""
-
-	# GFF file parser, puts GFF file in memory
-	
-
-	interest = [] # list of coordinates of gene of interest
-	postable = [] # list of coordinates of all genes
-	# Looping into content to identify characteristics of gene of interest
-	print "Extracting genes of interest..."
-	for k in gff_dic.keys():
-		f = gff_dic[k]
-		name = f.attributes["ID"]
-		start = f.start # retrieve int as position
-		end = f.end 
-		strand = f.strand
-
-		# Retrieves data from genes of interest
-		for g in geneids:
-			if name == g:
-				interest.append([start,end,strand,g,f.seqid])
-		
-		# Retrieves all the genes
-		if f.type == "gene":
-			postable.append([start,end,strand,f.seqid]) #constructing a position matrix
-
-	# Retrieves start and end position to extract, while verifying there is no overlapping genes
 	upstream = []
-	print "Retrieving upstream locations..."
-	for i in interest:
-		start = i[0] # pythonic beginning of the gene (begins with position 0)
-		end = i[1] # pythonic ending
-		strand = i[2] # strand +: plus -: minus
-		gene = i[3] # gene id
-		seqid = i[4] # sequence id on which gene is located
-		extract = 0
-		
-		if strand == "+":
-			extract = start - length # beginning of the extract
-			if extract <= 0: # we don't want to extract negative bases!
-				extract = 1
-			for pos in postable:
-				if pos[-1] == seqid and pos[1] in range(extract,start):# if the gene is overlapping on the same scaffold
-					extract = pos[1]+1
-			upstream.append([extract,start,strand,gene,seqid])# gives the sequence you want to extract upstream of the gene		
-		elif strand == "-":
-			extract = end + length # end of the extract
-			seqlen = fasta_len(fasta_dic,seqid)
-			if extract >= seqlen : #if extract is over the sequence
-				extract = seqlen
-			for pos in postable:
-				if pos[-1] == seqid and pos[0] in range(end+1,extract+1):
-					extract = pos[0]
-			upstream.append([end,extract,strand,gene,seqid])
-
-	print "Retrieving sequences..."
-	upstream = retrieve_seq(fasta_dic,upstream)
-
-	# Reverse order of sequences to begin with first base close to gene
-	for u in upstream:
-		if u[2] == "+":
-			u[-1] = u[-1].reverse_complement().complement() #reverse order of sequence
-	
+	for g in geneids:
+		start = gff_dic[g].start
+		end = gff_dic[g].end
+		strand = gff_dic[g].strand
+		seq_id = gff_dic[g].id
+		seq = retrieve_up_single(g,gff_dic,fasta_dic,length)
+		upstream.append([start,end,strand,g,seq_id,seq])
 	return upstream
 
 def retrieve_up_single(geneid,gff_dic,fasta_dic,length=100):
@@ -108,7 +55,8 @@ def retrieve_up_single(geneid,gff_dic,fasta_dic,length=100):
 				extract = g.end + 1
 			elif g.id == seq_id and g.start in range(extract,start):
 				print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
-		return fasta_dic[seq_id][extract-1:start-1] # extract natural position
+		
+		return fasta_dic[seq_id][extract-1:start-1].reverse_complement().complement() # extract natural position, reverse the return to begin with first base just before the beginning of the gene
 	elif strand == "-":
 		extract = end + length
 		if extract >= len(fasta_dic[k]):
@@ -159,6 +107,8 @@ def write_fasta(file_name,upseqs):
 	records = []
 
 	for u in upseqs:
+		start = u[0]
+		end = u[1]
 		strand = u[2]
 		gene = u[3] # gene name
 		seqid = u[4] # name of scaffold from which the gene is extracted
@@ -172,7 +122,7 @@ def write_fasta(file_name,upseqs):
 		else:
 			strand = "?"
 
-		ident = seqid+"|"+gene+"|"+strand
+		ident = seqid+"|"+gene+"|"+start+"-"+end+"|"+strand
 
 		rec = SeqRecord(seq,id=ident,name=gene,description="")
 
