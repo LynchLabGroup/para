@@ -9,5 +9,5 @@ echo "Job Started at: "; date
 module load python
 module load biopython
 cd para/
-python bin/profiling.py
+python -m bin.profiling
 echo "Job Finished at:"; date
