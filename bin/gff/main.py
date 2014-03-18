@@ -8,17 +8,17 @@ def main():
 
 	#family_file = raw_input("Family file? ")
 	
-	family_file = "data/families/tet_bi_sex_caud_orthoparalogons_WGD2.txt"
+	family_file = "data/families/test_families.txt"
 	length = 400
 	
-	# Load family_file in memory
-	args = {}
-	args["header"] = True
-	args["num"] = 7
 	
-	print "Parameters used: {} genes at least, retrieve {}nt".format(args["num"],length)	
+	header = True
+	num = 7
+	
+	print "Parameters used: {} genes at least, retrieve {}nt".format(num,length)	
 
-	fam_parser,spec = fam.family_parse(family_file,**args)
+	# Load family_file in memory
+	fam_parser,spec = fam.family_parse(family_file,num,header)
 
 	fasta_files = {}
 
@@ -54,7 +54,7 @@ def main():
 		cds_rec[gk]=gff.retrieve_pos("CDS",gff_rec[gk])
 
 	# extract upstream sequences
-	fam.family_upstream(fam_parser,gff_rec,fasta_rec,400,"data/families/WGD2/upstream/")
+	fam.family_upstream(fam_parser,gff_rec,fasta_rec,400,"data/families/test_families/upstream/")
 
 
 

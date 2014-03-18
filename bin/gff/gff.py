@@ -7,9 +7,6 @@
 from ..gff_python import parse_gff # import sibling folder
 from Bio import SeqIO
 from Bio.Seq import Seq
-from Bio.SeqRecord import SeqRecord
-from Bio.SeqFeature import SeqFeature, FeatureLocation
-from BCBio import GFF
 
 def retrieve_up(geneids,gff_dic,fasta_dic,length=100):
 	"""
@@ -75,13 +72,11 @@ def fasta_len(fasta_dic,seqid):
 	length = 0
 
 	# Find the length in fasta_file of seqid	
-	for k in fasta_dic.keys():
-		if k == seqid:
-			length = len(fasta_dic[k]) #length of the sequence
-
-	if length == 0:
+	try:
+		length = len(fasta_dic[seqid])
+		return length
+	except KeyError:
 		print "Sequence {} was not found".format(seqid)
-	return length
 
 def retrieve_seq(fasta_dic,uplist):
 	"""Append sequence to the passed list, based on fasta_dic."""
@@ -92,15 +87,16 @@ def retrieve_seq(fasta_dic,uplist):
 	# retrieves upstream sequence of each gene
 	for u in uplist:
 		seqid = u[-1]
-		for k in fasta.keys():
-			if k == seqid:
-				seq = fasta[k][u[0]-1:u[1]] # extract sequence, beware of indexes, as BioPython indexes from 0
-				u.append(seq)
-
+		try:
+			seq = fasta[seqid][u[0]-1:u[1]]
+			u.append(seq)
+		except KeyError:
+			print "Key {} was not found.".format(seqid)
 	return uplist
 
 def write_fasta(file_name,upseqs):
 	"""Write a fasta_file from upstream sequences list returned by retrieve_up."""
+	from Bio.SeqRecord import SeqRecord
 
 	records = []
 
@@ -112,7 +108,7 @@ def write_fasta(file_name,upseqs):
 		seqid = u[4] # name of scaffold from which the gene is extracted
 		seq = u[-1] # Seq object
 
-		ident = seqid+"|"+gene+"|"+str(start)+"-"+str(end)+"|"+strand
+		ident = "{} | {} | {}-{} | {}".format(seqid,gene,str(start),str(end),strand)
 
 		rec = SeqRecord(seq,id=ident,name=gene,description="")
 

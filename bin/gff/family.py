@@ -39,7 +39,7 @@ class GeneFamily():
 		return self._genes[index]
 
 	def __getslice__(self,start,end):
-		return [self._genes[index] for index in range(start,end)]
+		return [self._genes[index] for index in xrange(start,end)]
 
 	def __len__(self):
 		return len(self._genes)
@@ -94,7 +94,7 @@ def get_species(string):
 		species = "".join(letters)
 
 		if len(species) > 4:
-			species = species[0:4] # Returns only the first four characters
+			species = species[:4] # Returns only the first four characters
 		return species
 	else:
 		return -1
@@ -114,12 +114,11 @@ def family_parse(family_file,num=None,header=None):
 	with open(family_file,"r") as f:
 		family_list = []
 		for i,line in enumerate(f.readlines()):
-			if header == True and i == 0:
+			if i == 0 and header == True:
 				header_line = GeneFamily(line)
 				print "Detected species: {}".format(header_line.species())
 				spec = header_line.species()
-			
-			if header == False or i != 0:
+			elif i != 0 or header == False:
 				family = GeneFamily(line)
 				if len(family) >= num: # If the family have at least num genes
 					family_list.append(family)
