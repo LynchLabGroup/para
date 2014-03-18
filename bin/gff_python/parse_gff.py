@@ -166,7 +166,7 @@ def load_gff(gff_file):
     for record in parseGFF3(gff_file):
         seq_id = record.attributes["ID"]
         gff_dict[seq_id] = record
-    cop = gff_dict().copy()
+    cop = gff_dict.copy()
     gff_dict.update(cop)
     return gff_dict
 

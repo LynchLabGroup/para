@@ -37,11 +37,11 @@ def retrieve_up_single(geneid,gff_dic,fasta_dic,length=100):
 	"""
 
 	try:
-		gff_dic[k]
-		start = gff_dic[k].start
-		end = gff_dic[k].end
-		strand = gff_dic[k].strand
-		seq_id = gff_dic[k].seqid
+		gff_dic[geneid]
+		start = gff_dic[geneid].start
+		end = gff_dic[geneid].end
+		strand = gff_dic[geneid].strand
+		seq_id = gff_dic[geneid].seqid
 		if strand == "+":
 			extract = start - length # We don't want to include first base of gene
 			if extract <= 0:
