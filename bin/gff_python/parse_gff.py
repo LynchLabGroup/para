@@ -10,7 +10,6 @@ http://www.sequenceontology.org/gff3.shtml
 
 Version 1.0
 """
-from __future__ import with_statement
 from collections import namedtuple
 import gzip
 import urllib
@@ -18,7 +17,6 @@ import urllib
 import Bio
 from Bio import SeqIO
 from Bio.Seq import Seq
-from Bio.Alphabet import IUPAC
 
 
 
@@ -99,10 +97,12 @@ def get_seq(GFFdict, fastaDict, seq_id, seq_type):
 
     ll.sort(key=lambda x: x.start, reverse=False)
 
-    seq = ""
+    seq = []
     for entry in ll:        
         exon_seq = fastaDict[entry.seqid][(entry.start-1):(entry.end)]
-        seq += exon_seq
+        seq.append(exon_seq)
+
+    seq = "".join(seq)
 
     bseq = Seq(str(seq), Bio.Alphabet.generic_dna)
     if entry.strand == "-":
@@ -149,10 +149,13 @@ def get_prot_seq(GFFdict, fastaDict, id, table=None,translate=None):
 def load_fasta(in_file):
     """Return a dictionnary with sequences indexed by sequence id."""
     fastaDict = {}
-    
+
     with open(in_file, "rU") as handle:
         for record in SeqIO.parse(handle, "fasta") :
             fastaDict[record.id] = record.seq
+
+    cop = fastaDict.copy()
+    fastaDict.update(cop)
     return fastaDict
 #####
 
@@ -163,7 +166,8 @@ def load_gff(gff_file):
     for record in parseGFF3(gff_file):
         seq_id = record.attributes["ID"]
         gff_dict[seq_id] = record
-
+    cop = gff_dict().copy()
+    gff_dict.update(cop)
     return gff_dict
 
 

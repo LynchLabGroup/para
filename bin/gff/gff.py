@@ -36,34 +36,37 @@ def retrieve_up_single(geneid,gff_dic,fasta_dic,length=100):
 	Return upstream sequence of given length, without overlapping for a single gene.
 	"""
 
-	for k in gff_dic.keys():
-		if k == geneid:
-			start = gff_dic[k].start
-			end = gff_dic[k].end
-			strand = gff_dic[k].strand
-			seq_id = gff_dic[k].seqid
+	try:
+		gff_dic[k]
+		start = gff_dic[k].start
+		end = gff_dic[k].end
+		strand = gff_dic[k].strand
+		seq_id = gff_dic[k].seqid
+		if strand == "+":
+			extract = start - length # We don't want to include first base of gene
+			if extract <= 0:
+				extract = 1 #No negative bases !
+			for i,g in gff_dic.items():
+				if g.seqid == seq_id and g.end in xrange(extract,start): # g.end is the last position of gene in sequence, whatever its strand
+					extract = g.end + 1
+				elif g.seqid == seq_id and g.start in xrange(extract,start):
+					print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
+			
+			return fasta_dic[seq_id][extract-1:start-1].reverse_complement().complement() # extract natural position, reverse the return to begin with first base just before the beginning of the gene
+			elif strand == "-":
+				extract = end + length
+				if extract >= len(fasta_dic[seq_id]):
+					extract = len(fasta_dic[seq_id])
+				for i,g in gff_dic.items():
+					if g.seqid == seq_id and g.start in xrange(end+1,extract+1):
+						extract = g.start
+					elif g.seqid == seq_id and g.end in xrange(end+1,extract+1):
+						print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
+				return fasta_dic[seq_id][end:extract]
+	except KeyError:
+		return -1
 
-	if strand == "+":
-		extract = start - length # We don't want to include first base of gene
-		if extract <= 0:
-			extract = 1 #No negative bases !
-		for i,g in gff_dic.items():
-			if g.seqid == seq_id and g.end in range(extract,start): # g.end is the last position of gene in sequence, whatever its strand
-				extract = g.end + 1
-			elif g.seqid == seq_id and g.start in range(extract,start):
-				print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
-		
-		return fasta_dic[seq_id][extract-1:start-1].reverse_complement().complement() # extract natural position, reverse the return to begin with first base just before the beginning of the gene
-	elif strand == "-":
-		extract = end + length
-		if extract >= len(fasta_dic[seq_id]):
-			extract = len(fasta_dic[seq_id])
-		for i,g in gff_dic.items():
-			if g.seqid == seq_id and g.start in range(end+1,extract+1):
-				extract = g.start
-			elif g.seqid == seq_id and g.end in range(end+1,extract+1):
-				print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
-		return fasta_dic[seq_id][end:extract]
+	
 
 
 def fasta_len(fasta_dic,seqid):
