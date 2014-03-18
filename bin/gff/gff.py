@@ -53,16 +53,16 @@ def retrieve_up_single(geneid,gff_dic,fasta_dic,length=100):
 					print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
 			
 			return fasta_dic[seq_id][extract-1:start-1].reverse_complement().complement() # extract natural position, reverse the return to begin with first base just before the beginning of the gene
-			elif strand == "-":
-				extract = end + length
-				if extract >= len(fasta_dic[seq_id]):
-					extract = len(fasta_dic[seq_id])
-				for i,g in gff_dic.items():
-					if g.seqid == seq_id and g.start in xrange(end+1,extract+1):
-						extract = g.start
-					elif g.seqid == seq_id and g.end in xrange(end+1,extract+1):
-						print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
-				return fasta_dic[seq_id][end:extract]
+		elif strand == "-":
+			extract = end + length
+			if extract >= len(fasta_dic[seq_id]):
+				extract = len(fasta_dic[seq_id])
+			for i,g in gff_dic.items():
+				if g.seqid == seq_id and g.start in xrange(end+1,extract+1):
+					extract = g.start
+				elif g.seqid == seq_id and g.end in xrange(end+1,extract+1):
+					print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
+			return fasta_dic[seq_id][end:extract]
 	except KeyError:
 		return -1
 
