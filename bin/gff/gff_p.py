@@ -4,11 +4,7 @@
 # Program that from a gene id of GFF file and specified length, gives you the number to extract the upstream sequence of this gene
 
 ### IMPORTS ###
-from ..gff_python import parse_gff # import sibling folder
 import parse_gff_v2 as pg
-import sys
-from Bio import SeqIO
-from Bio.Seq import Seq
 
 def retrieve_up(geneids,gff_dic,fasta_dic,length=100):
 	"""
@@ -123,6 +119,7 @@ def retrieve_seq(fasta_dic,uplist):
 def write_fasta(file_name,upseqs):
 	"""Write a fasta_file from upstream sequences list returned by retrieve_up."""
 	from Bio.SeqRecord import SeqRecord
+	from Bio import SeqIO
 
 	records = []
 
