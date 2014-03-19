@@ -139,12 +139,19 @@ def family_cds(family_list,gff_rec_list,fasta_rec_list,location):
 def family_upstream(family_list,gff_rec_list,fasta_rec_list,length,location):
 	"""Take a list of families, with associated list of fasta_rec and gff_rec. And write upstream Fasta sequences of each family in precised location using length."""
 
+	fam_overlap = [] #list of family with overlap
 	for fam in family_list:
 		up = []
+		over = []
 		for i,gene in enumerate(fam):
 			spec = get_species(gene)
-			up_extract = gff_p.retrieve_up([gene],gff_rec_list[spec],fasta_rec_list[spec],length) # Return a list of list
+			up_extract,overlap = gff_p.retrieve_up([gene],gff_rec_list[spec],fasta_rec_list[spec],length) # Return a list of list
 			up.append(up_extract[0]) # extract a simple list
+			
+			if len(overlap)>0:
+				over.append(overlap[0])
+		if len(over) >0:
+			fam_overlap.append(fam.name()) 
 
 		gff_p.write_fasta(location+fam.name()+".fasta",up)
 

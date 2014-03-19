@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 A simple parser for the GFF3 format.
 
@@ -96,10 +97,11 @@ def getSequence(gff_dict, fasta_dict, id, type):
 
     ll.sort(key=lambda x: x.start, reverse=False)
 
-    seq = ""
+    seq = []
     for entry in ll:        
         exon_seq = fasta_dict[entry.seqid][(entry.start-1):(entry.end)]
-        seq += exon_seq
+        seq.append(exon_seq)
+    seq = "".join(seq)
 
     bseq = Seq(str(seq), Bio.Alphabet.generic_dna)
     if entry.strand == "-":
@@ -110,7 +112,7 @@ def getSequence(gff_dict, fasta_dict, id, type):
 
 
 #####################################################################################################################################################
-# getProteinSeq : return the translated sequence of a gene/transcript/mRNA based on its parent ID
+# get_prot_seq : return the translated sequence of a gene/transcript/mRNA based on its parent ID
 # Arguments:
 #  - gff_dict: a dictionary containing all the GFF lines parsed into objects (key=seqid / value=object returned by the GFF parser for one line of GFF)
 #  - fasta_dict: a simple dictionary of the fasta file (key=sequence ID / value=sequence)
@@ -119,7 +121,7 @@ def getSequence(gff_dict, fasta_dict, id, type):
 # Returns the translated (protein) sequence
 #
 # WARNING: does not do any asserts. Passing an id that does not have any parent will crash the programm...
-def getProteinSeq(gff_dict, fasta_dict, id, table=6):
+def get_prot_seq(gff_dict, fasta_dict, id, table=6):
     dna_seq = Seq(getSequence(gff_dict, fasta_dict, id, "CDS"), Bio.Alphabet.generic_dna)
     prot_seq = dna_seq.translate(table=table)
     return str(prot_seq)
@@ -133,24 +135,23 @@ def getProteinSeq(gff_dict, fasta_dict, id, table=6):
 # WARNING: does not do any check on the fasta file (providing a non-fasta file may crash the programm... or even worse, let it go without warning and lead to troubles downstream)
 def load_fasta(in_file):
     fasta_dict = {}
-    handle = open(in_file, "rU")
-    for record in SeqIO.parse(handle, "fasta") :
-        fasta_dict[record.id] = record.seq
-        #print record.id
-        #print record.seq[1:60]  
-
-    handle.close()
+    with open(in_file, "rU") as handle:
+        i = 0
+        for record in SeqIO.parse(handle, "fasta") :
+            fasta_dict[record.id] = record.seq
+            i += 1
+            if i % 50000 == 0:
+                print "{} lines...".format(i)
     return fasta_dict
         
 
 
 def load_gff(in_file, list_types):
     gff_dict = {}
-    positions = []
+    i = 0
     for record in parseGFF3(in_file):
         if len(list_types)==0 or record.type in list_types:
             id = record.attributes["ID"]
-#            print id
             if 'Parent' in record.attributes.keys():
                 parent = record.attributes["Parent"]
                 if parent in gff_dict.keys():
@@ -158,13 +159,15 @@ def load_gff(in_file, list_types):
                 else:
                     gff_dict[parent] = []
                 gff_dict[parent].append(record)
-            else: # Genes don't have parents -> they are indexed by seq id
+            else: # Genes that don't have parents -> they are indexed by seq id
                 if record.seqid in gff_dict.keys():
                     pass
                 else:
                     gff_dict[record.seqid] = []
                 gff_dict[record.seqid].append(record)
-
+        i += 1
+        if i % 50000 == 0:
+            print "{} lines...".format(i)
     
     return gff_dict
         

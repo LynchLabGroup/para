@@ -24,18 +24,27 @@ def retrieve_up(geneids,gff_dic,fasta_dic,length=100):
 	"""
 	upstream = []
 	over = []
+
+	# create list of scaffold ids
+	scaff = [k for k in gff_dic.keys() if "scaff" in k]
+	
+	#retrieve upstream sequence of all given genes
 	for g in geneids:
-		start = gff_dic[g].start
-		end = gff_dic[g].end
-		strand = gff_dic[g].strand
-		seq_id = gff_dic[g].seqid
-		seq,overlap = retrieve_up_single(geneid,seq_id,gff_dic,fasta_dic,length)
+		for seq_id in scaff:
+			l = find_name(gff_dic,seq_id,g)
+			if l != -1:
+				start,end,strand = l
+				break
+		
+		seq,overlap = retrieve_up_single(g,seq_id,gff_dic,fasta_dic,length)
 		upstream.append([start,end,strand,g,seq_id,seq])
 		
 		# detect if gene has strange overlap
 		if overlap > 0:
 			over.append(g)
-	return upstream,over
+	return upstream,over 
+
+############################################
 
 def retrieve_up_single(geneid,seqid,gff_dic,fasta_dic,length=100):
 	"""
@@ -47,13 +56,8 @@ def retrieve_up_single(geneid,seqid,gff_dic,fasta_dic,length=100):
 		overlap = 0 #overlapping index
 		
 		# Find gene coordinates in the scaffold
-		for i,r in enumerate(gff_dic[seqid]):
-			if r.attributes["ID"] == geneid:
-				start = gff_dic[seqid][i].start
-				end = gff_dic[seqid][i].end
-				strand = gff_dic[seqid][i].strand
-				break
-		
+		start,end,strand = find_name(gff_dic,seqid,geneid)
+
 		# Return gene sequence according to strand as well as number of overlapping genes
 		if strand == "+":
 			extract = start - length # We don't want to include first base of gene
@@ -82,7 +86,7 @@ def retrieve_up_single(geneid,seqid,gff_dic,fasta_dic,length=100):
 		return -1
 
 	
-
+############################################
 
 def fasta_len(fasta_dic,seqid):
 	"""Return length of sequence seqid in fasta_rec."""
@@ -95,6 +99,8 @@ def fasta_len(fasta_dic,seqid):
 		return length
 	except KeyError:
 		print "Sequence {} was not found".format(seqid)
+
+############################################
 
 def retrieve_seq(fasta_dic,uplist):
 	"""Append sequence to the passed list, based on fasta_dic."""
@@ -111,6 +117,8 @@ def retrieve_seq(fasta_dic,uplist):
 		except KeyError:
 			print "Key {} was not found.".format(seqid)
 	return uplist
+
+############################################
 
 def write_fasta(file_name,upseqs):
 	"""Write a fasta_file from upstream sequences list returned by retrieve_up."""
@@ -136,58 +144,59 @@ def write_fasta(file_name,upseqs):
 	SeqIO.write(records,file_name,"fasta")
 	print "File {} written !".format(file_name)
 
-def extract_cds(gff_dic,fasta_dic,gene_name=None):
+############################################
+
+def extract_cds(gff_dic,fasta_dic,par_name=None):
 	"""
-	Returns a list of Coding Sequences extracted from gff_dic and fasta_dic.
-	
+	Returns a list of Coding Sequences extracted from gff_dic and fasta_dic using parent name.
 	WARNING: functions strangely with gff files where there are several transcript for a single gene
 	"""
 
 	interest = []
-	if gene_name == None:
-		parents = set()
-		for g in gff_dic:
-			if gff_dic[g].type == "CDS":
-				par = gff_dic[g].attributes["Parent"]
-				parents.add(par)
-
+	if par_name == None:
+		parents = [k for k in gff_dic.keys() if "scaff" not in k]
 		for p in parents:
-			start = gff_dic[p].start
-			end = gff_dic[p].end
-			strand = gff_dic[p].strand
+			
+			start = gff_dic[p][0].start
+			end = gff_dic[p][-1].end
+			strand = gff_dic[p][0].strand
+
 
 			# Change name to have gene name
 			name = list(p)
 			name[-6] = "G"
 			name = "".join(name)
-			seq_id = gff_dic[p].seqid
-			seq = parse_gff.get_prot_seq(gff_dic,fasta_dic,p)
+			seq_id = gff_dic[p][0].seqid
+			seq = parse_gff_v2.get_prot_seq(gff_dic,fasta_dic,p)
 
 			interest.append([start,end,strand,name,seq_id,seq])
 
 	else:
-		# Extract from a list of names
-		print "gene_name = {}".format(gene_name)
+		# Extract sequence from a single parent name
+		print "par_name = {}".format(par_name)
 		
-		for g in gff_dic:
-			if gff_dic[g].seqid == gene_name:
+		for k in gff_dic.keys():
+			if k == par_name:
 				gene = gff_dic[g]
 				start = gene.start
 				end = gene.end
 				strand = gene.strand
 				seq_id = gene.seqid
-				trans = list(gene_name)
+				trans = list(par_name)
 				trans[-6] = "T"
 				trans = "".join(trans)
 
 				seq = parse_gff.get_prot_seq(gff_dic,fasta_dic,trans)
 
 				interest.append([start,end,strand,name,seq_id,seq])
+				break
 
 		if interest == []:
-			sys.exit("Gene(s) of interest: {} was not found".format(gene_name))
+			sys.exit("Gene(s) of interest: {} was not found".format(par_name))
 
 	return interest
+
+############################################
 
 def retrieve_pos(seq_type,gff_dic):
 	"""Return a list of positions sequences of given type using a parsed gff."""
@@ -211,3 +220,20 @@ def retrieve_pos(seq_type,gff_dic):
 		print "No positions were found for sequence of given type."
 	else:
 		return positions
+
+############################################
+
+def find_name(gff_dic,seqid,geneid):
+	"""Return start,end,strand and seqid of gene in seqid."""
+	found = False
+	for i,r in enumerate(gff_dic[seqid]):
+			if r.attributes["ID"] == geneid:
+				start = gff_dic[seqid][i].start
+				end = gff_dic[seqid][i].end
+				strand = gff_dic[seqid][i].strand
+				found = True
+				break
+	if found == False:
+		return -1
+	else:
+		return [start,end,strand]
