@@ -6,6 +6,7 @@
 ### IMPORTS ###
 from ..gff_python import parse_gff # import sibling folder
 import parse_gff_v2 as pg
+import sys
 from Bio import SeqIO
 from Bio.Seq import Seq
 
@@ -84,7 +85,6 @@ def retrieve_up_single(geneid,seqid,gff_dic,fasta_dic,length=100):
 			return fasta_dic[seqid][end:extract],overlap
 	except KeyError:
 		return -1
-
 	
 ############################################
 
@@ -167,7 +167,7 @@ def extract_cds(gff_dic,fasta_dic,par_name=None):
 			name[-6] = "G"
 			name = "".join(name)
 			seq_id = gff_dic[p][0].seqid
-			seq = parse_gff_v2.get_prot_seq(gff_dic,fasta_dic,p)
+			seq = pg.get_prot_seq(gff_dic,fasta_dic,p)
 
 			interest.append([start,end,strand,name,seq_id,seq])
 
@@ -186,40 +186,15 @@ def extract_cds(gff_dic,fasta_dic,par_name=None):
 				trans[-6] = "T"
 				trans = "".join(trans)
 
-				seq = parse_gff.get_prot_seq(gff_dic,fasta_dic,trans)
+				seq = pg.get_prot_seq(gff_dic,fasta_dic,trans)
 
 				interest.append([start,end,strand,name,seq_id,seq])
 				break
 
 		if interest == []:
-			sys.exit("Gene(s) of interest: {} was not found".format(par_name))
+			print "Gene(s) of interest: {} was not found".format(par_name)
 
 	return interest
-
-############################################
-
-def retrieve_pos(seq_type,gff_dic):
-	"""Return a list of positions sequences of given type using a parsed gff."""
-	positions = []
-	for k in gff_dic.keys():
-		if gff_dic[k].type == seq_type:
-
-			## Attributes
-			start = gff_dic[k].start
-			end = gff_dic[k].end
-			strand = gff_dic[k].strand
-			phase = gff_dic[k].phase
-			name = k
-			seq_name = gff_dic[k].seqid
-
-			## What to append
-			posinfo = [start,end,strand,phase,name,seq_name]
-			
-			positions.append(posinfo)
-	if positions == []:
-		print "No positions were found for sequence of given type."
-	else:
-		return positions
 
 ############################################
 

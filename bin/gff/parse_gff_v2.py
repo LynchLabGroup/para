@@ -97,11 +97,10 @@ def getSequence(gff_dict, fasta_dict, id, type):
 
     ll.sort(key=lambda x: x.start, reverse=False)
 
-    seq = []
+    seq = ""
     for entry in ll:        
         exon_seq = fasta_dict[entry.seqid][(entry.start-1):(entry.end)]
-        seq.append(exon_seq)
-    seq = "".join(seq)
+        seq += exon_seq
 
     bseq = Seq(str(seq), Bio.Alphabet.generic_dna)
     if entry.strand == "-":
