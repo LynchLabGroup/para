@@ -4,7 +4,7 @@
 # FAMILY FILE -> all functions and files related to gene familes
 #
 ### IMPORTS ###
-import gff
+import gff_p
 
 ### CLASSES ###
 
@@ -131,10 +131,10 @@ def family_cds(family_list,gff_rec_list,fasta_rec_list,location):
 		genes = []
 		for i,gene in enumerate(fam):
 			spec = get_species(gene)
-			gene_extract = gff.extract_cds(fasta_rec_list[spec],gff_rec_[spec],gene,cds_rec_list[spec]) # Return a list of list
+			gene_extract = gff_p.extract_cds(fasta_rec_list[spec],gff_rec_[spec],gene,cds_rec_list[spec]) # Return a list of list
 			genes.append(gene_extract[0]) # extract a simple list
 		
-		gff.write_fasta(location+fam.name()+".fasta",genes)
+		gff_p.write_fasta(location+fam.name()+".fasta",genes)
 
 def family_upstream(family_list,gff_rec_list,fasta_rec_list,length,location):
 	"""Take a list of families, with associated list of fasta_rec and gff_rec. And write upstream Fasta sequences of each family in precised location using length."""
@@ -143,10 +143,10 @@ def family_upstream(family_list,gff_rec_list,fasta_rec_list,length,location):
 		up = []
 		for i,gene in enumerate(fam):
 			spec = get_species(gene)
-			up_extract = gff.retrieve_up([gene],gff_rec_list[spec],fasta_rec_list[spec],length) # Return a list of list
+			up_extract = gff_p.retrieve_up([gene],gff_rec_list[spec],fasta_rec_list[spec],length) # Return a list of list
 			up.append(up_extract[0]) # extract a simple list
 
-		gff.write_fasta(location+fam.name()+".fasta",up)
+		gff_p.write_fasta(location+fam.name()+".fasta",up)
 
 
 

@@ -5,6 +5,7 @@
 
 ### IMPORTS ###
 from ..gff_python import parse_gff # import sibling folder
+import parse_gff_v2 as pg
 from Bio import SeqIO
 from Bio.Seq import Seq
 
@@ -18,51 +19,65 @@ def retrieve_up(geneids,gff_dic,fasta_dic,length=100):
 
 	geneids -- list of gene ids in gff_file
 	gff_dic -- a records of GFF file
-	fasta_dic -- a Fasta rec
+	fasta_dic -- a Fasta record
 	length (optional) -- length of the upstream sequence to extract
 	"""
 	upstream = []
+	over = []
 	for g in geneids:
 		start = gff_dic[g].start
 		end = gff_dic[g].end
 		strand = gff_dic[g].strand
 		seq_id = gff_dic[g].seqid
-		seq = retrieve_up_single(g,gff_dic,fasta_dic,length)
+		seq,overlap = retrieve_up_single(geneid,seq_id,gff_dic,fasta_dic,length)
 		upstream.append([start,end,strand,g,seq_id,seq])
-	return upstream
+		
+		# detect if gene has strange overlap
+		if overlap > 0:
+			over.append(g)
+	return upstream,over
 
-def retrieve_up_single(geneid,gff_dic,fasta_dic,length=100):
+def retrieve_up_single(geneid,seqid,gff_dic,fasta_dic,length=100):
 	"""
 	Return upstream sequence of given length, without overlapping for a single gene.
 	"""
 
 	try:
-		gff_dic[geneid]
-		start = gff_dic[geneid].start
-		end = gff_dic[geneid].end
-		strand = gff_dic[geneid].strand
-		seq_id = gff_dic[geneid].seqid
+		gff_dic[seqid]
+		overlap = 0 #overlapping index
+		
+		# Find gene coordinates in the scaffold
+		for i,r in enumerate(gff_dic[seqid]):
+			if r.attributes["ID"] == geneid:
+				start = gff_dic[seqid][i].start
+				end = gff_dic[seqid][i].end
+				strand = gff_dic[seqid][i].strand
+				break
+		
+		# Return gene sequence according to strand as well as number of overlapping genes
 		if strand == "+":
 			extract = start - length # We don't want to include first base of gene
 			if extract <= 0:
 				extract = 1 #No negative bases !
-			for i,g in gff_dic.items():
-				if g.seqid == seq_id and g.end in xrange(extract,start): # g.end is the last position of gene in sequence, whatever its strand
+			for g in gff_dic[seqid]:
+				if g.end in xrange(extract,start): # g.end is the last position of gene in sequence, whatever its strand
 					extract = g.end + 1
-				elif g.seqid == seq_id and g.start in xrange(extract,start):
+				elif g.start in xrange(extract,start):
 					print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
+					overlap += 1
 			
-			return fasta_dic[seq_id][extract-1:start-1].reverse_complement().complement() # extract natural position, reverse the return to begin with first base just before the beginning of the gene
+			return fasta_dic[seq_id][extract-1:start-1].reverse_complement().complement(),overlap # extract natural position, reverse the return to begin with first base just before the beginning of the gene
 		elif strand == "-":
 			extract = end + length
-			if extract >= len(fasta_dic[seq_id]):
-				extract = len(fasta_dic[seq_id])
-			for i,g in gff_dic.items():
-				if g.seqid == seq_id and g.start in xrange(end+1,extract+1):
+			if extract >= len(fasta_dic[seqid]):
+				extract = len(fasta_dic[seqid])
+			for g in gff_dic[seqid]:
+				if g.start in xrange(end+1,extract+1):
 					extract = g.start
-				elif g.seqid == seq_id and g.end in xrange(end+1,extract+1):
+				elif g.end in xrange(end+1,extract+1):
 					print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
-			return fasta_dic[seq_id][end:extract]
+					overlap += 1
+			return fasta_dic[seqid][end:extract],overlap
 	except KeyError:
 		return -1
 

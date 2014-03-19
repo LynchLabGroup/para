@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from ..gff_python import parse_gff as pg
-import gff
+import gff_p
 import family as fam
 
 def main():
@@ -51,7 +51,7 @@ def main():
 	# retrieve all CDS from all gff files and load them in memory
 	cds_rec = {}
 	for gk in gff_rec.keys():
-		cds_rec[gk]=gff.retrieve_pos("CDS",gff_rec[gk])
+		cds_rec[gk]=gff_p.retrieve_pos("CDS",gff_rec[gk])
 
 	# extract upstream sequences
 	fam.family_upstream(fam_parser,gff_rec,fasta_rec,400,"data/families/test_families/upstream/")

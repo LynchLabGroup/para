@@ -37,13 +37,13 @@ def main():
 #    a = raw_input()
 
     print 'Parsing GFF file ...'
-    GFFdict = parse_gff_v2.loadGFF(GFFfile, "CDS")
+    GFFdict = parse_gff_v2.load_gff(GFFfile, "CDS")
     print 'done.'
 
 #    a = raw_input()
 
     print 'Loading Fasta file in memory ...'
-    fastaDict = parse_gff_v2.loadFasta(fastaFile)
+    fastaDict = parse_gff_v2.load_fasta(fastaFile)
     print 'done.'
 
 #    a = raw_input()
