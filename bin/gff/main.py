@@ -1,16 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import parse_gff_v2 as pg
-import gff_p
 import family as fam
 
 def main():
 
 	#family_file = raw_input("Family file? ")
 	
-	family_file = "data/families/test_families.txt"
+	family_file = "data/families/tet_bi_sex_caud_orthoparalogons_WGD2.txt"
 	length = 400
-	
 	
 	header = True
 	num = 7
@@ -50,7 +48,7 @@ def main():
 	print "Done."
 
 	# extract upstream sequences
-	fam.family_upstream(fam_parser,gff_rec,fasta_rec,400,"data/families/test_families/upstream/")
+	fam.family_upstream(fam_parser,gff_rec,fasta_rec,400,"data/families/WGD2/upstream/")
 
 
 

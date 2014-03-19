@@ -4,7 +4,7 @@
 # FAMILY FILE -> all functions and files related to gene familes
 #
 ### IMPORTS ###
-import gff_p
+import gff_func
 
 ### CLASSES ###
 
@@ -131,10 +131,10 @@ def family_cds(family_list,gff_rec_list,fasta_rec_list,location):
 		genes = []
 		for i,gene in enumerate(fam):
 			spec = get_species(gene)
-			gene_extract = gff_p.extract_cds(fasta_rec_list[spec],gff_rec_[spec],gene) # Return a list of list
+			gene_extract = gff_func.extract_cds(fasta_rec_list[spec],gff_rec_[spec],gene) # Return a list of list
 			genes.append(gene_extract[0]) # extract a simple list
 		
-		gff_p.write_fasta(location+fam.name()+".fasta",genes)
+		gff_func.write_fasta(location+fam.name()+".fasta",genes)
 
 def family_upstream(family_list,gff_rec_list,fasta_rec_list,length,location):
 	"""Take a list of families, with associated list of fasta_rec and gff_rec. And write upstream Fasta sequences of each family in precised location using length."""
@@ -145,7 +145,7 @@ def family_upstream(family_list,gff_rec_list,fasta_rec_list,length,location):
 		over = []
 		for i,gene in enumerate(fam):
 			spec = get_species(gene)
-			up_extract,overlap = gff_p.retrieve_up([gene],gff_rec_list[spec],fasta_rec_list[spec],length) # Return a list of list
+			up_extract,overlap = gff_func.retrieve_up([gene],gff_rec_list[spec],fasta_rec_list[spec],length) # Return a list of list
 			up.append(up_extract[0]) # extract a simple list
 			
 			if len(overlap)>0:
@@ -153,13 +153,16 @@ def family_upstream(family_list,gff_rec_list,fasta_rec_list,length,location):
 		if len(over) >0:
 			fam_overlap.append([fam.name(),len(over)])
 
-		gff_p.write_fasta(location+fam.name()+".fasta",up)
+		gff_func.write_fasta(location+fam.name()+".fasta",up)
 
-	#Write overlap file family name - number of overlaps
-	with open(location+"overlap.txt","w") as f:
-		for entry in fam_overlap:
-			line = "\t".join(fam_overlap) + "\n"
-			f.write(line)
+	if len(fam_overlap)>0:
+		print "Found {} families with overlap.".format(len(fam_overlap))
+		print "Writing overlap file."
+		#Write overlap file family name - number of overlaps
+		with open(location+"overlap.txt","w") as f:
+			for entry in fam_overlap:
+				line = "\t".join(fam_overlap) + "\n"
+				f.write(line)
 
 
 

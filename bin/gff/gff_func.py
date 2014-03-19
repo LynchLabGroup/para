@@ -4,7 +4,7 @@
 # Program that from a gene id of GFF file and specified length, gives you the number to extract the upstream sequence of this gene
 
 ### IMPORTS ###
-import parse_gff_v2 as pg
+import parse_gff as pg
 
 def retrieve_up(geneids,gff_dic,fasta_dic,length=100):
 	"""
@@ -67,7 +67,7 @@ def retrieve_up_single(geneid,seqid,gff_dic,fasta_dic,length=100):
 					print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
 					overlap += 1
 			
-			return fasta_dic[seq_id][extract-1:start-1].reverse_complement().complement(),overlap # extract natural position, reverse the return to begin with first base just before the beginning of the gene
+			return fasta_dic[seqid][extract-1:start-1].reverse_complement().complement(),overlap # extract natural position, reverse the return to begin with first base just before the beginning of the gene
 		elif strand == "-":
 			extract = end + length
 			if extract >= len(fasta_dic[seqid]):
