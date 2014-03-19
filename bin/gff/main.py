@@ -45,7 +45,8 @@ def main():
 	gff_rec = {}
 	print "Loading GFF files..."
 	for gk in gff_files.keys():
-		gff_rec[gk] = pg.load_gff(gff_files[gk]) 
+		print "New file..."
+		gff_rec[gk] = pg.load_gff(gff_files[gk],["CDS","gene"]) 
 	print "Done."
 
 	# extract upstream sequences
