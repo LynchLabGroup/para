@@ -131,7 +131,7 @@ def family_cds(family_list,gff_rec_list,fasta_rec_list,location):
 		genes = []
 		for i,gene in enumerate(fam):
 			spec = get_species(gene)
-			gene_extract = gff_p.extract_cds(fasta_rec_list[spec],gff_rec_[spec],gene,cds_rec_list[spec]) # Return a list of list
+			gene_extract = gff_p.extract_cds(fasta_rec_list[spec],gff_rec_[spec],gene) # Return a list of list
 			genes.append(gene_extract[0]) # extract a simple list
 		
 		gff_p.write_fasta(location+fam.name()+".fasta",genes)
@@ -151,9 +151,15 @@ def family_upstream(family_list,gff_rec_list,fasta_rec_list,length,location):
 			if len(overlap)>0:
 				over.append(overlap[0])
 		if len(over) >0:
-			fam_overlap.append(fam.name()) 
+			fam_overlap.append([fam.name(),len(over)])
 
 		gff_p.write_fasta(location+fam.name()+".fasta",up)
+
+	#Write overlap file family name - number of overlaps
+	with open(location+"overlap.txt","w") as f:
+		for entry in fam_overlap:
+			line = "\t".join(fam_overlap) + "\n"
+			f.write(line)
 
 
 
