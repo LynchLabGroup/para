@@ -4,7 +4,7 @@
 # Program that from a gene id of GFF file and specified length, gives you the number to extract the upstream sequence of this gene
 
 ### IMPORTS ###
-import parse_gff as pg
+import parse_gff_v2 as pg
 
 def retrieve_up(geneids,gff_dic,fasta_dic,length=100):
 	"""
