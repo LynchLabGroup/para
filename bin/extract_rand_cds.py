@@ -5,6 +5,7 @@ import gff.family as fam
 import random
 
 def main():
+	"""Program to extract random CDSs."""
 
 	#family_file = raw_input("Family file? ")
 	
@@ -52,8 +53,6 @@ def main():
 
 	# extract random CDS
 	fam_rand = random.sample(fam_parser,cds)
-
-	fam_rand = dict(fam_rand)
 
 	fam.family_cds(fam_rand,gff_rec,fasta_rec,"data/families/WGD1/CDS/")
 
