@@ -34,6 +34,7 @@ def retrieve_up(geneids,gff_dic,fasta_dic,length=100):
 				break
 		
 		seq,overlap = retrieve_up_single(g,seq_id,gff_dic,fasta_dic,length)
+		seq = Seq(seq,Bio.Alphabet.generic_dna)
 		upstream.append([start,end,strand,g,seq_id,seq])
 		
 		# detect if gene has strange overlap
@@ -130,6 +131,8 @@ def write_fasta(file_name,upseqs):
 		gene = u[3] # gene name
 		seqid = u[4] # name of scaffold from which the gene is extracted
 		seq = u[-1] # Seq object
+
+		print "Type of seq: {}".format(type(seq))
 
 		ident = "{} | {} | {}-{} | {}".format(seqid,gene,str(start),str(end),strand)
 
