@@ -132,7 +132,8 @@ def write_fasta(file_name,upseqs):
 		seqid = u[4] # name of scaffold from which the gene is extracted
 		seq = u[-1] # Seq object
 
-		print "Type of seq: {}".format(type(seq))
+		if not isinstance(seq,Seq):
+			seq = Seq(seq)
 
 		ident = "{} | {} | {}-{} | {}".format(seqid,gene,str(start),str(end),strand)
 
