@@ -171,21 +171,25 @@ def extract_cds(gff_dic,fasta_dic,par_name=None):
 	else:
 		# Extract sequence from a single parent name
 		print "par_name = {}".format(par_name)
+
+		if par_name[-6] == "G":
+			trans = list(par_name)	
+			trans[-6] = "T"
+			trans = "".join(trans)
+		else:
+			trans = par_name
 		
 		for k in gff_dic.keys():
-			if k == par_name:
-				gene = gff_dic[g]
+			if k == trans:
+				gene = gff_dic[k][0]
 				start = gene.start
-				end = gene.end
+				end = gff_dic[k][-1].end
 				strand = gene.strand
 				seq_id = gene.seqid
-				trans = list(par_name)
-				trans[-6] = "T"
-				trans = "".join(trans)
 
 				seq = pg.get_prot_seq(gff_dic,fasta_dic,trans)
 
-				interest.append([start,end,strand,name,seq_id,seq])
+				interest.append([start,end,strand,par_name,seq_id,seq])
 				break
 
 		if interest == []:
