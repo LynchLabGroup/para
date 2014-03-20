@@ -47,7 +47,7 @@ def main():
 	print "Loading GFF files..."
 	for gk in gff_files.keys():
 		print "New file..."
-		gff_rec[gk] = pg.load_gff(gff_files[gk],["CDS","gene"]) 
+		gff_rec[gk] = pg.load_gff(gff_files[gk],["CDS"]) 
 	print "Done."
 
 	# extract random CDS
