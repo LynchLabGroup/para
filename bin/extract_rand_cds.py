@@ -15,7 +15,7 @@ def main():
 
 	cds = 12 #number of CDSs to extract randomly
 	
-	print "Parameters used: {} genes at least, retrieve {}nt".format(num,length)	
+	print "Parameters used: {} genes at least, retrieve {} CDSs".format(num,cds)	
 
 	# Load family_file in memory
 	fam_parser,spec = fam.family_parse(family_file,num,header)
