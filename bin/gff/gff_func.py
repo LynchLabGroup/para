@@ -178,6 +178,8 @@ def extract_cds(gff_dic,fasta_dic,par_name=None):
 			trans = "".join(trans)
 		else:
 			trans = par_name
+
+		print "Trans = {}".format(trans)
 		
 		for k in gff_dic.keys():
 			if k == trans:
