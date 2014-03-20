@@ -178,18 +178,14 @@ def extract_cds(gff_dic,fasta_dic,par_name=None):
 			trans = "".join(trans)
 		else:
 			trans = par_name
-
-		print "Trans = {}".format(trans)
 		
 		for k in gff_dic:
 			if k == trans:
-				print "Found k!"
 				gene = gff_dic[k][0]
 				start = gene.start
 				end = gff_dic[k][-1].end
 				strand = gene.strand
 				seq_id = gene.seqid
-				print gene
 
 				seq = pg.get_prot_seq(gff_dic,fasta_dic,trans)
 

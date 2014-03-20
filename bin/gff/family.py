@@ -85,7 +85,7 @@ def get_species(string):
 	"""Get species code of a string. Returns -1 if string length is less than 4"""
 
 	l = len(string)
-	if l > 4:
+	if l >= 4:
 		string = string.split("G")
 		species = string[0]
 		
@@ -131,10 +131,7 @@ def family_cds(family_list,gff_rec_list,fasta_rec_list,location):
 		genes = []
 		for i,gene in enumerate(fam):
 			spec = get_species(gene)
-			print "Gene = {}".format(gene)
-			print "Spec: {}".format(spec)
-			gene_extract = gff_func.extract_cds(fasta_rec_list[spec],gff_rec_list[spec],gene) # Return a list of list
-			print "Gene extract: {}".format(gene_extract)
+			gene_extract = gff_func.extract_cds(gff_rec_list[spec],fasta_rec_list[spec],gene) # Return a list of list
 			genes.append(gene_extract[0]) # extract a simple list
 		
 		gff_func.write_fasta(location+fam.name()+".fasta",genes)
