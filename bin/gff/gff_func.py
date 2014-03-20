@@ -5,6 +5,7 @@
 
 ### IMPORTS ###
 import parse_gff_v2 as pg
+from Bio.Seq import Seq
 
 def retrieve_up(geneids,gff_dic,fasta_dic,length=100):
 	"""
