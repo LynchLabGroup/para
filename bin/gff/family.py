@@ -151,7 +151,7 @@ def family_upstream(family_list,gff_rec_list,fasta_rec_list,length,location):
 			if len(overlap)>0:
 				over.append(overlap[0])
 		if len(over) >0:
-			fam_overlap.append([fam.name(),len(over)])
+			fam_overlap.append([fam.name(),str(len(over))])
 
 		gff_func.write_fasta(location+fam.name()+".fasta",up)
 
@@ -161,7 +161,7 @@ def family_upstream(family_list,gff_rec_list,fasta_rec_list,length,location):
 		#Write overlap file family name - number of overlaps
 		with open(location+"overlap.txt","w") as f:
 			for entry in fam_overlap:
-				line = "\t".join(fam_overlap) + "\n"
+				line = "\t".join(entry) + "\n"
 				f.write(line)
 
 
