@@ -174,7 +174,6 @@ def extract_cds(gff_dic,fasta_dic,par_name=None):
 
 	else:
 		# Extract sequence from a single parent name
-		print "par_name = {}".format(par_name)
 
 		if par_name[-6] == "G":
 			trans = list(par_name)	
