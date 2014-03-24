@@ -133,7 +133,7 @@ def family_cds(family_list,gff_rec_list,fasta_rec_list,location,translate=None):
 		genes = []
 		for i,gene in enumerate(fam):
 			spec = get_species(gene)
-			gene_extract = gff_func.extract_cds(gff_rec_list[spec],fasta_rec_list[spec],gene,translate) # Return a list of list
+			gene_extract = gff_func.extract_cds(gff_rec_list[spec],fasta_rec_list[spec],translate,gene) # Return a list of list
 			genes.append(gene_extract[0]) # extract a simple list
 		
 		gff_func.write_fasta(location+fam.name()+".fasta",genes)

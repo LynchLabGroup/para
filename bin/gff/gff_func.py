@@ -148,7 +148,7 @@ def write_fasta(file_name,upseqs):
 
 ############################################
 
-def extract_cds(gff_dic,fasta_dic,translate=None,par_name=None):
+def extract_cds(gff_dic,fasta_dic,par_name=None,translate=None):
 	"""
 	Returns a list of Coding Sequences extracted from gff_dic and fasta_dic using parent name.
 	WARNING: functions strangely with gff files where there are several transcript for a single gene

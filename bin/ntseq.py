@@ -49,7 +49,7 @@ def main():
 
 	# extract random CDS
 
-	fam.family_cds(fam_parser,gff_rec,fasta_rec,"data/families/WGD2/CDS/nt/",translate)
+	fam.family_cds(fam_parser,gff_rec,fasta_rec,"data/families/WGD2/CDS/nt/",translate=translate)
 
 
 if __name__ == "__main__":
