@@ -107,21 +107,30 @@ def getSequence(gff_dict, fasta_dict, id, type):
 
 ###################################
 
-def get_prot_seq(gff_dict, fasta_dict, id, table=6):
+def get_prot_seq(gff_dict, fasta_dict, id, translate=None, table=None):
     """
     get_prot_seq : return the translated sequence of a gene/transcript/mRNA based on its parent ID
     Arguments:
     - gff_dict: a dictionary containing all the GFF lines parsed into objects (key=seqid / value=object returned by the GFF parser for one line of GFF)
     - fasta_dict: a simple dictionary of the fasta file (key=sequence ID / value=sequence)
     - id: the parent ID (typically: PSEXGNT00001)
+    - translate: does the returned sequences has to be translated (default: True)
+    - table: if returned sequence is translated, what codon table should we use? see NCBI codons table
 
     Returns the translated (protein) sequence
 
     WARNING: does not do any asserts. Passing an id that does not have any parent will crash the program...
     """
+    if table == None:
+        table = 6
+    if translate == None:
+        translate = True
     dna_seq = Seq(getSequence(gff_dict, fasta_dict, id, "CDS"), Bio.Alphabet.generic_dna)
-    prot_seq = dna_seq.translate(table=table)
-    return str(prot_seq)
+    if translate == True:
+        prot_seq = dna_seq.translate(table=table)
+        return str(prot_seq)
+    else:
+        return str(dna_seq)
     
 
 ######################################

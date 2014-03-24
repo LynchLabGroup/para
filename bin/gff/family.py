@@ -125,13 +125,15 @@ def family_parse(family_file,num=None,header=None):
 
 	return family_list,spec
 
-def family_cds(family_list,gff_rec_list,fasta_rec_list,location):
+def family_cds(family_list,gff_rec_list,fasta_rec_list,location,translate=None):
 	"""Take a list of families, with associated dict of fasta_rec, gff_rec and cds_rec. And write Fasta sequences of all CDSs of each family in precised location."""
+	if translate == None:
+		translate = True
 	for fam in family_list:
 		genes = []
 		for i,gene in enumerate(fam):
 			spec = get_species(gene)
-			gene_extract = gff_func.extract_cds(gff_rec_list[spec],fasta_rec_list[spec],gene) # Return a list of list
+			gene_extract = gff_func.extract_cds(gff_rec_list[spec],fasta_rec_list[spec],gene,translate) # Return a list of list
 			genes.append(gene_extract[0]) # extract a simple list
 		
 		gff_func.write_fasta(location+fam.name()+".fasta",genes)

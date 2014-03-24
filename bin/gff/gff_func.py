@@ -148,11 +148,14 @@ def write_fasta(file_name,upseqs):
 
 ############################################
 
-def extract_cds(gff_dic,fasta_dic,par_name=None):
+def extract_cds(gff_dic,fasta_dic,translate=None,par_name=None):
 	"""
 	Returns a list of Coding Sequences extracted from gff_dic and fasta_dic using parent name.
 	WARNING: functions strangely with gff files where there are several transcript for a single gene
 	"""
+
+	if translate == None:
+		translate = True
 
 	interest = []
 	if par_name == None:
@@ -169,13 +172,12 @@ def extract_cds(gff_dic,fasta_dic,par_name=None):
 			name[-6] = "G"
 			name = "".join(name)
 			seq_id = gff_dic[p][0].seqid
-			seq = pg.get_prot_seq(gff_dic,fasta_dic,p)
+			seq = pg.get_prot_seq(gff_dic,fasta_dic,p,translate)
 
 			interest.append([start,end,strand,name,seq_id,seq])
 
 	else:
 		# Extract sequence from a single parent name
-
 		if par_name[-6] == "G":
 			trans = list(par_name)	
 			trans[-6] = "T"
@@ -191,7 +193,7 @@ def extract_cds(gff_dic,fasta_dic,par_name=None):
 				strand = gene.strand
 				seq_id = gene.seqid
 
-				seq = pg.get_prot_seq(gff_dic,fasta_dic,trans)
+				seq = pg.get_prot_seq(gff_dic,fasta_dic,trans,translate)
 
 				interest.append([start,end,strand,par_name,seq_id,seq])
 				break
