@@ -10,7 +10,7 @@ def main():
 	
 	header = True
 	num = 7
-	translate = True
+	translate = False
 	
 	print "Parameters used: {} genes at least.".format(num)	
 

@@ -172,7 +172,7 @@ def extract_cds(gff_dic,fasta_dic,par_name=None,translate=None):
 			name[-6] = "G"
 			name = "".join(name)
 			seq_id = gff_dic[p][0].seqid
-			seq = pg.get_prot_seq(gff_dic,fasta_dic,p,translate)
+			seq = pg.get_prot_seq(gff_dic,fasta_dic,p,translate=translate)
 
 			interest.append([start,end,strand,name,seq_id,seq])
 
@@ -193,7 +193,7 @@ def extract_cds(gff_dic,fasta_dic,par_name=None,translate=None):
 				strand = gene.strand
 				seq_id = gene.seqid
 
-				seq = pg.get_prot_seq(gff_dic,fasta_dic,trans,translate)
+				seq = pg.get_prot_seq(gff_dic,fasta_dic,trans,translate=translate)
 
 				interest.append([start,end,strand,par_name,seq_id,seq])
 				break
