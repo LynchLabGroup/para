@@ -1,5 +1,6 @@
 data/
 src/
+results/translatorx/
 bin/gff/BCBio
 .DS_Store
 *.pyc
