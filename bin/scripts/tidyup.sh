@@ -8,6 +8,7 @@ echo $d
 
 TARGET="results/translatorx/"
 
+echo "Tidying up..."
 # Look for all files matching pattern in $FILES, and everything that does match the pattern is erased
 for FILE in `ls $TARGET | xargs -n1 basename | grep -v ".nt_ali.fasta$"`;
 do
@@ -15,3 +16,5 @@ do
 echo $FILE | grep "^WGD2ANC*" | xargs rm
 
 done
+
+echo "Done."
