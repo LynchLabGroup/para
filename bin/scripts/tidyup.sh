@@ -6,15 +6,12 @@
 d=$(date "+%Y-%m-%d") #Stores date value into variable
 echo $d
 
-TARGET="results/translatorx/"
+TARGET="results/translatorx"
+
+PATTERN="WGD2ANC*.nt_ali.fasta"
 
 echo "Tidying up..."
-# Look for all files matching pattern in $FILES, and everything that does match the pattern is erased
-for FILE in `ls $TARGET | xargs -n1 basename | grep -v ".nt_ali.fasta$"`;
-do
 
-echo $FILE | grep "^WGD2ANC*" | xargs rm
-
-done
+find $TARGET -not \( -name $PATTERN \) | xargs rm
 
 echo "Done."
