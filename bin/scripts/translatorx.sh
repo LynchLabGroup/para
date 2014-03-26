@@ -5,13 +5,18 @@
 
 d=$(date "+%Y-%m-%d") #Stores date value into variable
 echo $d
-echo "Beginning diff..."
 
 SOURCEPATH="data/families/WGD2/CDS/nt/"
 
 TARGET="results/translatorx/"
 
-for FILE in `ls $SOURCEPATHWGD*`
+FILES="WGD*"
+
+SOURCE=$SOURCEPATH$FILES
+
+
+# Look for all files matching pattern in $FILES and use translatorX on them
+for FILE in `ls $SOURCE | xargs -n1 basename`;
 do
 
 FILEBASENAME=$(echo $FILE | cut -d. -f1)
