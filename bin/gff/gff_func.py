@@ -136,7 +136,7 @@ def write_fasta(file_name,upseqs):
 		if not isinstance(seq,Seq):
 			seq = Seq(seq)
 
-		ident = "{} | {} | {}-{} | {}".format(seqid,gene,str(start),str(end),strand)
+		ident = "{} | {} | {}-{} | {}".format(gene,seqid,str(start),str(end),strand)
 
 		rec = SeqRecord(seq,id=ident,name=gene,description="")
 
