@@ -8,5 +8,20 @@
 echo "Job Started at: "; date
 module load java/1.7.0_25
 cd para/
-python bin/scripts/fastaheader.py 
+FAM="WGD2ANC00008"
+mkdir results/$FAM
+
+# Edit header to shorten name
+python bin/scripts/fastaheader.py data/families/WGD2/upstream/$FAM.fasta " | " results/$FAM/$FAM.fasta
+
+# Convert CDS to phylip format
+perl bin/scripts/ConvertFastatoPhylip.pl data/families/WGDS/CDS/nt/$FAM.fasta results/$FAM/$FAMCDS.phyl
+
+# Generate sequence tree
+phyml -i results/$FAM/$FAMCDS.phyl
+
+# Need a step to edit tree
+
+# Detect motifs
+java -jar ../BigFoot/BigFoot.jar -t results/$FAM/$FAMCDS.phyl_phyml_tree.txt -p=1000,20000,1000 results/$FAM/$FAM.fasta
 echo "Job Finished at:"; date
