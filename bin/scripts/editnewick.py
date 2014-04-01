@@ -30,4 +30,4 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 
-	main(args.i,args.out)
+	main(args.i,args.o)
