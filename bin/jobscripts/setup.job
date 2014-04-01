@@ -12,16 +12,33 @@ FAM="WGD2ANC00008"
 mkdir results/$FAM
 
 # Edit header to shorten name
+echo "Transforming Fasta header"
 python bin/scripts/fastaheader.py data/families/WGD2/upstream/$FAM.fasta " | " results/$FAM/$FAM.fasta
+echo "Done."
 
 # Convert CDS to phylip format
-perl bin/scripts/ConvertFastatoPhylip.pl data/families/WGDS/CDS/nt/$FAM.fasta results/$FAM/$FAMCDS.phyl
+echo "Converting Fasta to phylip"
+perl bin/scripts/ConvertFastatoPhylip.pl results/translatorx/FAM.nt_ali.fasta results/$FAM/$FAMCDS.phyl
+echo "Done."
 
 # Generate sequence tree
+echo "Generating tree..."
 phyml -i results/$FAM/$FAMCDS.phyl
+echo "Done."
 
 # Need a step to edit tree
+echo "Editing tree..."
+python bin/scripts/editnewick.py results/$FAM/*_phyml_tree.txt results/$FAM/$FAM.newick
+echo "Done."
 
 # Detect motifs
-java -jar ../BigFoot/BigFoot.jar -t results/$FAM/$FAMCDS.phyl_phyml_tree.txt -p=1000,20000,1000 results/$FAM/$FAM.fasta
+echo "Detecting motifs"
+java -jar ../BigFoot/BigFoot.jar -t results/$FAM/$FAM.newick -p=1000,20000,1000 results/$FAM/$FAM.fasta
+echo "Done."
+
+# Parsing BigFoot ouput
+echo "Parsing BigFoot's ouput"
+python bin/bigfoot/setup.py -o results/$FAM/$FAM.motifs results/$FAM/$FAM.fasta.mpd results/$FAM/$FAM.fasta.pred
+echo "Done."
+
 echo "Job Finished at:"; date
