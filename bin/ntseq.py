@@ -4,7 +4,7 @@ import gff.parse_gff_v2 as pg
 import gff.family as fam
 
 def main():
-	"""Program to extract random CDSs."""
+	"""Program to extract all CDSs."""
 	
 	family_file = "data/families/tet_bi_sex_caud_orthoparalogons_WGD2.txt"
 	
@@ -47,8 +47,7 @@ def main():
 		gff_rec[gk] = pg.load_gff(gff_files[gk],["CDS"]) 
 	print "Done."
 
-	# extract random CDS
-
+	# extract all CDSs
 	fam.family_cds(fam_parser,gff_rec,fasta_rec,"data/families/WGD2/CDS/nt/",translate=translate)
 
 
