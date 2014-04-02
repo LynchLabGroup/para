@@ -18,7 +18,7 @@ echo "Done."
 
 # Convert CDS to phylip format
 echo "Converting Fasta to phylip"
-perl bin/scripts/ConvertFastatoPhylip.pl results/translatorx/FAM.nt_ali.fasta results/$FAM/$FAMCDS.phyl
+perl bin/scripts/ConvertFastatoPhylip.pl results/translatorx/$FAM.nt_ali.fasta results/$FAM/$FAMCDS.phyl
 echo "Done."
 
 # Generate sequence tree
@@ -28,7 +28,7 @@ echo "Done."
 
 # Need a step to edit tree
 echo "Editing tree..."
-python bin/scripts/editnewick.py results/$FAM/*_phyml_tree.txt results/$FAM/$FAM.newick
+python bin/scripts/editnewick.py results/$FAM/$FAMCDS.phyl_phyml_tree.txt results/$FAM/$FAM.newick
 echo "Done."
 
 # Detect motifs
