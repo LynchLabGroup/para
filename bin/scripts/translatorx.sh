@@ -21,5 +21,5 @@ do
 
 FILEBASENAME=$(echo $FILE | cut -d. -f1)
 
-perl bin/translatorx_vLocal.pl -c 6 -i $SOURCEPATH$FILE -o $TARGET$FILEBASENAME
+perl bin/scripts/translatorx_vLocal.pl -c 6 -i $SOURCEPATH$FILE -o $TARGET$FILEBASENAME
 done
