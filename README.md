@@ -24,6 +24,7 @@ Contains all the files to extract upstream sequences, CDSs, gene families and de
 
 ### `jobscripts` folder ###
 
+Contains all the jobscripts submitted to Mason. `setup.job` contains the whole process to extract motifs from a given gene family.
 
 ### `scripts` folder ###
 
@@ -49,8 +50,10 @@ Folder containing all little scripts to automate certain tasks:
 This program extract randomly a given number of gene families using a gene family file and retrieves their CDSs, translated or not.
 All gene family sequences are put in a single folder, with names according to their family name.
 
-### ntseq ###
+### ntseq.py ###
 
 This program extract all the CDSs sequences of a given gene family size
 
-### 
+### stable.py ###
+
+This program correct order in a multialigned file in MUSCLE. Not authored by me see [MUSCLE website](http://drive5.com/muscle/stable.html)
