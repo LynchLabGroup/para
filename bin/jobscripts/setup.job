@@ -9,6 +9,8 @@ echo "Job Started at: "; date
 module load java/1.7.0_25
 cd para/
 FAM="WGD2ANC00008"
+CDS="CDS"
+FAMCDS=$FAM$CDS
 mkdir results/$FAM
 
 # Edit header to shorten name
