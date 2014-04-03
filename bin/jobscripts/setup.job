@@ -11,7 +11,7 @@ cd para/
 
 LOCATION="data/families/WGD2/upstream/"
 
-CDSLOC="data/families/WGD2/CDS/nt"
+CDSLOC="data/families/WGD2/CDS/nt/"
 
 # Fetch upstream sequences
 echo "Extracting upstream sequences..."
