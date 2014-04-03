@@ -28,7 +28,7 @@ do
 
 CDS="CDS"
 FAMCDS=$FAM$CDS
-TARGET="$TARGET"
+TARGET="results/$FAM/"
 mkdir results/$FAM
 
 # Edit header to shorten name
@@ -39,7 +39,11 @@ python bin/scripts/fastaheader.py data/families/WGD2/upstream/$FAM.fasta "|" $TA
 echo "Aligning CDS sequence..."
 perl bin/scripts/translatorx_vLocal.pl -c 6 -i $CDSLOC$FAM.fasta -o $TARGET$FAM
 echo "Done."
- 	
+
+echo "Tidying up TranslatorX files..."
+bin/scripts/tidyup.sh $TARGET
+echo "Done."
+
 # Edit CDS header name
 echo "Transforming CDS Fasta header"
 python bin/scripts/fastaheader.py $TARGET$FAM.nt_ali.fasta "|" $TARGET$FAMCDS.fasta
