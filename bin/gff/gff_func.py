@@ -38,6 +38,8 @@ def retrieve_up(geneids,gff_dic,fasta_dic,length=100,minlength=1):
 		if seq != -1:
 			seq = Seq(seq,Bio.Alphabet.generic_dna)
 			upstream.append([start,end,strand,g,seq_id,seq])
+		else:
+			upstream.append([-1])
 		
 		# detect if gene has strange overlap
 		if overlap > 0:
