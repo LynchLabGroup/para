@@ -69,8 +69,8 @@ if __name__ == "__main__":
 	parser.add_argument("-ml", "--minlen", help="minimum length of extracted upstream sequences. (default: %(default)s)", type=int, default=1)
 	parser.add_argument("-f", "--fam", help="specify the minimum number of family members needed. (default: %(default)s)", type=int, default=7)
 	parser.add_argument("--head", help="specify that the file has a header.", action="store_true")
-	parser.add_argument("-o", "--out",help="location of upstream sequences files (default: %(default)s)", default="data/families/WGD2/upstream/")
+	parser.add_argument("-loc", "--location",help="location of upstream sequences files (default: %(default)s)", default="data/families/WGD2/upstream/")
 
 	args = parser.parse_args()
 
-	main(args.length,args.minlength,args.fam,args.head,args.out)
+	main(args.length,args.minlength,args.fam,args.head,args.location)

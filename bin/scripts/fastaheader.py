@@ -14,7 +14,7 @@ def shorten_name(seqrecord,char):
 
 	name = name.split(char)
 
-	ident = name[1]
+	ident = name[0]
 
 	if len(ident) > 10:
 		ident = ident[0:10]
@@ -43,7 +43,7 @@ def rewrite_fasta(filename,output=None,char=None):
 	if output == None:
 		output = filename.split(".")[0] + "rw.fasta"
 	if char == None:
-		char = " | "
+		char = "|"
 
 	rec_out = []
 	with open(filename,"r") as f:

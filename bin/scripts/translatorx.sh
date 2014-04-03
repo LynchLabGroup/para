@@ -10,8 +10,6 @@ SOURCEPATH="data/families/WGD2/CDS/nt/"
 
 TARGET="results/translatorx/"
 
-FILES="WGD*"
-
 SOURCE=$SOURCEPATH$FILES
 
 
