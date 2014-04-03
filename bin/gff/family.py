@@ -148,7 +148,8 @@ def family_upstream(family_list,gff_rec_list,fasta_rec_list,maxlength,minlength,
 		for i,gene in enumerate(fam):
 			spec = get_species(gene)
 			up_extract,overlap = gff_func.retrieve_up([gene],gff_rec_list[spec],fasta_rec_list[spec],maxlength,minlength) # Return a list of list
-			up.append(up_extract[0]) # extract a simple list
+			if up_extract != -1:
+				up.append(up_extract[0]) # extract a simple list
 			
 			if len(overlap)>0:
 				over.append(overlap[0])
