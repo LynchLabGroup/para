@@ -73,4 +73,4 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 
-	main(args.length,args.minlength,args.fam,args.head,args.location)
+	main(args.length,args.minlen,args.fam,args.head,args.location)
