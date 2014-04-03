@@ -1,0 +1,73 @@
+#!/bin/bash
+#PBS -k o
+#PBS -l nodes=1:ppn=1,vmem=16gb,walltime=00:04:00:00
+#PBS -M mgrenie@indiana.edu
+#PBS -m be
+#PBS -N MotifsExtraction
+#PBS -j oe
+echo "Job Started at: "; date
+module load java/1.7.0_25
+cd para/
+
+LOCATION="data/families/WGD2/upstream/"
+
+CDSLOC="data/families/WGD2/CDS/nt"
+
+# Fetch upstream sequences
+echo "Extracting upstream sequences..."
+python bin/gff/main.py -l 250 -ml 25 -f 7 -loc $LOCATION --head
+echo "Done."
+
+# Fetch all CDSs
+echo "Fetching CDSs..."
+python bin/ntseq.py
+echo "Done."
+
+for FAM in `ls $LOCATION | xargs -n1 basename | cut -d. -f 1`;
+do
+
+CDS="CDS"
+FAMCDS=$FAM$CDS
+TARGET="$TARGET"
+mkdir results/$FAM
+
+# Edit header to shorten name
+echo "Transforming upstream Fasta header"
+python bin/scripts/fastaheader.py data/families/WGD2/upstream/$FAM.fasta "|" $TARGET$FAM.fasta
+
+# Align CDS from sequences
+echo "Aligning CDS sequence..."
+perl bin/scripts/translatorx_vLocal.pl -c 6 -i $CDSLOC$FAM.fasta -o $TARGET$FAM
+echo "Done."
+
+# Edit CDS header name
+echo "Transforming CDS Fasta header"
+python bin/scripts/fastaheader.py $TARGET$FAM.nt_ali.fasta "|" $TARGET$FAMCDS.fasta
+
+# Convert CDS to phylip format
+echo "Converting Fasta to phylip"
+perl bin/scripts/ConvertFastatoPhylip.pl $TARGET$FAMCDS.fasta $TARGET$FAMCDS.phyl
+echo "Done."
+
+# Generate sequence tree
+echo "Generating tree..."
+phyml -i $TARGET$FAMCDS.phyl
+echo "Done."
+
+# Need a step to edit tree
+echo "Editing tree..."
+python bin/scripts/editnewick.py $TARGET$FAMCDS.phyl_phyml_tree.txt $TARGET$FAM.newick
+echo "Done."
+
+# Detect motifs
+echo "Detecting motifs"
+java -jar ../BigFoot/BigFoot.jar -t $TARGET$FAM.newick -p=1000,20000,1000 $TARGET$FAM.fasta
+echo "Done."
+
+# Parsing BigFoot ouput
+echo "Parsing BigFoot's ouput"
+python bin/bigfoot/setup.py -o $TARGET$FAM.motifs $TARGET$FAM.fasta.mpd $TARGET$FAM.fasta.pred
+echo "Done."
+done
+
+echo "Job Finished at:"; date
