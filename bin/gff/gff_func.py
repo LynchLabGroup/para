@@ -20,6 +20,7 @@ def retrieve_up(geneids,gff_dic,fasta_dic,length=100,minlength=1):
 	fasta_dic -- a Fasta record
 	length (optional) -- length of the upstream sequence to extract
 	"""
+	import Bio
 	upstream = []
 	over = []
 
