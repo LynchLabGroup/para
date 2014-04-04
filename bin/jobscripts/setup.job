@@ -23,7 +23,7 @@ echo "Fetching CDSs..."
 python bin/ntseq.py
 echo "Done."
 
-for FAM in `ls $LOCATION | xargs -n1 basename | cut -d. -f 1`;
+for FAM in `ls $LOCATION/WGD* | xargs -n1 basename | cut -d. -f 1`;
 do
 
 CDS="CDS"
@@ -40,9 +40,9 @@ echo "Aligning CDS sequence..."
 perl bin/scripts/translatorx_vLocal.pl -c 6 -i $CDSLOC$FAM.fasta -o $TARGET$FAM
 echo "Done."
 
-echo "Tidying up TranslatorX files..."
-bin/scripts/tidyup.sh $TARGET
-echo "Done."
+# echo "Tidying up TranslatorX files..."
+# bin/scripts/tidyup.sh $TARGET
+# echo "Done."
 
 # Edit CDS header name
 echo "Transforming CDS Fasta header"
