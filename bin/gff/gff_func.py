@@ -20,7 +20,6 @@ def retrieve_up(geneids,gff_dic,fasta_dic,length=100,minlength=1):
 	fasta_dic -- a Fasta record
 	length (optional) -- length of the upstream sequence to extract
 	"""
-	import Bio
 	upstream = []
 	over = []
 
@@ -37,8 +36,6 @@ def retrieve_up(geneids,gff_dic,fasta_dic,length=100,minlength=1):
 		
 		seq,overlap = retrieve_up_single(g,seq_id,gff_dic,fasta_dic,length,minlength)
 		if seq != -1:
-			print "Type of seq: {}".format(type(seq))
-			seq = Seq(seq,Bio.Alphabet.generic_dna)
 			upstream.append([start,end,strand,g,seq_id,seq])
 		else:
 			upstream.append([-1])
