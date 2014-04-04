@@ -36,9 +36,12 @@ Folder containing all little scripts to automate certain tasks:
 + **editnewick.py** Python to script to edit newick trees to fit BigFoot.
    Usage: `python editnewick.py inputfile outputfile`
 + **fastaheader.py** Python script to edit complex fasta sequences names.
+   
    Usage: `python fastaheader.py fastafile delimiter outputfile`
+   
    Example: If your fasta header is
    `PCAUDG00089|scaffold_0001|151273-155265|-`
+   
    The script will generate the same fasta file but this header
    `PCAUDG00089`
 + **multialign.sh** creates multialignment file using MUSCLE
