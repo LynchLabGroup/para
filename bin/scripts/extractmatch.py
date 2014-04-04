@@ -4,7 +4,6 @@
 import argparse
 
 from Bio import SeqIO
-from Bio.SeqRecord import SeqRecord
 
 def name_set(fastafile):
 	"""
@@ -44,7 +43,7 @@ def main():
 	args = parser.parse_args()
 
 	names = name_set(args.name)
-
+	print "names: {}\ninp: {}\nout: {}".format(names,args.inp,args.out)
 	select_write_fasta(names,args.inp,args.out)
 
 if __name__ == "__main__":
