@@ -33,15 +33,24 @@ Folder containing all little scripts to automate certain tasks:
 + **ConvertFastatoPhylip.pl** Perl script to convert Fasta format files to Phylip format -> make sequences usable by PhyML. from [drmuhammadmunir](https://github.com/drmuhammadmunir/perl)
 + **diff.sh** script to compare two (local folders) and print the result in a out file.
 
-   Usage: `diff.sh dir1 dir2`
+   Usage:
+   ```shell
+   diff.sh dir1 dir2
+   ```
 
 + **editnewick.py** Python to script to edit newick trees to fit BigFoot.
 
-   Usage: `python editnewick.py inputfile outputfile`
+   Usage: 
+   ```python
+   python editnewick.py inputfile outputfile
+   ```
 
 + **fastaheader.py** Python script to edit complex fasta sequences names.
    
-   Usage: `python fastaheader.py fastafile delimiter outputfile`
+   Usage:
+   ```python
+   python fastaheader.py fastafile delimiter outputfile
+   ```
    
    Example: If your fasta header is
    ```
