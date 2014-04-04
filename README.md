@@ -37,13 +37,17 @@ Folder containing all little scripts to automate certain tasks:
    Usage: `python editnewick.py inputfile outputfile`
 + **fastaheader.py** Python script to edit complex fasta sequences names.
    Usage: `python fastaheader.py fastafile delimiter outputfile`
+   Example: If your fasta header is
+   `PCAUDG00089|scaffold_0001|151273-155265|-`
+   The script will generate the same fasta file but this header
+   `PCAUDG00089`
 + **multialign.sh** creates multialignment file using MUSCLE
 + **mvoverlap.sh** move families described in overlap file
 + **order.sh** recreate sequences file from multialignment to conserve original family order
 + **profiling.py** profile a given program and outputs its profile in a script
 + **tidyup.sh** tidyup directory after use of translatorx
 + **translatorx.sh** use translatorx on a given set of files in a directory
-+ **translatorx_vLocal.pl** [TranslatorX](http://translatorx.co.uk/) local version for protein-guided DNA alignment
++ **translatorx_vLocal.pl** [TranslatorX](http://translatorx.co.uk/) local version for protein-guided DNA alignment, **NOTICE**: [MUSCLE](http://drive5.com/muscle/) need to be installed (or another multi-alignment program you use) on the machine where you run TranslatorX.
 
 ### extract_rand_cds.py ###
 
