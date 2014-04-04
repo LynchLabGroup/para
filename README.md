@@ -44,7 +44,9 @@ Folder containing all little scripts to automate certain tasks:
    Usage: `python fastaheader.py fastafile delimiter outputfile`
    
    Example: If your fasta header is
-   ```PCAUDG00089|scaffold_0001|151273-155265|-```
+   ```
+   PCAUDG00089|scaffold_0001|151273-155265|-
+   ```
    
    The script will generate the same fasta file but this header
    `PCAUDG00089`
