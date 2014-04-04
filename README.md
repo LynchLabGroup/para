@@ -32,15 +32,19 @@ Folder containing all little scripts to automate certain tasks:
 
 + **ConvertFastatoPhylip.pl** Perl script to convert Fasta format files to Phylip format -> make sequences usable by PhyML. from [drmuhammadmunir](https://github.com/drmuhammadmunir/perl)
 + **diff.sh** script to compare two (local folders) and print the result in a out file.
+
    Usage: `diff.sh dir1 dir2`
+
 + **editnewick.py** Python to script to edit newick trees to fit BigFoot.
+
    Usage: `python editnewick.py inputfile outputfile`
+
 + **fastaheader.py** Python script to edit complex fasta sequences names.
    
    Usage: `python fastaheader.py fastafile delimiter outputfile`
    
    Example: If your fasta header is
-   `PCAUDG00089|scaffold_0001|151273-155265|-`
+   ```PCAUDG00089|scaffold_0001|151273-155265|-```
    
    The script will generate the same fasta file but this header
    `PCAUDG00089`
@@ -50,7 +54,9 @@ Folder containing all little scripts to automate certain tasks:
 + **profiling.py** profile a given program and outputs its profile in a script
 + **tidyup.sh** tidyup directory after use of translatorx
 + **translatorx.sh** use translatorx on a given set of files in a directory
-+ **translatorx_vLocal.pl** [TranslatorX](http://translatorx.co.uk/) local version for protein-guided DNA alignment, **NOTICE**: [MUSCLE](http://drive5.com/muscle/) need to be installed (or another multi-alignment program you use) on the machine where you run TranslatorX.
++ **translatorx_vLocal.pl** [TranslatorX](http://translatorx.co.uk/) local version for protein-guided DNA alignment
+   
+   **NOTICE**: [MUSCLE](http://drive5.com/muscle/) need to be installed (or another multi-alignment program you use) on the machine where you run TranslatorX.
 
 ### extract_rand_cds.py ###
 
