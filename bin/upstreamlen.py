@@ -5,6 +5,7 @@
 
 ### IMPORTS ###
 from gff import gff_func
+from gff import parse_gff_v2 as pg
 import rpy2.robjects.lib.ggplot2 as ggplot2
 from rpy2 import robjects as ro
 
