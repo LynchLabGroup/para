@@ -70,10 +70,11 @@ def retrieve_up_single(geneid,seqid,gff_dic,fasta_dic,length=100,minlength=1):
 				elif g.start in xrange(extract,start):
 					print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
 					overlap += 1
-			if len(fasta_dic[seqid][extract-1:start-1].reverse_complement().complement()) >= minlength:
+			seqlen = len(fasta_dic[seqid][extract-1:start-1].reverse_complement().complement())
+			if seqlen >= minlength:
 				return fasta_dic[seqid][extract-1:start-1].reverse_complement().complement(),overlap # extract natural position, reverse the return to begin with first base just before the beginning of the gene
 			else:
-				print "Upstream sequence of {} < minimum length: {}".format(geneid,minlength)
+				print "Up. seq. of {} < minlength ({}), length: {}".format(geneid,minlength,seqlen)
 				return -1,0
 		elif strand == "-":
 			extract = end + length
@@ -86,10 +87,11 @@ def retrieve_up_single(geneid,seqid,gff_dic,fasta_dic,length=100,minlength=1):
 					print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
 					overlap += 1
 			
-			if len(fasta_dic[seqid][end:extract]) < minlength:
+			seqlen = len(fasta_dic[seqid][end:extract])
+			if seqlen >= minlength:
 				return fasta_dic[seqid][end:extract],overlap
 			else:
-				print "Upstream sequence of {} < minimum length: {}".format(geneid,minlength)
+				print "Up. seq. of {} < minlength ({}), length: {}".format(geneid,minlength,seqlen)
 				return -1,0
 	except KeyError:
 		return -1
