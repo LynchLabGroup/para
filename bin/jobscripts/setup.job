@@ -48,9 +48,13 @@ echo "Done."
 echo "Transforming CDS Fasta header"
 python bin/scripts/fastaheader.py $TARGET$FAMCDS.nt_ali.fasta "|" $TARGET$FAMCDS.fasta
 
+# Extract only matching CDSs and upstream sequences
+echo "Matchin CDSs with upstream seqs."
+python bin/scripts/extractmatch.py $TARGET$FAM.fasta $TARGET$FAMCDS.fasta $TARGET$FAMCDS.e.fasta
+
 # Convert CDS to phylip format
 echo "Converting Fasta to phylip"
-perl bin/scripts/ConvertFastatoPhylip.pl $TARGET$FAMCDS.fasta $TARGET$FAMCDS.phyl
+perl bin/scripts/ConvertFastatoPhylip.pl $TARGET$FAMCDS.e.fasta $TARGET$FAMCDS.phyl
 echo "Done."
 
 # Generate sequence tree
