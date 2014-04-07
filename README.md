@@ -38,17 +38,26 @@ Folder containing all little scripts to automate certain tasks:
    diff.sh dir1 dir2
    ```
 
-+ **editnewick.py** Python to script to edit newick trees to fit BigFoot.
++ **editnewick.py** Python script to edit newick trees to fit BigFoot.
 
    Usage: 
-   ```python
+   ```shell
    python editnewick.py inputfile outputfile
    ```
+
++ **extractmatch.py** Python script to write a fasta file from matching names with another fasta files.
+
+   Usage:
+   ```shell
+   python extractmatch.py namefile inputfile outputfile
+   ```
+   
+   Where `namefile` is the file from which you want to extract names and `inputfile` the file to match, according to sequence names in `namefile`, extracted sequences from `inputfile` are written in `outputfile`.
 
 + **fastaheader.py** Python script to edit complex fasta sequences names.
    
    Usage:
-   ```python
+   ```shell
    python fastaheader.py fastafile delimiter outputfile
    ```
    
