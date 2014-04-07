@@ -6,13 +6,13 @@
 ### IMPORTS ###
 from gff import gff_func
 from gff import parse_gff_v2 as pg
-import rpy2.robjects.lib.ggplot2 as ggplot2
-from rpy2 import robjects as ro
+import csv
 
 ### FUNCTIONS ###
 def main():
 	maxlen = 20000
-	
+	output = "results/upstream_lengths.csv"
+
 	fasta_files = {}
 
 	fasta_files["PSEX"] = "data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta"
@@ -55,14 +55,16 @@ def main():
 		for l in lengths[k]:
 			spec.append(k)
 			val.append(l)
+	
+	print "Writing CSV file {}...".format(output)
+	with open(output,"w") as f:
+		writer = csv.writer(f, delimiter='\t')
 
-	rlen = {"spec":ro.FactorVector(spec),"val":ro.IntVector(val)}
-	rlen = ro.DataFrame(rlen)
-
-	gp = ggplot2.ggplot(rlen)
-	pp = gp + ggplot2.aes_string(x="val") + ggplot2.facet_grid(ro.Formula(". ~ spec")) + ggplot2.geom_density() +ggplot2.geom_histogram()
-	pp.plot()
-
-	rlen.to_csvfile("results/upstream_lengths.csv",row_names=False)
+		# header row
+		writer.writerow(["species","value"])
+		for row in len(spec):
+			writer.writerow([spec[row],val[row]])
+	print "Done."
+			
 if __name__ == "__main__":
 	main()
