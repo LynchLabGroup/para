@@ -55,7 +55,7 @@ def main():
 			spec.append(k)
 			val.append(l)
 
-	rlen = {"spec" = ro.FactorVector(spec),"val"=ro.IntVector(val)}
+	rlen = {"spec":ro.FactorVector(spec),"val":ro.IntVector(val)}
 	rlen = ro.DataFrame(rlen)
 
 	gp = ggplot2.ggplot(rlen)
