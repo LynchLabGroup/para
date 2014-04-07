@@ -7,7 +7,7 @@
 import parse_gff_v2 as pg
 from Bio.Seq import Seq
 
-def retrieve_up(geneids,gff_dic,fasta_dic,length=100,minlength=1):
+def retrieve_up(geneids, gff_dic, fasta_dic, length=100, minlength=1):
 	"""
 	DESCRIPTION:
 
@@ -47,7 +47,7 @@ def retrieve_up(geneids,gff_dic,fasta_dic,length=100,minlength=1):
 
 ############################################
 
-def retrieve_up_single(geneid,seqid,gff_dic,fasta_dic,length=100,minlength=1):
+def retrieve_up_single(geneid, seqid, gff_dic, fasta_dic, length=100, minlength=1):
 	"""
 	Return upstream sequence of given length, with at least minlength nt, without overlapping for a single gene.
 	"""
@@ -94,11 +94,12 @@ def retrieve_up_single(geneid,seqid,gff_dic,fasta_dic,length=100,minlength=1):
 				print "Up. seq. of {} < minlength ({}), length: {}".format(geneid,minlength,seqlen)
 				return -1,0
 	except KeyError:
+		print "Seqid {} not in gff file.".format(seqid)
 		return -1
 	
 ############################################
 
-def fasta_len(fasta_dic,seqid):
+def fasta_len(fasta_dic, seqid):
 	"""Return length of sequence seqid in fasta_rec."""
 
 	length = 0
@@ -112,7 +113,7 @@ def fasta_len(fasta_dic,seqid):
 
 ############################################
 
-def retrieve_seq(fasta_dic,uplist):
+def retrieve_seq(fasta_dic, uplist):
 	"""Append sequence to the passed list, based on fasta_dic."""
 
 	# Puts fasta file in memory and parses it
@@ -130,7 +131,7 @@ def retrieve_seq(fasta_dic,uplist):
 
 ############################################
 
-def write_fasta(file_name,upseqs):
+def write_fasta(file_name, upseqs):
 	"""Write a fasta_file from upstream sequences list returned by retrieve_up."""
 	from Bio.SeqRecord import SeqRecord
 	from Bio import SeqIO
@@ -160,7 +161,7 @@ def write_fasta(file_name,upseqs):
 
 ############################################
 
-def extract_cds(gff_dic,fasta_dic,par_name=None,translate=None):
+def extract_cds(gff_dic, fasta_dic, par_name=None, translate=None):
 	"""
 	Returns a list of Coding Sequences extracted from gff_dic and fasta_dic using parent name.
 	WARNING: functions strangely with gff files where there are several transcript for a single gene
@@ -217,7 +218,7 @@ def extract_cds(gff_dic,fasta_dic,par_name=None,translate=None):
 
 ############################################
 
-def find_name(gff_dic,seqid,geneid):
+def find_name(gff_dic, seqid, geneid):
 	"""Return start,end,strand and seqid of gene in seqid."""
 	found = False
 	for i,r in enumerate(gff_dic[seqid]):
@@ -231,3 +232,37 @@ def find_name(gff_dic,seqid,geneid):
 		return -1
 	else:
 		return [start,end,strand]
+
+############################################
+
+def retrieve_up_len(gff_dic, fasta_dic, maxlen=100):
+	"""
+	This function returns a list of all length of upstream sequences of maximum length maxlen. Without overlap.
+	"""
+	lengths = []
+	# create list of scaffold ids
+	scaff = [k for k in gff_dic.keys() if "scaff" in k]
+	i = 0
+	for k in gff_dic.keys():
+		if "scaff" not in k:
+			name = k
+			name = list(name)
+			name[-6] = "G"
+			name = "".join(name)
+			
+			#identify sequence id of given gene
+			for seq_id in scaff:
+				l = find_name(gff_dic,seq_id,name)
+				if l != -1:
+					start,end,strand = l
+					break
+
+			gene,overlap = retrieve_up_single(name,seq_id,gff_dic,fasta_dic,maxlen,0)
+
+			if overlap == 0:
+				i += 1
+				lengths.append(len(gene))
+			if i % 1000 == 0:
+				print "Added {} entries.".format(i)
+
+	return lengths
