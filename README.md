@@ -61,13 +61,16 @@ Folder containing all little scripts to automate certain tasks:
    python fastaheader.py fastafile delimiter outputfile
    ```
    
-   Example: If your fasta header is
+   If your fasta header is:
    ```
    PCAUDG00089|scaffold_0001|151273-155265|-
    ```
    
-   The script will generate the same fasta file but this header
-   `PCAUDG00089`
+   And if you want headers with only `PCAUDG00089` you can use the script as follow:
+   ```shell
+   python fastaheader.py fastafile "|" outputfile
+   ```
+
 + **multialign.sh** creates multialignment file using MUSCLE
 + **mvoverlap.sh** move families described in overlap file
 + **order.sh** recreate sequences file from multialignment to conserve original family order
