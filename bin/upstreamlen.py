@@ -63,6 +63,6 @@ def main():
 	pp = gp + ggplot2.aes_string(x="val") + ggplot2.facet_grid(ro.Formula(". ~ spec")) + ggplot2.geom_density() +ggplot2.geom_histogram()
 	pp.plot()
 
-
+	rlen.to_csvfile("results/upstream_lengths.csv",row_names=False)
 if __name__ == "__main__":
 	main()
