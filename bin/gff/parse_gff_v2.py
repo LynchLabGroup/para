@@ -167,7 +167,6 @@ def load_gff(in_file, list_types):
     i = 0
     for record in parseGFF3(in_file):
         if len(list_types)==0 or record.type in list_types:
-            id = record.attributes["ID"]
             if 'Parent' in record.attributes.keys():
                 parent = record.attributes["Parent"]
                 if parent in gff_dict.keys():
