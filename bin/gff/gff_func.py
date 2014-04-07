@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Program that from a gene id of GFF file and specified length, gives you the number to extract the upstream sequence of this gene
+# This file contain all
 
 ### IMPORTS ###
 import parse_gff_v2 as pg
 from Bio.Seq import Seq
 
+### FUNCTIONS ###
 def retrieve_up(geneids, gff_dic, fasta_dic, length=100, minlength=1):
 	"""
 	DESCRIPTION:
