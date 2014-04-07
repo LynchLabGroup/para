@@ -5,7 +5,7 @@ This is suppose to be the swissknife for extracting CDSs and finding motifs in t
 ## Folders ##
 
 In this repo you can find several repositories, there were created according to insert link:
-+ **bin**, standing for **bin** aries, containing all scripts and program,
++ **bin**, standing for **bin**aries, containing all scripts and program,
 + **data**, which is cached in git, it contains the raw data used for the analysis,
 + **doc**, which contains the IPython Notebook that record the project,
 + **results**, it contains all the produced, results produced using data, including figures or analyses.
