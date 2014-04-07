@@ -3,7 +3,7 @@
 #PBS -l nodes=1:ppn=2,vmem=10gb,walltime=02:00:00
 #PBS -M mgrenie@indiana.edu
 #PBS -m be
-#PBS -N CDSsDNAExtract
+#PBS -N UpstreamLengths
 #PBS -j oe
 echo "Job Started at: "; date
 module load python
