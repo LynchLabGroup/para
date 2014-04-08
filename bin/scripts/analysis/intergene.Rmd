@@ -1,0 +1,27 @@
+Analysis of intergenic region length
+========================================================
+
+Loading data:
+```{r}
+setwd("../../")
+intergene = read.csv("results/upstream_lengths.csv",sep="\t")
+head(intergene)
+summary(intergene)
+```
+**Problem**: we have some negative values!
+
+How many? What species?
+
+```{r}
+neg = subset(intergene,value<0)
+```
+
+Showing intergenic regions:
+
+```{r fig.width=7, fig.height=7}
+library(ggplot2)
+gg = ggplot(intergene,aes(x=value,fill=species))
+p = gg + geom_histogram() + scale_x_log10() + facet_grid(.~species) + theme_bw()
+p
+```
+
