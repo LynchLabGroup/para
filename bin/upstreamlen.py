@@ -58,8 +58,8 @@ def main():
 		# header row
 		writer.writerow(["species","length","name"])
 		for spec in lengths.keys():
-			for l in lengths[spec]["val"]:
-				name = lengths[spec]["names"]
+			for i,l in enumerate(lengths[spec]["val"]):
+				name = lengths[spec]["names"][i]
 				writer.writerow([spec,l,name])
 	print "Done."
 			
