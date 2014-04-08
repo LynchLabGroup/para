@@ -14,7 +14,10 @@ How many? What species?
 
 ```{r}
 neg = subset(intergene,value<0)
+summary(neg)
 ```
+
+All negative values are from *P. tetraurelia*.
 
 Showing intergenic regions:
 
