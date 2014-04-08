@@ -55,10 +55,11 @@ def main():
 		writer = csv.writer(f, delimiter='\t')
 
 		# header row
-		writer.writerow(["species","value"])
+		writer.writerow(["species","value","name"])
 		for k in lengths.keys():
-			for l in lengths[k]:
-				writer.writerow([k,l])
+			for l in lengths[k][0]:
+				name = lengths[k][1]
+				writer.writerow([k,l,name])
 	print "Done."
 			
 if __name__ == "__main__":

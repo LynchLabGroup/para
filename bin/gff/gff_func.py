@@ -238,9 +238,10 @@ def find_name(gff_dic, seqid, geneid):
 
 def retrieve_up_len(gff_dic, fasta_dic, maxlen=100):
 	"""
-	This function returns a list of all length of upstream sequences of maximum length maxlen. Without overlap.
+	This function returns a list of all length of upstream sequences of maximum length maxlen and corresponding genenames. Without overlap.
 	"""
 	lengths = []
+	names = []
 	i = 0
 	for k in gff_dic.keys():
 		if "scaff" in k:
@@ -260,8 +261,9 @@ def retrieve_up_len(gff_dic, fasta_dic, maxlen=100):
 				
 				e += 1
 				lengths.append(interlen)
+				names.append(rec.attributes["ID"])
 				
 				if e % 1000 == 0:
 					print "Added {} entries.".format(i)
 
-	return lengths
+	return lengths,names
