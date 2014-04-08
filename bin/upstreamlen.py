@@ -50,12 +50,6 @@ def main():
 	lengths = {}
 	for k in gff_rec.keys():
 		lengths[k] = gff_func.retrieve_up_len(gff_rec[k],fasta_rec[k],maxlen)
-	spec = []
-	val = []
-	for k in lengths.keys():
-		for l in lengths[k]:
-			spec.append(k)
-			val.append(l)
 	
 	print "Writing CSV file {}...".format(output)
 	with open(output,"w") as f:
@@ -63,8 +57,9 @@ def main():
 
 		# header row
 		writer.writerow(["species","value"])
-		for row in len(spec):
-			writer.writerow([spec[row],val[row]])
+		for k in lengths.keys():
+			for l in lengths[k]:
+				writer.writerow([k,l])
 	print "Done."
 			
 if __name__ == "__main__":
