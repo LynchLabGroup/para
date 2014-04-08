@@ -252,7 +252,6 @@ def retrieve_up_len(gff_dic, fasta_dic, maxlen=100):
 
 				if overlap == 0:
 					i += 1
-					print "Added 1 entry."
 					lengths.append(len(gene))
 				if i % 1000 == 0:
 					print "Added {} entries.".format(i)
