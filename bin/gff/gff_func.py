@@ -241,29 +241,20 @@ def retrieve_up_len(gff_dic, fasta_dic, maxlen=100):
 	This function returns a list of all length of upstream sequences of maximum length maxlen. Without overlap.
 	"""
 	lengths = []
-	# create list of scaffold ids
-	scaff = [k for k in gff_dic.keys() if "scaff" in k]
 	i = 0
 	for k in gff_dic.keys():
-		if "scaff" not in k:
-			name = k
-			name = list(name)
-			name[-6] = "G"
-			name = "".join(name)
-			
-			#identify sequence id of given gene
-			for seq_id in scaff:
-				l = find_name(gff_dic,seq_id,name)
-				if l != -1:
-					start,end,strand = l
-					break
+		if "scaff" in k:
+			seq_id = k
+			for rec in gff_dic[k]:
+				name = rec.attributes["ID"]
 
-			gene,overlap = retrieve_up_single(name,seq_id,gff_dic,fasta_dic,maxlen,0)
+				gene,overlap = retrieve_up_single(name,seq_id,gff_dic,fasta_dic,maxlen,0)
 
-			if overlap == 0:
-				i += 1
-				lengths.append(len(gene))
-			if i % 1000 == 0:
-				print "Added {} entries.".format(i)
+				if overlap == 0:
+					i += 1
+					print "Added 1 entry."
+					lengths.append(len(gene))
+				if i % 1000 == 0:
+					print "Added {} entries.".format(i)
 
 	return lengths
