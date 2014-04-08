@@ -47,19 +47,20 @@ def main():
 
 	# Build a dictionnary of all lengths of upstream sequences in all species
 	lengths = {}
-	for k in gff_rec.keys():
-		lengths[k] = gff_func.retrieve_up_len(gff_rec[k],fasta_rec[k],maxlen)
+	for spec in gff_rec.keys():
+		lengths[spec] = {}
+		lengths[spec]["val"],lengths[spec]["names"]= gff_func.retrieve_up_len(gff_rec[spec],fasta_rec[spec],maxlen)
 	
 	print "Writing CSV file {}...".format(output)
 	with open(output,"w") as f:
 		writer = csv.writer(f, delimiter='\t')
 
 		# header row
-		writer.writerow(["species","value","name"])
-		for k in lengths.keys():
-			for l in lengths[k][0]:
-				name = lengths[k][1]
-				writer.writerow([k,l,name])
+		writer.writerow(["species","length","name"])
+		for spec in lengths.keys():
+			for l in lengths[spec]["val"]:
+				name = lengths[spec]["names"]
+				writer.writerow([spec,l,name])
 	print "Done."
 			
 if __name__ == "__main__":
