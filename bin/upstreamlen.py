@@ -10,7 +10,6 @@ import csv
 
 ### FUNCTIONS ###
 def main():
-	print "LAUNCHED MAIN FUNCTION"
 	maxlen = 20000
 	output = "results/upstream_lengths.csv"
 
@@ -63,5 +62,4 @@ def main():
 	print "Done."
 			
 if __name__ == "__main__":
-	print "PROGRAM IS MAIN."
 	main()
