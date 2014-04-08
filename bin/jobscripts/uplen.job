@@ -9,5 +9,6 @@ echo "Job Started at: "; date
 module load python
 module load biopython
 cd para/
+echo "Beginning python execution"
 python bin/upstreamlen.py
 echo "Job Finished at:"; date
