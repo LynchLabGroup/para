@@ -49,7 +49,7 @@ echo "Transforming CDS Fasta header"
 python bin/scripts/fastaheader.py $TARGET$FAMCDS.nt_ali.fasta "|" $TARGET$FAMCDS.fasta
 
 # Extract only matching CDSs and upstream sequences
-echo "Matchin CDSs with upstream seqs."
+echo "Matching CDSs with upstream seqs."
 python bin/scripts/extractmatch.py $TARGET$FAM.fasta $TARGET$FAMCDS.fasta $TARGET$FAMCDS.e.fasta
 
 # Convert CDS to phylip format
