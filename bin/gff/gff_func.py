@@ -246,14 +246,48 @@ def retrieve_up_len(gff_dic, fasta_dic, maxlen=100):
 		if "scaff" in k:
 			seq_id = k
 			for rec in gff_dic[k]:
-				name = rec.attributes["ID"]
-
-				gene,overlap = retrieve_up_single(name,seq_id,gff_dic,fasta_dic,maxlen,0)
+				genelen,overlap = retrieve_single_len(rec.start, rec.end, rec.strand, seq_id, gff_dic, fasta_dic, maxlen)
 
 				if overlap == 0:
 					i += 1
-					lengths.append(len(gene))
+					lengths.append(genelen)
 				if i % 1000 == 0:
 					print "Added {} entries.".format(i)
 
 	return lengths
+
+############################################
+
+def retrieve_single_len(start, end, strand, seqid, gff_dic, fasta_dic, maxlen):
+	"""
+	Return the length of a specific gene
+	"""
+	overlap = 0 #overlapping index
+
+	# Return gene sequence according to strand as well as number of overlapping genes
+	if strand == "+":
+		extract = start - maxlen # We don't want to include first base of gene
+		if extract <= 0:
+			extract = 1 #No negative bases !
+		for g in gff_dic[seqid]:
+			if g.end in xrange(extract,start): # g.end is the last position of gene in sequence, whatever its strand
+				extract = g.end + 1
+			elif g.start in xrange(extract,start):
+				print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
+				overlap += 1
+		seqlen = start - 1 - (extract -1)
+		return seqlen, overlap 
+	
+	elif strand == "-":
+		extract = end + maxlen
+		if extract >= len(fasta_dic[seqid]):
+			extract = len(fasta_dic[seqid])
+		for g in gff_dic[seqid]:
+			if g.start in xrange(end+1,extract+1):
+				extract = g.start
+			elif g.end in xrange(end+1,extract+1):
+				print "Detected overlapping element {}\ntype: {} start: {} end: {}".format(g,g.type,g.start,g.end)
+				overlap += 1
+		
+		seqlen = extract - end
+		return seqlen, overlap
