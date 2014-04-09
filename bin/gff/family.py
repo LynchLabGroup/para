@@ -165,7 +165,8 @@ def family_upstream(family_list, gff_rec_list, fasta_rec_list, min_fam_size, max
 	if len(fam_discard)>0:
 		print "Discard {} families.".format(len(fam_discard))
 		print "Writing discarded file."
-		#Write discarded file family name - number of overlaps
+		
+		#Write discarded families file.
 		with open(location+"discard.txt","w") as f:
 			for entry in fam_discard:
 				line = "\t".join(entry) + "\n"

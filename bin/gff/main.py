@@ -59,7 +59,7 @@ def main(min_fam_size=None, length=None, minlength=None, num=None, header=None,l
 	print "Done."
 
 	# extract upstream sequences
-	fam.family_upstream(fam_parser,gff_rec,fasta_rec, min_fam_size, length,minlength,location)
+	fam.family_upstream(fam_parser, gff_rec, fasta_rec, min_fam_size, length, minlength, location)
 
 
 
