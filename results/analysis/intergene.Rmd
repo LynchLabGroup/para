@@ -3,8 +3,8 @@ Analysis of intergenic region length
 
 Loading data:
 ```{r}
-setwd("../../")
-intergene = read.csv("results/upstream_lengths.csv",sep="\t")
+setwd("../")
+intergene = read.csv("upstream_lengths.csv",sep="\t")
 head(intergene)
 summary(intergene)
 ```
@@ -19,16 +19,17 @@ summary(neg)
 
 All negative values are from *P. tetraurelia*.
 
-New computation of intergenic distances
+New computation of intergenic distances using JF's scripts.
 ```{r}
-dist = read.csv("results/intergenic.csv", sep=" ", h=F)
+setwd("../")
+dist = read.csv("intergenic.csv", sep=" ", h=F)
 head(dist)
 colnames(dist)=c("gene", "length", "species")
 ```
 
 Showing intergenic regions:
 
-```{r fig.width=7, fig.height=7}
+```{r fig.width=9, fig.height=5}
 library(ggplot2)
 gg = ggplot(dist,aes(x=length,fill=species))
 p = gg + geom_histogram() + scale_x_log10() + facet_grid(.~species) + theme_bw() + labs(x="Length of intergenic region (nt)", y="Count", title=expression(paste("Intergenic regions in ", italic("Paramecium"))))
@@ -40,3 +41,4 @@ What value use? Try looking at various percentiles
 quantile(dist$length,c(.1,.05,.01,.001))
 ```
 
+We should select the 95th percentile

@@ -1,0 +1,29 @@
+Analysis of WGD2 families
+=========================
+
+Loading and general view of WGD2 families
+
+```{r}
+setwd("../")
+families = read.csv("family_WGD2_sizes.csv", sep="\t")
+head(families)
+summary(families)
+```
+
+What does the distribution looks like
+
+```{r fig.width=5, fig.height=5}
+library(ggplot2)
+source("multiplot.R")
+gg = ggplot(families,aes(x=size))
+p1 = gg + geom_histogram() + theme_bw() + labs(x="WGD2 family sizes (number of genes)", y="Count")
+p2 = gg + geom_density() + theme_bw() + labs(x="WGD2 family sizes (number of genes)", y="Count")
+multiplot(p1,p2)
+```
+
+What value use? Try looking at various percentiles
+```{r}
+sizes = families$size
+quantile(sizes,c(.25,.1,.05,.01,.001))
+```
+
