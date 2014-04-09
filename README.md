@@ -97,3 +97,7 @@ This program correct order in a multialigned file in MUSCLE. Not authored by me 
 ### upstreamlen.py ###
 
 This program load fasta and gff files and write a .csv file of the length of all upstream sequences in all given files.
+
+## results folder ##
+
+Contains data processed from raw data. `analysis` contains scripts and output files of analysis.
