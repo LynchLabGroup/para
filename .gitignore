@@ -4,4 +4,5 @@ results/translatorx/
 results/WGD*/
 bin/gff/BCBio
 *.DS_Store
+*.Rhistory
 *.pyc
