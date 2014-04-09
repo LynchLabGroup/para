@@ -15,7 +15,7 @@ CDSLOC="data/families/WGD2/CDS/nt/"
 
 # Fetch upstream sequences
 echo "Extracting upstream sequences..."
-python bin/gff/main.py -l 250 -ml 25 -f 7 -loc $LOCATION --head
+python bin/gff/main.py -l 250 -ml 15 -f 9 -mf 6 -loc $LOCATION --head
 echo "Done."
 
 # Fetch all CDSs

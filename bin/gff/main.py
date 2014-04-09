@@ -5,7 +5,7 @@ import argparse
 import parse_gff_v2 as pg
 import family as fam
 
-def main(length=None, minlength=None, num=None, header=None,location=None):
+def main(min_fam_size=None, length=None, minlength=None, num=None, header=None,location=None):
 	"""
 	Retrieve all upstream sequences according to a family file, gff files and sequences. Extract upstream sequences with at least minlength nt and max length nt, using family with at least num members. Header tells if the file has a header or not.
 	"""
@@ -21,6 +21,8 @@ def main(length=None, minlength=None, num=None, header=None,location=None):
 		num = 7
 	if location == None:
 		location = "data/families/WGD2/upstream/"
+	if min_fam_size == None:
+		min_fam_size = 4
 	
 	print "Parameters used: {} genes at least, retrieve {}nt max, {}nt min".format(num,length, minlength)	
 
@@ -57,13 +59,15 @@ def main(length=None, minlength=None, num=None, header=None,location=None):
 	print "Done."
 
 	# extract upstream sequences
-	fam.family_upstream(fam_parser,gff_rec,fasta_rec,length,minlength,location)
+	fam.family_upstream(fam_parser,gff_rec,fasta_rec, min_fam_size, length,minlength,location)
 
 
 
 if __name__ == "__main__":
 	
 	parser = argparse.ArgumentParser(description="Setup program to extract upstream sequences")
+
+	parser.add_argument("-mf", "--minfamsize", help="minimum family size after discarding less than minlen genes. (default: %(default)s)", type=int, default=4)
 
 	parser.add_argument("-l", "--length", help="maximum length of extracted upstream sequences. (default: %(default)s)", type=int, default=250)
 	parser.add_argument("-ml", "--minlen", help="minimum length of extracted upstream sequences. (default: %(default)s)", type=int, default=1)
@@ -73,4 +77,4 @@ if __name__ == "__main__":
 
 	args = parser.parse_args()
 
-	main(args.length,args.minlen,args.fam,args.head,args.location)
+	main(args.minfamsize,args.length,args.minlen,args.fam,args.head,args.location)

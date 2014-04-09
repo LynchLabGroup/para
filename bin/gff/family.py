@@ -138,10 +138,10 @@ def family_cds(family_list,gff_rec_list,fasta_rec_list,location,translate=None):
 		
 		gff_func.write_fasta(location+fam.name()+".fasta",genes)
 
-def family_upstream(family_list,gff_rec_list,fasta_rec_list,maxlength,minlength,location):
+def family_upstream(family_list, gff_rec_list, fasta_rec_list, min_fam_size, maxlength, minlength, location):
 	"""Take a list of families, with associated list of fasta_rec and gff_rec. And write upstream Fasta sequences of each family in precised location using length."""
 
-	fam_overlap = [] #list of family with overlap
+	fam_discard = [] #list of family with overlap
 	for fam in family_list:
 		up = []
 		over = []
@@ -153,17 +153,21 @@ def family_upstream(family_list,gff_rec_list,fasta_rec_list,maxlength,minlength,
 			
 			if len(overlap)>0:
 				over.append(overlap[0])
+		
+		# Write a file only if family has no overlap and is large enough
+		if len(over) == 0 and len(up) >= min_fam_size:
+			gff_func.write_fasta(location+fam.name()+".fasta",up)
 		if len(over) >0:
-			fam_overlap.append([fam.name(),str(len(over))])
+			fam_discard.append([fam.name(),str(len(over)),"overlap"])
+		elif len(up) < min_fam_size:
+			fam_discard.append([fam.name(),len(up),"size"])
 
-		gff_func.write_fasta(location+fam.name()+".fasta",up)
-
-	if len(fam_overlap)>0:
-		print "Found {} families with overlap.".format(len(fam_overlap))
-		print "Writing overlap file."
-		#Write overlap file family name - number of overlaps
-		with open(location+"overlap.txt","w") as f:
-			for entry in fam_overlap:
+	if len(fam_discard)>0:
+		print "Discard {} families.".format(len(fam_discard))
+		print "Writing discarded file."
+		#Write discarded file family name - number of overlaps
+		with open(location+"discard.txt","w") as f:
+			for entry in fam_discard:
 				line = "\t".join(entry) + "\n"
 				f.write(line)
 
