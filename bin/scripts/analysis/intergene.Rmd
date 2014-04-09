@@ -31,7 +31,7 @@ Showing intergenic regions:
 ```{r fig.width=7, fig.height=7}
 library(ggplot2)
 gg = ggplot(dist,aes(x=length,fill=species))
-p = gg + geom_histogram() + scale_x_log10() + facet_grid(.~species) + theme_bw() + labs(x="Length of intergenic region (nt)",y="Count",title="Intergenic regions in Paramecium")
+p = gg + geom_histogram() + scale_x_log10() + facet_grid(.~species) + theme_bw() + labs(x="Length of intergenic region (nt)", y="Count", title=expression(paste("Intergenic regions in ", italic("Paramecium"))))
 p
 ```
 
