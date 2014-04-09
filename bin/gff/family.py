@@ -160,7 +160,7 @@ def family_upstream(family_list, gff_rec_list, fasta_rec_list, min_fam_size, max
 		if len(over) >0:
 			fam_discard.append([fam.name(),str(len(over)),"overlap"])
 		elif len(up) < min_fam_size:
-			fam_discard.append([fam.name(),len(up),"size"])
+			fam_discard.append([fam.name(),str(len(up)),"size"])
 
 	if len(fam_discard)>0:
 		print "Discard {} families.".format(len(fam_discard))
