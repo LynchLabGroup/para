@@ -1,0 +1,42 @@
+Analysis of intergenic region length
+========================================================
+
+Loading data:
+```{r}
+setwd("../../")
+intergene = read.csv("results/upstream_lengths.csv",sep="\t")
+head(intergene)
+summary(intergene)
+```
+**Problem**: we have some negative values!
+
+How many? What species?
+
+```{r}
+neg = subset(intergene,length<0)
+summary(neg)
+```
+
+All negative values are from *P. tetraurelia*.
+
+New computation of intergenic distances
+```{r}
+dist = read.csv("results/intergenic.csv", sep=" ", h=F)
+head(dist)
+colnames(dist)=c("gene", "length", "species")
+```
+
+Showing intergenic regions:
+
+```{r fig.width=7, fig.height=7}
+library(ggplot2)
+gg = ggplot(dist,aes(x=length,fill=species))
+p = gg + geom_histogram() + scale_x_log10() + facet_grid(.~species) + theme_bw() + labs(x="Length of intergenic region (nt)", y="Count", title=expression(paste("Intergenic regions in ", italic("Paramecium"))))
+p
+```
+
+What value use? Try looking at various percentiles
+```{r}
+quantile(dist$length,c(.1,.05,.01,.001))
+```
+
