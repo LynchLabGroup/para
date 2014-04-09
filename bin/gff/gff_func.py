@@ -249,6 +249,7 @@ def retrieve_up_len(gff_dic, fasta_dic, maxlen=100):
 			e = 0
 			# compute each distance between genes assuming they are in order in the dictionary.
 			for i, rec in enumerate(gff_dic[k]):
+				add = True
 				if i == 0:
 					if rec.start != 1:
 						interlen = rec.start - 1
@@ -258,10 +259,15 @@ def retrieve_up_len(gff_dic, fasta_dic, maxlen=100):
 					interlen = rec.start - gff_dic[k][i-1].end
 				elif i == scaff_len:
 					interlen = len(fasta_dic[k]) - rec.end
+					if interlen == 0:
+						add = False
 				
 				e += 1
-				lengths.append(interlen)
-				names.append(rec.attributes["ID"])
+
+				# Genes at the end of scaffold won't be added
+				if add:
+					lengths.append(interlen)
+					names.append(rec.attributes["ID"])
 				
 				if e % 1000 == 0:
 					print "Added {} entries.".format(i)
