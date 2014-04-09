@@ -13,7 +13,7 @@ summary(intergene)
 How many? What species?
 
 ```{r}
-neg = subset(intergene,value<0)
+neg = subset(intergene,length<0)
 summary(neg)
 ```
 
