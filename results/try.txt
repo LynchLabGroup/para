@@ -1,9 +1,0 @@
-Launched:Tue, 04 Mar 2014 00:29:28 GMT Threshold used: 0.3 Size(over): 4
-
-
-motif1 Start: 53 Stop: 60 AvgPhylogeneticScore: 0.6625 Size: 8
-
-Citr_kose_1          cagcagca
-Ente_638_1           cagcagca
-Esch_coli_1          cagcagca
-Salm_typh_1          cagcagca
