@@ -149,8 +149,8 @@ def load_fasta(in_file):
         for record in SeqIO.parse(handle, "fasta") :
             fasta_dict[record.id] = record.seq
             i += 1
-            if i % 500 == 0:
-                print "{} entries...".format(i)
+            #if i % 500 == 0:
+            #    print "{} entries...".format(i)
     return fasta_dict
         
 
@@ -185,5 +185,20 @@ def load_gff(in_file, list_types):
             print "{} lines...".format(i)
     
     return gff_dict
+
+def loadGFFbySeqID(in_file, list_types):
+
+    GFFdict = dict()
+
+    for record in parseGFF3(in_file):
+        if len(list_types)==0 or record.type in list_types:
+            seqid = record.seqid
+            if seqid not in GFFdict.keys():
+                GFFdict[seqid] = list()
+
+            GFFdict[record.seqid].append(record)
+                
+            
+    return GFFdict
         
     
