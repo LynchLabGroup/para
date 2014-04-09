@@ -3,5 +3,5 @@ src/
 results/translatorx/
 results/WGD*/
 bin/gff/BCBio
-.DS_Store
+*.DS_Store
 *.pyc
