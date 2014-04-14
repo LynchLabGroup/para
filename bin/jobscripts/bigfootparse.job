@@ -1,0 +1,24 @@
+#!/bin/bash
+#PBS -k o
+#PBS -l nodes=1:ppn=4,vmem=16gb,walltime=01:00:00:00
+#PBS -M mgrenie@indiana.edu
+#PBS -m be
+#PBS -N NewBigFootParsing
+#PBS -j oe
+echo "Job Started at: "; date
+cd para/
+
+LOCATION="results"
+
+for FAM in `ls -d $LOCATION/WGD2ANC* | xargs -n1 basename`;
+do
+
+TARGET="results/$FAM/"
+
+# Parsing BigFoot ouput
+echo "Parsing BigFoot's ouput"
+python bin/bigfoot/setup.py -o $TARGET$FAM.motifs -s 7 $TARGET$FAM.fasta.mpd $TARGET$FAM.fasta.pred
+echo "Done."
+done
+
+echo "Job Finished at:"; date
