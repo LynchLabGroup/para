@@ -19,6 +19,6 @@ do
 	else
 		echo -e $NAME\t$LINE
 	fi
-done < $1
+done > $1
 
 echo "Done."
