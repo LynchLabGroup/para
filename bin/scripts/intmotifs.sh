@@ -9,8 +9,6 @@ do
 	awk '{if($11 != "" && $11 != 0.0) print $11}' $FAM/$FAM.motifs
 done)
 
-echo "$t" | head
-
 echo "Writing file $1..."
 for LINE in temp;
 do
@@ -19,6 +17,6 @@ do
 	else
 		echo -e $NAME\t$LINE
 	fi
-done > $1
+done
 
 echo "Done."
