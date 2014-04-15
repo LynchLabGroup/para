@@ -7,4 +7,6 @@ for FAM in `ls WGD2ANC0*/*motifs | xargs wc -l | awk '{sub(/.WGD2ANC[0-9]*.motif
 do
 	echo $FAM
 	awk '{if($11 != "" && $11 != 0.0) print $11}' $FAM/$FAM.motifs
-done > $1
+done < t
+
+echo $t
