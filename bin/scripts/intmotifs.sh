@@ -9,15 +9,16 @@ do
 	awk '{if($11 != "" && $11 != 0.0) print $11}' $FAM/$FAM.motifs
 done)
 
+echo "$temp" | head
+
 echo "Writing file $1..."
-for LINE in temp;
-do
-	echo $LINE
+while read -r LINE
+do	
 	if [[ $LINE == *WGD* ]]; then
-		NAME=$LINE
+		NAME="$LINE"
 	else
-		echo -e $NAME\t$LINE
+		echo -e $NAME"\t"$LINE
 	fi
-done
+done <<< "$temp" > $1
 
 echo "Done."
