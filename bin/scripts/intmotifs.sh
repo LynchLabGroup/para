@@ -12,6 +12,7 @@ done)
 echo "Writing file $1..."
 for LINE in temp;
 do
+	echo $LINE
 	if [[ $LINE == *WGD* ]]; then
 		NAME=$LINE
 	else
