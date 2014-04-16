@@ -13,7 +13,7 @@ echo "$temp" | head
 OIFS="$IFS"
 i=0
 echo "Writing file $1..."
-while IFS=\t read -r LINE
+while read -r LINE
 do	
 	if [ $i == 0 ]
 	then
