@@ -106,3 +106,11 @@ This program load fasta and gff files and write a .csv file of the length of all
 ## results folder ##
 
 Contains data processed from raw data. `analysis` contains scripts and output files of analysis.
+
+### analysis folder ###
+
+Contains several scripts to study various subjects:
+
++ **familysize** contains scripts to study family sizes and according results
++ **intergene** contains intergenic distance computation
++ **motifs sizes** contains everything to compute sizes of motifs and family
