@@ -10,7 +10,7 @@ do
 done)
 
 echo "$temp" | head
-
+OIFS="$IFS"
 i=0
 echo "Writing file $1..."
 while read -r LINE
@@ -23,8 +23,9 @@ do
 	if [[ $LINE == *WGD* ]]; then
 		NAME="$LINE"
 	else
-		echo -e $NAME"\t"$LINE
+		IFS=" " read -ra a <<< $LINE
+		echo -e $NAME"\t"${a[0]}"\t"${a[1]}
 	fi
 done <<< "$temp" > $1
-
+IFS=$OIFS
 echo "Done."
