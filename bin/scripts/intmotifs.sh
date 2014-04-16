@@ -13,9 +13,9 @@ echo "$temp" | head
 OIFS="$IFS"
 i=0
 echo "Writing file $1..."
-while read -r LINE
+while IFS=\t read -r LINE
 do	
-	if [ $i == 0]
+	if [ $i == 0 ]
 	then
 		i=1
 		echo -e "family\tdistance\tsize"
