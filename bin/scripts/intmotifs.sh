@@ -25,8 +25,9 @@ do
 		NAME="$LINE"
 	else
 		IFS=" " read -ra a <<< $LINE
-		echo -e $NAME"\t"${a[0]}"\t"${a[1]}
+		echo "LINE: $LINE"
+		echo -e $NAME"\t"${a[0]}"\t"${a[1]} | awk '{print $1,$2,$3}'
 	fi
-done <<< "$temp" > $1
+done <<< "$temp" #> $1
 IFS=$OIFS
 echo "Done."
