@@ -1,0 +1,39 @@
+Motifs found
+========================================================
+
+Simple code to see what motifs were found.
+
+```{r}
+motifs = read.csv("../motifsfilesformatted.txt", sep="\t", h=F)
+head(motifs)
+colnames(motifs) = c("family","motif.size")
+head(motifs)
+```
+
+How many motifs are there? What distribution? What families are represented?
+
+```{r}
+library(ggplot2)
+library(scales)
+g = ggplot(motifs,aes(x=motif.size))
+g + geom_histogram(aes(y=..density..), fill="darkgreen") + geom_density() + labs(x="Motif Size", y = "Density") + scale_y_continuous(labels = percent)
+g + geom_histogram(fill="darkblue") + labs(x="Motif Size", y = "Counts")
+```
+
+```{r}
+library(reshape)
+cast(motifs, formula=~family, fun.aggregate= mean)
+quantile(motifs$motif.size,c(.05,.1,.25,.50,.75,.9,.95))
+summary(motifs)
+
+# Show the two families with maximum occurrences
+
+motifs[motifs$family=="WGD2ANC04473",]
+motifs[motifs$family=="WGD2ANC00182",]
+
+
+# Show maximum and minimum
+motifs[motifs$motif.size==max(motifs$motif.size),]
+motifs[motifs$motif.size==min(motifs$motif.size),]
+```
+
