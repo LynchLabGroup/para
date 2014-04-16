@@ -19,6 +19,7 @@ do
 	then
 		i=1
 		echo -e "family\tdistance\tsize"
+	fi
 
 	if [[ $LINE == *WGD* ]]; then
 		NAME="$LINE"
