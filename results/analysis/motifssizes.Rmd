@@ -19,6 +19,7 @@ g + geom_histogram(fill="darkblue") + labs(x="Motif Size", y = "Counts")
 ```
 
 ```{r}
+library(reshape)
 cast(motifs, formula=~family, fun.aggregate= mean)
 quantile(motifs$size,c(.05,.1,.25,.50,.75,.9,.95))
 summary(motifs)
@@ -43,12 +44,14 @@ g + geom_histogram(aes(y=..density..), fill="darkblue") + geom_density() + labs(
 overdist = subset(motifs,motifs$distance>250)
 overdist
 ```
-
-Only three 
+Distance > 250 because of alignment. -> Counts "-" as 1 base.
 Correlation between distance and sizes?
 
 ```{r}
-g = ggplot(motifs,aes(x=size,y=distance))
+g = ggplot(motifs,aes(x=size, y=distance)) + labs(x="Motif Size", y="Distance from TSS")
 g + geom_point() + geom_density2d() 
 g + geom_density2d()
+l = lm(distance~size, motifs)
+summary(l)
+g + geom_point() + coord_polar()
 ```

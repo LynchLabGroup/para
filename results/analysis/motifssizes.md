@@ -5,33 +5,18 @@ Simple code to see what motifs were found.
 
 
 ```r
-motifs = read.csv("../motifsfilesformatted.txt", sep = "\t", h = F)
+motifs = read.csv("../motifsfilesformatted.txt", sep = "\t", h = T)
 head(motifs)
 ```
 
 ```
-##             V1 V2
-## 1 WGD2ANC00031 19
-## 2 WGD2ANC00031 16
-## 3 WGD2ANC00182 21
-## 4 WGD2ANC00182 10
-## 5 WGD2ANC00182 11
-## 6 WGD2ANC00182  9
-```
-
-```r
-colnames(motifs) = c("family", "motif.size")
-head(motifs)
-```
-
-```
-##         family motif.size
-## 1 WGD2ANC00031         19
-## 2 WGD2ANC00031         16
-## 3 WGD2ANC00182         21
-## 4 WGD2ANC00182         10
-## 5 WGD2ANC00182         11
-## 6 WGD2ANC00182          9
+##         family distance size
+## 1 WGD2ANC00031       69   19
+## 2 WGD2ANC00031      275   16
+## 3 WGD2ANC00182       36   21
+## 4 WGD2ANC00182       73   10
+## 5 WGD2ANC00182      102   11
+## 6 WGD2ANC00182      114    9
 ```
 
 
@@ -41,7 +26,7 @@ How many motifs are there? What distribution? What families are represented?
 ```r
 library(ggplot2)
 library(scales)
-g = ggplot(motifs, aes(x = motif.size))
+g = ggplot(motifs, aes(x = size))
 g + geom_histogram(aes(y = ..density..), fill = "darkgreen") + geom_density() + 
     labs(x = "Motif Size", y = "Density") + scale_y_continuous(labels = percent)
 ```
@@ -90,7 +75,7 @@ cast(motifs, formula = ~family, fun.aggregate = mean)
 ```
 
 ```
-## Using motif.size as value column.  Use the value argument to cast to override this choice
+## Using size as value column.  Use the value argument to cast to override this choice
 ```
 
 ```
@@ -141,7 +126,7 @@ cast(motifs, formula = ~family, fun.aggregate = mean)
 ```
 
 ```r
-quantile(motifs$motif.size, c(0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95))
+quantile(motifs$size, c(0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95))
 ```
 
 ```
@@ -154,13 +139,13 @@ summary(motifs)
 ```
 
 ```
-##           family      motif.size  
-##  WGD2ANC04473:  5   Min.   : 7.0  
-##  WGD2ANC00182:  4   1st Qu.: 8.0  
-##  WGD2ANC03088:  3   Median :10.0  
-##  WGD2ANC00031:  2   Mean   :12.2  
-##  WGD2ANC00505:  2   3rd Qu.:14.5  
-##  WGD2ANC01294:  2   Max.   :46.0  
+##           family       distance          size     
+##  WGD2ANC04473:  5   Min.   :  2.0   Min.   : 7.0  
+##  WGD2ANC00182:  4   1st Qu.: 18.5   1st Qu.: 8.0  
+##  WGD2ANC03088:  3   Median : 44.0   Median :10.0  
+##  WGD2ANC00031:  2   Mean   : 71.2   Mean   :12.2  
+##  WGD2ANC00505:  2   3rd Qu.: 82.5   3rd Qu.:14.5  
+##  WGD2ANC01294:  2   Max.   :498.0   Max.   :46.0  
 ##  (Other)     :113
 ```
 
@@ -172,12 +157,12 @@ motifs[motifs$family == "WGD2ANC04473", ]
 ```
 
 ```
-##           family motif.size
-## 96  WGD2ANC04473         22
-## 97  WGD2ANC04473          8
-## 98  WGD2ANC04473         13
-## 99  WGD2ANC04473         25
-## 100 WGD2ANC04473          7
+##           family distance size
+## 96  WGD2ANC04473       24   22
+## 97  WGD2ANC04473       65    8
+## 98  WGD2ANC04473       81   13
+## 99  WGD2ANC04473       98   25
+## 100 WGD2ANC04473      125    7
 ```
 
 ```r
@@ -185,56 +170,146 @@ motifs[motifs$family == "WGD2ANC00182", ]
 ```
 
 ```
-##         family motif.size
-## 3 WGD2ANC00182         21
-## 4 WGD2ANC00182         10
-## 5 WGD2ANC00182         11
-## 6 WGD2ANC00182          9
+##         family distance size
+## 3 WGD2ANC00182       36   21
+## 4 WGD2ANC00182       73   10
+## 5 WGD2ANC00182      102   11
+## 6 WGD2ANC00182      114    9
 ```
 
 ```r
 
 
 # Show maximum and minimum
-motifs[motifs$motif.size == max(motifs$motif.size), ]
+motifs[motifs$size == max(motifs$size), ]
 ```
 
 ```
-##          family motif.size
-## 52 WGD2ANC02383         46
+##          family distance size
+## 52 WGD2ANC02383       18   46
 ```
 
 ```r
-motifs[motifs$motif.size == min(motifs$motif.size), ]
+motifs[motifs$size == min(motifs$size), ]
 ```
 
 ```
-##           family motif.size
-## 8   WGD2ANC00387          7
-## 15  WGD2ANC00581          7
-## 21  WGD2ANC00907          7
-## 38  WGD2ANC01669          7
-## 41  WGD2ANC01792          7
-## 44  WGD2ANC01925          7
-## 56  WGD2ANC02555          7
-## 64  WGD2ANC03003          7
-## 68  WGD2ANC03088          7
-## 74  WGD2ANC03145          7
-## 75  WGD2ANC03316          7
-## 82  WGD2ANC03636          7
-## 85  WGD2ANC03690          7
-## 87  WGD2ANC03699          7
-## 88  WGD2ANC03869          7
-## 90  WGD2ANC04128          7
-## 100 WGD2ANC04473          7
-## 101 WGD2ANC04677          7
-## 106 WGD2ANC04946          7
-## 108 WGD2ANC05162          7
-## 113 WGD2ANC05283          7
-## 116 WGD2ANC05446          7
-## 118 WGD2ANC05453          7
-## 129 WGD2ANC05718          7
-## 130 WGD2ANC05721          7
+##           family distance size
+## 8   WGD2ANC00387      227    7
+## 15  WGD2ANC00581       92    7
+## 21  WGD2ANC00907       40    7
+## 38  WGD2ANC01669      448    7
+## 41  WGD2ANC01792       27    7
+## 44  WGD2ANC01925      246    7
+## 56  WGD2ANC02555       76    7
+## 64  WGD2ANC03003       47    7
+## 68  WGD2ANC03088        9    7
+## 74  WGD2ANC03145       34    7
+## 75  WGD2ANC03316       12    7
+## 82  WGD2ANC03636       44    7
+## 85  WGD2ANC03690      337    7
+## 87  WGD2ANC03699       32    7
+## 88  WGD2ANC03869      112    7
+## 90  WGD2ANC04128      251    7
+## 100 WGD2ANC04473      125    7
+## 101 WGD2ANC04677       57    7
+## 106 WGD2ANC04946       20    7
+## 108 WGD2ANC05162       19    7
+## 113 WGD2ANC05283       10    7
+## 116 WGD2ANC05446       43    7
+## 118 WGD2ANC05453       14    7
+## 129 WGD2ANC05718      149    7
+## 130 WGD2ANC05721       81    7
 ```
 
+
+What about the distribution of distance?
+
+
+```r
+g = ggplot(motifs, aes(x = distance))
+g + geom_histogram(fill = "darkblue")
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-41.png) 
+
+```r
+g + geom_histogram(aes(y = ..density..), fill = "darkblue") + geom_density() + 
+    labs(x = "Distance", y = "Density") + scale_y_continuous(labels = percent)
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-42.png) 
+
+```r
+overdist = subset(motifs, motifs$distance > 250)
+overdist
+```
+
+```
+##           family distance size
+## 2   WGD2ANC00031      275   16
+## 30  WGD2ANC01412      266    8
+## 37  WGD2ANC01595      498   14
+## 38  WGD2ANC01669      448    7
+## 85  WGD2ANC03690      337    7
+## 90  WGD2ANC04128      251    7
+## 128 WGD2ANC05674      251   11
+```
+
+Distance > 250 because of alignment. -> Counts "-" as 1 base.
+Correlation between distance and sizes?
+
+
+```r
+g = ggplot(motifs, aes(x = size, y = distance)) + labs(x = "Motif Size", y = "Distance from TSS")
+g + geom_point() + geom_density2d()
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-51.png) 
+
+```r
+g + geom_density2d()
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-52.png) 
+
+```r
+l = lm(distance ~ size, motifs)
+summary(l)
+```
+
+```
+## 
+## Call:
+## lm(formula = distance ~ size, data = motifs)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##  -79.5  -47.9  -24.1   20.2  431.4 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   101.44      15.56    6.52  1.4e-09 ***
+## size           -2.49       1.13   -2.20     0.03 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 82.5 on 129 degrees of freedom
+## Multiple R-squared:  0.0361,	Adjusted R-squared:  0.0286 
+## F-statistic: 4.83 on 1 and 129 DF,  p-value: 0.0298
+```
+
+```r
+g + geom_point() + coord_polar()
+```
+
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-53.png) 
 
