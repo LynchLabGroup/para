@@ -4,9 +4,7 @@ Motifs found
 Simple code to see what motifs were found.
 
 ```{r}
-motifs = read.csv("../motifsfilesformatted.txt", sep="\t", h=F)
-head(motifs)
-colnames(motifs) = c("family","motif.size")
+motifs = read.csv("../motifsfilesformatted.txt", sep="\t", h=T)
 head(motifs)
 ```
 
@@ -15,15 +13,14 @@ How many motifs are there? What distribution? What families are represented?
 ```{r}
 library(ggplot2)
 library(scales)
-g = ggplot(motifs,aes(x=motif.size))
+g = ggplot(motifs,aes(x=size))
 g + geom_histogram(aes(y=..density..), fill="darkgreen") + geom_density() + labs(x="Motif Size", y = "Density") + scale_y_continuous(labels = percent)
 g + geom_histogram(fill="darkblue") + labs(x="Motif Size", y = "Counts")
 ```
 
 ```{r}
-library(reshape)
 cast(motifs, formula=~family, fun.aggregate= mean)
-quantile(motifs$motif.size,c(.05,.1,.25,.50,.75,.9,.95))
+quantile(motifs$size,c(.05,.1,.25,.50,.75,.9,.95))
 summary(motifs)
 
 # Show the two families with maximum occurrences
@@ -33,7 +30,25 @@ motifs[motifs$family=="WGD2ANC00182",]
 
 
 # Show maximum and minimum
-motifs[motifs$motif.size==max(motifs$motif.size),]
-motifs[motifs$motif.size==min(motifs$motif.size),]
+motifs[motifs$size==max(motifs$size),]
+motifs[motifs$size==min(motifs$size),]
 ```
 
+What about the distribution of distance?
+
+```{r}
+g = ggplot(motifs,aes(x=distance))
+g + geom_histogram(fill="darkblue")
+g + geom_histogram(aes(y=..density..), fill="darkblue") + geom_density() + labs(x="Distance", y = "Density") + scale_y_continuous(labels = percent)
+overdist = subset(motifs,motifs$distance>250)
+overdist
+```
+
+Only three 
+Correlation between distance and sizes?
+
+```{r}
+g = ggplot(motifs,aes(x=size,y=distance))
+g + geom_point() + geom_density2d() 
+g + geom_density2d()
+```
