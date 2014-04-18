@@ -14,7 +14,7 @@ class SeqParser(object):
 
 	def __init__(self,seqfile,predfile):
 		"""
-		seqfile - BigFoot's StatAlign ouput file
+		seqfile - BigFoot's StatAlign ouput file '.mpd'
 		predfile - BigFoot's '.pred' file of phylogenetic prediction
 		"""
 

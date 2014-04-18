@@ -53,7 +53,8 @@ class WeightSeq(object):
 		"""
 		Returns a slice of object's sequence with "natural" numbers.
 
-		>>>'ATTTGC'[2:6]
+		>>>s = WeightSeq("TESTSEQ\tATTTGC")
+		>>>s[2:6]
 		'TTTG'
 		"""
 
@@ -63,6 +64,9 @@ class WeightSeq(object):
 	def name(self):
 		"""
 		Returns name of sequence
+		>>>s = WeightSeq("TESTSEQ\tATTTGC")
+		>>>s.name
+		"TESTSEQ"
 		"""
 		return self._name
 
@@ -89,7 +93,7 @@ class WeightSeq(object):
 			j = 0
 			for i,line in enumerate(f.readlines()):
 				try:
-					align = float(line)
+					float(line)
 				except ValueError:
 					j += 1 #count number of lines without number
 			f.seek(0) #rewinds the file
@@ -127,7 +131,7 @@ class WeightSeq(object):
 				wide = []#simple
 
 				# Loop to identify motifs
-				while w>thre and a>align: #if the position appears to have a weight higher than threshold
+				while w>thre and a>align: #if the position have weight and align scores over thresholds
 					if t==0:
 						wide.append(pos+1) #add the starting position (in term of real position in the sequence)
 					t += 1
