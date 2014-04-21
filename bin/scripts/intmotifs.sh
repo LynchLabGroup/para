@@ -6,7 +6,7 @@
 temp=$(for FAM in `ls WGD2ANC0*/*motifs | xargs wc -l | awk '{sub(/.WGD2ANC[0-9]*.motifs/,"")}1 && !/total/' | awk '{if($1 > 2) print $2}'`;
 do
 	echo $FAM
-	awk '{if($11 != "" && $11 != 0.0) print $3"\t"$11}' $FAM/$FAM.motifs
+	awk '{if($11 != "" && $11 != 0.0) print $3"\t"$11"\t"$7"\t"$9}' $FAM/$FAM.motifs
 done)
 
 echo "$temp" | head
@@ -18,7 +18,7 @@ do
 	if [ $i == 0 ]
 	then
 		i=1
-		echo -e "family\tdistance\tsize"
+		echo -e "family\tdistance\tsize\tphyloscore\talignscore"
 	fi
 
 	if [[ $LINE == *WGD* ]]; then
