@@ -79,6 +79,13 @@ Folder containing all little scripts to automate certain tasks:
 + **mvoverlap.sh** move families described in overlap file
 + **order.sh** recreate sequences file from multialignment to conserve original family order
 + **profiling.py** profile a given program and outputs its profile in a script
++ **swaporder.py** swap sequence order in fasta file
+
+   Usage:
+   ```shell
+   python swaporder.py input_fasta output_fasta
+   ```
+   
 + **tidyup.sh** tidyup directory after use of translatorx
 + **translatorx.sh** use translatorx on a given set of files in a directory
 + **translatorx_vLocal.pl** [TranslatorX](http://translatorx.co.uk/) local version for protein-guided DNA alignment
