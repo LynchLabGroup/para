@@ -25,7 +25,7 @@ do
 		NAME="$LINE"
 	else
 		a=( $LINE ) #Split lines into array
-		echo -e $NAME"\t"${a[0]}"\t"${a[1]}
+		echo -e $NAME"\t"${a[0]}"\t"${a[1]}"\t"${a[2]}"\t"${a[3]}
 	fi
 done <<< "$temp" > $1
 IFS=$OIFS
