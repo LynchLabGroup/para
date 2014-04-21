@@ -4,7 +4,7 @@ Motifs found
 Simple code to see what motifs were found.
 
 ```{r}
-motifs = read.csv("../motifsfilesformatted.txt", sep="\t", h=T)
+motifs = read.csv("../motifsscores.txt", sep="\t", h=T)
 head(motifs)
 ```
 
@@ -54,4 +54,31 @@ g + geom_density2d()
 l = lm(distance~size, motifs)
 summary(l)
 g + geom_point() + coord_polar()
+```
+
+Scores distribution?
+
+```{r}
+g = ggplot(motifs,aes(x=phyloscore, fill="darkred")) 
+g + geom_histogram() + labs(x="Phylogenetic Score") + scale_y_continuous()
+hist(motifs$phyloscore)
+quantile(motifs$phyloscore,c(.05, .1, .25, .5, .75, .9, .95, .99))
+g = ggplot(motifs,aes(x=alignscore)) + labs(x="Alignment Score")
+g + geom_histogram(aes(y=..density.., fill="darkred")) + geom_density() 
+hist(motifs$alignscore)
+quantile(motifs$alignscore,c(.01, .05, .1, .25, .5, .75, .9, .95, .99))
+```
+Relation between Alignment and Phylogenetic score?
+```{r}
+g = ggplot(motifs, aes(x=phyloscore,y=alignscore))
+g + geom_point()
+phyali = lm(phyloscore~alignscore,motifs)
+summary(phyali)
+```
+
+Seems to have positive correlation between alignment and phylogenetic scores.
+
+```{r}
+gen = lm(distance~size+phyloscore+alignscore, motifs)
+summary(gen)
 ```
