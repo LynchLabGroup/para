@@ -12,7 +12,9 @@ def load_fasta(input_file):
 	"""
 	assert input_file.endswith(".fasta") or input_file.endswith(".fa")
 	with open(input_file, "r") as f:
-		fasta_list = [SeqIO.parse(f, "fasta")]
+		fasta_list = []
+		for rec in SeqIO.parse(f, "fasta"):
+			fasta_list.append(rec)
 
 	return fasta_list
 
@@ -21,7 +23,9 @@ def randomize_list(input_list):
 	Return a randomized list from input_list.
 	"""
 	import random
-	return random.shuffle(input_list)
+	copy = list(input_list)
+	random.shuffle(copy)
+	return copy
 
 def write_fasta(input_list, output_file):
 	"""
@@ -34,7 +38,6 @@ def main(input_file, output_file):
 	"""
 	Main program
 	"""
-
 	print "Loading file {}...".format(input_file)
 	in_list = load_fasta(input_file)
 	print "Loaded!"
