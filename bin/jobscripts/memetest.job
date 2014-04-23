@@ -14,7 +14,7 @@ LOCATION="data/families/WGD2/upstream/"
 CDSLOC="data/families/WGD2/CDS/nt/"
 
 
-for FAM in `ls $LOCATION/WGD2ANC00208* | xargs -n1 basename | cut -d. -f 1`;
+for FAM in `ls $LOCATIONWGD2ANC00208* | xargs -n1 basename | cut -d. -f 1`;
 do
 
 CDS="CDS"
