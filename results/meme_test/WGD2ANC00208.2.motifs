@@ -1,0 +1,22 @@
+Launched:Wed, 23 Apr 2014 17:19:41 GMT Threshold used: 0.3 AlignThreshold: 0.0 Size(over): 7
+
+
+motif1 Start: 453 Stop: 464 AvgPhylogeneticScore: 0.916666666667 AvgAlignScore: 1.0 Size: 12
+
+PBIGNG2345           AATTCGTTTTTA
+PBIGNG3189           AATTCGTTTTTA
+PCAUDG0066           AATTCGTTTTTA
+PSEXGNG025           AATTCGTTTTTA
+PSEXGNG168           AATTCGTTTTTA
+PTETEGNG28           AATTCGTTTTTA
+PTETEGNG31           AATTCGTTTTTA
+
+motif2 Start: 467 Stop: 473 AvgPhylogeneticScore: 0.857142857143 AvgAlignScore: 1.0 Size: 7
+
+PBIGNG2345           ATATATA
+PBIGNG3189           ATATATA
+PCAUDG0066           ATTATAA
+PSEXGNG025           ATATATA
+PSEXGNG168           ATATATA
+PTETEGNG28           ATATATA
+PTETEGNG31           ATTTATA

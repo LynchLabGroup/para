@@ -13,7 +13,6 @@ LOCATION="data/families/WGD2/upstream/"
 
 CDSLOC="data/families/WGD2/CDS/nt/"
 
-
 for FAM in `ls results/meme_test/WGD2ANC002* | xargs -n1 basename | cut -d. -f 1`;
 do
 
