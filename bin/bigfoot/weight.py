@@ -124,6 +124,8 @@ class WeightSeq(object):
 				nt = self._w[pos][0] #base
 				w = self._w[pos][1] #phylogenetic score
 				a = self._w[pos][2] #alignment score
+
+				realpos = 0 # real position in sequence (not including "-" chars)
 				
 				t = 0 #counter of successive bases
 				score = 0.0 #variable to calculate average phylogenetic score
@@ -134,9 +136,12 @@ class WeightSeq(object):
 				while w>thre and a>align: #if the position have weight and align scores over thresholds
 					if t==0:
 						wide.append(pos+1) #add the starting position (in term of real position in the sequence)
+						realstart = realpos
 					t += 1
 					pos += 1
 					nt = self._w[pos][0] #base
+					if nt != "-":
+						realpos +=1
 					w = self._w[pos][1] #phylogenetic score
 					a = self._w[pos][2] #alignment score
 					score += w
@@ -151,7 +156,10 @@ class WeightSeq(object):
 					alavg = al/t
 					wide.append(avg) #add average score
 					wide.append(alavg) #add alignment score
+					wide.append(realstart) # add real position start
 					known.append(wide)
+				if nt != "-":
+					realpos +=1
 				pos += 1
 
 			#extract the motifs sequences using start and end position and insert them in the returned list
