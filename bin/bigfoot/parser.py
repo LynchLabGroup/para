@@ -89,6 +89,7 @@ class SeqParser(object):
 
 			for s in seqs:
 				mot[name][s.name()] = s[k[1]:k[2]] #extract motif from each sequence
+				mot[name][s.name()+"start"] = s.get_real_pos(k[1])
 
 		mot["threshold"] = thre # general threshold used
 		mot["size"] = size # size used to detect motifs
@@ -125,7 +126,7 @@ class SeqParser(object):
 					# print sequences
 					for s in sub:
 						if s != "start" and s != "stop" and s != "score" and s != "size" and s != "align":
-							print >> o, "{0:20} {1:20} {2}".format(s,smk[s].get_real_pos(smk["start"]),smk[s].upper())
+							print >> o, "{0:20} {1:20} {2}".format(s,smk[s+"start"]),smk[s].upper())
 
 							
 
