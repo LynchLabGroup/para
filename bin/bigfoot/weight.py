@@ -116,6 +116,7 @@ class WeightSeq(object):
 			return "You first have to weight the sequence using prediction scores !"
 		else:
 			pos = 0 #position marker
+			realpos = 1 # real position makrer in sequence (not including "-" chars)
 			known = [] #list of lists position where weight is higher than threshold [start, end, avg score]
 			
 			#this loop forces to go through the entire sequence
@@ -125,7 +126,7 @@ class WeightSeq(object):
 				w = self._w[pos][1] #phylogenetic score
 				a = self._w[pos][2] #alignment score
 
-				realpos = 0 # real position in sequence (not including "-" chars)
+				
 				
 				t = 0 #counter of successive bases
 				score = 0.0 #variable to calculate average phylogenetic score
@@ -170,6 +171,15 @@ class WeightSeq(object):
 					sub = self[e[0]:e[1]+1].upper() #extract the sequence of interest
 				e.insert(0,sub) #insert in the first position the extracted sequence
 			return known
+
+	def get_real_pos(pos):
+		"""
+		Returns the realposition of sequence deleting "-" chars.
+		"""
+
+		s = self._seq[:pos+1]
+		s.translate(None,"-")
+		return len(s)
 
 
 

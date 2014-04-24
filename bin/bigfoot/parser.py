@@ -79,11 +79,12 @@ class SeqParser(object):
 			name = "motif"+str(i+1) #enumerate motifs
 
 			mot[name] = {}
-
-			mot[name]["start"] = k[1] #start position of motif
-			mot[name]["stop"] = k[2] #end position of motif
-			mot[name]["score"] = k[3] # average score
 			mot[name]["size"]  = k[2] - k[1] + 1 #compute the size of the motif
+			
+			mot[name]["start"] = k[5] #start position of motif
+			mot[name]["stop"] = k[5]+mot[name]["size"] #end position of motif
+			mot[name]["score"] = k[3] # average score
+			
 			mot[name]["align"] = k[4] # average alignment score of sequence
 
 			for s in seqs:
@@ -124,7 +125,7 @@ class SeqParser(object):
 					# print sequences
 					for s in sub:
 						if s != "start" and s != "stop" and s != "score" and s != "size" and s != "align":
-							print >> o, "{0:20} {1}".format(s,smk[s].upper())
+							print >> o, "{0:20} {1:20} {2}".format(s,smk[s].get_real_pos(smk["start"]),smk[s].upper())
 
 							
 
