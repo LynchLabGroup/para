@@ -9,18 +9,12 @@ echo "Job Started at: "; date
 module load java/1.7.0_25
 cd para/
 
-LOCATION="data/families/WGD2/upstream/"
-
-CDSLOC="data/families/WGD2/CDS/nt/"
-
-
-for FAM in `ls $LOCATION/WGD2ANC* | xargs -n1 basename | cut -d. -f 1`;
+for FAM in `ls results/WGD2ANC*/*[0-9].fasta | xargs -n1 basename | cut -d. -f 1`;
 do
 
 CDS="CDS"
 FAMCDS=$FAM$CDS
 TARGET="results/$FAM/"
-mkdir results/$FAM
 
 # Parsing BigFoot ouput
 echo "Parsing BigFoot's ouput"
