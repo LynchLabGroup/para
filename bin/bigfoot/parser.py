@@ -129,7 +129,7 @@ class SeqParser(object):
 					# print sequences
 					for s in sub:
 						if s != "start" and s != "stop" and s != "score" and s != "size" and s != "align":
-							print >> o, "{0:20} {1:20} {2}".format(s,smk[s]["start"],smk[s]["seq"].upper())
+							print >> o, "{0:20}\t{1:20}\t{2}".format(s,smk[s]["start"],smk[s]["seq"].upper())
 
 							
 
