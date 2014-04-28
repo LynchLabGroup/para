@@ -15,7 +15,11 @@ do
 CDS="CDS"
 FAMCDS=$FAM$CDS
 TARGET="results/$FAM/"
-
+echo $FAM
+# Detect motifs
+echo "Detecting motifs"
+java -jar ../BigFoot/BigFoot.jar -t $TARGET$FAM.newick -p=1000,20000,1000 $TARGET$FAM.fasta
+echo "Done."
 # Parsing BigFoot ouput
 echo "Parsing BigFoot's ouput"
 python bin/bigfoot/setup.py -o $TARGET$FAM.motifs $TARGET$FAM.fasta.mpd $TARGET$FAM.fasta.pred -s 4 -t 0.9 -a 0.8
