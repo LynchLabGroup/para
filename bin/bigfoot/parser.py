@@ -81,15 +81,18 @@ class SeqParser(object):
 			mot[name] = {}
 			mot[name]["size"]  = k[2] - k[1] + 1 #compute the size of the motif
 			
-			mot[name]["start"] = k[5] #start position of motif
+			mot[name]["start"] = k[5] + 1 #start position of motif real position
 			mot[name]["stop"] = k[5]+mot[name]["size"] #end position of motif
-			mot[name]["score"] = k[3] # average score
+			mot[name]["score"] = k[3] # average score real position
 			
 			mot[name]["align"] = k[4] # average alignment score of sequence
 
-			for s in seqs:
-				mot[name][s.name()] = s[k[1]:k[2]] #extract motif from each sequence
-				mot[name][s.name()+"start"] = s.get_real_pos(k[1])
+			for j,s in enumerate(seqs):
+				mot[name][s.name()] = {} 
+				mot[name][s.name()]["seq"] = s[k[1]:k[2]] #extract motif from each sequence
+				mot[name][s.name()]["start"] = s.get_real_pos(k[1])
+				if j == 0:
+					mot[name]["start"] = mot[name][s.name()]["start"] #start position of motif real position
 
 		mot["threshold"] = thre # general threshold used
 		mot["size"] = size # size used to detect motifs
@@ -126,7 +129,7 @@ class SeqParser(object):
 					# print sequences
 					for s in sub:
 						if s != "start" and s != "stop" and s != "score" and s != "size" and s != "align":
-							print >> o, "{0:20} {1:20} {2}".format(s,smk[s+"start"]),smk[s].upper())
+							print >> o, "{0:20} {1:20} {2}".format(s,smk[s]["start"],smk[s]["seq"].upper())
 
 							
 

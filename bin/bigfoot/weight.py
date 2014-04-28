@@ -61,6 +61,10 @@ class WeightSeq(object):
 		extract = self._seq[beg-1:end]
 		return extract
 
+	def rawseq(self):
+
+		return self._seq.translate(None, "-").upper()
+
 	def name(self):
 		"""
 		Returns name of sequence
@@ -172,14 +176,13 @@ class WeightSeq(object):
 				e.insert(0,sub) #insert in the first position the extracted sequence
 			return known
 
-	def get_real_pos(pos):
+	def get_real_pos(self, pos):
 		"""
-		Returns the realposition of sequence deleting "-" chars.
+		Returns the realposition of sequence deleting "-" chars with pos a list index
 		"""
 
-		s = self._seq[:pos+1]
-		s.translate(None,"-")
-		return len(s)
+		s = self._seq[:pos]
+		return len(s.translate(None,"-"))
 
 
 
