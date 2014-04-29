@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+Memecomp.py contains function to parse motifs file,
+as well as comparison functions, to compare found motifs.
+"""
 
 ### IMPORTS ###
 import itertools as it
@@ -49,8 +53,12 @@ class MotifFile(object):
 	def __str__(self):
 		"""Method called when 'print object' is used. """
 
-		s = "File: {} Date: {}\nThresholds: {} (Pred) {} (Align) {} (Size)".format(self.filename(), self.date(), self.pred(), self.ali(), self.size())
+		s = "File: {} Date: {}\nThresholds: {} (Pred) {} (Align) {} (Size)\nMotifs found: {}".format(self.filename(), self.date(), self.pred(), self.ali(), self.size(), len(self.motifs()))
 		return s
+
+	def __repr__(self):
+
+		return self.__str__()
 	
 	def pred(self):
 		"""Return the prediction score (phylogenetic score) threshold used in the file."""
@@ -71,6 +79,10 @@ class MotifFile(object):
 	def filename(self):
 		"""Return the name of parsed BigFoot's output file."""
 		return self._filename
+
+	def motifs(self):
+		"""Return a list of found motifs."""
+		return self._motifs
 
 class WeightedMotif(motifs.meme.Motif):
 	"""
@@ -121,4 +133,30 @@ def load_meme(filename):
 		records = motifs.parse(f, "meme")
 
 	return records
+
+def convert(motifs_list, alphabet):
+	"""
+	Returns a new list of motifs converting using given alphabet.
+	"""
+
+	new_list = []
+	for m in motifs_list:
+		tot_inst = []
+		
+		# Recreate instances using given alphabet
+		for i in m.instances:
+			inst = motifs.meme.Instance(i.tostring(), alphabet)
+			inst.motif_name = i.motif_name
+			inst.start = i.start
+			inst.length = i.length
+
+			tot_inst.append(inst)
+		
+		# Converting instances and motis
+		instances = motifs.Instances(tot_inst, alphabet)
+		mot = motifs.meme.Motif(alphabet, instances)
+		new_list.append(mot)
+
+	return new_list
+
 
