@@ -194,13 +194,35 @@ def overlap(r1, r2):
 
 	Examples:
 	>>> overlap((2,3), (5,10))
-	False
+	(False, 0.0)
 	>>> overlap((2,3), (1,10))
-	True
+	(True, 0.2)
 	>>> overlap((5,15), (3,8))
-	True
+	(True, 0.36363636363636365)
 	>>> overlap((3,7), (5,9))
-	True
+	(True, 0.6)
 	"""
+	stat = 0.0
+
 	index = (r2[0] <= r1[0] <= r2[1]) or (r1[0] <= r2[0] <= r1[1])
-	return index
+
+	if index:
+
+		r1_len = r1[1] - r1[0] + 1
+		r2_len = r2[1] - r2[0] + 1
+		maxi = max(r1_len, r2_len)
+
+		# If range is included into the other
+		if (r2[0] <= r1[0] <= r2[1]) and (r2[0] <= r1[1] <= r2[1]):
+			over_r = r1_len
+		elif (r1[0] <= r2[0] <= r1[1]) and (r1[0] <= r2[1] <= r1[1]):
+			over_r = r2_len
+		# If ranges are overlapping partially
+		elif (r2[0] <= r1[0] <= r2[1]):
+			over_r = r2[1] - r1[0] + 1
+		elif (r1[0] <= r2[0] <= r1[1]):
+			over_r = r1[1] - r2[0] + 1
+
+		stat = float(over_r)/maxi
+
+	return index, stat
