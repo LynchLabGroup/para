@@ -129,9 +129,12 @@ def load_meme(filename):
 	"""
 	Return a parsed MEME output file using Biopython.
 	"""
+	gapped = Gapped(ExtendedIUPACDNA(), '-')
+
 	with open(filename, "r") as f:
 		records = motifs.parse(f, "meme")
 
+	records = convert(records, gapped)
 	return records
 
 def convert(motifs_list, alphabet):
