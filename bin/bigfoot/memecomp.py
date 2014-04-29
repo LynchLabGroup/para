@@ -150,6 +150,7 @@ def convert(motifs_list, alphabet):
 		for i in m.instances:
 			inst = motifs.meme.Instance(i.tostring(), alphabet)
 			inst.motif_name = i.motif_name
+			inst.sequence_name = i.sequence_name
 			inst.start = i.start
 			inst.length = i.length
 
