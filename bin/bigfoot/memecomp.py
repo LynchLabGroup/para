@@ -113,7 +113,7 @@ def read_motif_seq(block):
 		instance.motif_name = motif_name
 		instance.sequence_name = l[0].translate(None, " ")
 		instance.start = int(l[1].translate(None," "))
-		instance.length = motif_length
+		instance.length = int(motif_length)
 
 		instances.append(instance)
 
@@ -170,8 +170,37 @@ def compare_motifs(bigfoot_motifs, meme_motifs):
 	for bf_mot in bigfoot_motifs:
 		# Compare first instance of each bf_mot
 		inst = bf_mot.instances[0]
+		
 		start = inst.start
-		end = start +
-		bf_range = (bf_mot.start, bf_mot.start + bf.)
+		end = start + inst.length - 1
+		bf_range = (start, end)
 
+		seq_name = inst.sequence_name
 
+		for m_mot in meme_motifs:
+			for m in m_mot.instances:
+				if m.sequence_name == seq_name:
+					# We found the instance from the same sequence \o/
+					break
+			m_start = m.start
+			m_end = start + m.length - 1
+			m_range = (start, end)
+
+			overlap = overlap(bf_range, m_range)
+
+def overlap(r1, r2):
+	"""
+	Returns if the two ranges are overlapping. Notes, range should be given in order
+
+	Examples:
+	>>> overlap((2,3), (5,10))
+	False
+	>>> overlap((2,3), (1,10))
+	True
+	>>> overlap((5,15), (3,8))
+	True
+	>>> overlap((3,7), (5,9))
+	True
+	"""
+	index = (r2[0] <= r1[0] <= r2[1]) or (r1[0] <= r2[0] <= r1[1])
+	return index
