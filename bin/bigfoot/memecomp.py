@@ -163,4 +163,15 @@ def convert(motifs_list, alphabet):
 
 	return new_list
 
+def compare_motifs(bigfoot_motifs, meme_motifs):
+	"""
+	Compare motifs found in bigfoot and meme outputs.
+	"""
+	for bf_mot in bigfoot_motifs:
+		# Compare first instance of each bf_mot
+		inst = bf_mot.instances[0]
+		start = inst.start
+		end = start +
+		bf_range = (bf_mot.start, bf_mot.start + bf.)
+
 
