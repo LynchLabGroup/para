@@ -59,7 +59,17 @@ class MotifFile(object):
 	def __repr__(self):
 
 		return self.__str__()
+
+	def __getitem__(self, index):
+		"""Return the motif of the given index."""
+
+		return self._motifs[index]
 	
+	def __iter__(self):
+		"""Iterates over motifs in MotifFile."""
+
+		return self._motifs.__iter__()
+
 	def pred(self):
 		"""Return the prediction score (phylogenetic score) threshold used in the file."""
 		return self._pred_thre
@@ -163,12 +173,16 @@ def convert(motifs_list, alphabet):
 
 	return new_list
 
-def compare_motifs(bigfoot_motifs, meme_motifs):
+def compare_motifs(bigfoot_motifs, meme_motifs, threshold=None):
 	"""
-	Compare motifs found in bigfoot and meme outputs.
+	Compare motifs found in bigfoot and meme outputs, using an overlapping threshold index (float)
 	"""
-	for bf_mot in bigfoot_motifs:
-		# Compare first instance of each bf_mot
+	if threshold == None:
+		threshold = 0.9
+
+	# Look at all motifs of bigfoot file
+	for bf_mot in bigfoot_motifs.motifs():
+		# Compare only first instance of each bf_mot
 		inst = bf_mot.instances[0]
 		
 		start = inst.start
@@ -177,6 +191,7 @@ def compare_motifs(bigfoot_motifs, meme_motifs):
 
 		seq_name = inst.sequence_name
 
+		# Compare the first instance of one motifs to all other motifs in MEME
 		for m_mot in meme_motifs:
 			for m in m_mot.instances:
 				if m.sequence_name == seq_name:
@@ -186,7 +201,10 @@ def compare_motifs(bigfoot_motifs, meme_motifs):
 			m_end = start + m.length - 1
 			m_range = (start, end)
 
-			overlap = overlap(bf_range, m_range)
+			index, stat = overlap(bf_range, m_range)
+
+			if index and stat >threshold:
+				print "Bigfoot's: {} MEME:{} Stat: {}".format(inst.motif_name, m_mot.name, stat)
 
 def overlap(r1, r2):
 	"""
@@ -210,7 +228,7 @@ def overlap(r1, r2):
 
 		r1_len = r1[1] - r1[0] + 1
 		r2_len = r2[1] - r2[0] + 1
-		maxi = max(r1_len, r2_len)
+		mini = min(r1_len, r2_len)
 
 		# If range is included into the other
 		if (r2[0] <= r1[0] <= r2[1]) and (r2[0] <= r1[1] <= r2[1]):
@@ -223,6 +241,6 @@ def overlap(r1, r2):
 		elif (r1[0] <= r2[0] <= r1[1]):
 			over_r = r1[1] - r2[0] + 1
 
-		stat = float(over_r)/maxi
+		stat = float(over_r)/mini
 
 	return index, stat
