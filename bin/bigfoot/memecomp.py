@@ -5,6 +5,9 @@ Memecomp.py contains function to parse motifs file,
 as well as comparison functions, to compare found motifs.
 """
 
+### DEBUG ###
+import pdb
+
 ### IMPORTS ###
 import itertools as it
 import time
@@ -191,20 +194,25 @@ def compare_motifs(bigfoot_motifs, meme_motifs, threshold=None):
 
 		seq_name = inst.sequence_name
 
+
 		# Compare the first instance of one motifs to all other motifs in MEME
 		for m_mot in meme_motifs:
 			for m in m_mot.instances:
-				if m.sequence_name == seq_name:
+				m_start = 0
+				m_end = 0
+				if m.sequence_name[:-1] == seq_name:
 					# We found the instance from the same sequence \o/
+					#pdb.set_trace()
+					m_start = m.start
+					m_end = m_start + m.length - 1
+					m_range = (m_start, m_end)
+
+					index, stat = overlap(bf_range, m_range)
+
+					if index and stat >threshold:
+						print "Bigfoot's: {} MEME:{} Stat: {}\nCompared ranges: {} (BF) {} (MEME)".format(inst.motif_name, m.motif_name, stat, bf_range, m_range)
 					break
-			m_start = m.start
-			m_end = start + m.length - 1
-			m_range = (start, end)
-
-			index, stat = overlap(bf_range, m_range)
-
-			if index and stat >threshold:
-				print "Bigfoot's: {} MEME:{} Stat: {}".format(inst.motif_name, m_mot.name, stat)
+			
 
 def overlap(r1, r2):
 	"""
@@ -229,6 +237,7 @@ def overlap(r1, r2):
 		r1_len = r1[1] - r1[0] + 1
 		r2_len = r2[1] - r2[0] + 1
 		mini = min(r1_len, r2_len)
+		maxi = max(r1_len, r2_len)
 
 		# If range is included into the other
 		if (r2[0] <= r1[0] <= r2[1]) and (r2[0] <= r1[1] <= r2[1]):
