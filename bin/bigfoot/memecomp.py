@@ -212,7 +212,7 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None):
 				for m in m_mot.instances:
 					m_start = 0
 					m_end = 0
-					if m.sequence_name[:-1] == seq_name:
+					if m.sequence_name == seq_name:
 						# We found the instance from the same sequence \o/
 						#pdb.set_trace()
 						m_start = m.start
@@ -225,7 +225,7 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None):
 							if i == 0:
 								print >> output, "BigFoot\tMEME\tsequence\tratio"
 								i = 1
-							print >> output, "{}\t{}\t{}".format(inst.motif_name, m.motif_name, seq_name, stat)
+							print >> output, "{}\t{}\t{}\t{}".format(inst.motif_name, m.motif_name, seq_name, stat)
 						break
 			
 
