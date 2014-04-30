@@ -102,7 +102,13 @@ echo "Done."
 
 # Running meme
 echo "Running MEME"
-meme -minw 4 -nmotifs 5 -dna -text $TARGET$FAM.fasta >> $TARGET$FASTA.meme.motifs
+meme -minw 4 -nmotifs 5 -dna -text $TARGET$FAM.fasta >> $TARGET$FAM.meme.motifs
+echo "Done."
+
+if [ -f $TARGET$FAM.motifs ] && [ -f $TARGET$FAM.meme.motifs]
+then
+	python bin/bigfoot/memecomp.py $TARGET$FAM.motifs $TARGET$FAM.meme.motifs -t 0.9 -o $TARGET$FAM.comp
+fi
 done
 
 echo "Job Finished at:"; date
