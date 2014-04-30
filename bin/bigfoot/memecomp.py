@@ -12,6 +12,7 @@ import pdb
 import itertools as it
 import time
 from Bio import motifs
+from Bio.motifs import meme
 from Bio.Alphabet import Gapped
 from Bio.Alphabet.IUPAC import ExtendedIUPACDNA
 import argparse
@@ -99,7 +100,7 @@ class MotifFile(object):
 		"""Return a list of found motifs."""
 		return self._motifs
 
-class WeightedMotif(motifs.meme.Motif):
+class WeightedMotif(meme.Motif):
 	"""
 	Extension of Bio.motifs.meme Motif class, adding two attributes:
 		- self.pred: average prediction (phylogenetic) score of the given motif
@@ -271,16 +272,16 @@ def main():
 
 	parser.add_argument("bigf",help="BigFoot's output file")
 	parser.add_argument("meme", help="MEME's output text file (see MEME's options -text)")
-	parser.add_argument("-t","--thre",help="threshold use for comparison -> retain only motif where you have ~90\% overlap? (default: %(default)s)", type=float,default=0.9)
-	parser.add_argument("-o","--output",help="output file name", default="BigFootMEMEcomp.txt")
+	parser.add_argument("-t","--thre",help="threshold use for comparison -> retain only motif where you have ~n percent of overlap? (default: %(default)s)", type=float,default=0.9)
+	parser.add_argument("-o","--output",help="output file name", type=argparse.FileType("w"), default="BigFootMEMEcomp.txt")
 
 	args = parser.parse_args()
 
 	bigf = MotifFile(args.bigf)
-	meme = load_meme(args.meme)
+	meme_file = load_meme(args.meme)
 
 	print "Comparing motifs..."
-	compare_motifs(bigf, meme, args.output, args.thre)
+	compare_motifs(bigf, meme_file, args.output, args.thre)
 	print "Done."
 
 if __name__ == "__main__":
