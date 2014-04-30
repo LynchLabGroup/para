@@ -264,7 +264,24 @@ def overlap(r1, r2):
 	return index, stat
 
 def main():
-	pass
+	"""Main program, containing the command-line parser"""
+	
+	### Command-line Parser ###
+	parser = argparse.ArgumentParser(description="Command-line program to compare motifs outputs of MEME and BigFoot.")
+
+	parser.add_argument("bigf",help="BigFoot's output file")
+	parser.add_argument("meme", help="MEME's output text file (see MEME's options -text)")
+	parser.add_argument("-t","--thre",help="threshold use for comparison -> retain only motif where you have ~90\% overlap? (default: %(default)s)", type=float,default=0.9)
+	parser.add_argument("-o","--output",help="output file name", default="BigFootMEMEcomp.txt")
+
+	args = parser.parse_args()
+
+	bigf = MotifFile(args.bigf)
+	meme = load_meme(args.meme)
+
+	print "Comparing motifs..."
+	compare_motifs(bigf, meme, args.output, args.thre)
+	print "Done."
 
 if __name__ == "__main__":
 	main()
