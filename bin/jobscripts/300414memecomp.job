@@ -8,11 +8,10 @@
 echo "Job Started at: "; date
 cd para/
 
-for FAM in `ls results/WGD2ANC0*/*motifs | grep -v "meme" | xargs wc -l | awk '{sub(/.WGD2ANC[0-9]*.motifs/,"")}1 && !/total/' | awk '{if($1 > 2) print $2}'`;
+for FAM in `ls results/WGD2ANC0*/*motifs | grep -v "meme" | xargs wc -l | awk '{sub(/.WGD2ANC[0-9]*.motifs/,"")}1 && !/total/' | awk '{if($1 > 2) print $2}' | cut -d/ -f2`;
 do
 
 CDS="CDS"
-FAMCDS=$FAM$CDS
 TARGET="results/$FAM/"
 echo $FAM
 
