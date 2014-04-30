@@ -16,7 +16,23 @@ Depending on what you want to do, several programs can be used.
 
 ### `bigfoot` folder ###
 
-Contains all the files for parsing bigfoot's outputs
+Contains all the files for parsing bigfoot's outputs:
+
++ **memecomp.py** use Biopython motifs subpackage to compute the differences between MEME and BigFoot outputs
+
+   Usage:
+   ```shell
+   python memecomp.py bigfoot_output meme_output
+   ```
+   See `python memecomp.py -h` for detailed help
++ **parser.py** contains the class SeqParser to parse BigFoot's outputs file `.mpd` and `.pred`
++ **setup.py** uses `weight.py` and `parser.py` to parse BigFoot's outputs file. Command-line interface.
+   Usage:
+   ```shell
+   python setup.py bigfoot_file.mpd bigfoot_file.pred
+   ```
+   See `python setup.py -h` for detailed help
++ **weight.py** contains WeightedSeq class, to parse the various sequences in `.pred` files
 
 ### `gff` folder ###
 
