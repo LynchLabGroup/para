@@ -11,8 +11,8 @@ import pdb
 ### IMPORTS ###
 import itertools as it
 import time
-from Bio import motifs
-from Bio.motifs import meme
+from Bio import Motif
+#from Bio.Motif import MEME
 from Bio.Alphabet import Gapped
 from Bio.Alphabet.IUPAC import ExtendedIUPACDNA
 import argparse
@@ -100,14 +100,16 @@ class MotifFile(object):
 		"""Return a list of found motifs."""
 		return self._motifs
 
-class WeightedMotif(meme.Motif):
+class WeightedMotif(Motif._Motif.Motif):
 	"""
-	Extension of Bio.motifs.meme Motif class, adding two attributes:
+	Extension of Bio.Motif._Motif.Motif class, adding two attributes:
 		- self.pred: average prediction (phylogenetic) score of the given motif
 		- self.ali: average alignment score of the given motif
 	"""
 	def __init__(self, alphabet, instances, phylo_score, align_score):
-		motifs.meme.Motif.__init__(self, alphabet, instances)
+		Motif._Motif.Motif.__init__(self, alphabet)
+		for i in instances:
+			self.add_instance(i)
 		self.pred = phylo_score
 		self.ali = align_score
 
@@ -124,7 +126,7 @@ def read_motif_seq(block):
 
 	for l in block[1]:
 		l = l.rstrip("\n").split("\t")
-		instance = motifs.meme.Instance(l[-1], gapped)
+		instance = Motif.Parsers.MEME.MEMEInstance(l[-1], gapped)
 		
 		instance.motif_name = motif_name
 		instance.sequence_name = l[0].translate(None, " ")
@@ -133,9 +135,8 @@ def read_motif_seq(block):
 
 		instances.append(instance)
 
-	inst = motifs.Instances(instances, gapped)
 
-	motif = WeightedMotif(gapped, inst, float(head[-5]), float(head[-3]))
+	motif = WeightedMotif(gapped, instances, float(head[-5]), float(head[-3]))
 	motif.length = motif_length
 	motif.name = motif_name
 
@@ -148,7 +149,9 @@ def load_meme(filename):
 	gapped = Gapped(ExtendedIUPACDNA(), '-')
 
 	with open(filename, "r") as f:
-		records = motifs.parse(f, "meme")
+		records = []
+		for r in Motif.parse(f, "MEME"):
+			records.append(r)
 
 	records = convert(records, gapped)
 	return records
@@ -164,7 +167,7 @@ def convert(motifs_list, alphabet):
 		
 		# Recreate instances using given alphabet
 		for i in m.instances:
-			inst = motifs.meme.Instance(i.tostring(), alphabet)
+			inst = Motif.Parsers.MEME.MEMEInstance(i.tostring(), alphabet)
 			inst.motif_name = i.motif_name
 			inst.sequence_name = i.sequence_name
 			inst.start = i.start
@@ -172,9 +175,11 @@ def convert(motifs_list, alphabet):
 
 			tot_inst.append(inst)
 		
-		# Converting instances and motis
-		instances = motifs.Instances(tot_inst, alphabet)
-		mot = motifs.meme.Motif(alphabet, instances)
+		# Converting instances and motifs
+		mot = Motif._Motif.Motif(alphabet=alphabet)
+
+		for i in tot_inst:
+			mot.add_instance(i)
 		new_list.append(mot)
 
 	return new_list
