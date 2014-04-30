@@ -198,35 +198,35 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None):
 	# Look at all motifs of bigfoot file
 	for bf_mot in bigfoot_motifs.motifs():
 		# Compare only first instance of each bf_mot
-		inst = bf_mot.instances[0]
+		for inst in bf_mot.instances:
 		
-		start = inst.start
-		end = start + inst.length - 1
-		bf_range = (start, end)
+			start = inst.start
+			end = start + inst.length - 1
+			bf_range = (start, end)
 
-		seq_name = inst.sequence_name
+			seq_name = inst.sequence_name
 
 
-		# Compare the first instance of one motifs to all other motifs in MEME
-		for m_mot in meme_motifs:
-			for m in m_mot.instances:
-				m_start = 0
-				m_end = 0
-				if m.sequence_name[:-1] == seq_name:
-					# We found the instance from the same sequence \o/
-					#pdb.set_trace()
-					m_start = m.start
-					m_end = m_start + m.length - 1
-					m_range = (m_start, m_end)
+			# Compare the first instance of one motifs to all other motifs in MEME
+			for m_mot in meme_motifs:
+				for m in m_mot.instances:
+					m_start = 0
+					m_end = 0
+					if m.sequence_name[:-1] == seq_name:
+						# We found the instance from the same sequence \o/
+						#pdb.set_trace()
+						m_start = m.start
+						m_end = m_start + m.length - 1
+						m_range = (m_start, m_end)
 
-					index, stat = overlap(bf_range, m_range)
+						index, stat = overlap(bf_range, m_range)
 
-					if index and stat >threshold:
-						if i == 0:
-							print >> output, "BigFoot\tMEME\tratio"
-							i = 1
-						print >> output, "{}\t{}\t{}".format(inst.motif_name, m.motif_name, stat)
-					break
+						if index and stat >threshold:
+							if i == 0:
+								print >> output, "BigFoot\tMEME\tsequence\tratio"
+								i = 1
+							print >> output, "{}\t{}\t{}".format(inst.motif_name, m.motif_name, seq_name, stat)
+						break
 			
 
 def overlap(r1, r2):
