@@ -218,9 +218,9 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None):
 
 					if index and stat >threshold:
 						if i == 0:
-							print >> output, "BigFoot\tMEME\tratio\n"
+							print >> output, "BigFoot\tMEME\tratio"
 							i = 1
-						print >> output, "{}\t{}\t{}\n".format(inst.motif_name, m.motif_name, stat)
+						print >> output, "{}\t{}\t{}".format(inst.motif_name, m.motif_name, stat)
 					break
 			
 
