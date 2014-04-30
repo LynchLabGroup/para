@@ -14,6 +14,8 @@ import time
 from Bio import motifs
 from Bio.Alphabet import Gapped
 from Bio.Alphabet.IUPAC import ExtendedIUPACDNA
+import argparse
+
 ### CLASSES ###
 class MotifFile(object):
 	"""
@@ -176,13 +178,17 @@ def convert(motifs_list, alphabet):
 
 	return new_list
 
-def compare_motifs(bigfoot_motifs, meme_motifs, threshold=None):
+def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None):
 	"""
 	Compare motifs found in bigfoot and meme outputs, using an overlapping threshold index (float)
 	"""
 	if threshold == None:
 		threshold = 0.9
 
+	if output == None:
+		output = "BigFootMEMEcomp.txt"
+
+	i = 0 # printing index
 	# Look at all motifs of bigfoot file
 	for bf_mot in bigfoot_motifs.motifs():
 		# Compare only first instance of each bf_mot
@@ -210,7 +216,10 @@ def compare_motifs(bigfoot_motifs, meme_motifs, threshold=None):
 					index, stat = overlap(bf_range, m_range)
 
 					if index and stat >threshold:
-						print "Bigfoot's: {} MEME:{} Stat: {}\nCompared ranges: {} (BF) {} (MEME)".format(inst.motif_name, m.motif_name, stat, bf_range, m_range)
+						if i == 0:
+							print >> output, "BigFoot\tMEME\tratio\n"
+							i = 1
+						print >> output, "{}\t{}\t{}\n".format(inst.motif_name, m.motif_name, stat)
 					break
 			
 
@@ -253,3 +262,9 @@ def overlap(r1, r2):
 		stat = float(over_r)/mini
 
 	return index, stat
+
+def main():
+	pass
+
+if __name__ == "__main__":
+	main()
