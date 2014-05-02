@@ -3,12 +3,15 @@
 
 # percent_subdirs := 1 # Allow % to match multiple directories
 SUBDIRS = $(shell find results/ -type d -name 'WGD2ANC0000*')
-
+FILES = $(patsubst results/WGD2ANC%, results/WGD2ANC%/WGD2ANC\%, $(SUBDIRS))
+FAM = $(subst results/, ,$(SUBDIRS))
 .PHONY: all
 
 
 all: 
-	echo $(SUBDIRS)
+	@echo $(SUBDIRS)
+	@echo $(FILES)
+	@echo $(FAM)
 
 
 # WGD2ANC%.newick: WGD2ANC%CDS.phyl_phyml_tree.txt
