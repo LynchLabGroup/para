@@ -21,13 +21,11 @@ all:  $(MOTIFS)
 #	@echo $(FAM)
 #	@echo $(MOTIFS)
 
-$(MOTIFS): $(MPD) $(PRED)
+$(MOTIFS): bin/bigfoot/setup.py $(MPD) $(PRED)
 	@echo "Parsing bigfoot's output"
-	python bin/bigfoot/setup.py -o $@ $^ -s 4 -t 0.9 -a 0.8
+	python $^ -o $@ -s 4 -t 0.9 -a 0.8
 	@echo "Done."
 
-$(MPD):	bin/bigfoot/setup.py
-	@touch $@
 
 # WGD2ANC%.newick: WGD2ANC%CDS.phyl_phyml_tree.txt
 # 	../../bin/scripts/editnewick.py $< $@
