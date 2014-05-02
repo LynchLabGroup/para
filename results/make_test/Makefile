@@ -1,7 +1,7 @@
 # Make test
 # .PHONY: all
 
-all: WGD2ANC00208.newick WGD2ANC00182.newick
+all: %.newick
 
 
 WGD2ANC%.newick: WGD2ANC%CDS.phyl_phyml_tree.txt
