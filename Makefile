@@ -6,16 +6,18 @@ SUBDIRS = $(shell find results/ -type d -name 'WGD2ANC00002')
 FILES = $(patsubst results/WGD2ANC%, results/WGD2ANC%/WGD2ANC\%, $(SUBDIRS))
 FAM = $(subst results, ,$(SUBDIRS))
 MOTIFS = $(addsuffix .motifs,$(join $(SUBDIRS), $(FAM)))
-.PHONY: all motifs
+MOT = $(join $(SUBDIRS), $(FAM))
+.PHONY: all 
 
 
-all: 
-	@echo $(SUBDIRS)
-	@echo $(FILES)
-	@echo $(FAM)
-	@echo $(MOTIFS)
+all: $(MOTIFS) 
+#	@echo $(SUBDIRS)
+#	@echo $(FILES)
+#	@echo $(FAM)
+#	@echo $(MOTIFS)
 
-motifs: $(MOTIFS)
+$(MOTIFS): 
+	@echo $@
 	@echo "Pouet"
 
 # WGD2ANC%.newick: WGD2ANC%CDS.phyl_phyml_tree.txt
