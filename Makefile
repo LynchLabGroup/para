@@ -5,20 +5,29 @@
 SUBDIRS = $(shell find results/ -type d -name 'WGD2ANC00002')
 FILES = $(patsubst results/WGD2ANC%, results/WGD2ANC%/WGD2ANC\%, $(SUBDIRS))
 FAM = $(subst results, ,$(SUBDIRS))
-MOTIFS = $(addsuffix .motifs,$(join $(SUBDIRS), $(FAM)))
+LOCS = $(join $(SUBDIRS), $(FAM))
+MOTIFS = $(addsuffix .motifs, $(LOCS))
+MPD = $(addsuffix .fasta.mpd, $(LOCS))
+PRED = $(addsuffix .fasta.pred, $(LOCS))
+LIST = $(addsuffix .motifs, results/$(FAM)/$(FAM))
 MOT = $(join $(SUBDIRS), $(FAM))
 .PHONY: all 
 
 
-all: $(MOTIFS) 
+all:  $(MOTIFS)
+#	@echo $(LIST)
 #	@echo $(SUBDIRS)
 #	@echo $(FILES)
 #	@echo $(FAM)
 #	@echo $(MOTIFS)
 
-$(MOTIFS): 
-	@echo $@
-	@echo "Pouet"
+$(MOTIFS): $(MPD) $(PRED)
+	@echo "Parsing bigfoot's output"
+	python bin/bigfoot/setup.py -o $@ $^ -s 4 -t 0.9 -a 0.8
+	@echo "Done."
+
+$(MPD):	bin/bigfoot/setup.py
+	@touch $@
 
 # WGD2ANC%.newick: WGD2ANC%CDS.phyl_phyml_tree.txt
 # 	../../bin/scripts/editnewick.py $< $@
