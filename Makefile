@@ -3,7 +3,7 @@
 #
 #
 
-SUBDIRS = $(shell awk '{print "results/"$1}' results/NotRetrieved.txt)
+SUBDIRS = $(addprefix results/, $(shell awk '{print $1}' results/NotRetrieved.txt))
 
 FAM = $(subst results, ,$(SUBDIRS))
 LOCS = $(join $(SUBDIRS), $(FAM))
