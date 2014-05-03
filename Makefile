@@ -10,11 +10,13 @@ LOCS = $(join $(SUBDIRS), $(FAM))
 MOTIFS = $(addsuffix .motifs, $(LOCS))
 MPD = $(addsuffix .fasta.mpd, $(LOCS))
 PRED = $(addsuffix .fasta.pred, $(LOCS))
+UP = "data/families/WGD2/upstream/"
+CDS = "data/families/WGD2/CDS/nt/"
 
 
 .PHONY: all retrieve_upstream retrieve_CDS
 
-all: retrieve_CDS $(MOTIFS)
+all: makedir retrieve_CDS $(MOTIFS)
 
 # Parse BigFoot's output
 $(MOTIFS): bin/bigfoot/setup.py $(MPD) $(PRED)
@@ -29,9 +31,6 @@ $(addsuffix .meme.motifs, $(LOCS)): $(addsuffix .fasta, $(LOCS))
 # Compute Motifs using BigFoot
 $(MPD) $(PRED): $(addsuffix .fasta, $(LOCS)) $(addsuffix .newick, $(LOCS))
 	java -jar ../BigFoot/BigFoot.jar -t $(word 2, $^) -p=1000,2000,1000 $<
-# Transforming fasta header
-$(addsuffix .fasta, $(LOCS)): bin/scripts/fastaheader.py $(addsuffix .fasta, $(addprefix data/families/WGD2/upstream/,$(FAM)))
-	python $^ "|" $@
 
 # Operations to obtain .newick tree
 $(addsuffix .newick, $(LOCS)): bin/scripts/editnewick.py $(addsuffix CDS.phyl_phyml_tree.txt, $(LOCS))
@@ -54,12 +53,19 @@ $(addsuffix CDS.fasta, $(LOCS)): bin/scripts/fastaheader.py $(addsuffix CDS.nt_a
 	python $^ "|" $@
 
 # Aligning CDSs
-
 $(addsuffix CDS.nt_ali.fasta, $(LOCS)): $(addsuffix .fasta, $(LOCS))
 	perl bin/scripts/translatorx_vLocal.pl -c 6 -i $^ -o $(addsuffix CDS, $(LOCS))
 
+# Transforming fasta header
+$(addsuffix .fasta, $(LOCS)): bin/scripts/fastaheader.py $(addsuffix .fasta, $(addprefix data/families/WGD2/upstream/,$(FAM)))
+	python $^ "|" $@
+
+# Make appropriate directory
+makedir:
+	@mkdir -p $(LOCS)
+
 retrieve_upstream: bin/gff/main.py
-	python $^ -l 250 -ml 15 -f 4 -mf 4 -loc "data/families/WGD2/upstream/" --head
+	python $^ -l 250 -ml 15 -f 4 -mf 4 -loc $(UP) --head
 
 retrieve_CDS: bin/gff/ntseq.py
-	python $^ -f 4 --header 
+	python $^ -f 4 --header -loc $(CDS)
