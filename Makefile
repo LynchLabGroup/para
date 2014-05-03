@@ -11,6 +11,7 @@ MOTIFS = $(addsuffix .motifs, $(LOCS))
 MPD = $(addsuffix .fasta.mpd, $(LOCS))
 PRED = $(addsuffix .fasta.pred, $(LOCS))
 UP = "data/families/WGD2/upstream/"
+UP_S = $(subst upstream/, upstream, $(UP)) 
 CDS = "data/families/WGD2/CDS/nt/"
 
 
@@ -70,7 +71,7 @@ $(addsuffix CDS.nt_ali.fasta, $(LOCS)): $(addsuffix .fasta, $(LOCS))
 	@perl bin/scripts/translatorx_vLocal.pl -c 6 -i $^ -o $(addsuffix CDS, $(LOCS))
 	@echo "Done."
 # Transforming fasta header
-$(addsuffix .fasta, $(LOCS)): bin/scripts/fastaheader.py $(addsuffix .fasta, $(addprefix data/families/WGD2/upstream/,$(FAM)))
+$(addsuffix .fasta, $(LOCS)): bin/scripts/fastaheader.py $(addsuffix .fasta, $(addprefix $(UP_S),$(FAM)))
 	@echo "Transforming upstream header"
 	@python $^ "|" $@
 	@echo "Done."
