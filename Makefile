@@ -12,9 +12,9 @@ MPD = $(addsuffix .fasta.mpd, $(LOCS))
 PRED = $(addsuffix .fasta.pred, $(LOCS))
 
 
-.PHONY: all 
+.PHONY: all retrieve_upstream retrieve_CDS
 
-all: $(MOTIFS)
+all: retrieve_CDS $(MOTIFS)
 
 # Parse BigFoot's output
 $(MOTIFS): bin/bigfoot/setup.py $(MPD) $(PRED)
