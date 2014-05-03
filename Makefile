@@ -3,7 +3,7 @@
 #
 #
 
-SUBDIRS = $(shell find results/ -type d -name 'WGD2ANC00002')
+SUBDIRS = $(shell awk '{print "results/"$1}' results/NotRetrieved.txt)
 
 FAM = $(subst results, ,$(SUBDIRS))
 LOCS = $(join $(SUBDIRS), $(FAM))
