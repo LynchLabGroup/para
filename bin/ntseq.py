@@ -1,16 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import argparse
 import gff.parse_gff_v2 as pg
 import gff.family as fam
 
 def main():
 	"""Program to extract all CDSs."""
-	
+	parser = argparse.ArgumentParser(description="Setup program to extract Coding Sequences of given family")
+
+	parser.add_argument("-f", "--fam", help="specify the minimum number of family members needed. (default: %(default)s)", type=int, default=7)
+	parser.add_argument("-t", "--trans", help="If included retrieved sequences are translated.", action="store_true")
+	parser.add_argument("-head", "--header", help="specify if family file has a header", action="store_true")
+	parser.add_argument("-loc", "--location", help="the folder where to retrieve CDSs (default: %(default)s)", default="data/families/WGD2/CDS/nt/")
+
 	family_file = "data/families/tet_bi_sex_caud_orthoparalogons_WGD2.txt"
+
+	args = parser.parse_args()
 	
-	header = True
-	num = 7
-	translate = False
+	header = args.header
+	num = args.fam
+	translate = args.trans
+	loc = args.location
 	
 	print "Parameters used: {} genes at least.".format(num)	
 
@@ -48,7 +58,7 @@ def main():
 	print "Done."
 
 	# extract all CDSs
-	fam.family_cds(fam_parser,gff_rec,fasta_rec,"data/families/WGD2/CDS/nt/",translate=translate)
+	fam.family_cds(fam_parser,gff_rec,fasta_rec,loc,translate=translate)
 
 
 if __name__ == "__main__":
