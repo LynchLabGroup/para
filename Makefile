@@ -22,50 +22,68 @@ all: makedir retrieve_CDS $(MOTIFS)
 $(MOTIFS): bin/bigfoot/setup.py $(MPD) $(PRED)
 	@echo "Parsing bigfoot's output"
 	python $^ -o $@ -s 4 -t 0.9 -a 0.8
-	@echo "Done."i
+	@echo "Done."
 
 # Compute Motifs using MEME
 $(addsuffix .meme.motifs, $(LOCS)): $(addsuffix .fasta, $(LOCS))
-	meme -minw 4 -nmotifs 5 -dna -text $^ >> $@
+	@echo "Using MEME.."
+	@meme -minw 4 -nmotifs 5 -dna -text $^ >> $@
+	@echo "Done."
 
 # Compute Motifs using BigFoot
 $(MPD) $(PRED): $(addsuffix .fasta, $(LOCS)) $(addsuffix .newick, $(LOCS))
-	java -jar ../BigFoot/BigFoot.jar -t $(word 2, $^) -p=1000,2000,1000 $<
+	@echo "Computing Motifs using BigFoot"
+	@java -jar ../BigFoot/BigFoot.jar -t $(word 2, $^) -p=1000,2000,1000 $<
+	@echo "Done."
 
 # Operations to obtain .newick tree
 $(addsuffix .newick, $(LOCS)): bin/scripts/editnewick.py $(addsuffix CDS.phyl_phyml_tree.txt, $(LOCS))
-	python $^ $@
-
+	@echo "Editing phylo tree"
+	@python $^ $@
+	@echo "Done."
 # Obtaining Phyml tree
 $(addsuffix CDS.phyl_phyml_tree.txt, $(LOCS)): $(addsuffix CDS.phyl, $(LOCS))
-	phyml -i $<
+	@echo "Computing ML tree"
+	@phyml -i $<
+	@echo "Done."
 
 # Converting fasta to phylip
 $(addsuffix CDS.phyl, $(LOCS)): $(addsuffix CDS.e.fasta, $(LOCS))
-	perl bin/scripts/ConvertFastatoPhylip.pl $< $@
+	@echo "Converting fasta file to Phylip..."
+	@perl bin/scripts/ConvertFastatoPhylip.pl $< $@
+	@echo "Done."
 
 # Matching sequences between files
 $(addsuffix CDS.e.fasta, $(LOCS)): bin/scripts/extractmatch.py $(addsuffix .fasta, $(LOCS)) $(addsuffix CDS.fasta, $(LOCS))
-	python $^ $@
+	@echo "Matching sequences"
+	@python $^ $@
+	@echo "Done."
 
 # Transforming CDS header
 $(addsuffix CDS.fasta, $(LOCS)): bin/scripts/fastaheader.py $(addsuffix CDS.nt_ali.fasta, $(LOCS))
-	python $^ "|" $@
-
+	@echo "Transforming CDS header."
+	@python $^ "|" $@
+	@echo "Done."
 # Aligning CDSs
 $(addsuffix CDS.nt_ali.fasta, $(LOCS)): $(addsuffix .fasta, $(LOCS))
-	perl bin/scripts/translatorx_vLocal.pl -c 6 -i $^ -o $(addsuffix CDS, $(LOCS))
-
+	@echo "Aligning CDSs."
+	@perl bin/scripts/translatorx_vLocal.pl -c 6 -i $^ -o $(addsuffix CDS, $(LOCS))
+	@echo "Done."
 # Transforming fasta header
 $(addsuffix .fasta, $(LOCS)): bin/scripts/fastaheader.py $(addsuffix .fasta, $(addprefix data/families/WGD2/upstream/,$(FAM)))
-	python $^ "|" $@
-
+	@echo "Transforming upstream header"
+	@python $^ "|" $@
+	@echo "Done."
 # Make appropriate directory
 makedir:
+	@echo "Making correct dir"
 	@mkdir -p $(LOCS)
 
 retrieve_upstream: bin/gff/main.py
-	python $^ -l 250 -ml 15 -f 4 -mf 4 -loc $(UP) --head
-
+	@echo "Retrieving upstream sequences..."
+	@python $^ -l 250 -ml 15 -f 4 -mf 4 -loc $(UP) --head
+	@echo "Done."
 retrieve_CDS: bin/gff/ntseq.py
-	python $^ -f 4 --header -loc $(CDS)
+	@echo "Retrieving CDSs"
+	@python $^ -f 4 --header -loc $(CDS)
+	@echo "Done."
