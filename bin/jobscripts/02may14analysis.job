@@ -10,5 +10,5 @@ module load python
 module load biopython/1.59
 module load java/1.7.0_25
 cd para/
-make -r -d
+make all -r -d
 echo "Job Finished at:"; date
