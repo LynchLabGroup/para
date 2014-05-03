@@ -62,4 +62,4 @@ retrieve_upstream: bin/gff/main.py
 	python $^ -l 250 -ml 15 -f 4 -mf 4 -loc "data/families/WGD2/upstream/" --head
 
 retrieve_CDS: bin/gff/ntseq.py
-	python $^
+	python $^ -f 4 --header 
