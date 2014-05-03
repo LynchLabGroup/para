@@ -14,9 +14,9 @@ UP = "data/families/WGD2/upstream/"
 CDS = "data/families/WGD2/CDS/nt/"
 
 
-.PHONY: all retrieve_upstream retrieve_CDS
+.PHONY: all makedir retrieve_upstream retrieve_CDS
 
-all: makedir retrieve_CDS $(MOTIFS)
+all: retrieve_CDS makedir $(MOTIFS)
 
 # Parse BigFoot's output
 $(MOTIFS): bin/bigfoot/setup.py $(MPD) $(PRED)
@@ -83,7 +83,7 @@ retrieve_upstream: bin/gff/main.py
 	@echo "Retrieving upstream sequences..."
 	@python $^ -l 250 -ml 15 -f 4 -mf 4 -loc $(UP) --head
 	@echo "Done."
-retrieve_CDS: bin/gff/ntseq.py
+retrieve_CDS: bin/ntseq.py
 	@echo "Retrieving CDSs"
 	@python $^ -f 4 --header -loc $(CDS)
 	@echo "Done."
