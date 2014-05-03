@@ -17,7 +17,7 @@ CDS = "data/families/WGD2/CDS/nt/"
 
 .PHONY: all makedir retrieve_upstream retrieve_CDS
 
-all: retrieve_CDS makedir $(MOTIFS)
+all: makedir $(MOTIFS)
 
 # Parse BigFoot's output
 $(MOTIFS): bin/bigfoot/setup.py $(MPD) $(PRED)
@@ -72,6 +72,7 @@ $(addsuffix CDS.nt_ali.fasta, $(LOCS)): $(addsuffix .fasta, $(LOCS))
 	@echo "Done."
 # Transforming fasta header
 $(addsuffix .fasta, $(LOCS)): bin/scripts/fastaheader.py $(addsuffix .fasta, $(addprefix $(UP_S),$(FAM)))
+	@echo $(UP_S)
 	@echo "Transforming upstream header"
 	@python $^ "|" $@
 	@echo "Done."
