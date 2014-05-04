@@ -11,8 +11,8 @@ MOTIFS = $(addsuffix .motifs, $(LOCS))
 MPD = $(addsuffix .fasta.mpd, $(LOCS))
 PRED = $(addsuffix .fasta.pred, $(LOCS))
 UP = "data/families/WGD2/upstream/"
-UP_S = $(subst upstream/, upstream, $(UP)) 
-CDS = "data/families/WGD2/CDS/nt/"
+UP_S = "data/families/WGD2/upstream"
+CDS = data/families/WGD2/CDS/nt/
 
 
 .PHONY: all makedir retrieve_upstream retrieve_CDS
