@@ -29,9 +29,9 @@ all: $(MOTIFS)
 #	@echo "Making $@" 
 
 # Parse BigFoot's output
-$(MOTIFS): %.motifs : bin/bigfoot/setup.py %.fasta.mpd %.fasta.mpd
+$(MOTIFS): %.motifs : bin/bigfoot/setup.py %.fasta.mpd %.fasta.pred
 	@echo "Parsing bigfoot's output"
-	@python $^ -o $@ -s 4 -t 0.9 -a 0.8
+	python $^ -o $@ -s 4 -t 0.9 -a 0.8
 	@echo "Done."
 
 # Compute Motifs using MEME
