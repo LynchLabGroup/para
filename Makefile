@@ -31,7 +31,7 @@ all: $(MOTIFS)
 # Parse BigFoot's output
 $(MOTIFS): %.motifs : bin/bigfoot/setup.py %.fasta.mpd
 	@echo "Parsing bigfoot's output"
-	python $^ $(subst mpd,pred, $(word 2, $^)) -o $@ -s 4 -t 0.9 -a 0.8
+	@python $^ $(subst mpd,pred, $(word 2, $^)) -o $@ -s 4 -t 0.9 -a 0.8
 	@echo "Done."
 
 # Compute Motifs using MEME
@@ -85,7 +85,7 @@ $(addsuffix .fasta, $(LOCS)): %.fasta: bin/scripts/fastaheader.py
 	@echo "I am here right now"
 	$(eval UPSTREAM = $(shell echo $@ | sed 's/results\/WGD2ANC[0-9]*\//data\/families\/WGD2\/upstream\//'))
 	@echo "Transforming upstream header"
-	python $< $(UPSTREAM) "|" $@
+	@python $< $(UPSTREAM) "|" $@
 	@echo "Done."
 # Make appropriate directory
 makedir:
