@@ -90,7 +90,7 @@ $(addsuffix .fasta, $(LOCS)): %.fasta: bin/scripts/fastaheader.py
 # Make appropriate directory
 makedir:
 	@echo "Making correct dir"
-	@mkdir -p $(LOCS)
+	@mkdir -p $(SUBDIRS)
 
 retrieve_upstream: bin/gff/main.py
 	@echo "Retrieving upstream sequences..."
