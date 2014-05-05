@@ -29,9 +29,9 @@ all: $(MOTIFS)
 #	@echo "Making $@" 
 
 # Parse BigFoot's output
-$(MOTIFS): %.motifs : bin/bigfoot/setup.py %.fasta.mpd %.fasta.pred
+$(MOTIFS): %.motifs : bin/bigfoot/setup.py %.fasta.mpd
 	@echo "Parsing bigfoot's output"
-	python $^ -o $@ -s 4 -t 0.9 -a 0.8
+	python $^ $(subst mpd,pred, $(word 2, $^)) -o $@ -s 4 -t 0.9 -a 0.8
 	@echo "Done."
 
 # Compute Motifs using MEME
@@ -41,7 +41,7 @@ $(addsuffix .meme.motifs, $(LOCS)): %.meme.motifs : %.fasta
 	@echo "Done."
 
 # Compute Motifs using BigFoot
-$(MPD) :%.fasta.mpd : %.fasta %.newick
+$(MPD) : %.fasta.mpd : %.fasta %.newick
 	@echo "Computing Motifs using BigFoot"
 	@java -jar ../BigFoot/BigFoot.jar -t $(word 2, $^) -p=1000,2000,1000 $<
 	@echo "Done."
@@ -82,7 +82,8 @@ $(addsuffix CDS.nt_ali.fasta, $(LOCS)): %CDS.nt_ali.fasta : %.fasta
 	@echo "Done."
 # Transforming fasta header
 $(addsuffix .fasta, $(LOCS)): %.fasta: bin/scripts/fastaheader.py
-	@echo $(UP_S)
+	@echo "I am here right now"
+	echo $(shell echo $@ | sed 's/results\/WGD2ANC[0-9]*\//data\/families\/WGD2\/upstream\//')
 	@echo "Transforming upstream header"
 	@python $< $(addsuffix .fasta, $(addprefix $(UP_S),$(FAM))) "|" $@
 	@echo "Done."
