@@ -183,9 +183,6 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None, eva
 
 		seq_name = inst.sequence_name
 
-		print "Looking for: {}".format(seq_name)
-
-
 			# Compare the first instance of one motifs to all other motifs in MEME
 		for m_mot in meme_motifs:
 			if m_mot.evalue <= evalue:
