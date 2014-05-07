@@ -45,13 +45,13 @@ COMMAND LINE SUMMARY
 This information can also be useful in the event you wish to report a
 problem with the MEME software.
 
-command: meme -minw 7 -maxw 30 -text -dna -nmotifs 20 -minsites 4 WGD2ANC00182.fasta 
+command: meme -minw 4 -nmotifs 20 -text -dna WGD2ANC00182.fasta 
 
 model:  mod=         zoops    nmotifs=        20    evt=           inf
 object function=  E-value of product of p-values
-width:  minw=            7    maxw=           30    minic=        0.00
+width:  minw=            4    maxw=           50    minic=        0.00
 width:  wg=             11    ws=              1    endgaps=       yes
-nsites: minsites=        4    maxsites=        9    wnsites=       0.8
+nsites: minsites=        2    maxsites=        9    wnsites=       0.8
 theta:  prob=            1    spmap=         uni    spfuzz=        0.5
 global: substring=     yes    branching=      no    wbranch=        no
 em:     prior=   dirichlet    b=            0.01    maxiter=        50
@@ -67,31 +67,31 @@ A 0.417 C 0.079 G 0.077 T 0.427
 
 
 ********************************************************************************
-MOTIF  1	width =   15   sites =   6   llr = 86   E-value = 2.2e-002
+MOTIF  1	width =   15   sites =   8   llr = 94   E-value = 2.1e-002
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 1 Description
 --------------------------------------------------------------------------------
-Simplified        A  :8::777::23:7aa
-pos.-specific     C  ::::::3:33:82::
-probability       G  :2aa:::::::2:::
-matrix            T  a:::33:a757:2::
+Simplified        A  183:6881313:8aa
+pos.-specific     C  ::::::3:34:91::
+probability       G  :389:::::1:1:::
+matrix            T  9::143:9548:1::
 
-         bits    3.7   **           
-                 3.3   **           
-                 3.0   **       *   
-                 2.6   **       *   
+         bits    3.7                
+                 3.3                
+                 3.0    *       *   
+                 2.6    *       *   
 Relative         2.2   **       *   
 Entropy          1.9   **       *   
-(20.7 bits)      1.5   **       *   
-                 1.1 ****  ***  * **
-                 0.7 ****  **** * **
+(16.9 bits)      1.5   **       *   
+                 1.1  ***  *    * **
+                 0.7 ****  ** * * **
                  0.4 ***************
                  0.0 ---------------
 
-Multilevel           TAGGAAATTTTCAAA
-consensus                TTC CCA    
-sequence                            
+Multilevel           TAGGAAATTCTCAAA
+consensus             GA TTC ATA    
+sequence                     C      
                                     
 --------------------------------------------------------------------------------
 
@@ -100,12 +100,14 @@ sequence
 --------------------------------------------------------------------------------
 Sequence name             Start   P-value                 Site    
 -------------             ----- ---------            ---------------
-PBIGNG1861                  168  1.53e-08 TAGTTGTAAA TGGGTTATCCTCCAA ATTTAATGAT
-PSEXGNG064                   54  2.55e-08 AAATTAATAT TAGGAACTTTTCAAA CTCATTTAAT
-PTETEGNG21                  182  1.04e-07 AATAACCTTG TAGGAAATCCAGAAA AGAACTTATC
-PBIGNG0380                   41  1.04e-07 AATAATGTAT TAGGAAATTTTCAAA TTCTTTAAAA
-PTETEGNG10                   46  1.04e-07 ACTAGTATAT TAGGAAATTTTCAAA TTCTTTAAAA
-PSEXGNG098                  174  1.41e-06 ATATAATCTC TAGGTTCTTAACTAA ATAGGATAAA
+PBIGNG1861                  168  1.50e-08 TAGTTGTAAA TGGGTTATCCTCCAA ATTTAATGAT
+PSEXGNG064                   54  5.62e-08 AAATTAATAT TAGGAACTTTTCAAA CTCATTTAAT
+PBIGNG0380                   41  1.31e-07 AATAATGTAT TAGGAAATTTTCAAA TTCTTTAAAA
+PTETEGNG10                   46  1.31e-07 ACTAGTATAT TAGGAAATTTTCAAA TTCTTTAAAA
+PTETEGNG21                  182  1.92e-07 AATAACCTTG TAGGAAATCCAGAAA AGAACTTATC
+PBIGNG0462                   96  1.35e-05 AAATAATCCA AAAGAAATAGTCAAA AACAATTTTA
+PSEXGNG098                  174  1.85e-05 ATATAATCTC TAGGTTCTTAACTAA ATAGGATAAA
+PTETEGNG18                   29  7.10e-05 TATTTATTAT TGATTAAAACTCAAA TTAATGTTAA
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -114,23 +116,27 @@ PSEXGNG098                  174  1.41e-06 ATATAATCTC TAGGTTCTTAACTAA ATAGGATAAA
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
 PBIGNG1861                        1.5e-08  167_[+1]_68
-PSEXGNG064                        2.6e-08  53_[+1]_116
-PTETEGNG21                          1e-07  181_[+1]_54
-PBIGNG0380                          1e-07  40_[+1]_77
-PTETEGNG10                          1e-07  45_[+1]_94
-PSEXGNG098                        1.4e-06  173_[+1]_62
+PSEXGNG064                        5.6e-08  53_[+1]_116
+PBIGNG0380                        1.3e-07  40_[+1]_77
+PTETEGNG10                        1.3e-07  45_[+1]_94
+PTETEGNG21                        1.9e-07  181_[+1]_54
+PBIGNG0462                        1.4e-05  95_[+1]_51
+PSEXGNG098                        1.8e-05  173_[+1]_62
+PTETEGNG18                        7.1e-05  28_[+1]_93
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 1 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 1 width=15 seqs=6
+BL   MOTIF 1 width=15 seqs=8
 PBIGNG1861               (  168) TGGGTTATCCTCCAA  1 
 PSEXGNG064               (   54) TAGGAACTTTTCAAA  1 
-PTETEGNG21               (  182) TAGGAAATCCAGAAA  1 
 PBIGNG0380               (   41) TAGGAAATTTTCAAA  1 
 PTETEGNG10               (   46) TAGGAAATTTTCAAA  1 
+PTETEGNG21               (  182) TAGGAAATCCAGAAA  1 
+PBIGNG0462               (   96) AAAGAAATAGTCAAA  1 
 PSEXGNG098               (  174) TAGGTTCTTAACTAA  1 
+PTETEGNG18               (   29) TGATTAAAACTCAAA  1 
 //
 
 --------------------------------------------------------------------------------
@@ -138,41 +144,41 @@ PSEXGNG098               (  174) TAGGTTCTTAACTAA  1
 --------------------------------------------------------------------------------
 	Motif 1 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 15 n= 1497 bayes= 8.40611 E= 2.2e-002 
-  -923   -923   -923    123 
-   100   -923    112   -923 
-  -923   -923    370   -923 
-  -923   -923    370   -923 
-    68   -923   -923    -36 
-    68   -923   -923    -36 
-    68    207   -923   -923 
-  -923   -923   -923    123 
-  -923    207   -923     64 
-  -132    207   -923     23 
-   -32   -923   -923     64 
-  -923    339    112   -923 
-    68    107   -923   -135 
-   126   -923   -923   -923 
-   126   -923   -923   -923 
+log-odds matrix: alength= 4 w= 15 n= 1497 bayes= 7.54013 E= 2.1e-002 
+  -173   -965   -965    103 
+    85   -965    170   -965 
+   -74   -965    329   -965 
+  -965   -965    351   -177 
+    58   -965   -965    -19 
+    85   -965   -965    -77 
+    85    166   -965   -965 
+  -173   -965   -965    103 
+   -74    166   -965     23 
+  -173    224     70    -19 
+   -74   -965   -965     81 
+  -965    346     70   -965 
+    85     66   -965   -177 
+   126   -965   -965   -965 
+   126   -965   -965   -965 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 1 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 15 nsites= 6 E= 2.2e-002 
- 0.000000  0.000000  0.000000  1.000000 
- 0.833333  0.000000  0.166667  0.000000 
- 0.000000  0.000000  1.000000  0.000000 
- 0.000000  0.000000  1.000000  0.000000 
- 0.666667  0.000000  0.000000  0.333333 
- 0.666667  0.000000  0.000000  0.333333 
- 0.666667  0.333333  0.000000  0.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.333333  0.000000  0.666667 
- 0.166667  0.333333  0.000000  0.500000 
- 0.333333  0.000000  0.000000  0.666667 
- 0.000000  0.833333  0.166667  0.000000 
- 0.666667  0.166667  0.000000  0.166667 
+letter-probability matrix: alength= 4 w= 15 nsites= 8 E= 2.1e-002 
+ 0.125000  0.000000  0.000000  0.875000 
+ 0.750000  0.000000  0.250000  0.000000 
+ 0.250000  0.000000  0.750000  0.000000 
+ 0.000000  0.000000  0.875000  0.125000 
+ 0.625000  0.000000  0.000000  0.375000 
+ 0.750000  0.000000  0.000000  0.250000 
+ 0.750000  0.250000  0.000000  0.000000 
+ 0.125000  0.000000  0.000000  0.875000 
+ 0.250000  0.250000  0.000000  0.500000 
+ 0.125000  0.375000  0.125000  0.375000 
+ 0.250000  0.000000  0.000000  0.750000 
+ 0.000000  0.875000  0.125000  0.000000 
+ 0.750000  0.125000  0.000000  0.125000 
  1.000000  0.000000  0.000000  0.000000 
  1.000000  0.000000  0.000000  0.000000 
 --------------------------------------------------------------------------------
@@ -180,60 +186,56 @@ letter-probability matrix: alength= 4 w= 15 nsites= 6 E= 2.2e-002
 --------------------------------------------------------------------------------
 	Motif 1 regular expression
 --------------------------------------------------------------------------------
-TAGG[AT][AT][AC]T[TC][TC][TA]CAAA
+T[AG][GA]G[AT][AT][AC]T[TAC][CT][TA]CAAA
 --------------------------------------------------------------------------------
 
 
 
 
-Time  0.28 secs.
+Time  0.61 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF  2	width =   16   sites =   9   llr = 92   E-value = 8.2e+000
+MOTIF  2	width =   15   sites =   5   llr = 69   E-value = 6.5e+001
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 2 Description
 --------------------------------------------------------------------------------
-Simplified        A  :922a4a413:4942:
-pos.-specific     C  11::::::4283::2:
-probability       G  8::::2:2311::1:6
-matrix            T  1:88:3:313121464
+Simplified        A  8::a2a2:8::a:2:
+pos.-specific     C  2::::::4:66::::
+probability       G  ::::2:26:2::2:a
+matrix            T  :aa:6:6:224:88:
 
-         bits    3.7                 
-                 3.3                 
-                 3.0                 
-                 2.6 *               
-Relative         2.2 *         *     
-Entropy          1.9 *         *     
-(14.8 bits)      1.5 *       * *    *
-                 1.1 **  * * * *    *
-                 0.7 **  * * * * *  *
-                 0.4 ********* *** **
-                 0.0 ----------------
+         bits    3.7               *
+                 3.3               *
+                 3.0               *
+                 2.6        *      *
+Relative         2.2        *      *
+Entropy          1.9        * **   *
+(20.0 bits)      1.5        * **   *
+                 1.1 **** * * **** *
+                 0.7 **** * * **** *
+                 0.4 ***************
+                 0.0 ---------------
 
-Multilevel           GATTAAAACACAAATG
-consensus              AA T TGT C TAT
-sequence                  G G C T  C 
-                                     
+Multilevel           ATTATATGACCATTG
+consensus            C   A ACTGT GA 
+sequence                 G G  T     
+                                    
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 2 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value                  Site    
--------------             ----- ---------            ----------------
-PTETEGNG10                  132  7.35e-08 AATAATAATT GATTATATGACCATTG TAATTTA   
-PBIGNG1861                  134  8.62e-07 TTTATTATGA GATTAGAGCATCATAG ATAAAATTTA
-PBIGNG0380                   90  1.18e-06 TATGATAGAA CATTATATGTCCATTG TAATTTATTT
-PTETEGNG18                   30  1.97e-06 ATTTATTATT GATTAAAACTCAAATT AATGTTAAAC
-PCAUDG0055                   11  2.18e-06 TTTAATATAT GATTAAAGACCAAACT AATAAAACAA
-PSEXGNG064                   33  6.96e-06 ATTAATAATT GAATAAAACTCAAATT AATATTAGGA
-PTETEGNG21                   31  2.44e-05 AATGTTGTTT TCTTAAAACACTAGTG TCACTAATAT
-PBIGNG0462                   84  5.21e-05 ATCTAATAAA GAAAATAATCCAAAAG AAATAGTCAA
-PSEXGNG098                  207  8.50e-05 AAAGGATAAA GATAAGATGGGTTTCT GTAATTTTGA
+Sequence name             Start   P-value                 Site    
+-------------             ----- ---------            ---------------
+PTETEGNG10                  133  7.56e-09 ATAATAATTG ATTATATGACCATTG TAATTTA   
+PBIGNG0380                   91  5.18e-08 ATGATAGAAC ATTATATGTCCATTG TAATTTATTT
+PSEXGNG064                  142  3.69e-07 AAAAATATTT ATTATATGAGTATTG AAATTTAATT
+PBIGNG1861                  135  4.85e-07 TTATTATGAG ATTAGAGCATCATAG ATAAAATTTA
+PTETEGNG21                   32  8.99e-07 ATGTTGTTTT CTTAAAACACTAGTG TCACTAATAT
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -241,30 +243,22 @@ PSEXGNG098                  207  8.50e-05 AAAGGATAAA GATAAGATGGGTTTCT GTAATTTTGA
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PTETEGNG10                        7.4e-08  131_[+2]_7
-PBIGNG1861                        8.6e-07  133_[+2]_101
-PBIGNG0380                        1.2e-06  89_[+2]_27
-PTETEGNG18                          2e-06  29_[+2]_91
-PCAUDG0055                        2.2e-06  10_[+2]_80
-PSEXGNG064                          7e-06  32_[+2]_136
-PTETEGNG21                        2.4e-05  30_[+2]_204
-PBIGNG0462                        5.2e-05  83_[+2]_62
-PSEXGNG098                        8.5e-05  206_[+2]_28
+PTETEGNG10                        7.6e-09  132_[+2]_7
+PBIGNG0380                        5.2e-08  90_[+2]_27
+PSEXGNG064                        3.7e-07  141_[+2]_28
+PBIGNG1861                        4.9e-07  134_[+2]_101
+PTETEGNG21                          9e-07  31_[+2]_204
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 2 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 2 width=16 seqs=9
-PTETEGNG10               (  132) GATTATATGACCATTG  1 
-PBIGNG1861               (  134) GATTAGAGCATCATAG  1 
-PBIGNG0380               (   90) CATTATATGTCCATTG  1 
-PTETEGNG18               (   30) GATTAAAACTCAAATT  1 
-PCAUDG0055               (   11) GATTAAAGACCAAACT  1 
-PSEXGNG064               (   33) GAATAAAACTCAAATT  1 
-PTETEGNG21               (   31) TCTTAAAACACTAGTG  1 
-PBIGNG0462               (   84) GAAAATAATCCAAAAG  1 
-PSEXGNG098               (  207) GATAAGATGGGTTTCT  1 
+BL   MOTIF 2 width=15 seqs=5
+PTETEGNG10               (  133) ATTATATGACCATTG  1 
+PBIGNG0380               (   91) ATTATATGTCCATTG  1 
+PSEXGNG064               (  142) ATTATATGAGTATTG  1 
+PBIGNG1861               (  135) ATTAGAGCATCATAG  1 
+PTETEGNG21               (   32) CTTAAAACACTAGTG  1 
 //
 
 --------------------------------------------------------------------------------
@@ -272,104 +266,96 @@ PSEXGNG098               (  207) GATAAGATGGGTTTCT  1
 --------------------------------------------------------------------------------
 	Motif 2 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 16 n= 1488 bayes= 7.36048 E= 8.2e+000 
-  -982     49    334   -194 
-   109     49   -982   -982 
-   -91   -982   -982     86 
-   -91   -982   -982     86 
-   126   -982   -982   -982 
-     9   -982    153    -36 
-   126   -982   -982   -982 
-     9   -982    153    -36 
-  -190    249    212   -194 
-   -32    149     53    -36 
-  -982    329     53   -194 
-     9    207   -982    -94 
-   109   -982   -982   -194 
-     9   -982     53      6 
-   -91    149   -982     38 
-  -982   -982    285      6 
+log-odds matrix: alength= 4 w= 15 n= 1497 bayes= 8.47342 E= 6.5e+001 
+    94    133   -897   -897 
+  -897   -897   -897    123 
+  -897   -897   -897    123 
+   126   -897   -897   -897 
+  -106   -897    138     49 
+   126   -897   -897   -897 
+  -106   -897    138     49 
+  -897    233    296   -897 
+    94   -897   -897   -109 
+  -897    292    138   -109 
+  -897    292   -897     -9 
+   126   -897   -897   -897 
+  -897   -897    138     90 
+  -106   -897   -897     90 
+  -897   -897    370   -897 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 2 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 16 nsites= 9 E= 8.2e+000 
- 0.000000  0.111111  0.777778  0.111111 
- 0.888889  0.111111  0.000000  0.000000 
- 0.222222  0.000000  0.000000  0.777778 
- 0.222222  0.000000  0.000000  0.777778 
+letter-probability matrix: alength= 4 w= 15 nsites= 5 E= 6.5e+001 
+ 0.800000  0.200000  0.000000  0.000000 
+ 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  0.000000  0.000000  1.000000 
  1.000000  0.000000  0.000000  0.000000 
- 0.444444  0.000000  0.222222  0.333333 
+ 0.200000  0.000000  0.200000  0.600000 
  1.000000  0.000000  0.000000  0.000000 
- 0.444444  0.000000  0.222222  0.333333 
- 0.111111  0.444444  0.333333  0.111111 
- 0.333333  0.222222  0.111111  0.333333 
- 0.000000  0.777778  0.111111  0.111111 
- 0.444444  0.333333  0.000000  0.222222 
- 0.888889  0.000000  0.000000  0.111111 
- 0.444444  0.000000  0.111111  0.444444 
- 0.222222  0.222222  0.000000  0.555556 
- 0.000000  0.000000  0.555556  0.444444 
+ 0.200000  0.000000  0.200000  0.600000 
+ 0.000000  0.400000  0.600000  0.000000 
+ 0.800000  0.000000  0.000000  0.200000 
+ 0.000000  0.600000  0.200000  0.200000 
+ 0.000000  0.600000  0.000000  0.400000 
+ 1.000000  0.000000  0.000000  0.000000 
+ 0.000000  0.000000  0.200000  0.800000 
+ 0.200000  0.000000  0.000000  0.800000 
+ 0.000000  0.000000  1.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 2 regular expression
 --------------------------------------------------------------------------------
-GA[TA][TA]A[ATG]A[ATG][CG][ATC]C[ACT]A[AT][TAC][GT]
+[AC]TTA[TAG]A[TAG][GC][AT][CGT][CT]A[TG][TA]G
 --------------------------------------------------------------------------------
 
 
 
 
-Time  0.55 secs.
+Time  1.10 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF  3	width =    7   sites =   9   llr = 65   E-value = 1.9e+002
+MOTIF  3	width =   10   sites =   3   llr = 40   E-value = 7.5e+001
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 3 Description
 --------------------------------------------------------------------------------
-Simplified        A  9:::::2
-pos.-specific     C  :a7::::
-probability       G  :::::::
-matrix            T  1:3aaa8
+Simplified        A  :77::3::::
+pos.-specific     C  3::::3:::3
+probability       G  73:aa3:::7
+matrix            T  ::3:::aaa:
 
-         bits    3.7  *     
-                 3.3  *     
-                 3.0  *     
-                 2.6  *     
-Relative         2.2  *     
-Entropy          1.9  **    
-(10.5 bits)      1.5  **    
-                 1.1  ***** 
-                 0.7 ****** 
-                 0.4 *******
-                 0.0 -------
+         bits    3.7    **     
+                 3.3    **     
+                 3.0    **     
+                 2.6 *  **    *
+Relative         2.2 *  **    *
+Entropy          1.9 *  **    *
+(19.4 bits)      1.5 *  **    *
+                 1.1 ** *******
+                 0.7 ** *******
+                 0.4 **********
+                 0.0 ----------
 
-Multilevel           ACCTTTT
-consensus              T   A
-sequence                    
-                            
+Multilevel           GAAGGATTTG
+consensus            CGT  C   C
+sequence                  G    
+                               
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 3 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value             Site
--------------             ----- ---------            -------
-PSEXGNG064                  169  8.72e-05 ATTTAATTTT ACCTTTT AATAATACT 
-PBIGNG0380                  117  8.72e-05 AATTTATTTT ACCTTTT TATAACTAT 
-PTETEGNG18                  130  8.72e-05 CTTTTTTTTT ACCTTTT           
-PCAUDG0055                   86  8.72e-05 ATAATCATAT ACCTTTT AATTTACTAT
-PTETEGNG21                  161  1.72e-04 TTAAATACGT ACCTTTA ATCAAATAAC
-PSEXGNG098                   50  7.31e-04 GTCATCATTA ACTTTTT ATATATGAAC
-PBIGNG0462                  150  7.31e-04 AAAATGGAAA ACTTTTT GATAT     
-PTETEGNG10                   89  7.31e-04 TTATATTGAC ACTTTTT ATAATGGAAG
-PBIGNG1861                   17  8.18e-04 TTAATATTAA TCCTTTA TAAAAAAAGT
+Sequence name             Start   P-value               Site 
+-------------             ----- ---------            ----------
+PTETEGNG10                  102  1.29e-07 TTTTATAATG GAAGGCTTTG ATTTTTCTGT
+PSEXGNG098                  212  6.77e-07 ATAAAGATAA GATGGGTTTC TGTAATTTTG
+PTETEGNG18                   75  6.77e-07 ATTTGTTTTA CGAGGATTTG TTTATCAATT
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -377,30 +363,18 @@ PBIGNG1861                   17  8.18e-04 TTAATATTAA TCCTTTA TAAAAAAAGT
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PSEXGNG064                        8.7e-05  168_[+3]_9
-PBIGNG0380                        8.7e-05  116_[+3]_9
-PTETEGNG18                        8.7e-05  129_[+3]
-PCAUDG0055                        8.7e-05  85_[+3]_14
-PTETEGNG21                        0.00017  160_[+3]_83
-PSEXGNG098                        0.00073  49_[+3]_194
-PBIGNG0462                        0.00073  149_[+3]_5
-PTETEGNG10                        0.00073  88_[+3]_59
-PBIGNG1861                        0.00082  16_[+3]_227
+PTETEGNG10                        1.3e-07  101_[+3]_43
+PSEXGNG098                        6.8e-07  211_[+3]_29
+PTETEGNG18                        6.8e-07  74_[+3]_52
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 3 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 3 width=7 seqs=9
-PSEXGNG064               (  169) ACCTTTT  1 
-PBIGNG0380               (  117) ACCTTTT  1 
-PTETEGNG18               (  130) ACCTTTT  1 
-PCAUDG0055               (   86) ACCTTTT  1 
-PTETEGNG21               (  161) ACCTTTA  1 
-PSEXGNG098               (   50) ACTTTTT  1 
-PBIGNG0462               (  150) ACTTTTT  1 
-PTETEGNG10               (   89) ACTTTTT  1 
-PBIGNG1861               (   17) TCCTTTA  1 
+BL   MOTIF 3 width=10 seqs=3
+PTETEGNG10               (  102) GAAGGCTTTG  1 
+PSEXGNG098               (  212) GATGGGTTTC  1 
+PTETEGNG18               (   75) CGAGGATTTG  1 
 //
 
 --------------------------------------------------------------------------------
@@ -408,82 +382,92 @@ PBIGNG1861               (   17) TCCTTTA  1
 --------------------------------------------------------------------------------
 	Motif 3 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 7 n= 1569 bayes= 7.57245 E= 1.9e+002 
-   109   -982   -982   -194 
-  -982    366   -982   -982 
-  -982    307   -982    -36 
-  -982   -982   -982    123 
-  -982   -982   -982    123 
-  -982   -982   -982    123 
-   -91   -982   -982     86 
+log-odds matrix: alength= 4 w= 10 n= 1542 bayes= 9.45102 E= 7.5e+001 
+  -823    207    311   -823 
+    68   -823    211   -823 
+    68   -823   -823    -36 
+  -823   -823    370   -823 
+  -823   -823    370   -823 
+   -32    207    211   -823 
+  -823   -823   -823    122 
+  -823   -823   -823    122 
+  -823   -823   -823    122 
+  -823    207    311   -823 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 3 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 7 nsites= 9 E= 1.9e+002 
- 0.888889  0.000000  0.000000  0.111111 
- 0.000000  1.000000  0.000000  0.000000 
- 0.000000  0.666667  0.000000  0.333333 
+letter-probability matrix: alength= 4 w= 10 nsites= 3 E= 7.5e+001 
+ 0.000000  0.333333  0.666667  0.000000 
+ 0.666667  0.000000  0.333333  0.000000 
+ 0.666667  0.000000  0.000000  0.333333 
+ 0.000000  0.000000  1.000000  0.000000 
+ 0.000000  0.000000  1.000000  0.000000 
+ 0.333333  0.333333  0.333333  0.000000 
  0.000000  0.000000  0.000000  1.000000 
  0.000000  0.000000  0.000000  1.000000 
  0.000000  0.000000  0.000000  1.000000 
- 0.222222  0.000000  0.000000  0.777778 
+ 0.000000  0.333333  0.666667  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 3 regular expression
 --------------------------------------------------------------------------------
-AC[CT]TTT[TA]
+[GC][AG][AT]GG[ACG]TTT[GC]
 --------------------------------------------------------------------------------
 
 
 
 
-Time  0.80 secs.
+Time  1.55 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF  4	width =    9   sites =   5   llr = 50   E-value = 2.7e+003
+MOTIF  4	width =    6   sites =   9   llr = 63   E-value = 1.3e+002
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 4 Description
 --------------------------------------------------------------------------------
-Simplified        A  :aa:::6::
-pos.-specific     C  :::8:6::2
-probability       G  a::22::::
-matrix            T  ::::844a8
+Simplified        A  9:::::
+pos.-specific     C  :a7:::
+probability       G  ::::::
+matrix            T  1:3aaa
 
-         bits    3.7 *        
-                 3.3 *        
-                 3.0 *  *     
-                 2.6 *  *     
-Relative         2.2 *  *     
-Entropy          1.9 *  * *   
-(14.4 bits)      1.5 *  * *   
-                 1.1 ****** **
-                 0.7 ****** **
-                 0.4 *********
-                 0.0 ---------
+         bits    3.7  *    
+                 3.3  *    
+                 3.0  *    
+                 2.6  *    
+Relative         2.2  *    
+Entropy          1.9  **   
+(10.0 bits)      1.5  **   
+                 1.1  *****
+                 0.7 ******
+                 0.4 ******
+                 0.0 ------
 
-Multilevel           GAACTCATT
-consensus               GGTT C
-sequence                      
-                              
+Multilevel           ACCTTT
+consensus              T   
+sequence                   
+                           
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 4 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value              Site 
--------------             ----- ---------            ---------
-PSEXGNG098                   63  3.91e-06 TTTTATATAT GAACTCATT TTTTAGTCAA
-PBIGNG1861                   63  3.91e-06 TTATATTTAT GAACTCATT ATTTTAGTTA
-PTETEGNG10                  102  1.20e-05 TTTTATAATG GAAGGCTTT GATTTTTCTG
-PTETEGNG21                  198  2.11e-05 ATCCAGAAAA GAACTTATC TAAAATATTA
-PTETEGNG18                  117  5.68e-05 TTTATTATAT GAACTTTTT TTTTACCTTT
+Sequence name             Start   P-value             Site 
+-------------             ----- ---------            ------
+PTETEGNG21                  161  2.04e-04 TTAAATACGT ACCTTT AATCAAATAA
+PSEXGNG064                  169  2.04e-04 ATTTAATTTT ACCTTT TAATAATACT
+PBIGNG0380                  117  2.04e-04 AATTTATTTT ACCTTT TTATAACTAT
+PTETEGNG18                  130  2.04e-04 CTTTTTTTTT ACCTTT T         
+PCAUDG0055                   64  2.04e-04 ATTAAAACCA ACCTTT ATAAATATAA
+PBIGNG1861                   17  4.13e-04 TTAATATTAA TCCTTT ATAAAAAAAG
+PSEXGNG098                   50  1.51e-03 GTCATCATTA ACTTTT TATATATGAA
+PBIGNG0462                  150  1.51e-03 AAAATGGAAA ACTTTT TGATAT    
+PTETEGNG10                   89  1.51e-03 TTATATTGAC ACTTTT TATAATGGAA
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -491,22 +475,30 @@ PTETEGNG18                  117  5.68e-05 TTTATTATAT GAACTTTTT TTTTACCTTT
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PSEXGNG098                        3.9e-06  62_[+4]_179
-PBIGNG1861                        3.9e-06  62_[+4]_179
-PTETEGNG10                        1.2e-05  101_[+4]_44
-PTETEGNG21                        2.1e-05  197_[+4]_44
-PTETEGNG18                        5.7e-05  116_[+4]_11
+PTETEGNG21                         0.0002  160_[+4]_84
+PSEXGNG064                         0.0002  168_[+4]_10
+PBIGNG0380                         0.0002  116_[+4]_10
+PTETEGNG18                         0.0002  129_[+4]_1
+PCAUDG0055                         0.0002  63_[+4]_37
+PBIGNG1861                        0.00041  16_[+4]_228
+PSEXGNG098                         0.0015  49_[+4]_195
+PBIGNG0462                         0.0015  149_[+4]_6
+PTETEGNG10                         0.0015  88_[+4]_60
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 4 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 4 width=9 seqs=5
-PSEXGNG098               (   63) GAACTCATT  1 
-PBIGNG1861               (   63) GAACTCATT  1 
-PTETEGNG10               (  102) GAAGGCTTT  1 
-PTETEGNG21               (  198) GAACTTATC  1 
-PTETEGNG18               (  117) GAACTTTTT  1 
+BL   MOTIF 4 width=6 seqs=9
+PTETEGNG21               (  161) ACCTTT  1 
+PSEXGNG064               (  169) ACCTTT  1 
+PBIGNG0380               (  117) ACCTTT  1 
+PTETEGNG18               (  130) ACCTTT  1 
+PCAUDG0055               (   64) ACCTTT  1 
+PBIGNG1861               (   17) TCCTTT  1 
+PSEXGNG098               (   50) ACTTTT  1 
+PBIGNG0462               (  150) ACTTTT  1 
+PTETEGNG10               (   89) ACTTTT  1 
 //
 
 --------------------------------------------------------------------------------
@@ -514,85 +506,81 @@ PTETEGNG18               (  117) GAACTTTTT  1
 --------------------------------------------------------------------------------
 	Motif 4 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 9 n= 1551 bayes= 8.52468 E= 2.7e+003 
-  -897   -897    370   -897 
-   126   -897   -897   -897 
-   126   -897   -897   -897 
-  -897    333    138   -897 
-  -897   -897    138     90 
-  -897    292   -897     -9 
-    53   -897   -897     -9 
-  -897   -897   -897    123 
-  -897    133   -897     90 
+log-odds matrix: alength= 4 w= 6 n= 1578 bayes= 7.58074 E= 1.3e+002 
+   109   -982   -982   -194 
+  -982    366   -982   -982 
+  -982    307   -982    -36 
+  -982   -982   -982    123 
+  -982   -982   -982    123 
+  -982   -982   -982    123 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 4 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 9 nsites= 5 E= 2.7e+003 
- 0.000000  0.000000  1.000000  0.000000 
- 1.000000  0.000000  0.000000  0.000000 
- 1.000000  0.000000  0.000000  0.000000 
- 0.000000  0.800000  0.200000  0.000000 
- 0.000000  0.000000  0.200000  0.800000 
- 0.000000  0.600000  0.000000  0.400000 
- 0.600000  0.000000  0.000000  0.400000 
+letter-probability matrix: alength= 4 w= 6 nsites= 9 E= 1.3e+002 
+ 0.888889  0.000000  0.000000  0.111111 
+ 0.000000  1.000000  0.000000  0.000000 
+ 0.000000  0.666667  0.000000  0.333333 
  0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.200000  0.000000  0.800000 
+ 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  0.000000  0.000000  1.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 4 regular expression
 --------------------------------------------------------------------------------
-GAA[CG][TG][CT][AT]T[TC]
+AC[CT]TTT
 --------------------------------------------------------------------------------
 
 
 
 
-Time  1.01 secs.
+Time  1.99 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF  5	width =    7   sites =   4   llr = 34   E-value = 6.6e+004
+MOTIF  5	width =    4   sites =   6   llr = 40   E-value = 2.8e+003
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 5 Description
 --------------------------------------------------------------------------------
-Simplified        A  a::a::a
-pos.-specific     C  :5:::::
-probability       G  ::8:a3:
-matrix            T  :53::8:
+Simplified        A  :a8:
+pos.-specific     C  ::2a
+probability       G  a:::
+matrix            T  ::::
 
-         bits    3.7     *  
-                 3.3     *  
-                 3.0     *  
-                 2.6     *  
-Relative         2.2   * *  
-Entropy          1.9   * *  
-(12.2 bits)      1.5  ** *  
-                 1.1 *******
-                 0.7 *******
-                 0.4 *******
-                 0.0 -------
+         bits    3.7 *  *
+                 3.3 *  *
+                 3.0 *  *
+                 2.6 *  *
+Relative         2.2 *  *
+Entropy          1.9 *  *
+(9.6 bits)       1.5 *  *
+                 1.1 ****
+                 0.7 ****
+                 0.4 ****
+                 0.0 ----
 
-Multilevel           ACGAGTA
-consensus             TT  G 
-sequence                    
-                            
+Multilevel           GAAC
+consensus                
+sequence                 
+                         
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 5 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value             Site
--------------             ----- ---------            -------
-PTETEGNG18                   74  2.60e-06 CATTTGTTTT ACGAGGA TTTGTTTATC
-PSEXGNG064                  147  1.09e-04 TATTTATTAT ATGAGTA TTGAAATTTA
-PBIGNG0462                   54  1.09e-04 AATTATAAAA ATGAGTA ATTTGAAAAT
-PTETEGNG10                   36  2.04e-04 AATTGAATAA ACTAGTA TATTAGGAAA
+Sequence name             Start   P-value            Site  
+-------------             ----- ---------            ----
+PCAUDG0055                   18  2.01e-04 TATGATTAAA GACC AAACTAATAA
+PSEXGNG098                   63  1.26e-03 TTTTATATAT GAAC TCATTTTTTA
+PBIGNG1861                   63  1.26e-03 TTATATTTAT GAAC TCATTATTTT
+PTETEGNG21                  198  1.26e-03 ATCCAGAAAA GAAC TTATCTAAAA
+PBIGNG0380                   87  1.26e-03 TTTTATGATA GAAC ATTATATGTC
+PTETEGNG18                  117  1.26e-03 TTTATTATAT GAAC TTTTTTTTTA
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -600,20 +588,24 @@ PTETEGNG10                   36  2.04e-04 AATTGAATAA ACTAGTA TATTAGGAAA
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PTETEGNG18                        2.6e-06  73_[+5]_56
-PSEXGNG064                        0.00011  146_[+5]_31
-PBIGNG0462                        0.00011  53_[+5]_101
-PTETEGNG10                         0.0002  35_[+5]_112
+PCAUDG0055                         0.0002  17_[+5]_85
+PSEXGNG098                         0.0013  62_[+5]_184
+PBIGNG1861                         0.0013  62_[+5]_184
+PTETEGNG21                         0.0013  197_[+5]_49
+PBIGNG0380                         0.0013  86_[+5]_42
+PTETEGNG18                         0.0013  116_[+5]_16
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 5 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 5 width=7 seqs=4
-PTETEGNG18               (   74) ACGAGGA  1 
-PSEXGNG064               (  147) ATGAGTA  1 
-PBIGNG0462               (   54) ATGAGTA  1 
-PTETEGNG10               (   36) ACTAGTA  1 
+BL   MOTIF 5 width=4 seqs=6
+PCAUDG0055               (   18) GACC  1 
+PSEXGNG098               (   63) GAAC  1 
+PBIGNG1861               (   63) GAAC  1 
+PTETEGNG21               (  198) GAAC  1 
+PBIGNG0380               (   87) GAAC  1 
+PTETEGNG18               (  117) GAAC  1 
 //
 
 --------------------------------------------------------------------------------
@@ -621,81 +613,73 @@ PTETEGNG10               (   36) ACTAGTA  1
 --------------------------------------------------------------------------------
 	Motif 5 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 7 n= 1569 bayes= 8.61195 E= 6.6e+004 
-   126   -865   -865   -865 
-  -865    265   -865     23 
-  -865   -865    328    -77 
-   126   -865   -865   -865 
-  -865   -865    370   -865 
-  -865   -865    170     81 
-   126   -865   -865   -865 
+log-odds matrix: alength= 4 w= 4 n= 1596 bayes= 9.15228 E= 2.8e+003 
+  -923   -923    370   -923 
+   126   -923   -923   -923 
+   100    107   -923   -923 
+  -923    365   -923   -923 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 5 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 7 nsites= 4 E= 6.6e+004 
- 1.000000  0.000000  0.000000  0.000000 
- 0.000000  0.500000  0.000000  0.500000 
- 0.000000  0.000000  0.750000  0.250000 
- 1.000000  0.000000  0.000000  0.000000 
+letter-probability matrix: alength= 4 w= 4 nsites= 6 E= 2.8e+003 
  0.000000  0.000000  1.000000  0.000000 
- 0.000000  0.000000  0.250000  0.750000 
  1.000000  0.000000  0.000000  0.000000 
+ 0.833333  0.166667  0.000000  0.000000 
+ 0.000000  1.000000  0.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 5 regular expression
 --------------------------------------------------------------------------------
-A[CT][GT]AG[TG]A
+GAAC
 --------------------------------------------------------------------------------
 
 
 
 
-Time  1.23 secs.
+Time  2.39 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF  6	width =    7   sites =   4   llr = 34   E-value = 4.6e+004
+MOTIF  6	width =    6   sites =   2   llr = 20   E-value = 3.9e+003
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 6 Description
 --------------------------------------------------------------------------------
-Simplified        A  :::a35a
-pos.-specific     C  ::8::5:
-probability       G  a:3::::
-matrix            T  :a::8::
+Simplified        A  :::a::
+pos.-specific     C  ::a::a
+probability       G  a:::::
+matrix            T  :a::a:
 
-         bits    3.7 *      
-                 3.3 *      
-                 3.0 * *    
-                 2.6 * *    
-Relative         2.2 * *    
-Entropy          1.9 * *    
-(12.2 bits)      1.5 * *  * 
-                 1.1 **** **
-                 0.7 **** **
-                 0.4 *******
-                 0.0 -------
+         bits    3.7 * *  *
+                 3.3 * *  *
+                 3.0 * *  *
+                 2.6 * *  *
+Relative         2.2 * *  *
+Entropy          1.9 * *  *
+(14.7 bits)      1.5 * *  *
+                 1.1 ******
+                 0.7 ******
+                 0.4 ******
+                 0.0 ------
 
-Multilevel           GTCATAA
-consensus              G AC 
-sequence                    
-                            
+Multilevel           GTCATC
+consensus                  
+sequence                   
+                           
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 6 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value             Site
--------------             ----- ---------            -------
-PSEXGNG098                   40  1.53e-05 AGTAATTAAA GTCATCA TTAACTTTTT
-PBIGNG1861                   40  1.53e-05 AAGTATTTAT GTCATCA CAGAGTTTAT
-PTETEGNG21                   67  2.18e-04 AAACACTTGA GTGATAA AATCAATTTA
-PBIGNG0462                  105  2.97e-04 AAAAGAAATA GTCAAAA ACAATTTTAT
+Sequence name             Start   P-value             Site 
+-------------             ----- ---------            ------
+PSEXGNG098                   40  3.67e-05 AGTAATTAAA GTCATC ATTAACTTTT
+PBIGNG1861                   40  3.67e-05 AAGTATTTAT GTCATC ACAGAGTTTA
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -703,20 +687,16 @@ PBIGNG0462                  105  2.97e-04 AAAAGAAATA GTCAAAA ACAATTTTAT
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PSEXGNG098                        1.5e-05  39_[+6]_204
-PBIGNG1861                        1.5e-05  39_[+6]_204
-PTETEGNG21                        0.00022  66_[+6]_177
-PBIGNG0462                         0.0003  104_[+6]_50
+PSEXGNG098                        3.7e-05  39_[+6]_205
+PBIGNG1861                        3.7e-05  39_[+6]_205
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 6 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 6 width=7 seqs=4
-PSEXGNG098               (   40) GTCATCA  1 
-PBIGNG1861               (   40) GTCATCA  1 
-PTETEGNG21               (   67) GTGATAA  1 
-PBIGNG0462               (  105) GTCAAAA  1 
+BL   MOTIF 6 width=6 seqs=2
+PSEXGNG098               (   40) GTCATC  1 
+PBIGNG1861               (   40) GTCATC  1 
 //
 
 --------------------------------------------------------------------------------
@@ -724,81 +704,77 @@ PBIGNG0462               (  105) GTCAAAA  1
 --------------------------------------------------------------------------------
 	Motif 6 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 7 n= 1569 bayes= 7.761 E= 4.6e+004 
-  -865   -865    370   -865 
-  -865   -865   -865    123 
-  -865    324    170   -865 
-   126   -865   -865   -865 
-   -73   -865   -865     81 
-    26    265   -865   -865 
-   126   -865   -865   -865 
+log-odds matrix: alength= 4 w= 6 n= 1578 bayes= 9.62205 E= 3.9e+003 
+  -765   -765    370   -765 
+  -765   -765   -765    122 
+  -765    365   -765   -765 
+   126   -765   -765   -765 
+  -765   -765   -765    122 
+  -765    365   -765   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 6 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 7 nsites= 4 E= 4.6e+004 
+letter-probability matrix: alength= 4 w= 6 nsites= 2 E= 3.9e+003 
  0.000000  0.000000  1.000000  0.000000 
  0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.750000  0.250000  0.000000 
+ 0.000000  1.000000  0.000000  0.000000 
  1.000000  0.000000  0.000000  0.000000 
- 0.250000  0.000000  0.000000  0.750000 
- 0.500000  0.500000  0.000000  0.000000 
- 1.000000  0.000000  0.000000  0.000000 
+ 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  1.000000  0.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 6 regular expression
 --------------------------------------------------------------------------------
-GT[CG]A[TA][AC]A
+GTCATC
 --------------------------------------------------------------------------------
 
 
 
 
-Time  1.41 secs.
+Time  2.76 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF  7	width =   14   sites =   4   llr = 51   E-value = 5.8e+005
+MOTIF  7	width =    5   sites =   2   llr = 16   E-value = 4.2e+003
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 7 Description
 --------------------------------------------------------------------------------
-Simplified        A  :::::8a888::::
-pos.-specific     C  :a:::3::3:::33
-probability       G  :::::::3:::::5
-matrix            T  a:aaa::::3aa83
+Simplified        A  :a::5
+pos.-specific     C  :::::
+probability       G  a:a:5
+matrix            T  :::a:
 
-         bits    3.7  *            
-                 3.3  *            
-                 3.0  *            
-                 2.6  *            
-Relative         2.2  *            
-Entropy          1.9  *            
-(18.5 bits)      1.5  *           *
-                 1.1 ********* ****
-                 0.7 ********* ****
-                 0.4 **************
-                 0.0 --------------
+         bits    3.7 * *  
+                 3.3 * *  
+                 3.0 * *  
+                 2.6 * *  
+Relative         2.2 * *  
+Entropy          1.9 * *  
+(11.4 bits)      1.5 * * *
+                 1.1 *****
+                 0.7 *****
+                 0.4 *****
+                 0.0 -----
 
-Multilevel           TCTTTAAAAATTTG
-consensus                 C GCT  CC
-sequence                          T
-                                   
+Multilevel           GAGTA
+consensus                G
+sequence                  
+                          
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 7 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value                 Site   
--------------             ----- ---------            --------------
-PSEXGNG064                  114  4.79e-08 AATATGGTAT TCTTTCAAAATTCG TAAAAAAAAT
-PTETEGNG18                   56  4.79e-08 AATGTTAAAC TCTTTAAGCATTTG TTTTACGAGG
-PTETEGNG10                   62  1.09e-06 ATTTTCAAAT TCTTTAAAAATTTC ACTTTATATT
-PBIGNG0380                   57  6.07e-06 ATTTTCAAAT TCTTTAAAATTTTT ATTATATTTT
+Sequence name             Start   P-value            Site 
+-------------             ----- ---------            -----
+PTETEGNG21                   65  8.07e-05 ATAAACACTT GAGTG ATAAAATCAA
+PBIGNG0462                   56  5.19e-04 TTATAAAAAT GAGTA ATTTGAAAAT
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -806,20 +782,16 @@ PBIGNG0380                   57  6.07e-06 ATTTTCAAAT TCTTTAAAATTTTT ATTATATTTT
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PSEXGNG064                        4.8e-08  113_[+7]_57
-PTETEGNG18                        4.8e-08  55_[+7]_67
-PTETEGNG10                        1.1e-06  61_[+7]_79
-PBIGNG0380                        6.1e-06  56_[+7]_62
+PTETEGNG21                        8.1e-05  64_[+7]_181
+PBIGNG0462                        0.00052  55_[+7]_101
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 7 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 7 width=14 seqs=4
-PSEXGNG064               (  114) TCTTTCAAAATTCG  1 
-PTETEGNG18               (   56) TCTTTAAGCATTTG  1 
-PTETEGNG10               (   62) TCTTTAAAAATTTC  1 
-PBIGNG0380               (   57) TCTTTAAAATTTTT  1 
+BL   MOTIF 7 width=5 seqs=2
+PTETEGNG21               (   65) GAGTG  1 
+PBIGNG0462               (   56) GAGTA  1 
 //
 
 --------------------------------------------------------------------------------
@@ -827,95 +799,75 @@ PBIGNG0380               (   57) TCTTTAAAATTTTT  1
 --------------------------------------------------------------------------------
 	Motif 7 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 14 n= 1506 bayes= 8.55267 E= 5.8e+005 
-  -865   -865   -865    123 
-  -865    365   -865   -865 
-  -865   -865   -865    123 
-  -865   -865   -865    123 
-  -865   -865   -865    123 
-    85    165   -865   -865 
-   126   -865   -865   -865 
-    85   -865    170   -865 
-    85    165   -865   -865 
-    85   -865   -865    -77 
-  -865   -865   -865    123 
-  -865   -865   -865    123 
-  -865    165   -865     81 
-  -865    165    270    -77 
+log-odds matrix: alength= 4 w= 5 n= 1587 bayes= 9.63027 E= 4.2e+003 
+  -765   -765    370   -765 
+   126   -765   -765   -765 
+  -765   -765    370   -765 
+  -765   -765   -765    122 
+    26   -765    270   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 7 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 14 nsites= 4 E= 5.8e+005 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  1.000000  0.000000  0.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.750000  0.250000  0.000000  0.000000 
+letter-probability matrix: alength= 4 w= 5 nsites= 2 E= 4.2e+003 
+ 0.000000  0.000000  1.000000  0.000000 
  1.000000  0.000000  0.000000  0.000000 
- 0.750000  0.000000  0.250000  0.000000 
- 0.750000  0.250000  0.000000  0.000000 
- 0.750000  0.000000  0.000000  0.250000 
+ 0.000000  0.000000  1.000000  0.000000 
  0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.250000  0.000000  0.750000 
- 0.000000  0.250000  0.500000  0.250000 
+ 0.500000  0.000000  0.500000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 7 regular expression
 --------------------------------------------------------------------------------
-TCTTT[AC]A[AG][AC][AT]TT[TC][GCT]
+GAGT[AG]
 --------------------------------------------------------------------------------
 
 
 
 
-Time  1.60 secs.
+Time  3.14 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF  8	width =    7   sites =   4   llr = 29   E-value = 1.8e+006
+MOTIF  8	width =    8   sites =   2   llr = 23   E-value = 8.4e+003
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 8 Description
 --------------------------------------------------------------------------------
-Simplified        A  5a3aa::
-pos.-specific     C  :::::::
-probability       G  5:::::a
-matrix            T  ::8::a:
+Simplified        A  ::a:aaa:
+pos.-specific     C  :5::::::
+probability       G  a5:::::a
+matrix            T  :::a::::
 
-         bits    3.7       *
-                 3.3       *
-                 3.0       *
-                 2.6       *
-Relative         2.2       *
-Entropy          1.9       *
-(10.6 bits)      1.5 *     *
-                 1.1 ** ****
-                 0.7 ** ****
-                 0.4 *******
-                 0.0 -------
+         bits    3.7 *      *
+                 3.3 *      *
+                 3.0 *      *
+                 2.6 **     *
+Relative         2.2 **     *
+Entropy          1.9 **     *
+(16.4 bits)      1.5 **     *
+                 1.1 ********
+                 0.7 ********
+                 0.4 ********
+                 0.0 --------
 
-Multilevel           AATAATG
-consensus            G A    
-sequence                    
-                            
+Multilevel           GCATAAAG
+consensus             G      
+sequence                     
+                             
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 8 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value             Site
--------------             ----- ---------            -------
-PTETEGNG21                   18  7.80e-05 AATATAAATA GATAATG TTGTTTTCTT
-PBIGNG0462                   65  1.54e-04 TGAGTAATTT GAAAATG AAATCTAATA
-PSEXGNG098                   22  5.78e-04 ATTAATCCTT AATAATG AAGTAATTAA
-PBIGNG0380                   31  5.78e-04 ATTATAATTG AATAATG TATTAGGAAA
+Sequence name             Start   P-value              Site
+-------------             ----- ---------            --------
+PSEXGNG098                  200  1.19e-05 TAGGATAAAA GGATAAAG ATAAGATGGG
+PBIGNG1861                  209  1.19e-05 TTTTTGTGAT GCATAAAG TAATTTAATC
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -923,20 +875,16 @@ PBIGNG0380                   31  5.78e-04 ATTATAATTG AATAATG TATTAGGAAA
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PTETEGNG21                        7.8e-05  17_[+8]_226
-PBIGNG0462                        0.00015  64_[+8]_90
-PSEXGNG098                        0.00058  21_[+8]_222
-PBIGNG0380                        0.00058  30_[+8]_95
+PSEXGNG098                        1.2e-05  199_[+8]_43
+PBIGNG1861                        1.2e-05  208_[+8]_34
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 8 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 8 width=7 seqs=4
-PTETEGNG21               (   18) GATAATG  1 
-PBIGNG0462               (   65) GAAAATG  1 
-PSEXGNG098               (   22) AATAATG  1 
-PBIGNG0380               (   31) AATAATG  1 
+BL   MOTIF 8 width=8 seqs=2
+PSEXGNG098               (  200) GGATAAAG  1 
+PBIGNG1861               (  209) GCATAAAG  1 
 //
 
 --------------------------------------------------------------------------------
@@ -944,82 +892,81 @@ PBIGNG0380               (   31) AATAATG  1
 --------------------------------------------------------------------------------
 	Motif 8 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 7 n= 1569 bayes= 8.61195 E= 1.8e+006 
-    26   -865    270   -865 
-   126   -865   -865   -865 
-   -73   -865   -865     81 
-   126   -865   -865   -865 
-   126   -865   -865   -865 
-  -865   -865   -865    123 
-  -865   -865    370   -865 
+log-odds matrix: alength= 4 w= 8 n= 1560 bayes= 9.60548 E= 8.4e+003 
+  -765   -765    370   -765 
+  -765    265    270   -765 
+   126   -765   -765   -765 
+  -765   -765   -765    122 
+   126   -765   -765   -765 
+   126   -765   -765   -765 
+   126   -765   -765   -765 
+  -765   -765    370   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 8 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 7 nsites= 4 E= 1.8e+006 
- 0.500000  0.000000  0.500000  0.000000 
- 1.000000  0.000000  0.000000  0.000000 
- 0.250000  0.000000  0.000000  0.750000 
- 1.000000  0.000000  0.000000  0.000000 
+letter-probability matrix: alength= 4 w= 8 nsites= 2 E= 8.4e+003 
+ 0.000000  0.000000  1.000000  0.000000 
+ 0.000000  0.500000  0.500000  0.000000 
  1.000000  0.000000  0.000000  0.000000 
  0.000000  0.000000  0.000000  1.000000 
+ 1.000000  0.000000  0.000000  0.000000 
+ 1.000000  0.000000  0.000000  0.000000 
+ 1.000000  0.000000  0.000000  0.000000 
  0.000000  0.000000  1.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 8 regular expression
 --------------------------------------------------------------------------------
-[AG]A[TA]AATG
+G[CG]ATAAAG
 --------------------------------------------------------------------------------
 
 
 
 
-Time  1.78 secs.
+Time  3.51 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF  9	width =   22   sites =   5   llr = 77   E-value = 2.5e+006
+MOTIF  9	width =    4   sites =   2   llr = 14   E-value = 2.2e+004
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 9 Description
 --------------------------------------------------------------------------------
-Simplified        A  a8a:a:86a6:aa:8:::282:
-pos.-specific     C  :::::2:::42:::::::::::
-probability       G  :::::::::::::::::::2::
-matrix            T  :2:a:824::8::a2aaa8:8a
+Simplified        A  a:::
+pos.-specific     C  :a:a
+probability       G  ::::
+matrix            T  ::a:
 
-         bits    3.7                       
-                 3.3                       
-                 3.0                       
-                 2.6                       
-Relative         2.2                       
-Entropy          1.9                       
-(22.1 bits)      1.5                       
-                 1.1 * ****  ****** *** * *
-                 0.7 * ****  ****** *** * *
-                 0.4 **********************
-                 0.0 ----------------------
+         bits    3.7  * *
+                 3.3  * *
+                 3.0  * *
+                 2.6  * *
+Relative         2.2  * *
+Entropy          1.9  * *
+(9.8 bits)       1.5  * *
+                 1.1 ****
+                 0.7 ****
+                 0.4 ****
+                 0.0 ----
 
-Multilevel           AAATATAAAATAATATTTTATT
-consensus             T   CTT CC   T   AGA 
-sequence                                   
-                                           
+Multilevel           ACTC
+consensus                
+sequence                 
+                         
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 9 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value                     Site       
--------------             ----- ---------            ----------------------
-PTETEGNG18                    1  2.48e-09          . AAATATATACCAATATTTTATT TATTATTGAT
-PTETEGNG10                    1  1.76e-08          . AAATATAAAATAATATTTTATT TATAATTGAA
-PBIGNG0380                    1  8.12e-08          . AAATATAAAATAATATTTTAAT TATAATTGAA
-PSEXGNG064                    4  1.61e-07        TAA ATATATATAATAATATTTTATT AATAATTGAA
-PBIGNG0462                   21  1.78e-07 GTTATAAAAT AAATACTAACTAATTTTTAGTT TAATTATAAA
+Sequence name             Start   P-value            Site  
+-------------             ----- ---------            ----
+PSEXGNG064                   40  1.12e-03 ATTGAATAAA ACTC AAATTAATAT
+PTETEGNG18                   54  1.12e-03 TTAATGTTAA ACTC TTTAAGCATT
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -1027,22 +974,16 @@ PBIGNG0462                   21  1.78e-07 GTTATAAAAT AAATACTAACTAATTTTTAGTT TAAT
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PTETEGNG18                        2.5e-09  [+9]_114
-PTETEGNG10                        1.8e-08  [+9]_132
-PBIGNG0380                        8.1e-08  [+9]_110
-PSEXGNG064                        1.6e-07  3_[+9]_159
-PBIGNG0462                        1.8e-07  20_[+9]_119
+PSEXGNG064                         0.0011  39_[+9]_141
+PTETEGNG18                         0.0011  53_[+9]_79
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 9 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 9 width=22 seqs=5
-PTETEGNG18               (    1) AAATATATACCAATATTTTATT  1 
-PTETEGNG10               (    1) AAATATAAAATAATATTTTATT  1 
-PBIGNG0380               (    1) AAATATAAAATAATATTTTAAT  1 
-PSEXGNG064               (    4) ATATATATAATAATATTTTATT  1 
-PBIGNG0462               (   21) AAATACTAACTAATTTTTAGTT  1 
+BL   MOTIF 9 width=4 seqs=2
+PSEXGNG064               (   40) ACTC  1 
+PTETEGNG18               (   54) ACTC  1 
 //
 
 --------------------------------------------------------------------------------
@@ -1050,111 +991,73 @@ PBIGNG0462               (   21) AAATACTAACTAATTTTTAGTT  1
 --------------------------------------------------------------------------------
 	Motif 9 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 22 n= 1434 bayes= 8.41121 E= 2.5e+006 
-   126   -897   -897   -897 
-    94   -897   -897   -109 
-   126   -897   -897   -897 
-  -897   -897   -897    123 
-   126   -897   -897   -897 
-  -897    133   -897     90 
-    94   -897   -897   -109 
-    53   -897   -897     -9 
-   126   -897   -897   -897 
-    53    233   -897   -897 
-  -897    133   -897     90 
-   126   -897   -897   -897 
-   126   -897   -897   -897 
-  -897   -897   -897    123 
-    94   -897   -897   -109 
-  -897   -897   -897    123 
-  -897   -897   -897    123 
-  -897   -897   -897    123 
-  -106   -897   -897     90 
-    94   -897    138   -897 
-  -106   -897   -897     90 
-  -897   -897   -897    123 
+log-odds matrix: alength= 4 w= 4 n= 1596 bayes= 8.78899 E= 2.2e+004 
+   126   -765   -765   -765 
+  -765    365   -765   -765 
+  -765   -765   -765    122 
+  -765    365   -765   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 9 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 22 nsites= 5 E= 2.5e+006 
+letter-probability matrix: alength= 4 w= 4 nsites= 2 E= 2.2e+004 
  1.000000  0.000000  0.000000  0.000000 
- 0.800000  0.000000  0.000000  0.200000 
- 1.000000  0.000000  0.000000  0.000000 
+ 0.000000  1.000000  0.000000  0.000000 
  0.000000  0.000000  0.000000  1.000000 
- 1.000000  0.000000  0.000000  0.000000 
- 0.000000  0.200000  0.000000  0.800000 
- 0.800000  0.000000  0.000000  0.200000 
- 0.600000  0.000000  0.000000  0.400000 
- 1.000000  0.000000  0.000000  0.000000 
- 0.600000  0.400000  0.000000  0.000000 
- 0.000000  0.200000  0.000000  0.800000 
- 1.000000  0.000000  0.000000  0.000000 
- 1.000000  0.000000  0.000000  0.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.800000  0.000000  0.000000  0.200000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.200000  0.000000  0.000000  0.800000 
- 0.800000  0.000000  0.200000  0.000000 
- 0.200000  0.000000  0.000000  0.800000 
- 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  1.000000  0.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 9 regular expression
 --------------------------------------------------------------------------------
-A[AT]ATA[TC][AT][AT]A[AC][TC]AAT[AT]TTT[TA][AG][TA]T
+ACTC
 --------------------------------------------------------------------------------
 
 
 
 
-Time  1.94 secs.
+Time  3.87 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF 10	width =   12   sites =   4   llr = 42   E-value = 3.7e+006
+MOTIF 10	width =    4   sites =   2   llr = 14   E-value = 2.8e+004
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 10 Description
 --------------------------------------------------------------------------------
-Simplified        A  :5353:::a:aa
-pos.-specific     C  5::38::5::::
-probability       G  :5:3::3:::::
-matrix            T  5:8::a85:a::
+Simplified        A  ::::
+pos.-specific     C  aa::
+probability       G  ::::
+matrix            T  ::aa
 
-         bits    3.7             
-                 3.3             
-                 3.0             
-                 2.6             
-Relative         2.2     *       
-Entropy          1.9     *       
-(15.3 bits)      1.5 **  *  *    
-                 1.1 ** *********
-                 0.7 ** *********
-                 0.4 ************
-                 0.0 ------------
+         bits    3.7 **  
+                 3.3 **  
+                 3.0 **  
+                 2.6 **  
+Relative         2.2 **  
+Entropy          1.9 **  
+(9.8 bits)       1.5 **  
+                 1.1 ****
+                 0.7 ****
+                 0.4 ****
+                 0.0 ----
 
-Multilevel           CATACTTCATAA
-consensus            TGACA GT    
-sequence                G        
-                                 
+Multilevel           CCTT
+consensus                
+sequence                 
+                         
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 10 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value                Site  
--------------             ----- ---------            ------------
-PTETEGNG21                  217  6.50e-08 TAAAATATTA CGTACTTCATAA AAAATTTATA
-PBIGNG1861                  203  5.07e-06 AAGATTTTTT TGTGATGCATAA AGTAATTTAA
-PCAUDG0055                   62  1.13e-05 ATATTAAAAC CAACCTTTATAA ATATAATCAT
-PSEXGNG064                   80  3.23e-05 TCATTTAATA TATACTTTATAA TTCTAGTTTT
+Sequence name             Start   P-value            Site  
+-------------             ----- ---------            ----
+PSEXGNG098                   18  1.15e-03 TTATATTAAT CCTT AATAATGAAG
+PTETEGNG21                  177  1.15e-03 AATCAAATAA CCTT GTAGGAAATC
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -1162,20 +1065,16 @@ PSEXGNG064                   80  3.23e-05 TCATTTAATA TATACTTTATAA TTCTAGTTTT
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PTETEGNG21                        6.5e-08  216_[+10]_22
-PBIGNG1861                        5.1e-06  202_[+10]_36
-PCAUDG0055                        1.1e-05  61_[+10]_33
-PSEXGNG064                        3.2e-05  79_[+10]_93
+PSEXGNG098                         0.0011  17_[+10]_229
+PTETEGNG21                         0.0011  176_[+10]_70
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 10 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 10 width=12 seqs=4
-PTETEGNG21               (  217) CGTACTTCATAA  1 
-PBIGNG1861               (  203) TGTGATGCATAA  1 
-PCAUDG0055               (   62) CAACCTTTATAA  1 
-PSEXGNG064               (   80) TATACTTTATAA  1 
+BL   MOTIF 10 width=4 seqs=2
+PSEXGNG098               (   18) CCTT  1 
+PTETEGNG21               (  177) CCTT  1 
 //
 
 --------------------------------------------------------------------------------
@@ -1183,91 +1082,73 @@ PSEXGNG064               (   80) TATACTTTATAA  1
 --------------------------------------------------------------------------------
 	Motif 10 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 12 n= 1524 bayes= 8.56986 E= 3.7e+006 
-  -865    265   -865     23 
-    26   -865    270   -865 
-   -73   -865   -865     81 
-    26    165    170   -865 
-   -73    324   -865   -865 
-  -865   -865   -865    123 
-  -865   -865    170     81 
-  -865    265   -865     23 
-   126   -865   -865   -865 
-  -865   -865   -865    123 
-   126   -865   -865   -865 
-   126   -865   -865   -865 
+log-odds matrix: alength= 4 w= 4 n= 1596 bayes= 8.78899 E= 2.8e+004 
+  -765    365   -765   -765 
+  -765    365   -765   -765 
+  -765   -765   -765    122 
+  -765   -765   -765    122 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 10 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 12 nsites= 4 E= 3.7e+006 
- 0.000000  0.500000  0.000000  0.500000 
- 0.500000  0.000000  0.500000  0.000000 
- 0.250000  0.000000  0.000000  0.750000 
- 0.500000  0.250000  0.250000  0.000000 
- 0.250000  0.750000  0.000000  0.000000 
+letter-probability matrix: alength= 4 w= 4 nsites= 2 E= 2.8e+004 
+ 0.000000  1.000000  0.000000  0.000000 
+ 0.000000  1.000000  0.000000  0.000000 
  0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.000000  0.250000  0.750000 
- 0.000000  0.500000  0.000000  0.500000 
- 1.000000  0.000000  0.000000  0.000000 
  0.000000  0.000000  0.000000  1.000000 
- 1.000000  0.000000  0.000000  0.000000 
- 1.000000  0.000000  0.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 10 regular expression
 --------------------------------------------------------------------------------
-[CT][AG][TA][ACG][CA]T[TG][CT]ATAA
+CCTT
 --------------------------------------------------------------------------------
 
 
 
 
-Time  2.12 secs.
+Time  4.23 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF 11	width =    7   sites =   4   llr = 29   E-value = 6.2e+006
+MOTIF 11	width =    4   sites =   2   llr = 14   E-value = 7.5e+003
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 11 Description
 --------------------------------------------------------------------------------
-Simplified        A  ::3::aa
-pos.-specific     C  :8:5:::
-probability       G  :::5:::
-matrix            T  a38:a::
+Simplified        A  a:::
+pos.-specific     C  ::::
+probability       G  ::aa
+matrix            T  :a::
 
-         bits    3.7        
-                 3.3        
-                 3.0        
-                 2.6    *   
-Relative         2.2  * *   
-Entropy          1.9  * *   
-(10.3 bits)      1.5  * *   
-                 1.1 ** ****
-                 0.7 ** ****
-                 0.4 *******
-                 0.0 -------
+         bits    3.7   **
+                 3.3   **
+                 3.0   **
+                 2.6   **
+Relative         2.2   **
+Entropy          1.9   **
+(9.9 bits)       1.5   **
+                 1.1 ****
+                 0.7 ****
+                 0.4 ****
+                 0.0 ----
 
-Multilevel           TCTCTAA
-consensus             TAG   
-sequence                    
-                            
+Multilevel           ATGG
+consensus                
+sequence                 
+                         
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 11 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value             Site
--------------             ----- ---------            -------
-PSEXGNG098                  151  1.68e-04 TTATAGAATT TCTCTAA ATTATAATAT
-PTETEGNG10                  117  1.68e-04 CTTTGATTTT TCTGTAA TAATAATTGA
-PTETEGNG21                   47  3.31e-04 AACACTAGTG TCACTAA TATAAACACT
-PBIGNG1861                  100  1.23e-03 TCAATATTAT TTTGTAA ATTTTAAAGT
+Sequence name             Start   P-value            Site  
+-------------             ----- ---------            ----
+PSEXGNG064                  107  1.05e-03 GTTTTATAAT ATGG TATTCTTTCA
+PBIGNG0462                  143  1.05e-03 ATTAAAAAAA ATGG AAAACTTTTT
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -1275,20 +1156,16 @@ PBIGNG1861                  100  1.23e-03 TCAATATTAT TTTGTAA ATTTTAAAGT
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PSEXGNG098                        0.00017  150_[+11]_93
-PTETEGNG10                        0.00017  116_[+11]_31
-PTETEGNG21                        0.00033  46_[+11]_197
-PBIGNG1861                         0.0012  99_[+11]_144
+PSEXGNG064                         0.0011  106_[+11]_74
+PBIGNG0462                         0.0011  142_[+11]_15
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 11 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 11 width=7 seqs=4
-PSEXGNG098               (  151) TCTCTAA  1 
-PTETEGNG10               (  117) TCTGTAA  1 
-PTETEGNG21               (   47) TCACTAA  1 
-PBIGNG1861               (  100) TTTGTAA  1 
+BL   MOTIF 11 width=4 seqs=2
+PSEXGNG064               (  107) ATGG  1 
+PBIGNG0462               (  143) ATGG  1 
 //
 
 --------------------------------------------------------------------------------
@@ -1296,81 +1173,73 @@ PBIGNG1861               (  100) TTTGTAA  1
 --------------------------------------------------------------------------------
 	Motif 11 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 7 n= 1569 bayes= 8.61195 E= 6.2e+006 
-  -865   -865   -865    123 
-  -865    324   -865    -77 
-   -73   -865   -865     81 
-  -865    265    270   -865 
-  -865   -865   -865    123 
-   126   -865   -865   -865 
-   126   -865   -865   -865 
+log-odds matrix: alength= 4 w= 4 n= 1596 bayes= 9.63844 E= 7.5e+003 
+   126   -765   -765   -765 
+  -765   -765   -765    122 
+  -765   -765    370   -765 
+  -765   -765    370   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 11 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 7 nsites= 4 E= 6.2e+006 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.750000  0.000000  0.250000 
- 0.250000  0.000000  0.000000  0.750000 
- 0.000000  0.500000  0.500000  0.000000 
- 0.000000  0.000000  0.000000  1.000000 
+letter-probability matrix: alength= 4 w= 4 nsites= 2 E= 7.5e+003 
  1.000000  0.000000  0.000000  0.000000 
- 1.000000  0.000000  0.000000  0.000000 
+ 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  0.000000  1.000000  0.000000 
+ 0.000000  0.000000  1.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 11 regular expression
 --------------------------------------------------------------------------------
-T[CT][TA][CG]TAA
+ATGG
 --------------------------------------------------------------------------------
 
 
 
 
-Time  2.29 secs.
+Time  4.59 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF 12	width =    8   sites =   4   llr = 31   E-value = 1.4e+007
+MOTIF 12	width =    4   sites =   2   llr = 14   E-value = 2.2e+004
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 12 Description
 --------------------------------------------------------------------------------
-Simplified        A  8::8a:::
-pos.-specific     C  ::a:::::
-probability       G  3:::::::
-matrix            T  :a:3:aaa
+Simplified        A  :a::
+pos.-specific     C  ::aa
+probability       G  ::::
+matrix            T  a:::
 
-         bits    3.7   *     
-                 3.3   *     
-                 3.0   *     
-                 2.6   *     
-Relative         2.2   *     
-Entropy          1.9   *     
-(11.3 bits)      1.5   *     
-                 1.1 *** ****
-                 0.7 *** ****
-                 0.4 ********
-                 0.0 --------
+         bits    3.7   **
+                 3.3   **
+                 3.0   **
+                 2.6   **
+Relative         2.2   **
+Entropy          1.9   **
+(9.8 bits)       1.5   **
+                 1.1 ****
+                 0.7 ****
+                 0.4 ****
+                 0.0 ----
 
-Multilevel           ATCAATTT
-consensus            G  T    
-sequence                     
-                             
+Multilevel           TACC
+consensus                
+sequence                 
+                         
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 12 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value              Site
--------------             ----- ---------            --------
-PSEXGNG098                   77  3.52e-05 TCATTTTTTA GTCAATTT TTCTTAAATT
-PTETEGNG21                   75  2.26e-04 GAGTGATAAA ATCAATTT AAAATTATTA
-PTETEGNG18                   88  2.26e-04 GGATTTGTTT ATCAATTT TTGTTAAATA
-PBIGNG1861                  224  4.58e-04 AAGTAATTTA ATCTATTT TTATTTATTA
+Sequence name             Start   P-value            Site  
+-------------             ----- ---------            ----
+PTETEGNG18                    8  1.12e-03    AAATATA TACC AATATTTTAT
+PCAUDG0055                   85  1.12e-03 TATAATCATA TACC TTTTAATTTA
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -1378,20 +1247,16 @@ PBIGNG1861                  224  4.58e-04 AAGTAATTTA ATCTATTT TTATTTATTA
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PSEXGNG098                        3.5e-05  76_[+12]_166
-PTETEGNG21                        0.00023  74_[+12]_168
-PTETEGNG18                        0.00023  87_[+12]_41
-PBIGNG1861                        0.00046  223_[+12]_19
+PTETEGNG18                         0.0011  7_[+12]_125
+PCAUDG0055                         0.0011  84_[+12]_18
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 12 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 12 width=8 seqs=4
-PSEXGNG098               (   77) GTCAATTT  1 
-PTETEGNG21               (   75) ATCAATTT  1 
-PTETEGNG18               (   88) ATCAATTT  1 
-PBIGNG1861               (  224) ATCTATTT  1 
+BL   MOTIF 12 width=4 seqs=2
+PTETEGNG18               (    8) TACC  1 
+PCAUDG0055               (   85) TACC  1 
 //
 
 --------------------------------------------------------------------------------
@@ -1399,83 +1264,73 @@ PBIGNG1861               (  224) ATCTATTT  1
 --------------------------------------------------------------------------------
 	Motif 12 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 8 n= 1560 bayes= 8.60363 E= 1.4e+007 
-    85   -865    170   -865 
-  -865   -865   -865    123 
-  -865    365   -865   -865 
-    85   -865   -865    -77 
-   126   -865   -865   -865 
-  -865   -865   -865    123 
-  -865   -865   -865    123 
-  -865   -865   -865    123 
+log-odds matrix: alength= 4 w= 4 n= 1596 bayes= 9.63844 E= 2.2e+004 
+  -765   -765   -765    122 
+   126   -765   -765   -765 
+  -765    365   -765   -765 
+  -765    365   -765   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 12 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 8 nsites= 4 E= 1.4e+007 
- 0.750000  0.000000  0.250000  0.000000 
+letter-probability matrix: alength= 4 w= 4 nsites= 2 E= 2.2e+004 
  0.000000  0.000000  0.000000  1.000000 
- 0.000000  1.000000  0.000000  0.000000 
- 0.750000  0.000000  0.000000  0.250000 
  1.000000  0.000000  0.000000  0.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  1.000000  0.000000  0.000000 
+ 0.000000  1.000000  0.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 12 regular expression
 --------------------------------------------------------------------------------
-[AG]TC[AT]ATTT
+TACC
 --------------------------------------------------------------------------------
 
 
 
 
-Time  2.43 secs.
+Time  4.93 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF 13	width =    9   sites =   4   llr = 30   E-value = 4.1e+007
+MOTIF 13	width =    4   sites =   2   llr = 12   E-value = 2.3e+004
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 13 Description
 --------------------------------------------------------------------------------
-Simplified        A  :55aa35::
-pos.-specific     C  8::::::::
-probability       G  3::::8:::
-matrix            T  :55:::5aa
+Simplified        A  :5::
+pos.-specific     C  ::a:
+probability       G  :::a
+matrix            T  a5::
 
-         bits    3.7          
-                 3.3          
-                 3.0 *        
-                 2.6 *        
-Relative         2.2 *    *   
-Entropy          1.9 *    *   
-(10.9 bits)      1.5 *    *   
-                 1.1 *  *** **
-                 0.7 *  *** **
-                 0.4 *********
-                 0.0 ---------
+         bits    3.7   **
+                 3.3   **
+                 3.0   **
+                 2.6   **
+Relative         2.2   **
+Entropy          1.9   **
+(8.8 bits)       1.5   **
+                 1.1 * **
+                 0.7 * **
+                 0.4 ****
+                 0.0 ----
 
-Multilevel           CAAAAGATT
-consensus            GTT  AT  
-sequence                      
-                              
+Multilevel           TACG
+consensus             T  
+sequence                 
+                         
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 13 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value              Site 
--------------             ----- ---------            ---------
-PCAUDG0055                   34  1.40e-05 ACTAATAAAA CAAAAGATT TTAAACCTTA
-PTETEGNG21                  144  1.01e-04 GTTAGTAATT CTAAAGTTT AAATACGTAC
-PBIGNG1861                  190  1.71e-04 CAAATTTAAT GATAAGATT TTTTTGTGAT
-PSEXGNG098                   87  8.59e-04 GTCAATTTTT CTTAAATTT ATATATATTA
+Sequence name             Start   P-value            Site  
+-------------             ----- ---------            ----
+PTETEGNG21                  131  1.08e-03 TTAAATAAAA TACG TTAGTAATTC
+PSEXGNG064                  124  2.19e-03 TCTTTCAAAA TTCG TAAAAAAAAT
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -1483,20 +1338,16 @@ PSEXGNG098                   87  8.59e-04 GTCAATTTTT CTTAAATTT ATATATATTA
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PCAUDG0055                        1.4e-05  33_[+13]_64
-PTETEGNG21                         0.0001  143_[+13]_98
-PBIGNG1861                        0.00017  189_[+13]_52
-PSEXGNG098                        0.00086  86_[+13]_155
+PTETEGNG21                         0.0011  130_[+13]_116
+PSEXGNG064                         0.0022  123_[+13]_57
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 13 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 13 width=9 seqs=4
-PCAUDG0055               (   34) CAAAAGATT  1 
-PTETEGNG21               (  144) CTAAAGTTT  1 
-PBIGNG1861               (  190) GATAAGATT  1 
-PSEXGNG098               (   87) CTTAAATTT  1 
+BL   MOTIF 13 width=4 seqs=2
+PTETEGNG21               (  131) TACG  1 
+PSEXGNG064               (  124) TTCG  1 
 //
 
 --------------------------------------------------------------------------------
@@ -1504,85 +1355,73 @@ PSEXGNG098               (   87) CTTAAATTT  1
 --------------------------------------------------------------------------------
 	Motif 13 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 9 n= 1551 bayes= 8.59526 E= 4.1e+007 
-  -865    324    170   -865 
-    26   -865   -865     23 
-    26   -865   -865     23 
-   126   -865   -865   -865 
-   126   -865   -865   -865 
-   -73   -865    328   -865 
-    26   -865   -865     23 
-  -865   -865   -865    123 
-  -865   -865   -865    123 
+log-odds matrix: alength= 4 w= 4 n= 1596 bayes= 9.63844 E= 2.3e+004 
+  -765   -765   -765    122 
+    26   -765   -765     23 
+  -765    365   -765   -765 
+  -765   -765    370   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 13 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 9 nsites= 4 E= 4.1e+007 
- 0.000000  0.750000  0.250000  0.000000 
- 0.500000  0.000000  0.000000  0.500000 
- 0.500000  0.000000  0.000000  0.500000 
- 1.000000  0.000000  0.000000  0.000000 
- 1.000000  0.000000  0.000000  0.000000 
- 0.250000  0.000000  0.750000  0.000000 
- 0.500000  0.000000  0.000000  0.500000 
+letter-probability matrix: alength= 4 w= 4 nsites= 2 E= 2.3e+004 
  0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.000000  0.000000  1.000000 
+ 0.500000  0.000000  0.000000  0.500000 
+ 0.000000  1.000000  0.000000  0.000000 
+ 0.000000  0.000000  1.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 13 regular expression
 --------------------------------------------------------------------------------
-[CG][AT][AT]AA[GA][AT]TT
+T[AT]CG
 --------------------------------------------------------------------------------
 
 
 
 
-Time  2.58 secs.
+Time  5.27 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF 14	width =    7   sites =   4   llr = 27   E-value = 6.5e+006
+MOTIF 14	width =    4   sites =   2   llr = 11   E-value = 7.1e+004
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 14 Description
 --------------------------------------------------------------------------------
-Simplified        A  8a8a::5
-pos.-specific     C  :::::::
-probability       G  :::::a5
-matrix            T  3:3:a::
+Simplified        A  a::a
+pos.-specific     C  ::::
+probability       G  :5a:
+matrix            T  :5::
 
-         bits    3.7      * 
-                 3.3      * 
-                 3.0      * 
-                 2.6      * 
-Relative         2.2      * 
-Entropy          1.9      * 
-(9.8 bits)       1.5      **
-                 1.1  * ****
-                 0.7  * ****
-                 0.4 *******
-                 0.0 -------
+         bits    3.7   * 
+                 3.3   * 
+                 3.0   * 
+                 2.6   * 
+Relative         2.2   * 
+Entropy          1.9   * 
+(7.7 bits)       1.5  ** 
+                 1.1 ****
+                 0.7 ****
+                 0.4 ****
+                 0.0 ----
 
-Multilevel           AAAATGA
-consensus            T T   G
-sequence                    
-                            
+Multilevel           AGGA
+consensus             T  
+sequence                 
+                         
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 14 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value             Site
--------------             ----- ---------            -------
-PBIGNG0462                  140  7.62e-05 TACATTAAAA AAAATGG AAAACTTTTT
-PSEXGNG064                  104  2.32e-04 CTAGTTTTAT AATATGG TATTCTTTCA
-PSEXGNG098                  122  6.46e-04 AAAATAAAGT AAAATGA TTTTATTATC
-PBIGNG1861                  242  1.57e-03 TTATTTATTA TAAATGA CA        
+Sequence name             Start   P-value            Site  
+-------------             ----- ---------            ----
+PSEXGNG098                  191  1.03e-03 TTAACTAAAT AGGA TAAAAGGATA
+PBIGNG1861                  188  6.73e-03 TCCAAATTTA ATGA TAAGATTTTT
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -1590,20 +1429,16 @@ PBIGNG1861                  242  1.57e-03 TTATTTATTA TAAATGA CA
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PBIGNG0462                        7.6e-05  139_[+14]_15
-PSEXGNG064                        0.00023  103_[+14]_74
-PSEXGNG098                        0.00065  121_[+14]_122
-PBIGNG1861                         0.0016  241_[+14]_2
+PSEXGNG098                          0.001  190_[+14]_56
+PBIGNG1861                         0.0067  187_[+14]_59
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 14 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 14 width=7 seqs=4
-PBIGNG0462               (  140) AAAATGG  1 
-PSEXGNG064               (  104) AATATGG  1 
-PSEXGNG098               (  122) AAAATGA  1 
-PBIGNG1861               (  242) TAAATGA  1 
+BL   MOTIF 14 width=4 seqs=2
+PSEXGNG098               (  191) AGGA  1 
+PBIGNG1861               (  188) ATGA  1 
 //
 
 --------------------------------------------------------------------------------
@@ -1611,81 +1446,73 @@ PBIGNG1861               (  242) TAAATGA  1
 --------------------------------------------------------------------------------
 	Motif 14 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 7 n= 1569 bayes= 8.61195 E= 6.5e+006 
-    85   -865   -865    -77 
-   126   -865   -865   -865 
-    85   -865   -865    -77 
-   126   -865   -865   -865 
-  -865   -865   -865    123 
-  -865   -865    370   -865 
-    26   -865    270   -865 
+log-odds matrix: alength= 4 w= 4 n= 1596 bayes= 9.63844 E= 7.1e+004 
+   126   -765   -765   -765 
+  -765   -765    270     23 
+  -765   -765    370   -765 
+   126   -765   -765   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 14 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 7 nsites= 4 E= 6.5e+006 
- 0.750000  0.000000  0.000000  0.250000 
+letter-probability matrix: alength= 4 w= 4 nsites= 2 E= 7.1e+004 
  1.000000  0.000000  0.000000  0.000000 
- 0.750000  0.000000  0.000000  0.250000 
- 1.000000  0.000000  0.000000  0.000000 
- 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  0.000000  0.500000  0.500000 
  0.000000  0.000000  1.000000  0.000000 
- 0.500000  0.000000  0.500000  0.000000 
+ 1.000000  0.000000  0.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 14 regular expression
 --------------------------------------------------------------------------------
-[AT]A[AT]ATG[AG]
+A[GT]GA
 --------------------------------------------------------------------------------
 
 
 
 
-Time  2.73 secs.
+Time  5.59 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF 15	width =    8   sites =   4   llr = 29   E-value = 2.3e+007
+MOTIF 15	width =    4   sites =   2   llr = 11   E-value = 1.9e+004
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 15 Description
 --------------------------------------------------------------------------------
-Simplified        A  ::3a:3aa
-pos.-specific     C  ::::::::
-probability       G  a:::3:::
-matrix            T  :a8:88::
+Simplified        A  :55:
+pos.-specific     C  ::::
+probability       G  a::a
+matrix            T  :55:
 
-         bits    3.7 *       
-                 3.3 *       
-                 3.0 *       
-                 2.6 *       
-Relative         2.2 *       
-Entropy          1.9 *       
-(10.6 bits)      1.5 *       
-                 1.1 ** ** **
-                 0.7 ** ** **
-                 0.4 ********
-                 0.0 --------
+         bits    3.7 *  *
+                 3.3 *  *
+                 3.0 *  *
+                 2.6 *  *
+Relative         2.2 *  *
+Entropy          1.9 *  *
+(7.9 bits)       1.5 *  *
+                 1.1 *  *
+                 0.7 *  *
+                 0.4 ****
+                 0.0 ----
 
-Multilevel           GTTATTAA
-consensus              A GA  
-sequence                     
-                             
+Multilevel           GAAG
+consensus             TT 
+sequence                 
+                         
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 15 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value              Site
--------------             ----- ---------            --------
-PTETEGNG21                  134  3.33e-05 AATAAAATAC GTTAGTAA TTCTAAAGTT
-PBIGNG1861                    3  2.18e-04         TT GTTATTAA TATTAATCCT
-PSEXGNG098                   31  6.45e-04 TAATAATGAA GTAATTAA AGTCATCATT
-PBIGNG0462                   11  6.45e-04 TTTACTTATT GTTATAAA ATAAATACTA
+Sequence name             Start   P-value            Site  
+-------------             ----- ---------            ----
+PSEXGNG098                   28  1.03e-03 CCTTAATAAT GAAG TAATTAAAGT
+PTETEGNG21                   24  4.20e-03 AATAGATAAT GTTG TTTTCTTAAA
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -1693,20 +1520,16 @@ PBIGNG0462                   11  6.45e-04 TTTACTTATT GTTATAAA ATAAATACTA
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PTETEGNG21                        3.3e-05  133_[+15]_109
-PBIGNG1861                        0.00022  2_[+15]_240
-PSEXGNG098                        0.00065  30_[+15]_212
-PBIGNG0462                        0.00065  10_[+15]_143
+PSEXGNG098                          0.001  27_[+15]_219
+PTETEGNG21                         0.0042  23_[+15]_223
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 15 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 15 width=8 seqs=4
-PTETEGNG21               (  134) GTTAGTAA  1 
-PBIGNG1861               (    3) GTTATTAA  1 
-PSEXGNG098               (   31) GTAATTAA  1 
-PBIGNG0462               (   11) GTTATAAA  1 
+BL   MOTIF 15 width=4 seqs=2
+PSEXGNG098               (   28) GAAG  1 
+PTETEGNG21               (   24) GTTG  1 
 //
 
 --------------------------------------------------------------------------------
@@ -1714,83 +1537,73 @@ PBIGNG0462               (   11) GTTATAAA  1
 --------------------------------------------------------------------------------
 	Motif 15 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 8 n= 1560 bayes= 8.60363 E= 2.3e+007 
-  -865   -865    370   -865 
-  -865   -865   -865    123 
-   -73   -865   -865     81 
-   126   -865   -865   -865 
-  -865   -865    170     81 
-   -73   -865   -865     81 
-   126   -865   -865   -865 
-   126   -865   -865   -865 
+log-odds matrix: alength= 4 w= 4 n= 1596 bayes= 9.63844 E= 1.9e+004 
+  -765   -765    370   -765 
+    26   -765   -765     23 
+    26   -765   -765     23 
+  -765   -765    370   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 15 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 8 nsites= 4 E= 2.3e+007 
+letter-probability matrix: alength= 4 w= 4 nsites= 2 E= 1.9e+004 
  0.000000  0.000000  1.000000  0.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.250000  0.000000  0.000000  0.750000 
- 1.000000  0.000000  0.000000  0.000000 
- 0.000000  0.000000  0.250000  0.750000 
- 0.250000  0.000000  0.000000  0.750000 
- 1.000000  0.000000  0.000000  0.000000 
- 1.000000  0.000000  0.000000  0.000000 
+ 0.500000  0.000000  0.000000  0.500000 
+ 0.500000  0.000000  0.000000  0.500000 
+ 0.000000  0.000000  1.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 15 regular expression
 --------------------------------------------------------------------------------
-GT[TA]A[TG][TA]AA
+G[AT][AT]G
 --------------------------------------------------------------------------------
 
 
 
 
-Time  2.86 secs.
+Time  5.93 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF 16	width =    9   sites =   4   llr = 31   E-value = 3.1e+007
+MOTIF 16	width =    8   sites =   2   llr = 20   E-value = 6.9e+004
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 16 Description
 --------------------------------------------------------------------------------
-Simplified        A  a:38:a8a5
-pos.-specific     C  ::::::::5
-probability       G  :38:::3::
-matrix            T  :8:3a::::
+Simplified        A  5:5a::::
+pos.-specific     C  5:::5::a
+probability       G  :a::::::
+matrix            T  ::5:5aa:
 
-         bits    3.7          
-                 3.3          
-                 3.0          
-                 2.6          
-Relative         2.2   *      
-Entropy          1.9   *      
-(11.3 bits)      1.5   *     *
-                 1.1 *** *****
-                 0.7 *** *****
-                 0.4 *********
-                 0.0 ---------
+         bits    3.7  *     *
+                 3.3  *     *
+                 3.0  *     *
+                 2.6  *     *
+Relative         2.2  *     *
+Entropy          1.9  *     *
+(14.2 bits)      1.5 **  *  *
+                 1.1 ** *****
+                 0.7 ** *****
+                 0.4 ********
+                 0.0 --------
 
-Multilevel           ATGATAAAA
-consensus             GAT  G C
-sequence                      
-                              
+Multilevel           AGAACTTC
+consensus            C T T   
+sequence                     
+                             
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 16 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value              Site 
--------------             ----- ---------            ---------
-PSEXGNG098                  191  4.09e-05 TTAACTAAAT AGGATAAAA GGATAAAGAT
-PBIGNG0380                   81  5.45e-05 ATTATATTTT ATGATAGAA CATTATATGT
-PTETEGNG18                   47  6.88e-05 ACTCAAATTA ATGTTAAAC TCTTTAAGCA
-PTETEGNG21                   92  3.57e-04 TAAAATTATT ATAATAAAC TAATTATATT
+Sequence name             Start   P-value              Site
+-------------             ----- ---------            --------
+PTETEGNG21                  217  2.46e-06 TAAAATATTA CGTACTTC ATAAAAAATT
+PSEXGNG098                  145  6.30e-05 TATCATTTAT AGAATTTC TCTAAATTAT
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -1798,20 +1611,16 @@ PTETEGNG21                   92  3.57e-04 TAAAATTATT ATAATAAAC TAATTATATT
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PSEXGNG098                        4.1e-05  190_[+16]_51
-PBIGNG0380                        5.4e-05  80_[+16]_43
-PTETEGNG18                        6.9e-05  46_[+16]_81
-PTETEGNG21                        0.00036  91_[+16]_150
+PTETEGNG21                        2.5e-06  216_[+16]_26
+PSEXGNG098                        6.3e-05  144_[+16]_98
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 16 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 16 width=9 seqs=4
-PSEXGNG098               (  191) AGGATAAAA  1 
-PBIGNG0380               (   81) ATGATAGAA  1 
-PTETEGNG18               (   47) ATGTTAAAC  1 
-PTETEGNG21               (   92) ATAATAAAC  1 
+BL   MOTIF 16 width=8 seqs=2
+PTETEGNG21               (  217) CGTACTTC  1 
+PSEXGNG098               (  145) AGAATTTC  1 
 //
 
 --------------------------------------------------------------------------------
@@ -1819,85 +1628,81 @@ PTETEGNG21               (   92) ATAATAAAC  1
 --------------------------------------------------------------------------------
 	Motif 16 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 9 n= 1551 bayes= 8.59526 E= 3.1e+007 
-   126   -865   -865   -865 
-  -865   -865    170     81 
-   -73   -865    328   -865 
-    85   -865   -865    -77 
-  -865   -865   -865    123 
-   126   -865   -865   -865 
-    85   -865    170   -865 
-   126   -865   -865   -865 
-    26    265   -865   -865 
+log-odds matrix: alength= 4 w= 8 n= 1560 bayes= 9.60548 E= 6.9e+004 
+    26    265   -765   -765 
+  -765   -765    370   -765 
+    26   -765   -765     23 
+   126   -765   -765   -765 
+  -765    265   -765     23 
+  -765   -765   -765    122 
+  -765   -765   -765    122 
+  -765    365   -765   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 16 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 9 nsites= 4 E= 3.1e+007 
- 1.000000  0.000000  0.000000  0.000000 
- 0.000000  0.000000  0.250000  0.750000 
- 0.250000  0.000000  0.750000  0.000000 
- 0.750000  0.000000  0.000000  0.250000 
- 0.000000  0.000000  0.000000  1.000000 
- 1.000000  0.000000  0.000000  0.000000 
- 0.750000  0.000000  0.250000  0.000000 
- 1.000000  0.000000  0.000000  0.000000 
+letter-probability matrix: alength= 4 w= 8 nsites= 2 E= 6.9e+004 
  0.500000  0.500000  0.000000  0.000000 
+ 0.000000  0.000000  1.000000  0.000000 
+ 0.500000  0.000000  0.000000  0.500000 
+ 1.000000  0.000000  0.000000  0.000000 
+ 0.000000  0.500000  0.000000  0.500000 
+ 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  0.000000  0.000000  1.000000 
+ 0.000000  1.000000  0.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 16 regular expression
 --------------------------------------------------------------------------------
-A[TG][GA][AT]TA[AG]A[AC]
+[AC]G[AT]A[CT]TTC
 --------------------------------------------------------------------------------
 
 
 
 
-Time  3.00 secs.
+Time  6.25 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF 17	width =    7   sites =   4   llr = 27   E-value = 3.7e+007
+MOTIF 17	width =    5   sites =   2   llr = 13   E-value = 6.8e+004
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 17 Description
 --------------------------------------------------------------------------------
-Simplified        A  a:a8:::
-pos.-specific     C  :5:3:::
-probability       G  ::::::8
-matrix            T  :5::aa3
+Simplified        A  5a:a:
+pos.-specific     C  5::::
+probability       G  ::a:5
+matrix            T  ::::5
 
-         bits    3.7        
-                 3.3        
-                 3.0        
-                 2.6        
-Relative         2.2       *
-Entropy          1.9       *
-(9.7 bits)       1.5  *    *
-                 1.1 *******
-                 0.7 *******
-                 0.4 *******
-                 0.0 -------
+         bits    3.7   *  
+                 3.3   *  
+                 3.0   *  
+                 2.6   *  
+Relative         2.2   *  
+Entropy          1.9   *  
+(9.2 bits)       1.5 * * *
+                 1.1 *****
+                 0.7 *****
+                 0.4 *****
+                 0.0 -----
 
-Multilevel           ACAATTG
-consensus             T C  T
-sequence                    
-                            
+Multilevel           AAGAG
+consensus            C   T
+sequence                  
+                          
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 17 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value             Site
--------------             ----- ---------            -------
-PTETEGNG21                   59  1.53e-05 ACTAATATAA ACACTTG AGTGATAAAA
-PBIGNG0380                   24  6.12e-04 TATTTTAATT ATAATTG AATAATGTAT
-PTETEGNG10                   24  6.12e-04 TATTTTATTT ATAATTG AATAAACTAG
-PBIGNG0462                  112  1.14e-03 ATAGTCAAAA ACAATTT TATAAATAAT
+Sequence name             Start   P-value            Site 
+-------------             ----- ---------            -----
+PBIGNG1861                   47  8.13e-05 TATGTCATCA CAGAG TTTATATTTA
+PCAUDG0055                   37  3.34e-03 AATAAAACAA AAGAT TTTAAACCTT
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -1905,20 +1710,16 @@ PBIGNG0462                  112  1.14e-03 ATAGTCAAAA ACAATTT TATAAATAAT
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PTETEGNG21                        1.5e-05  58_[+17]_185
-PBIGNG0380                        0.00061  23_[+17]_102
-PTETEGNG10                        0.00061  23_[+17]_124
-PBIGNG0462                         0.0011  111_[+17]_43
+PBIGNG1861                        8.1e-05  46_[+17]_199
+PCAUDG0055                         0.0033  36_[+17]_65
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 17 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 17 width=7 seqs=4
-PTETEGNG21               (   59) ACACTTG  1 
-PBIGNG0380               (   24) ATAATTG  1 
-PTETEGNG10               (   24) ATAATTG  1 
-PBIGNG0462               (  112) ACAATTT  1 
+BL   MOTIF 17 width=5 seqs=2
+PBIGNG1861               (   47) CAGAG  1 
+PCAUDG0055               (   37) AAGAT  1 
 //
 
 --------------------------------------------------------------------------------
@@ -1926,81 +1727,75 @@ PBIGNG0462               (  112) ACAATTT  1
 --------------------------------------------------------------------------------
 	Motif 17 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 7 n= 1569 bayes= 8.61195 E= 3.7e+007 
-   126   -865   -865   -865 
-  -865    265   -865     23 
-   126   -865   -865   -865 
-    85    165   -865   -865 
-  -865   -865   -865    123 
-  -865   -865   -865    123 
-  -865   -865    328    -77 
+log-odds matrix: alength= 4 w= 5 n= 1587 bayes= 9.63027 E= 6.8e+004 
+    26    265   -765   -765 
+   126   -765   -765   -765 
+  -765   -765    370   -765 
+   126   -765   -765   -765 
+  -765   -765    270     23 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 17 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 7 nsites= 4 E= 3.7e+007 
+letter-probability matrix: alength= 4 w= 5 nsites= 2 E= 6.8e+004 
+ 0.500000  0.500000  0.000000  0.000000 
  1.000000  0.000000  0.000000  0.000000 
- 0.000000  0.500000  0.000000  0.500000 
+ 0.000000  0.000000  1.000000  0.000000 
  1.000000  0.000000  0.000000  0.000000 
- 0.750000  0.250000  0.000000  0.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.000000  0.750000  0.250000 
+ 0.000000  0.000000  0.500000  0.500000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 17 regular expression
 --------------------------------------------------------------------------------
-A[CT]A[AC]TT[GT]
+[AC]AGA[GT]
 --------------------------------------------------------------------------------
 
 
 
 
-Time  3.12 secs.
+Time  6.57 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF 18	width =    7   sites =   4   llr = 27   E-value = 1.6e+007
+MOTIF 18	width =    4   sites =   2   llr = 11   E-value = 9.0e+004
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 18 Description
 --------------------------------------------------------------------------------
-Simplified        A  888:3::
-pos.-specific     C  :::a8::
-probability       G  :::::::
-matrix            T  333::aa
+Simplified        A  5::a
+pos.-specific     C  ::a:
+probability       G  5:::
+matrix            T  :a::
 
-         bits    3.7    *   
-                 3.3    *   
-                 3.0    *   
-                 2.6    *   
-Relative         2.2    **  
-Entropy          1.9    **  
-(9.7 bits)       1.5    **  
-                 1.1    ****
-                 0.7    ****
-                 0.4 *******
-                 0.0 -------
+         bits    3.7   * 
+                 3.3   * 
+                 3.0   * 
+                 2.6   * 
+Relative         2.2   * 
+Entropy          1.9   * 
+(7.6 bits)       1.5 * * 
+                 1.1 ****
+                 0.7 ****
+                 0.4 ****
+                 0.0 ----
 
-Multilevel           AAACCTT
-consensus            TTT A  
-sequence                    
-                            
+Multilevel           ATCA
+consensus            G   
+sequence                 
+                         
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 18 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value             Site
--------------             ----- ---------            -------
-PCAUDG0055                   45  8.31e-05 AAAAGATTTT AAACCTT ATATTAAAAC
-PSEXGNG098                   15  3.39e-04 TATTTATATT AATCCTT AATAATGAAG
-PTETEGNG21                  174  3.39e-04 TTTAATCAAA TAACCTT GTAGGAAATC
-PBIGNG0462                  129  2.47e-03 TATAAATAAT ATACATT AAAAAAAATG
+Sequence name             Start   P-value            Site  
+-------------             ----- ---------            ----
+PSEXGNG098                   77  1.08e-03 TCATTTTTTA GTCA ATTTTTCTTA
+PTETEGNG18                   88  6.97e-03 GGATTTGTTT ATCA ATTTTTGTTA
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -2008,20 +1803,16 @@ PBIGNG0462                  129  2.47e-03 TATAAATAAT ATACATT AAAAAAAATG
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PCAUDG0055                        8.3e-05  44_[+18]_55
-PSEXGNG098                        0.00034  14_[+18]_229
-PTETEGNG21                        0.00034  173_[+18]_70
-PBIGNG0462                         0.0025  128_[+18]_26
+PSEXGNG098                         0.0011  76_[+18]_170
+PTETEGNG18                          0.007  87_[+18]_45
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 18 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 18 width=7 seqs=4
-PCAUDG0055               (   45) AAACCTT  1 
-PSEXGNG098               (   15) AATCCTT  1 
-PTETEGNG21               (  174) TAACCTT  1 
-PBIGNG0462               (  129) ATACATT  1 
+BL   MOTIF 18 width=4 seqs=2
+PSEXGNG098               (   77) GTCA  1 
+PTETEGNG18               (   88) ATCA  1 
 //
 
 --------------------------------------------------------------------------------
@@ -2029,81 +1820,73 @@ PBIGNG0462               (  129) ATACATT  1
 --------------------------------------------------------------------------------
 	Motif 18 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 7 n= 1569 bayes= 8.61195 E= 1.6e+007 
-    85   -865   -865    -77 
-    85   -865   -865    -77 
-    85   -865   -865    -77 
-  -865    365   -865   -865 
-   -73    324   -865   -865 
-  -865   -865   -865    123 
-  -865   -865   -865    123 
+log-odds matrix: alength= 4 w= 4 n= 1596 bayes= 9.63844 E= 9.0e+004 
+    26   -765    270   -765 
+  -765   -765   -765    122 
+  -765    365   -765   -765 
+   126   -765   -765   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 18 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 7 nsites= 4 E= 1.6e+007 
- 0.750000  0.000000  0.000000  0.250000 
- 0.750000  0.000000  0.000000  0.250000 
- 0.750000  0.000000  0.000000  0.250000 
+letter-probability matrix: alength= 4 w= 4 nsites= 2 E= 9.0e+004 
+ 0.500000  0.000000  0.500000  0.000000 
+ 0.000000  0.000000  0.000000  1.000000 
  0.000000  1.000000  0.000000  0.000000 
- 0.250000  0.750000  0.000000  0.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.000000  0.000000  1.000000 
+ 1.000000  0.000000  0.000000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 18 regular expression
 --------------------------------------------------------------------------------
-[AT][AT][AT]C[CA]TT
+[AG]TCA
 --------------------------------------------------------------------------------
 
 
 
 
-Time  3.24 secs.
+Time  6.88 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF 19	width =    7   sites =   4   llr = 25   E-value = 1.1e+008
+MOTIF 19	width =    4   sites =   2   llr = 11   E-value = 9.8e+004
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 19 Description
 --------------------------------------------------------------------------------
-Simplified        A  3:3aaa:
-pos.-specific     C  :::::::
-probability       G  8::::::
-matrix            T  :a8:::a
+Simplified        A  a::a
+pos.-specific     C  ::5:
+probability       G  :a::
+matrix            T  ::5:
 
-         bits    3.7        
-                 3.3        
-                 3.0        
-                 2.6        
-Relative         2.2 *      
-Entropy          1.9 *      
-(8.9 bits)       1.5 *      
-                 1.1 ** ****
-                 0.7 ** ****
-                 0.4 *******
-                 0.0 -------
+         bits    3.7  *  
+                 3.3  *  
+                 3.0  *  
+                 2.6  *  
+Relative         2.2  *  
+Entropy          1.9  *  
+(7.7 bits)       1.5  ** 
+                 1.1 ****
+                 0.7 ****
+                 0.4 ****
+                 0.0 ----
 
-Multilevel           GTTAAAT
-consensus            A A    
-sequence                    
-                            
+Multilevel           AGCA
+consensus              T 
+sequence                 
+                         
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 19 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value             Site
--------------             ----- ---------            -------
-PBIGNG1861                   78  4.34e-04 CATTATTTTA GTTAAAT TTTTATCAAT
-PTETEGNG18                   98  4.34e-04 ATCAATTTTT GTTAAAT AATTTATTAT
-PSEXGNG098                  110  8.57e-04 ATATTATAAT GTAAAAT AAAGTAAAAT
-PTETEGNG21                  120  3.21e-03 TTTAATAGAT ATTAAAT AAAATACGTT
+Sequence name             Start   P-value            Site  
+-------------             ----- ---------            ----
+PTETEGNG18                   62  1.06e-03 AAACTCTTTA AGCA TTTGTTTTAC
+PBIGNG1861                   31  6.76e-03 TTATAAAAAA AGTA TTTATGTCAT
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -2111,20 +1894,16 @@ PTETEGNG21                  120  3.21e-03 TTTAATAGAT ATTAAAT AAAATACGTT
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PBIGNG1861                        0.00043  77_[+19]_166
-PTETEGNG18                        0.00043  97_[+19]_32
-PSEXGNG098                        0.00086  109_[+19]_134
-PTETEGNG21                         0.0032  119_[+19]_124
+PTETEGNG18                         0.0011  61_[+19]_71
+PBIGNG1861                         0.0068  30_[+19]_216
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 19 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 19 width=7 seqs=4
-PBIGNG1861               (   78) GTTAAAT  1 
-PTETEGNG18               (   98) GTTAAAT  1 
-PSEXGNG098               (  110) GTAAAAT  1 
-PTETEGNG21               (  120) ATTAAAT  1 
+BL   MOTIF 19 width=4 seqs=2
+PTETEGNG18               (   62) AGCA  1 
+PBIGNG1861               (   31) AGTA  1 
 //
 
 --------------------------------------------------------------------------------
@@ -2132,81 +1911,73 @@ PTETEGNG21               (  120) ATTAAAT  1
 --------------------------------------------------------------------------------
 	Motif 19 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 7 n= 1569 bayes= 8.61195 E= 1.1e+008 
-   -73   -865    328   -865 
-  -865   -865   -865    123 
-   -73   -865   -865     81 
-   126   -865   -865   -865 
-   126   -865   -865   -865 
-   126   -865   -865   -865 
-  -865   -865   -865    123 
+log-odds matrix: alength= 4 w= 4 n= 1596 bayes= 9.63844 E= 9.8e+004 
+   126   -765   -765   -765 
+  -765   -765    370   -765 
+  -765    265   -765     23 
+   126   -765   -765   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 19 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 7 nsites= 4 E= 1.1e+008 
- 0.250000  0.000000  0.750000  0.000000 
- 0.000000  0.000000  0.000000  1.000000 
- 0.250000  0.000000  0.000000  0.750000 
+letter-probability matrix: alength= 4 w= 4 nsites= 2 E= 9.8e+004 
  1.000000  0.000000  0.000000  0.000000 
+ 0.000000  0.000000  1.000000  0.000000 
+ 0.000000  0.500000  0.000000  0.500000 
  1.000000  0.000000  0.000000  0.000000 
- 1.000000  0.000000  0.000000  0.000000 
- 0.000000  0.000000  0.000000  1.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 19 regular expression
 --------------------------------------------------------------------------------
-[GA]T[TA]AAAT
+AG[CT]A
 --------------------------------------------------------------------------------
 
 
 
 
-Time  3.35 secs.
+Time  7.19 secs.
 
 ********************************************************************************
 
 
 ********************************************************************************
-MOTIF 20	width =    7   sites =   4   llr = 23   E-value = 3.1e+008
+MOTIF 20	width =    4   sites =   2   llr = 11   E-value = 6.8e+004
 ********************************************************************************
 --------------------------------------------------------------------------------
 	Motif 20 Description
 --------------------------------------------------------------------------------
-Simplified        A  :::8:3:
-pos.-specific     C  :3::3::
-probability       G  ::::8::
-matrix            T  a8a3:8a
+Simplified        A  :::5
+pos.-specific     C  ::::
+probability       G  a::5
+matrix            T  :aa:
 
-         bits    3.7        
-                 3.3        
-                 3.0     *  
-                 2.6     *  
-Relative         2.2     *  
-Entropy          1.9     *  
-(8.5 bits)       1.5     *  
-                 1.1 *** * *
-                 0.7 *** * *
-                 0.4 *******
-                 0.0 -------
+         bits    3.7 *   
+                 3.3 *   
+                 3.0 *   
+                 2.6 *   
+Relative         2.2 *   
+Entropy          1.9 *   
+(7.6 bits)       1.5 *  *
+                 1.1 ****
+                 0.7 ****
+                 0.4 ****
+                 0.0 ----
 
-Multilevel           TTTAGTT
-consensus             C TCA 
-sequence                    
-                            
+Multilevel           GTTA
+consensus               G
+sequence                 
+                         
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 20 sites sorted by position p-value
 --------------------------------------------------------------------------------
-Sequence name             Start   P-value             Site
--------------             ----- ---------            -------
-PSEXGNG064                   93  8.44e-05 ACTTTATAAT TCTAGTT TTATAATATG
-PBIGNG1861                  156  5.39e-04 ATAGATAAAA TTTAGTT GTAAATGGGT
-PBIGNG0462                    1  2.17e-03          . TTTACTT ATTGTTATAA
-PSEXGNG098                  227  3.35e-03 GTTTCTGTAA TTTTGAT TTAATTATTT
+Sequence name             Start   P-value            Site  
+-------------             ----- ---------            ----
+PBIGNG1861                  160  1.08e-03 ATAAAATTTA GTTG TAAATGGGTT
+PBIGNG0462                   11  6.91e-03 TTTACTTATT GTTA TAAAATAAAT
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
@@ -2214,20 +1985,16 @@ PSEXGNG098                  227  3.35e-03 GTTTCTGTAA TTTTGAT TTAATTATTT
 --------------------------------------------------------------------------------
 SEQUENCE NAME            POSITION P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PSEXGNG064                        8.4e-05  92_[+20]_85
-PBIGNG1861                        0.00054  155_[+20]_88
-PBIGNG0462                         0.0022  [+20]_154
-PSEXGNG098                         0.0033  226_[+20]_17
+PBIGNG1861                         0.0011  159_[+20]_87
+PBIGNG0462                         0.0069  10_[+20]_147
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 20 in BLOCKS format
 --------------------------------------------------------------------------------
-BL   MOTIF 20 width=7 seqs=4
-PSEXGNG064               (   93) TCTAGTT  1 
-PBIGNG1861               (  156) TTTAGTT  1 
-PBIGNG0462               (    1) TTTACTT  1 
-PSEXGNG098               (  227) TTTTGAT  1 
+BL   MOTIF 20 width=4 seqs=2
+PBIGNG1861               (  160) GTTG  1 
+PBIGNG0462               (   11) GTTA  1 
 //
 
 --------------------------------------------------------------------------------
@@ -2235,39 +2002,33 @@ PSEXGNG098               (  227) TTTTGAT  1
 --------------------------------------------------------------------------------
 	Motif 20 position-specific scoring matrix
 --------------------------------------------------------------------------------
-log-odds matrix: alength= 4 w= 7 n= 1569 bayes= 8.61195 E= 3.1e+008 
-  -865   -865   -865    123 
-  -865    165   -865     81 
-  -865   -865   -865    123 
-    85   -865   -865    -77 
-  -865    165    328   -865 
-   -73   -865   -865     81 
-  -865   -865   -865    123 
+log-odds matrix: alength= 4 w= 4 n= 1596 bayes= 9.63844 E= 6.8e+004 
+  -765   -765    370   -765 
+  -765   -765   -765    122 
+  -765   -765   -765    122 
+    26   -765    270   -765 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 20 position-specific probability matrix
 --------------------------------------------------------------------------------
-letter-probability matrix: alength= 4 w= 7 nsites= 4 E= 3.1e+008 
+letter-probability matrix: alength= 4 w= 4 nsites= 2 E= 6.8e+004 
+ 0.000000  0.000000  1.000000  0.000000 
  0.000000  0.000000  0.000000  1.000000 
- 0.000000  0.250000  0.000000  0.750000 
  0.000000  0.000000  0.000000  1.000000 
- 0.750000  0.000000  0.000000  0.250000 
- 0.000000  0.250000  0.750000  0.000000 
- 0.250000  0.000000  0.000000  0.750000 
- 0.000000  0.000000  0.000000  1.000000 
+ 0.500000  0.000000  0.500000  0.000000 
 --------------------------------------------------------------------------------
 
 --------------------------------------------------------------------------------
 	Motif 20 regular expression
 --------------------------------------------------------------------------------
-T[TC]T[AT][GC][TA]T
+GTT[AG]
 --------------------------------------------------------------------------------
 
 
 
 
-Time  3.46 secs.
+Time  7.48 secs.
 
 ********************************************************************************
 
@@ -2281,27 +2042,22 @@ SUMMARY OF MOTIFS
 --------------------------------------------------------------------------------
 SEQUENCE NAME            COMBINED P-VALUE  MOTIF DIAGRAM
 -------------            ----------------  -------------
-PCAUDG0055                       5.31e-04  10_[+2(2.18e-06)]_7_[+13(1.40e-05)]_\
-    2_[+18(8.31e-05)]_10_[+10(1.13e-05)]_12_[+3(8.72e-05)]_14
-PTETEGNG10                       5.82e-13  [+9(1.76e-08)]_23_[+1(1.04e-07)]_1_\
-    [+7(1.09e-06)]_26_[+4(1.20e-05)]_21_[+2(7.35e-08)]_7
-PTETEGNG18                       6.44e-14  [+9(2.48e-09)]_7_[+2(1.97e-06)]_1_\
-    [+16(6.88e-05)]_[+7(4.79e-08)]_4_[+5(2.60e-06)]_36_[+4(5.68e-05)]_4_\
-    [+3(8.72e-05)]
-PBIGNG0380                       8.93e-12  [+9(8.12e-08)]_18_[+1(1.04e-07)]_1_\
-    [+7(6.07e-06)]_10_[+16(5.45e-05)]_[+2(1.18e-06)]_11_[+3(8.72e-05)]_9
-PBIGNG0462                       1.74e-06  20_[+9(1.78e-07)]_41_[+2(5.21e-05)]_\
-    40_[+14(7.62e-05)]_15
-PSEXGNG064                       4.94e-14  3_[+9(1.61e-07)]_7_[+2(6.96e-06)]_5_\
-    [+1(2.55e-08)]_11_[+10(3.23e-05)]_1_[+20(8.44e-05)]_14_[+7(4.79e-08)]_41_\
-    [+3(8.72e-05)]_9
-PTETEGNG21                       4.44e-13  17_[+8(7.80e-05)]_6_[+2(2.44e-05)]_\
-    12_[+17(1.53e-05)]_68_[+15(3.33e-05)]_40_[+1(1.04e-07)]_1_[+4(2.11e-05)]_\
-    10_[+10(6.50e-08)]_22
-PBIGNG1861                       2.68e-11  39_[+6(1.53e-05)]_16_[+4(3.91e-06)]_\
-    62_[+2(8.62e-07)]_18_[+1(1.53e-08)]_20_[+10(5.07e-06)]_36
-PSEXGNG098                       1.05e-08  39_[+6(1.53e-05)]_16_[+4(3.91e-06)]_\
-    5_[+12(3.52e-05)]_89_[+1(1.41e-06)]_2_[+16(4.09e-05)]_7_[+2(8.50e-05)]_28
+PCAUDG0055                       3.74e-01  106
+PTETEGNG10                       1.05e-07  45_[+1(1.31e-07)]_41_[+3(1.29e-07)]_\
+    21_[+2(7.56e-09)]_7
+PTETEGNG18                       5.40e-04  28_[+1(7.10e-05)]_31_[+3(6.77e-07)]_\
+    52
+PBIGNG0380                       2.88e-04  40_[+1(1.31e-07)]_35_[+2(5.18e-08)]_\
+    27
+PBIGNG0462                       6.83e-01  95_[+1(1.35e-05)]_51
+PSEXGNG064                       8.20e-05  53_[+1(5.62e-08)]_73_[+2(3.69e-07)]_\
+    28
+PTETEGNG21                       3.80e-06  31_[+2(8.99e-07)]_18_[+7(8.07e-05)]_\
+    112_[+1(1.92e-07)]_20_[+16(2.46e-06)]_26
+PBIGNG1861                       1.44e-07  39_[+6(3.67e-05)]_1_[+17(8.13e-05)]_\
+    83_[+2(4.85e-07)]_18_[+1(1.50e-08)]_26_[+8(1.19e-05)]_34
+PSEXGNG098                       7.83e-05  39_[+6(3.67e-05)]_99_\
+    [+16(6.30e-05)]_21_[+1(1.85e-05)]_11_[+8(1.19e-05)]_4_[+3(6.77e-07)]_29
 --------------------------------------------------------------------------------
 
 ********************************************************************************
