@@ -11,7 +11,7 @@ as well as comparison functions, to compare found motifs.
 # ## IMPORTS ###
 import itertools as it
 import time
-from Bio import Motif
+from Bio import motifs
 # from Bio.Motif import MEME
 from Bio.Alphabet import Gapped
 from Bio.Alphabet.IUPAC import ExtendedIUPACDNA
@@ -153,8 +153,9 @@ def load_meme(filename):
 
 	with open(filename, "r") as f:
 		records = []
-		for r in Motif.parse(f, "MEME"):
-			records.append(r)
+		records = motifs.parse(f, "MEME")
+
+	records.sort(key = lambda x: x.evalue)  # Sort entries by evalue
 
 	records = convert(records, gapped)
 	return records
@@ -170,19 +171,17 @@ def convert(motifs_list, alphabet):
 		
 		# Recreate instances using given alphabet
 		for i in m.instances:
-			inst = Motif.Parsers.MEME.MEMEInstance(i.tostring(), alphabet)
+			inst = motifs.meme.instance(i.tostring(), alphabet)
 			inst.motif_name = i.motif_name
 			inst.sequence_name = i.sequence_name
 			inst.start = i.start
 			inst.length = i.length
 
 			tot_inst.append(inst)
-		
+		tot_inst = motifs.Instances(tot_inst, alphabet)
 		# Converting instances and motifs
-		mot = Motif._Motif.Motif(alphabet=alphabet)
+		mot = motifs.meme.Motif(alphabet=alphabet, instances=tot_inst)
 
-		for i in tot_inst:
-			mot.add_instance(i)
 		new_list.append(mot)
 
 	return new_list
