@@ -158,7 +158,7 @@ def convert(motifs_list, alphabet):
 
 	return new_list
 
-def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None):
+def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None, evalue=None):
 	"""
 	Compare motifs found in bigfoot and meme outputs, using an overlapping threshold index (float)
 	"""
@@ -167,6 +167,9 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None):
 
 	if output == None:
 		output = "BigFootMEMEcomp.txt"
+
+	if evalue == None:
+		evalue = 0.01
 
 	i = 0 # printing index
 	# Look at all motifs of bigfoot file
@@ -180,27 +183,30 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None):
 
 		seq_name = inst.sequence_name
 
+		print "Looking for: {}".format(seq_name)
+
 
 			# Compare the first instance of one motifs to all other motifs in MEME
 		for m_mot in meme_motifs:
-			for m in m_mot.instances:
-				m_start = 0
-				m_end = 0
-				if m.sequence_name == seq_name:
-					# We found the instance from the same sequence \o/
-						#pdb.set_trace()
-					m_start = m.start
-					m_end = m_start + m.length - 1
-					m_range = (m_start, m_end)
+			if m_mot.evalue <= evalue:
+				for m in m_mot.instances:
+					m_start = 0
+					m_end = 0
+					if m.sequence_name == seq_name:
+						# We found the instance from the same sequence \o/
+							#pdb.set_trace()
+						m_start = m.start
+						m_end = m_start + m.length - 1
+						m_range = (m_start, m_end)
 
-					index, stat = overlap(bf_range, m_range)
+						index, stat = overlap(bf_range, m_range)
 
-					if index and stat >threshold:
-						if i == 0:
-							print >> output, "BigFoot\tMEME\tsequence\tratio"
-							i = 1
-						print >> output, "{}\t{}\t{}\t{}".format(inst.motif_name, m.motif_name, seq_name, stat)
-					break
+						if index and stat >threshold:
+							if i == 0:
+								print >> output, "BigFoot\tMEME\tsequence\tratio"
+								i = 1
+							print >> output, "{}\t{}\t{}\t{}".format(inst.motif_name, m.motif_name, seq_name, stat)
+						break
 			
 
 def overlap(r1, r2):
@@ -279,10 +285,11 @@ def main():
 	### Command-line Parser ###
 	parser = argparse.ArgumentParser(description="Command-line program to compare motifs outputs of MEME and BigFoot.")
 
-	parser.add_argument("bigf",help="BigFoot's output file")
+	parser.add_argument("bigf", help="BigFoot's output file")
 	parser.add_argument("meme", help="MEME's output text file (see MEME's options -text)")
-	parser.add_argument("-t","--thre",help="threshold use for comparison -> retain only motif where you have ~n percent of overlap? (default: %(default)s)", type=float,default=0.9)
-	parser.add_argument("-o","--output",help="output file name", type=argparse.FileType("w"), default="BigFootMEMEcomp.txt")
+	parser.add_argument("-t", "--thre", help="threshold use for comparison -> retain only motif where you have ~n percent of overlap? (default: %(default)s)", type=float, default=0.9)
+	parser.add_argument("-o", "--output", help="output file name", type=argparse.FileType("w"), default="BigFootMEMEcomp.txt")
+	parser.add_argument("-e", "--evalue", help="MEME evalue threshold (default: %(default)s)", type=float, default=0.01)
 
 	args = parser.parse_args()
 
@@ -290,7 +297,7 @@ def main():
 	meme_file = load_meme(args.meme)
 
 	print "Comparing motifs..."
-	compare_motifs(bigf, meme_file, args.output, args.thre)
+	compare_motifs(bigf, meme_file, args.output, args.thre, args.e)
 	print "Done."
 
 if __name__ == "__main__":
