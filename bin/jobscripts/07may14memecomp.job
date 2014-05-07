@@ -16,7 +16,7 @@ TARGET="results/$FAM/"
 echo $FAM
 
 echo "Comparing MEME and BigFoot motifs"
-python bin/bigfoot/memecomp.py $TARGET$FAM.motifs $TARGET$FAM.meme.motifs -t 0.0 -o $TARGET$FAM.comp 
+python bin/bigfoot/memecomp.py $TARGET$FAM.motifs $TARGET$FAM.meme.motifs -t 0.9 -e 0.001 -o $TARGET$FAM.comp 
 echo "Done."
 done
 

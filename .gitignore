@@ -1,4 +1,5 @@
 data/
+*.ipynb_checkpoints
 src/
 results/translatorx/
 results/WGD*/
