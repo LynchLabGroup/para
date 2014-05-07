@@ -12,7 +12,7 @@ as well as comparison functions, to compare found motifs.
 import itertools as it
 import time
 from Bio import Motif
-from Bio.Motif import MEME
+# from Bio.Motif import MEME
 from Bio.Alphabet import Gapped
 from Bio.Alphabet.IUPAC import ExtendedIUPACDNA
 import argparse
