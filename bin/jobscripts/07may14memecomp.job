@@ -1,0 +1,23 @@
+#!/bin/bash
+#PBS -k o
+#PBS -l nodes=1:ppn=4,vmem=16gb,walltime=01:00:00:00
+#PBS -M mgrenie@indiana.edu
+#PBS -m be
+#PBS -N MEMEBFComp
+#PBS -j oe
+echo "Job Started at: "; date
+cd para/
+
+for FAM in `ls results/WGD2ANC0*/*motifs | grep -v "meme" | xargs wc -l | awk '{sub(/.WGD2ANC[0-9]*.motifs/,"")}1 && !/total/' | awk '{if($1 > 2) print $2}' | cut -d/ -f2`;
+do
+
+CDS="CDS"
+TARGET="results/$FAM/"
+echo $FAM
+
+echo "Comparing MEME and BigFoot motifs"
+python bin/bigfoot/memecomp.py $TARGET$FAM.motifs $TARGET$FAM.meme.motifs -t 0.9 -e 0.001 -o $TARGET$FAM.comp 
+echo "Done."
+done
+
+echo "Job Finished at:"; date
