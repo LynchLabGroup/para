@@ -1,0 +1,72 @@
+Launched:Wed, 23 Apr 2014 20:51:54 GMT Threshold used: 0.3 AlignThreshold: 0.0 Size(over): 1
+
+
+motif1 Start: 424 Stop: 432 AvgPhylogeneticScore: 0.413833333333 AvgAlignScore: 0.258444444444 Size: 9
+
+PBIGNG2345           TAAATTAAA
+PBIGNG3189           TAATTAAA-
+PCAUDG0066           TTAATTTTA
+PSEXGNG025           TAAATTAAA
+PSEXGNG168           TAAATTAAA
+PTETEGNG28           TAAATTAAA
+PTETEGNG31           TAATAATAA
+
+motif2 Start: 443 Stop: 443 AvgPhylogeneticScore: 0.0 AvgAlignScore: 0.087 Size: 1
+
+PBIGNG2345           T
+PBIGNG3189           T
+PCAUDG0066           T
+PSEXGNG025           T
+PSEXGNG168           T
+PTETEGNG28           T
+PTETEGNG31           T
+
+motif3 Start: 446 Stop: 446 AvgPhylogeneticScore: 0.0 AvgAlignScore: 0.0055 Size: 1
+
+PBIGNG2345           A
+PBIGNG3189           T
+PCAUDG0066           T
+PSEXGNG025           G
+PSEXGNG168           A
+PTETEGNG28           G
+PTETEGNG31           T
+
+motif4 Start: 449 Stop: 463 AvgPhylogeneticScore: 0.921266666667 AvgAlignScore: 0.796633333333 Size: 15
+
+PBIGNG2345           GAATTCGTTTTTAAT
+PBIGNG3189           AAATTCGTTTTTAAT
+PCAUDG0066           GAATTCGTTTTTAAT
+PSEXGNG025           AAATTCGTTTTTAAT
+PSEXGNG168           GAATTCGTTTTTAAT
+PTETEGNG28           AAATTCGTTTTTAAT
+PTETEGNG31           GAATTCGTTTTTAAT
+
+motif5 Start: 466 Stop: 470 AvgPhylogeneticScore: 0.7916 AvgAlignScore: 0.2726 Size: 5
+
+PBIGNG2345           ATATA
+PBIGNG3189           ATATA
+PCAUDG0066           TATAA
+PSEXGNG025           ATATA
+PSEXGNG168           ATATA
+PTETEGNG28           ATATA
+PTETEGNG31           TTATA
+
+motif6 Start: 472 Stop: 472 AvgPhylogeneticScore: 0.0 AvgAlignScore: 0.195 Size: 1
+
+PBIGNG2345           A
+PBIGNG3189           A
+PCAUDG0066           A
+PSEXGNG025           T
+PSEXGNG168           A
+PTETEGNG28           A
+PTETEGNG31           A
+
+motif7 Start: 474 Stop: 480 AvgPhylogeneticScore: 0.590642857143 AvgAlignScore: 0.557785714286 Size: 7
+
+PBIGNG2345           T-AAATT
+PBIGNG3189           T-AAATT
+PCAUDG0066           TAATTAC
+PSEXGNG025           T-AATTT
+PSEXGNG168           T-AAATT
+PTETEGNG28           T-AAATT
+PTETEGNG31           T-AAATT

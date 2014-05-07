@@ -5,31 +5,31 @@
                          Copyright CNRS - Universite Montpellier II                                 
  oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
 
-. Sequence filename: 			WGD2ANC00208CDS.phyl
+. Sequence filename: 			WGD2ANC00182CDS.phyl
 . Data set: 				#1
 . Tree topology search : 		NNIs
 . Initial tree: 			BioNJ
 . Model of nucleotides substitution: 	HKY85
-. Number of taxa: 			7
-. Log-likelihood: 			-3599.85817
-. Unconstrained likelihood: 		-3164.95264
-. Parsimony: 				511
-. Tree size: 				0.83208
+. Number of taxa: 			9
+. Log-likelihood: 			-26022.59419
+. Unconstrained likelihood: 		-27818.87575
+. Parsimony: 				5250
+. Tree size: 				2.66912
 . Discrete gamma model: 		Yes
   - Number of categories: 		4
-  - Gamma shape parameter: 		0.243
-. Transition/transversion ratio: 	5.790
+  - Gamma shape parameter: 		0.791
+. Transition/transversion ratio: 	3.014
 . Nucleotides frequencies:
-  - f(A)= 0.41847
-  - f(C)= 0.11741
-  - f(G)= 0.16608
-  - f(T)= 0.29805
+  - f(A)= 0.44453
+  - f(C)= 0.09531
+  - f(G)= 0.14517
+  - f(T)= 0.31499
 
 . Run ID:				none
-. Random seed:				1398277232
+. Random seed:				1398970981
 . Subtree patterns aliasing:		no
 . Version:				20120412
-. Time used:				0h0m3s (3 seconds)
+. Time used:				0h0m21s (21 seconds)
 
  oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
  Suggested citations:
