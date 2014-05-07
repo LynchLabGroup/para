@@ -296,7 +296,7 @@ def main():
 	meme_file = load_meme(args.meme)
 
 	print "Comparing motifs..."
-	compare_motifs(bigf, meme_file, args.output, args.thre, args.e)
+	compare_motifs(bigf, meme_file, args.output, args.thre, args.evalue)
 	print "Done."
 
 if __name__ == "__main__":
