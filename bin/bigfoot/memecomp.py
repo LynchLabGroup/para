@@ -189,7 +189,6 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None, eva
 			# Compare the first instance of one motifs to all other motifs in MEME
 		for m_mot in meme_motifs:
 			if m_mot.evalue <= evalue:
->>>>>>> simple_comp
 				for m in m_mot.instances:
 					m_start = 0
 					m_end = 0
