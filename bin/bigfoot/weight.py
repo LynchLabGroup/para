@@ -116,6 +116,7 @@ class WeightSeq(object):
 		size -- minimum motifs size to be returned
 		align -- alignment score threshold: sequence need to have a score over threshold to be selected
 		"""
+		max_window_size = 8
 		if self._w == []:
 			return "You first have to weight the sequence using prediction scores !"
 		else:
@@ -124,56 +125,56 @@ class WeightSeq(object):
 			known = [] #list of lists position where weight is higher than threshold [start, end, avg score]
 			
 			#this loop forces to go through the entire sequence
-			while pos<len(self._w):
-				
-				curr_base = self._w[pos][0]  # base
-				curr_phyl = self._w[pos][1]  # phylogenetic score
-				curr_ali = self._w[pos][2]  # alignment score
+			while pos < len(self._w):
 
-				succ_bases = 0  # counter of successive bases
-				tot_phyl = 0.0  # variable to calculate average phylogenetic score
-				tot_ali = 0.0  # variable for average alignment score
-				wide = [] # simple
+				wide = [] # keep track of the motif data
 
-				# Loop to identify motifs
-				while curr_phyl>thre and curr_ali>align:  # if the position have weight and align scores over thresholds
-					if succ_bases == 0:
-						wide.append(pos+1)  # add the starting position (real position in the sequence)
-						realstart = realpos
-					succ_bases += 1
-					pos += 1
-					curr_base = self._w[pos][0] #base
+				window_size = 1
+				good_scores_pos = 0
 
-					if curr_base != "-":
-						realpos +=1
+				# Look through given window_size bases
+				while window_size < max_window_size:
 
+					realstart = realpos
+					
+					curr_base = self._w[pos][0]  # base
 					curr_phyl = self._w[pos][1]  # phylogenetic score
 					curr_ali = self._w[pos][2]  # alignment score
-					tot_phyl += curr_phyl
-					tot_ali += curr_ali
+					window_size += 1
+					if curr_phyl > thre and curr_ali > align:
+						good_scores_pos += 1
+					if curr_base != "-":
+						realpos += 1
+					pos += 1
 
-				#once the loop identified a motif
-				if succ_bases < size: #if it is smaller than expected
-					pass
-				elif succ_bases > 0: #else if we identified a motif
-					wide.append(pos) #adding the exact end position of the loop
-					avg = tot_phyl/succ_bases
-					alavg = tot_ali/succ_bases
-					wide.append(avg) #add average score
-					wide.append(alavg) #add alignment score
-					wide.append(realstart) # add real position start
-					known.append(wide)
-				if curr_base != "-":
-					realpos +=1
-				pos += 1
+				# If more than 60% of bases are correct
+				if float(good_scores_pos)/max_window_size >= 0.75: 
+					start_pos = pos - max_window_size + 1  # Position of the start of motif
 
-			#extract the motifs sequences using start and end position and insert them in the returned list
+					# Extanding the window of the motif to the right
+					while pos < len(self._w) - 1 and self._w[pos+1][1] > thre and self._w[pos+1][2] > align:
+						
+						if self._w[pos+1] != "-":
+							realpos += 1
+						pos += 1
+						
+
+						avg_phyl = float(sum(y[1] for y in self._w[start_pos:pos+1]))/(pos - start_pos + 1)
+						avg_ali = float(sum(y[2] for y in self._w[start_pos:pos+1]))/(pos - start_pos + 1)
+						wide.append(start_pos+1)
+						wide.append(pos)
+						wide.append(avg_phyl)
+						wide.append(avg_ali)
+						wide.append(realstart)
+						known.append(wide)
+
+			# Loop to extract sequences
 			for extract in known:
 				if extract[0] == extract[1]:
 					sub = self[extract[0]].upper()
 				else:
-					sub = self[extract[0]:extract[1]+1].upper() #extract the sequence of interest
-				extract.insert(0,sub) #insert in the first position the extracted sequence
+					sub = self[extract[0]:extract[1]+1].upper()  # sequence of interest
+				extract.insert(0, sub)  # insert first position in the extracted sequence
 			return known
 
 	def get_real_pos(self, pos):
