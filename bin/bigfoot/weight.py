@@ -133,10 +133,10 @@ class WeightSeq(object):
 				good_scores_pos = 0
 
 				# Look through given window_size bases
-				while window_size < max_window_size:
+				while pos < len(self._w) and window_size < max_window_size:
 
 					realstart = realpos
-					
+					print "POS: ", pos
 					curr_base = self._w[pos][0]  # base
 					curr_phyl = self._w[pos][1]  # phylogenetic score
 					curr_ali = self._w[pos][2]  # alignment score
@@ -146,6 +146,8 @@ class WeightSeq(object):
 					if curr_base != "-":
 						realpos += 1
 					pos += 1
+
+				print "Finished loop!"
 
 				# If more than 60% of bases are correct
 				if float(good_scores_pos)/max_window_size >= 0.75: 
