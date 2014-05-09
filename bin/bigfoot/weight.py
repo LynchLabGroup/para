@@ -107,7 +107,7 @@ class WeightSeq(object):
 
 		self._w = weighted
 
-	def motifs(self,thre,size,align):
+	def motifs(self, thre, size, align):
 		"""
 		If sequence has been weighted, shows all positions where prediction is higher than threshold.
 		Returns a list of motifs with their starting and ending position in the aligned sequence of given minimum size.
@@ -126,63 +126,62 @@ class WeightSeq(object):
 			#this loop forces to go through the entire sequence
 			while pos<len(self._w):
 				
-				nt = self._w[pos][0] #base
-				w = self._w[pos][1] #phylogenetic score
-				a = self._w[pos][2] #alignment score
+				curr_base = self._w[pos][0]  # base
+				curr_phyl = self._w[pos][1]  # phylogenetic score
+				curr_ali = self._w[pos][2]  # alignment score
 
-				
-				
-				t = 0 #counter of successive bases
-				score = 0.0 #variable to calculate average phylogenetic score
-				al = 0.0 #variable for average alignment score
-				wide = []#simple
+				succ_bases = 0  # counter of successive bases
+				tot_phyl = 0.0  # variable to calculate average phylogenetic score
+				tot_ali = 0.0  # variable for average alignment score
+				wide = [] # simple
 
 				# Loop to identify motifs
-				while w>thre and a>align: #if the position have weight and align scores over thresholds
-					if t==0:
-						wide.append(pos+1) #add the starting position (in term of real position in the sequence)
+				while curr_phyl>thre and curr_ali>align:  # if the position have weight and align scores over thresholds
+					if succ_bases == 0:
+						wide.append(pos+1)  # add the starting position (real position in the sequence)
 						realstart = realpos
-					t += 1
+					succ_bases += 1
 					pos += 1
-					nt = self._w[pos][0] #base
-					if nt != "-":
+					curr_base = self._w[pos][0] #base
+
+					if curr_base != "-":
 						realpos +=1
-					w = self._w[pos][1] #phylogenetic score
-					a = self._w[pos][2] #alignment score
-					score += w
-					al += a
+
+					curr_phyl = self._w[pos][1]  # phylogenetic score
+					curr_ali = self._w[pos][2]  # alignment score
+					tot_phyl += curr_phyl
+					tot_ali += curr_ali
 
 				#once the loop identified a motif
-				if t < size: #if it is smaller than expected
+				if succ_bases < size: #if it is smaller than expected
 					pass
-				elif t > 0: #else if we identified a motif
+				elif succ_bases > 0: #else if we identified a motif
 					wide.append(pos) #adding the exact end position of the loop
-					avg = score/t
-					alavg = al/t
+					avg = tot_phyl/succ_bases
+					alavg = tot_ali/succ_bases
 					wide.append(avg) #add average score
 					wide.append(alavg) #add alignment score
 					wide.append(realstart) # add real position start
 					known.append(wide)
-				if nt != "-":
+				if curr_base != "-":
 					realpos +=1
 				pos += 1
 
 			#extract the motifs sequences using start and end position and insert them in the returned list
-			for e in known:
-				if e[0] == e[1]:
-					sub = self[e[0]].upper()
+			for extract in known:
+				if extract[0] == extract[1]:
+					sub = self[extract[0]].upper()
 				else:
-					sub = self[e[0]:e[1]+1].upper() #extract the sequence of interest
-				e.insert(0,sub) #insert in the first position the extracted sequence
+					sub = self[extract[0]:extract[1]+1].upper() #extract the sequence of interest
+				extract.insert(0,sub) #insert in the first position the extracted sequence
 			return known
 
 	def get_real_pos(self, pos):
 		"""
 		Returns the realposition of sequence deleting "-" chars with pos a list index
 		"""
-
-		s = self._seq[:pos]
-		return len(s.translate(None,"-"))
+		real_seq = self._seq[:pos]
+		return len(real_seq.translate(None,"-"))
 
 
 
