@@ -150,7 +150,7 @@ class WeightSeq(object):
 				print "Finished loop!"
 
 				# If more than 60% of bases are correct
-				if float(good_scores_pos)/max_window_size >= 0.75: 
+				if float(good_scores_pos)/max_window_size >= 0.2: 
 					start_pos = pos - max_window_size + 1  # Position of the start of motif
 
 					# Extanding the window of the motif to the right
