@@ -141,7 +141,7 @@ class WeightSeq(object):
 					curr_phyl = self._w[pos][1]  # phylogenetic score
 					curr_ali = self._w[pos][2]  # alignment score
 					window_size += 1
-					if curr_phyl > thre and curr_ali > align:
+					if curr_phyl >= thre and curr_ali >= align:
 						good_scores_pos += 1
 					if curr_base != "-":
 						realpos += 1
@@ -150,11 +150,15 @@ class WeightSeq(object):
 				print "Finished loop!"
 
 				# If more than 60% of bases are correct in the window
-				if float(good_scores_pos)/max_window_size >= 0.5: 
+				if float(good_scores_pos)/max_window_size >= 0.7: 
 					start_pos = pos - max_window_size + 1  # Position of the start of motif
 
+					# Extending the motif to the left side (beginning of the sequence)
+					while start_pos > 0 and self._w[start_pos-1][1] >= thre and self._w[start_pos+1][2] >= align:
+						start_pos -= 1
+
 					# Extanding the window of the motif to the right
-					while pos < len(self._w) - 1 and self._w[pos+1][1] > thre and self._w[pos+1][2] > align:
+					while pos < len(self._w) - 1 and self._w[pos+1][1] >= thre and self._w[pos+1][2] >= align:
 						
 						if self._w[pos+1] != "-":
 							realpos += 1
