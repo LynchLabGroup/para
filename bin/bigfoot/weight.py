@@ -149,8 +149,8 @@ class WeightSeq(object):
 
 				print "Finished loop!"
 
-				# If more than 60% of bases are correct
-				if float(good_scores_pos)/max_window_size >= 0.2: 
+				# If more than 60% of bases are correct in the window
+				if float(good_scores_pos)/max_window_size >= 0.5: 
 					start_pos = pos - max_window_size + 1  # Position of the start of motif
 
 					# Extanding the window of the motif to the right
@@ -161,14 +161,14 @@ class WeightSeq(object):
 						pos += 1
 						
 
-						avg_phyl = float(sum(y[1] for y in self._w[start_pos:pos+1]))/(pos - start_pos + 1)
-						avg_ali = float(sum(y[2] for y in self._w[start_pos:pos+1]))/(pos - start_pos + 1)
-						wide.append(start_pos+1)
-						wide.append(pos)
-						wide.append(avg_phyl)
-						wide.append(avg_ali)
-						wide.append(realstart)
-						known.append(wide)
+					avg_phyl = float(sum(y[1] for y in self._w[start_pos:pos+1]))/(pos - start_pos + 1)
+					avg_ali = float(sum(y[2] for y in self._w[start_pos:pos+1]))/(pos - start_pos + 1)
+					wide.append(start_pos+1)
+					wide.append(pos)
+					wide.append(avg_phyl)
+					wide.append(avg_ali)
+					wide.append(realstart)
+					known.append(wide)
 
 			# Loop to extract sequences
 			for extract in known:
