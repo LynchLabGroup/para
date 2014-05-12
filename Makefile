@@ -2,7 +2,16 @@
 # This pipeline compute for all given families
 #
 #
-include config.mak
+#include config.mak
+
+SUBDIRS = $(shell find results/ -type d -name "WGD2ANC00051") 
+FAM = $(subst results, ,$(SUBDIRS))
+LOCS = $(join $(SUBDIRS), $(FAM))
+MOTIFS = $(addsuffix .motifs, $(LOCS))
+MPD = $(addsuffix .fasta.mpd, $(LOCS))
+PRED = $(addsuffix .fasta.pred, $(LOCS))
+UP = data/families/WGD2/upstream/
+CDS = data/families/WGD2/CDS/nt/
 
 .PHONY:  all makedir retrieve_upstream retrieve_CDS int_motifs meme_length
 
@@ -11,12 +20,12 @@ all: $(MOTIFS) int_motifs meme_length
 meme_length:
 	@echo "Comparing MEME outputs lengths"
 	@bin/scripts/memelen.sh > results/MEMEOutputsLengths.txt
+	@echo "Done"
 
 # Underline Interesting motifs
 int_motifs:
-	@cd results/
-	@echo "Looking for interesting motifs..."
-	@../bin/scripts/intmotifs.sh BFMotifsSummary.txt
+	@cd results/; ls; echo "Looking for interesting motifs..."; \
+	../bin/scripts/intmotifs.sh BFMotifsSummary.txt;
 	@cd ..
 
 # Parse BigFoot's output
