@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Contains SeqParser class to handle BigFoot's outputs and parse them using appropriate thresholds.
+Contains SeqParser class to handle BigFoot's outputs and parse them using
+appropriate thresholds.
 """
 
 # IMPORTS ###
@@ -30,7 +31,7 @@ class SeqParser(object):
 
     def __str__(self):
 
-        s = "Sequence File: {}\nPrediction File: {}".format(self._seqfile, \
+        s = "Sequence File: {}\nPrediction File: {}".format(self._seqfile,
                                                             self._predfile)
 
         return s
@@ -77,7 +78,7 @@ class SeqParser(object):
 
         seqs[0].weight(self._seqfile, self._predfile)  # weight first sequence
         sleep(1)
-        known = seqs[0].motifs(thre, align)   # extract motifs with given threshold from first sequence
+        known = seqs[0].motifs(thre, align)   # extract motifs from first seq
 
         mot = {}  # known motifs dictionary
 
@@ -86,20 +87,23 @@ class SeqParser(object):
             name = "motif"+str(i+1)  # enumerate motifs
 
             mot[name] = {}
-            mot[name]["size"] = k[2] - k[1] + 1  # compute the size of the motif
+            mot[name]["size"] = k[2] - k[1] + 1  # size of the motif
 
-            mot[name]["start"] = k[5] + 1  # start position of motif real position
+            # start position of motif real position
+            mot[name]["start"] = k[5] + 1
             mot[name]["stop"] = k[5]+mot[name]["size"]  # end position of motif
             mot[name]["score"] = k[3]  # average score real position
 
             mot[name]["align"] = k[4]  # average alignment score of sequence
 
             for j, s in enumerate(seqs):
-                mot[name][s.name()] = {} 
-                mot[name][s.name()]["seq"] = s[k[1]:k[2]]  # extract motif from each sequence
+                mot[name][s.name()] = {}
+                # extract motif from each sequence
+                mot[name][s.name()]["seq"] = s[k[1]:k[2]]
                 mot[name][s.name()]["start"] = s.get_real_pos(k[1])
                 if j == 0:
-                    mot[name]["start"] = mot[name][s.name()]["start"]  # start position of motif real position
+                    # real position
+                    mot[name]["start"] = mot[name][s.name()]["start"]
 
         mot["threshold"] = thre  # general threshold used
         mot["align"] = align  # used alignment score
@@ -120,18 +124,23 @@ class SeqParser(object):
 
         with open(output, "w") as o:
 
-            # Print the precise time of the computation and print the whole results file
-            print >> o, "Launched:{} GMT Threshold used: {} AlignThreshold: {}\n".format(strftime("%a, %d %b %Y %H:%M:%S", gmtime()), thre, align)
+            # Precise time of the computation and print the whole results file
+            print >> o, "Launched:{} GMT Threshold used: {} AlignThreshold: {}\n" \
+                .format(strftime("%a, %d %b %Y %H:%M:%S", gmtime()), thre, align)
             for k in keys:
                 if k != "threshold" and k != "size" and k != "align":
                     smk = self._motifs[k]  # motif number X, SMK stands for Self._Motifs[K]
 
                     # print the general information for this particular motif
-                    print >> o, "\n{} Start: {} Stop: {} AvgPhylogeneticScore: {} AvgAlignScore: {} Size: {}\n".format(k, smk["start"],smk["stop"],  smk["score"], smk["align"], smk["size"])
+                    print >> o, "\n{} Start: {} Stop: {} AvgPhylogeneticScore:\
+                     {} AvgAlignScore: {} Size: {}\n"\
+                     .format(k, smk["start"], smk["stop"],  smk["score"],
+                             smk["align"], smk["size"])
 
                     sub = smk.keys()
                     sub.sort()  # to have always the same order of sequences
                     # print sequences
                     for s in sub:
-                        if s != "start" and s != "stop" and s != "score" and s != "align":
+                        if s != "start" and s != "stop" and s != "score" \
+                           and s != "align":
                             print >> o, "{0:20}\t{1:20}\t{2}".format(s, smk[s]["start"], smk[s]["seq"].upper()) 
