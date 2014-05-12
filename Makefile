@@ -4,9 +4,13 @@
 #
 include config.mak
 
-.PHONY:  all makedir retrieve_upstream retrieve_CDS int_motifs
+.PHONY:  all makedir retrieve_upstream retrieve_CDS int_motifs meme_length
 
-all: $(MOTIFS) int_motifs
+all: $(MOTIFS) int_motifs meme_length
+
+meme_length:
+	@echo "Comparing MEME outputs lengths"
+	@bin/scripts/memelen.sh > results/MEMEOutputsLengths.txt
 
 # Underline Interesting motifs
 int_motifs:
