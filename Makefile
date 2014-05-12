@@ -15,7 +15,12 @@ CDS = data/families/WGD2/CDS/nt/
 
 .PHONY:  all makedir retrieve_upstream retrieve_CDS int_motifs meme_length
 
-all: $(MOTIFS) int_motifs meme_length
+all: $(addsuffix .comp, $(LOCS)) int_motifs meme_length
+
+$(addsuffix .comp, $(LOCS)): %.comp: bin/bigfoot/memecomp.py %.motifs %.meme.motifs
+	@echo "Comparing MEME and BF"
+	@python $^ -e 0.001 -o $@
+	@echo "Done"
 
 meme_length:
 	@echo "Comparing MEME outputs lengths"
