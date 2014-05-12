@@ -90,8 +90,8 @@ class SeqParser(object):
             mot[name]["size"] = k[2] - k[1] + 1  # size of the motif
 
             # start position of motif real position
-            mot[name]["start"] = k[5] + 1
-            mot[name]["stop"] = k[5]+mot[name]["size"]  # end position of motif
+            mot[name]["start"] = k[1]
+            mot[name]["stop"] = k[2]  # end position of motif
             mot[name]["score"] = k[3]  # average score real position
 
             mot[name]["align"] = k[4]  # average alignment score of sequence
@@ -113,7 +113,8 @@ class SeqParser(object):
 
     def write(self, output):
         """
-        Write the output file of all the found motifs. Compute the motifs search first.
+        Write the output file of all the found motifs.
+        Compute the motifs search first.
         """
 
         keys = self._motifs.keys()
@@ -133,7 +134,7 @@ class SeqParser(object):
                     # Self._Motifs[K]
 
                     # print the general information for this particular motif
-                    print >> o, "\n{} Start: {} Stop: {}".format(k, smk["start"], smk["stop"])\
+                    print >> o, "\n{} Start: {} Stop: {} ".format(k, smk["start"], smk["stop"])\
                      + "AvgPhylogeneticScore: {} AvgAlignScore: {} Size: {}\n"\
                      .format(smk["score"], smk["align"], smk["size"])
 
