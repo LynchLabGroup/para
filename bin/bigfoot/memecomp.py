@@ -205,9 +205,11 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None, eva
 						break
 			
 
-def overlap(r1, r2):
+def overlap(r1, r2, need_stat = None):
 	"""
-	Returns if the two ranges are overlapping. Notes, range should be given in order
+	Returns if the two ranges are overlapping. Notes, range should be \ 
+	given in order (with start <= end). If overlapping stat is need, set need_stat to True
+	(default = True)
 
 	Examples:
 	>>> overlap((2,3), (5,10))
@@ -220,6 +222,9 @@ def overlap(r1, r2):
 	(True, 0.6)
 	"""
 	stat = 0.0
+	if need_stat is None:
+		need_stat = True
+
 
 	index = (r2[0] <= r1[0] <= r2[1]) or (r1[0] <= r2[0] <= r1[1])
 
@@ -242,8 +247,10 @@ def overlap(r1, r2):
 			over_r = r1[1] - r2[0] + 1
 
 		stat = float(over_r)/mini
-
-	return index, stat
+	if need_stat:
+		return index, stat
+	else:
+		return index
 
 def _read_motif_seq(block):
 	"""
