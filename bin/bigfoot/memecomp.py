@@ -41,9 +41,8 @@ class MotifFile(object):
                         s = s.rstrip("\n").lstrip("Launched:")
                         s = s.split(" ")
                         date = " ".join(s[0:5])
-                        pred_thre = float(s[-5])
-                        ali_thre = float(s[-3])
-                        size_thre = float(s[-1])
+                        pred_thre = float(s[-3])
+                        ali_thre = float(s[-1])
                     elif i % 2 == 1:
                         mot = []
                         mot.append(block)
@@ -58,15 +57,14 @@ class MotifFile(object):
         self._date = time.strptime(date, "%a, %d %b %Y %H:%M:%S")
         self._pred_thre = pred_thre
         self._ali_thre = ali_thre
-        self._size_thre = size_thre
-        self._motifs = records
+        self.motifs = records
 
     def __str__(self):
         """Method called when 'print object' is used. """
 
-        s = "File: {} Date: {}\nThresholds: {} (Pred) {} (Align) {} (Size)\nMot\
-        ifs found: {}".format(self.filename(), self.date(), self.pred(),
-                              self.ali(), self.size(), len(self.motifs()))
+        s = "File: {} Date: {}\nThresholds: {} (Pred) {} (Align)\nMot\
+ifs found: {}".format(self.filename(), self.date(), self.pred(),
+                      self.ali(), len(self.motifs))
         return s
 
     def __repr__(self):
@@ -84,16 +82,12 @@ class MotifFile(object):
         return self._motifs.__iter__()
 
     def pred(self):
-        """Return the prediction score (phylogenetic score) threshold used in the file."""
+        """Return the prediction score (phylogenetic score) threshold used."""
         return self._pred_thre
 
     def ali(self):
-        """Return the average alignment score threshold used in BigFoot's analysis."""
+        """Return the average alignment score threshold used in BigFoot."""
         return self._ali_thre
-
-    def size(self):
-        """Return the size threshold used in the anaysis."""
-        return self._size_thre
 
     def date(self):
         """Return the date the analysis was done."""
@@ -105,7 +99,7 @@ class MotifFile(object):
 
     def motifs(self):
         """Return a list of found motifs."""
-        return self._motifs
+        return self.motifs
 
 
 class WeightedMotif(motifs.Motif):
@@ -150,14 +144,15 @@ def convert(motifs_list, alphabet):
             inst = meme.Instance(i.tostring(), alphabet)
             inst.motif_name = i.motif_name
             inst.sequence_name = i.sequence_name
-            inst.start = i.start
-            inst.length = i.length
+            inst.start = int(i.start)
+            inst.length = int(i.length)
 
             tot_inst.append(inst)
         tot_inst = motifs.Instances(tot_inst, alphabet)
 
         # Converting instances and motifs
         mot = meme.Motif(alphabet=alphabet, instances=tot_inst)
+        mot.name = motif.name
         mot.evalue = motif.evalue
 
         new_list.append(mot)
@@ -184,14 +179,14 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None,
     # Look at all motifs of bigfoot file
     for bf_mot in bigfoot_motifs.motifs():
         # Compare only first instance of each bf_mot
-        inst = bf_mot.instances[0]     
+        inst = bf_mot.instances[0]
         start = inst.start
         end = start + inst.length - 1
         bf_range = (start, end)
 
         seq_name = inst.sequence_name
 
-            # Compare the first instance of one motifs to all other motifs in MEME
+        # Compare the first instance of one motifs to all other motifs in MEME
         for m_mot in meme_motifs:
             if m_mot.evalue <= evalue:
                 for m in m_mot.instances:
@@ -207,14 +202,16 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None,
 
                         if index and stat > threshold:
                             if i == 0:
-                                print >> output, "BigFoot\tMEME\tsequence\tratio"
+                                print >> output, "BigFoot\tBF.length\tMEME\t\
+MEME.length\tsequence\tratio"
                                 i = 1
-                            print >> output, "{}\t{}\t{}\t{}".format(
-                                inst.motif_name, m.motif_name, seq_name, stat)
+                            print >> output, "{}\t{}\t{}\t{}\t{}\t{}".format(
+                                inst.motif_name, int(inst.length),
+                                m.motif_name, int(m.length), seq_name, stat)
                         break
 
 
-def overlap(r1, r2, need_stat = None):
+def overlap(r1, r2, need_stat=None):
     """
     Returns if the two ranges are overlapping. Notes, range should be\
     given in order (with start <= end). If overlapping stat is need,
@@ -302,15 +299,15 @@ def main():
 
     parser.add_argument("bigf", help="BigFoot's output file")
     parser.add_argument("meme", help="MEME's output text file (see MEME's\
-        options -text)")
+options -text)")
     parser.add_argument("-t", "--thre", help="threshold use for comparison ->\
-        retain only motif where you have ~n percent of overlap? \
-        (default: %(default)s)", type=float, default=0.9)
+retain only motif where you have ~n percent of overlap? \
+(default: %(default)s)", type=float, default=0.9)
     parser.add_argument("-o", "--output", help="output file name",
                         type=argparse.FileType("w"),
                         default="BigFootMEMEcomp.txt")
     parser.add_argument("-e", "--evalue", help="MEME evalue threshold\
-        (default: %(default)s)", type=float, default=0.01)
+(default: %(default)s)", type=float, default=0.01)
 
     args = parser.parse_args()
 
