@@ -157,15 +157,22 @@ class WeightSeq(object):
                 # If more than 60% of bases are correct in the window
                 if float(good_scores_pos)/max_window_size >= 0.75:
                     start_pos = pos - max_window_size  # Start position
+                    
+                    # Strip the found motif left
+                    while self._w[start_pos][1] < thre or self._w[start_pos][2] < align:
+                        start_pos += 1
+                    # Strip the found motif right
+                    while self._w[pos-1][1] < thre or self._w[pos-1][2] < align:
+                        pos -= 1
+
                     # Extend motif to the left side (beginning of the sequence)
                     while start_pos > 0 and self._w[start_pos-1][1] >= thre \
                      and self._w[start_pos-1][2] >= align:
-
                         start_pos -= 1
 
                     # Extanding the window of the motif to the right
-                    while pos < len(self._w) - 1 and self._w[pos+1][1] >= thre and \
-                     self._w[pos+1][2] >= align:
+                    while pos < len(self._w) - 1 and self._w[pos][1] >= thre and \
+                     self._w[pos][2] >= align:
 
                         if self._w[pos+1] != "-":
                             realpos += 1
