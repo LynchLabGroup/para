@@ -129,18 +129,18 @@ class SeqParser(object):
                 .format(strftime("%a, %d %b %Y %H:%M:%S", gmtime()), thre, align)
             for k in keys:
                 if k != "threshold" and k != "size" and k != "align":
-                    smk = self._motifs[k]  # motif number X, SMK stands for Self._Motifs[K]
+                    smk = self._motifs[k]  # motif number X, SMK stands for
+                    # Self._Motifs[K]
 
                     # print the general information for this particular motif
-                    print >> o, "\n{} Start: {} Stop: {} AvgPhylogeneticScore:\
-                     {} AvgAlignScore: {} Size: {}\n"\
-                     .format(k, smk["start"], smk["stop"],  smk["score"],
-                             smk["align"], smk["size"])
+                    print >> o, "\n{} Start: {} Stop: {}".format(k, smk["start"], smk["stop"])\
+                     + "AvgPhylogeneticScore: {} AvgAlignScore: {} Size: {}\n"\
+                     .format(smk["score"], smk["align"], smk["size"])
 
                     sub = smk.keys()
                     sub.sort()  # to have always the same order of sequences
                     # print sequences
                     for s in sub:
                         if s != "start" and s != "stop" and s != "score" \
-                           and s != "align":
+                           and s != "align" and s != "size":
                             print >> o, "{0:20}\t{1:20}\t{2}".format(s, smk[s]["start"], smk[s]["seq"].upper()) 
