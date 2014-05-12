@@ -177,7 +177,7 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None,
 
     i = 0  # printing index
     # Look at all motifs of bigfoot file
-    for bf_mot in bigfoot_motifs.motifs():
+    for bf_mot in bigfoot_motifs.motifs:
         # Compare only first instance of each bf_mot
         inst = bf_mot.instances[0]
         start = inst.start
