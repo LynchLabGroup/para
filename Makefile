@@ -1,32 +1,12 @@
-# May 2nd 2014 pipeline file
+# May 12th 2014 pipeline file
 # This pipeline compute for all given families
 #
 #
+include config.mak
 
-SUBDIRS = $(shell find results/ -type d -name "WGD2ANC00051") 
-
-FAM = $(subst results, ,$(SUBDIRS))
-LOCS = $(join $(SUBDIRS), $(FAM))
-MOTIFS = $(addsuffix .motifs, $(LOCS))
-MPD = $(addsuffix .fasta.mpd, $(LOCS))
-PRED = $(addsuffix .fasta.pred, $(LOCS))
-UP = data/families/WGD2/upstream/
-UP_S = data/families/WGD2/upstream
-CDS = data/families/WGD2/CDS/nt/
-#OBJ = $(wildcard results/WGD2ANC*/WGD2ANC[0-9]*.motifs)
-DIRS = $(wildcard results/WGD2ANC*/)
-SRC = $(wildcard $(addsuffix WGD2ANC*.motifs,$(DIRS)))
-OBJ = $(filter %.motifs, $(SRC))
 .PHONY:  all makedir retrieve_upstream retrieve_CDS
 
 all: $(MOTIFS)
-#makedir $(MOTIFS)
-#echo $(DIRS)
-#	echo $(OBJ)
-	# echo $(sources)
-	# echo $(objects)
-#$(MOTIFS): %.motifs : %.fasta.mpd %.fasta.pred 
-#	@echo "Making $@" 
 
 # Parse BigFoot's output
 $(MOTIFS): %.motifs : bin/bigfoot/setup.py %.fasta.mpd
@@ -96,6 +76,7 @@ retrieve_upstream: bin/gff/main.py
 	@echo "Retrieving upstream sequences..."
 	@python $^ -l 250 -ml 15 -f 4 -mf 4 -loc $(UP) --head
 	@echo "Done."
+
 retrieve_CDS: bin/ntseq.py
 	@echo "Retrieving CDSs"
 	@python $^ -f 4 --header -loc $(CDS)
