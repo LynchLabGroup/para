@@ -19,14 +19,14 @@ do
 	if [ $i == 0 ]
 	then
 		i=1
-		echo -e "family\tdistance\tsize\tphyloscore\talignscore"
+		echo "family\tdistance\tsize\tphyloscore\talignscore"
 	fi
 
 	if [[ $LINE == *WGD* ]]; then
 		NAME="$LINE"
 	else
 		a=( $LINE ) #Split lines into array
-		echo -e $NAME"\t"${a[0]}"\t"${a[1]}"\t"${a[2]}"\t"${a[3]}
+		echo "$NAME\t${a[0]}\t${a[1]}\t${a[2]}\t${a[3]}"
 	fi
 done <<< "$temp" > $1
 IFS=$OIFS
