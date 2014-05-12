@@ -134,8 +134,8 @@ class WeightSeq(object):
 
 				# Look through given window_size bases
 				while pos < len(self._w) and window_size < max_window_size:
-
-					realstart = realpos
+					if window_size == 1:
+						realstart = realpos
 					print "POS: ", pos
 					curr_base = self._w[pos][0]  # base
 					curr_phyl = self._w[pos][1]  # phylogenetic score
@@ -173,8 +173,13 @@ class WeightSeq(object):
 					wide.append(avg_ali)
 					wide.append(realstart)
 					known.append(wide)
-				# Go back from the beginning 
-				pos = realstart
+				
+					# Go back from the beginning, sliding by one nt
+					pos = realstart+1
+					realpos = pos + 1
+				else:
+					pos = pos - window_size + 2
+					realpos = pos + 1
 
 			# Loop to extract sequences
 			for extract in known:
