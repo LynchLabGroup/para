@@ -4,9 +4,16 @@
 #
 include config.mak
 
-.PHONY:  all makedir retrieve_upstream retrieve_CDS
+.PHONY:  all makedir retrieve_upstream retrieve_CDS int_motifs
 
-all: $(MOTIFS)
+all: $(MOTIFS) int_motifs
+
+# Underline Interesting motifs
+int_motifs:
+	@cd results/
+	@echo "Looking for interesting motifs..."
+	@../bin/scripts/intmotifs.sh BFMotifsSummary.txt
+	@cd ..
 
 # Parse BigFoot's output
 $(MOTIFS): %.motifs : bin/bigfoot/setup.py %.fasta.mpd
