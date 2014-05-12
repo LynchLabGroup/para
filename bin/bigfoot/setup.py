@@ -5,6 +5,7 @@
 
 # ## IMPORT ###
 import argparse
+
 from parser import SeqParser
 
 

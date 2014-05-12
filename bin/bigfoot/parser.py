@@ -83,14 +83,13 @@ class SeqParser(object):
         mot = {}  # known motifs dictionary
 
         for i, k in enumerate(known):
-
             name = "motif"+str(i+1)  # enumerate motifs
 
             mot[name] = {}
-            mot[name]["size"] = k[2] - k[1] + 1  # size of the motif
+            mot[name]["size"] = k[2] - k[1]  # size of the motif
 
             # start position of motif real position
-            mot[name]["start"] = k[1]
+            mot[name]["start"] = k[1]+1
             mot[name]["stop"] = k[2]  # end position of motif
             mot[name]["score"] = k[3]  # average score real position
 
@@ -99,7 +98,7 @@ class SeqParser(object):
             for j, s in enumerate(seqs):
                 mot[name][s.name()] = {}
                 # extract motif from each sequence
-                mot[name][s.name()]["seq"] = s[k[1]:k[2]]
+                mot[name][s.name()]["seq"] = s[k[1]+1:k[2]]
                 mot[name][s.name()]["start"] = s.get_real_pos(k[1])
                 if j == 0:
                     # real position
@@ -132,9 +131,8 @@ class SeqParser(object):
                 if k != "threshold" and k != "size" and k != "align":
                     smk = self._motifs[k]  # motif number X, SMK stands for
                     # Self._Motifs[K]
-
                     # print the general information for this particular motif
-                    print >> o, "\n{} Start: {} Stop: {} ".format(k, smk["start"], smk["stop"])\
+                    print >> o, "\n{} Start: {} Stop: {} ".format(k, smk["start"], smk["stop"]-1)\
                      + "AvgPhylogeneticScore: {} AvgAlignScore: {} Size: {}\n"\
                      .format(smk["score"], smk["align"], smk["size"])
 

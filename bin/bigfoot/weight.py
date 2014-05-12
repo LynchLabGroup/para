@@ -138,14 +138,12 @@ class WeightSeq(object):
 
                 wide = []  # keep track of the motif data
 
-                window_size = 1
+                window_size = 0
                 good_scores_pos = 0
-
                 # Look through given window_size bases
                 while pos < len(self._w) and window_size < max_window_size:
-                    if window_size == 1:
+                    if window_size == 0:
                         realstart = realpos
-
                     curr_base = self._w[pos][0]  # base
                     curr_phyl = self._w[pos][1]  # phylogenetic score
                     curr_ali = self._w[pos][2]  # alignment score
@@ -158,11 +156,10 @@ class WeightSeq(object):
 
                 # If more than 60% of bases are correct in the window
                 if float(good_scores_pos)/max_window_size >= 0.75:
-                    start_pos = pos - max_window_size + 1  # Start position
-
+                    start_pos = pos - max_window_size  # Start position
                     # Extend motif to the left side (beginning of the sequence)
                     while start_pos > 0 and self._w[start_pos-1][1] >= thre \
-                     and self._w[start_pos+1][2] >= align:
+                     and self._w[start_pos-1][2] >= align:
 
                         start_pos -= 1
 
@@ -174,12 +171,11 @@ class WeightSeq(object):
                             realpos += 1
                         pos += 1
 
-                    avg_phyl = float(sum(y[1] for y in self._w[start_pos:pos+1])) / \
-                        (pos - start_pos + 1)
-                    avg_ali = float(sum(y[2] for y in self._w[start_pos:pos+1])) / \
-                        (pos - start_pos + 1)
-
-                    wide.append(start_pos+1)
+                    avg_phyl = float(sum(y[1] for y in self._w[start_pos:pos])) / \
+                        (pos - start_pos)
+                    avg_ali = float(sum(y[2] for y in self._w[start_pos:pos])) / \
+                        (pos - start_pos)
+                    wide.append(start_pos)
                     wide.append(pos)
                     wide.append(avg_phyl)
                     wide.append(avg_ali)
@@ -187,10 +183,10 @@ class WeightSeq(object):
                     known.append(wide)
 
                     # Go back from the beginning, sliding by one nt
-                    pos = realstart+1
+                    pos = realstart
                     realpos = pos + 1
                 else:
-                    pos = pos - window_size + 2
+                    pos = pos - window_size + 1
                     realpos = pos + 1
 
             # Selection for best hit motif without overlap
@@ -207,7 +203,7 @@ class WeightSeq(object):
                     if extract[0] == extract[1]:
                         sub = self[extract[0]].upper()
                     else:
-                        sub = self[extract[0]:extract[1]+1].upper()
+                        sub = self[extract[0]+1:extract[1]].upper()
                     extract.insert(0, sub)  # trailing sequence
             return best
 
