@@ -31,7 +31,7 @@ all: $(MOTIFS)
 # Parse BigFoot's output
 $(MOTIFS): %.motifs : bin/bigfoot/setup.py %.fasta.mpd
 	@echo "Parsing bigfoot's output"
-	@python $^ $(subst mpd,pred, $(word 2, $^)) -o $@ -s 4 -t 0.9 -a 0.8
+	@python $^ $(subst mpd,pred, $(word 2, $^)) -o $@ -t 0.9 -a 0.8
 	@echo "Done."
 
 # Compute Motifs using MEME
