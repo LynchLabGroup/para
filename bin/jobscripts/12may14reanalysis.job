@@ -8,5 +8,5 @@
 echo "Job Started at: "; date
 module load java/1.7.0_25
 cd para/
-make all -r
+make all -r -k
 echo "Job Finished at:"; date
