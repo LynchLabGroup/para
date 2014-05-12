@@ -20,9 +20,9 @@ meme_length:
 
 # Underline Interesting motifs
 int_motifs:
-	@cd results/; ls; echo "Looking for interesting motifs..."; \
-	../bin/scripts/intmotifs.sh BFMotifsSummary.txt;
-	@cd ..
+	cd results/ && echo "Looking for interesting motifs..." && \
+	  ../bin/scripts/intmotifs.sh BFMotifsSummary.txt &&
+	 cd ..
 
 # Parse BigFoot's output
 $(MOTIFS): %.motifs : bin/bigfoot/setup.py %.fasta.mpd
