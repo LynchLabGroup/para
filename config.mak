@@ -1,7 +1,7 @@
 # May 12th 2014 pipeline file
 # This config file contains all variables
 
-SUBDIRS = $(shell find results/ -type d -name "WGD2ANC00051") 
+SUBDIRS = $(shell find results/ -type d -name "WGD2ANC0*") 
 FAM = $(subst results, ,$(SUBDIRS))
 LOCS = $(join $(SUBDIRS), $(FAM))
 MOTIFS = $(addsuffix .motifs, $(LOCS))
