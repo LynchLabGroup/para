@@ -173,6 +173,8 @@ class WeightSeq(object):
 					wide.append(avg_ali)
 					wide.append(realstart)
 					known.append(wide)
+				# Go back from the beginning 
+				pos = realstart
 
 			# Loop to extract sequences
 			for extract in known:
