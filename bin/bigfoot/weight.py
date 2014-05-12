@@ -212,7 +212,9 @@ class WeightSeq(object):
                     else:
                         sub = self[extract[0]+1:extract[1]].upper()
                     extract.insert(0, sub)  # trailing sequence
-            return best
+                return best
+            else:
+                return []
 
     def get_real_pos(self, pos):
         """
