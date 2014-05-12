@@ -199,6 +199,8 @@ class WeightSeq(object):
                 known.sort(key=lambda motif: motif[2], reverse=True)
 
                 best = best_hits(known)
+                # sort motifs by start position
+                best.sort(key=lambda motif: motif[0])
 
                 # Loop to extract sequences
                 for extract in best:
