@@ -283,3 +283,18 @@ summary(gen)
 ```
 
 Distance from Start Codon does not seem to be explained by the others parameters.
+
+Comparison with MEME length distribution.
+```{r}
+meme.motifs = read.table("../12may14MEMELengths.txt",h=F)
+head(meme.motifs)
+colnames(meme.motifs)=c("family","size")
+summary(meme.motifs)
+```
+
+5006 families scanned. 42680 entries -> 8536*5 scans, problems. Because normally only 5 motifs per family have been computed.
+
+```{r}
+m = ggplot(meme.motifs, aes(x=size))
+m + geom_histogram()
+```
