@@ -39,7 +39,7 @@ $(addsuffix .meme.motifs, $(LOCS)): %.meme.motifs : %.fasta
 # Compute Motifs using BigFoot
 $(MPD) : %.fasta.mpd : %.fasta %.newick
 	@echo "Computing Motifs using BigFoot"
-	@java -jar ../BigFoot/BigFoot.jar -t $(word 2, $^) -p=1000,2000,1000 $<
+	@java -jar ../BigFoot/BigFoot.jar -t $(word 2, $^) -p=10000,20000,1000 $<
 	@echo "Done."
 
 # Operations to obtain .newick tree
