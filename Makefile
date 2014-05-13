@@ -8,11 +8,11 @@ include config.mak
 
 all: $(MOTIFS) int_motifs meme_length
 
-#(addsuffix .comp, $(LOCS)): %.comp: bin/bigfoot/memecomp.py %.motifs %.meme.motifs
-#       @echo "Comparing MEME and BF"
-#       python $^ -e 0.001 -o $@
-#       @echo "Done"
-#
+$(addsuffix .comp, $(LOCS)): %.comp: bin/bigfoot/memecomp.py %.motifs %.meme.motifs
+	@echo "Comparing MEME and BF"
+	python $^ -e 0.001 -o $@
+	@echo "Done"
+
 meme_length:
 	@echo "Comparing MEME outputs lengths"
 	@bin/scripts/memelen.sh > results/MEMEOutputsLengths.txt
