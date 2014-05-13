@@ -207,13 +207,16 @@ fam.over.one = fam.count[fam.count$freq>1,]
 summary(fam.over.one)
 fam.over.one[fam.over.one$freq==max(fam.over.one$freq),]
 ```
-With **127** families reoccuring at least once. **WGD2ANC04504** most representend family.
+With **127** families reoccuring at least once. **WGD2ANC04504** most represented family. When looking at the ".motifs" file, alignment seems problematic.
+
 ```{r}
 quantile(motifs$size,c(.05,.1,.25,.50,.75,.9,.95))
 # Show maximum and minimum
 motifs[motifs$size==max(motifs$size),]
 motifs[motifs$size==min(motifs$size),]
 ```
+
+**5% of motifs are over 27nt long.**
 
 ```{r}
 library(ggplot2)
@@ -223,8 +226,9 @@ g + geom_histogram(aes(y=..density..), fill="darkgreen") + geom_density() + labs
 g + geom_histogram(fill="darkblue", binwidth=0.08) + labs(x="Motif Size", y = "Counts") + scale_x_log10()
 hist(motifs$size, prob=TRUE)
 g + geom_histogram() + scale_x_log10()
-
 ```
+
+Motifs sizes seems to have an exponential distribution. Some motifs seem highly conserved. When looking at supposedly highly "conserved" motifs, no that conserved. -> Should run BigFoot with higher parameters.
 
 What about the distribution of distance?
 
@@ -232,14 +236,12 @@ What about the distribution of distance?
 g = ggplot(motifs,aes(x=distance))
 g + geom_histogram(fill="darkblue")
 g + geom_histogram(aes(y=..density..), fill="darkblue") + geom_density() + labs(x="Distance", y = "Density") + scale_y_continuous(labels = percent)
-overdist = subset(motifs,motifs$distance>250)
-overdist
 ```
-Distance > 250 because of alignment. -> Counts "-" as 1 base.
-Correlation between distance and sizes?
+
+Always an exponential distribution. Problem: some motifs are found at the very end of the distribution (243nt) of size 6. Can extend further?
 
 ```{r}
-g = ggplot(motifs,aes(x=size, y=distance)) + labs(x="Motif Size", y="Distance from TSS")
+g = ggplot(motifs,aes(x=size, y=distance)) + labs(x="Motif Size", y="Distance from Start Codon")
 g + geom_point() + geom_density2d() + scale_x_log10()
 g + geom_density2d()
 l = lm(distance~size, motifs)
@@ -247,36 +249,37 @@ summary(l)
 g + geom_point() + coord_polar()
 ```
 
+No significant correlation between motifs size and distance from the Start Codon.
+
 Scores distribution?
 
 ```{r}
 g = ggplot(motifs,aes(x=phyloscore, fill="darkred")) 
-g + geom_histogram() + labs(x="Phylogenetic Score") + scale_y_continuous()
+g + geom_histogram() + labs(x="Phylogenetic Score") + scale_x_log10()
 hist(motifs$phyloscore)
 quantile(motifs$phyloscore,c(.05, .1, .25, .5, .75, .9, .95, .99))
 g = ggplot(motifs,aes(x=alignscore)) + labs(x="Alignment Score")
-g + geom_histogram(aes(y=..density.., fill="darkred")) + geom_density() 
+g + geom_histogram() + scale_x_log10() 
 hist(motifs$alignscore)
 quantile(motifs$alignscore,c(.01, .05, .1, .25, .5, .75, .9, .95, .99))
 ```
+
+Phylogenetic score and Alignment are very high in all the motifs -> Problem with BigFoot's parameters?
+
 Relation between Alignment and Phylogenetic score?
+
 ```{r}
 g = ggplot(motifs, aes(x=phyloscore,y=alignscore))
 g + geom_point() + labs(x="Phylogenetic Score", y="Alignment Score")
-g + geom_boxplot()
 phyali = lm(phyloscore~alignscore,motifs)
 summary(phyali)
 ```
 
-Seems to have positive correlation between alignment and phylogenetic scores.
+Highly significant correlation between prediction and alignment scores -> Should look at how these scores are produced.
 
 ```{r}
 gen = lm(distance~size+phyloscore+alignscore, motifs)
 summary(gen)
 ```
 
-Distribution of MotifSizes?
-```{r}
-g = ggplot(motifs,aes(y=size))
-g + geom_boxplot()
-```
+Distance from Start Codon does not seem to be explained by the others parameters.
