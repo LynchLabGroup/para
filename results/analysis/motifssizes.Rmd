@@ -98,7 +98,7 @@ library(ggplot2)
 library(scales)
 g = ggplot(motifs,aes(x=size))
 g + geom_histogram(aes(y=..density..), fill="darkgreen") + geom_density() + labs(x="Motif Size", y = "Density") + scale_y_continuous(labels = percent)
-g + geom_histogram(fill="darkblue") + labs(x="Motif Size", y = "Counts")
+g + geom_histogram(fill="darkblue") + labs(x="Motif Size", y = "Counts") + scale_x_log10()
 ```
 
 ```{r}
@@ -132,7 +132,7 @@ Correlation between distance and sizes?
 
 ```{r}
 g = ggplot(motifs,aes(x=size, y=distance)) + labs(x="Motif Size", y="Distance from TSS")
-g + geom_point() + geom_density2d() 
+g + geom_point() + geom_density2d() + scale_x_log10()
 g + geom_density2d()
 l = lm(distance~size, motifs)
 summary(l)
@@ -154,7 +154,8 @@ quantile(motifs$alignscore,c(.01, .05, .1, .25, .5, .75, .9, .95, .99))
 Relation between Alignment and Phylogenetic score?
 ```{r}
 g = ggplot(motifs, aes(x=phyloscore,y=alignscore))
-g + geom_point()
+g + geom_point() + labs(x="Phylogenetic Score", y="Alignment Score")
+g + geom_boxplot()
 phyali = lm(phyloscore~alignscore,motifs)
 summary(phyali)
 ```
@@ -164,3 +165,118 @@ Seems to have positive correlation between alignment and phylogenetic scores.
 ```{r}
 gen = lm(distance~size+phyloscore+alignscore, motifs)
 summary(gen)
+```
+
+Distribution of MotifSizes?
+```{r}
+g = ggplot(motifs,aes(y=size))
+g + geom_boxplot()
+```
+
+Motifs found by May 12th analysis
+========================================================
+
+These data were generated using p=1000,2000,1000 in BigFoot. With upstream sequences between 15nt and 250nt extracted from families with at least 4 members, with prediction threshold of 0.9 and aligment threshold of 0.8
+
+Questions:
+
++ How many motifs are there?
++ What families are represented?
++ How are their lengths and scores distributed?
++ Could we filter out highly conserved motifs?
+
+```{r}
+motifs = read.csv("../12may14BFmotifs.txt", sep="\t", h=T)
+head(motifs)
+length(motifs$family)
+```
+**811** motifs have been found in BigFoot.
+```{r}
+summary(motifs)
+length(unique(motifs$family))
+```
+in **608** families.
+
+What are the frequencies of each families?
+
+```{r}
+library(plyr)
+fam.count = count(motifs, "family")
+# Let's select family with more than 1 occurence
+fam.over.one = fam.count[fam.count$freq>1,]
+summary(fam.over.one)
+fam.over.one[fam.over.one$freq==max(fam.over.one$freq),]
+```
+With **127** families reoccuring at least once. **WGD2ANC04504** most representend family.
+```{r}
+quantile(motifs$size,c(.05,.1,.25,.50,.75,.9,.95))
+# Show maximum and minimum
+motifs[motifs$size==max(motifs$size),]
+motifs[motifs$size==min(motifs$size),]
+```
+
+```{r}
+library(ggplot2)
+library(scales)
+g = ggplot(motifs,aes(x=size))
+g + geom_histogram(aes(y=..density..), fill="darkgreen") + geom_density() + labs(x="Motif Size", y = "Density") + scale_y_continuous(labels = percent)
+g + geom_histogram(fill="darkblue", binwidth=0.08) + labs(x="Motif Size", y = "Counts") + scale_x_log10()
+hist(motifs$size, prob=TRUE)
+g + geom_histogram() + scale_x_log10()
+
+```
+
+What about the distribution of distance?
+
+```{r}
+g = ggplot(motifs,aes(x=distance))
+g + geom_histogram(fill="darkblue")
+g + geom_histogram(aes(y=..density..), fill="darkblue") + geom_density() + labs(x="Distance", y = "Density") + scale_y_continuous(labels = percent)
+overdist = subset(motifs,motifs$distance>250)
+overdist
+```
+Distance > 250 because of alignment. -> Counts "-" as 1 base.
+Correlation between distance and sizes?
+
+```{r}
+g = ggplot(motifs,aes(x=size, y=distance)) + labs(x="Motif Size", y="Distance from TSS")
+g + geom_point() + geom_density2d() + scale_x_log10()
+g + geom_density2d()
+l = lm(distance~size, motifs)
+summary(l)
+g + geom_point() + coord_polar()
+```
+
+Scores distribution?
+
+```{r}
+g = ggplot(motifs,aes(x=phyloscore, fill="darkred")) 
+g + geom_histogram() + labs(x="Phylogenetic Score") + scale_y_continuous()
+hist(motifs$phyloscore)
+quantile(motifs$phyloscore,c(.05, .1, .25, .5, .75, .9, .95, .99))
+g = ggplot(motifs,aes(x=alignscore)) + labs(x="Alignment Score")
+g + geom_histogram(aes(y=..density.., fill="darkred")) + geom_density() 
+hist(motifs$alignscore)
+quantile(motifs$alignscore,c(.01, .05, .1, .25, .5, .75, .9, .95, .99))
+```
+Relation between Alignment and Phylogenetic score?
+```{r}
+g = ggplot(motifs, aes(x=phyloscore,y=alignscore))
+g + geom_point() + labs(x="Phylogenetic Score", y="Alignment Score")
+g + geom_boxplot()
+phyali = lm(phyloscore~alignscore,motifs)
+summary(phyali)
+```
+
+Seems to have positive correlation between alignment and phylogenetic scores.
+
+```{r}
+gen = lm(distance~size+phyloscore+alignscore, motifs)
+summary(gen)
+```
+
+Distribution of MotifSizes?
+```{r}
+g = ggplot(motifs,aes(y=size))
+g + geom_boxplot()
+```
