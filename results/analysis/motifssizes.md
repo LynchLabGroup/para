@@ -463,7 +463,8 @@ g + geom_histogram(aes(y = ..density..), fill = "darkgreen") + geom_density() +
 ![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-101.png) 
 
 ```r
-g + geom_histogram(fill = "darkblue") + labs(x = "Motif Size", y = "Counts")
+g + geom_histogram(fill = "darkblue") + labs(x = "Motif Size", y = "Counts") + 
+    scale_x_log10()
 ```
 
 ```
@@ -1103,7 +1104,7 @@ Correlation between distance and sizes?
 
 ```r
 g = ggplot(motifs, aes(x = size, y = distance)) + labs(x = "Motif Size", y = "Distance from TSS")
-g + geom_point() + geom_density2d()
+g + geom_point() + geom_density2d() + scale_x_log10()
 ```
 
 ![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-131.png) 
@@ -1210,10 +1211,16 @@ Relation between Alignment and Phylogenetic score?
 
 ```r
 g = ggplot(motifs, aes(x = phyloscore, y = alignscore))
-g + geom_point()
+g + geom_point() + labs(x = "Phylogenetic Score", y = "Alignment Score")
 ```
 
-![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15.png) 
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-151.png) 
+
+```r
+g + geom_boxplot()
+```
+
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-152.png) 
 
 ```r
 phyali = lm(phyloscore ~ alignscore, motifs)
@@ -1272,3 +1279,590 @@ summary(gen)
 ## Multiple R-squared:  0.0258,	Adjusted R-squared:  0.023 
 ## F-statistic: 9.03 on 3 and 1023 DF,  p-value: 6.59e-06
 ```
+
+
+Distribution of MotifSizes?
+
+```r
+g = ggplot(motifs, aes(y = size))
+g + geom_boxplot()
+```
+
+```
+## Error: stat_boxplot requires the following missing aesthetics: x
+```
+
+
+Motifs found by May 12th analysis
+========================================================
+
+These data were generated using p=1000,2000,1000 in BigFoot. With upstream sequences between 15nt and 250nt extracted from families with at least 4 members, with prediction threshold of 0.9 and aligment threshold of 0.8
+
+Questions:
+
++ How many motifs are there?
++ What families are represented?
++ How are their lengths and scores distributed?
++ Could we filter out highly conserved motifs?
+
+
+```r
+motifs = read.csv("../12may14BFmotifs.txt", sep = "\t", h = T)
+head(motifs)
+```
+
+```
+##         family distance size phyloscore alignscore
+## 1 WGD2ANC00008       61    7     0.9643     0.9929
+## 2 WGD2ANC00012        9    6     1.0000     1.0000
+## 3 WGD2ANC00014        1    9     1.0000     1.0000
+## 4 WGD2ANC00029        2   13     1.0000     1.0000
+## 5 WGD2ANC00029       93    6     1.0000     1.0000
+## 6 WGD2ANC00041        4    9     1.0000     1.0000
+```
+
+```r
+length(motifs$family)
+```
+
+```
+## [1] 811
+```
+
+**811** motifs have been found in BigFoot.
+
+```r
+summary(motifs)
+```
+
+```
+##           family       distance          size         phyloscore   
+##  WGD2ANC04504:  8   Min.   :  1.0   Min.   :  6.0   Min.   :0.775  
+##  WGD2ANC01450:  6   1st Qu.:  4.0   1st Qu.:  7.0   1st Qu.:1.000  
+##  WGD2ANC01474:  6   Median : 14.0   Median : 10.0   Median :1.000  
+##  WGD2ANC02031:  6   Mean   : 46.5   Mean   : 12.2   Mean   :0.994  
+##  WGD2ANC03492:  6   3rd Qu.: 64.5   3rd Qu.: 13.0   3rd Qu.:1.000  
+##  WGD2ANC00943:  5   Max.   :243.0   Max.   :111.0   Max.   :1.000  
+##  (Other)     :774                                                  
+##    alignscore   
+##  Min.   :0.850  
+##  1st Qu.:1.000  
+##  Median :1.000  
+##  Mean   :0.996  
+##  3rd Qu.:1.000  
+##  Max.   :1.000  
+## 
+```
+
+```r
+length(unique(motifs$family))
+```
+
+```
+## [1] 608
+```
+
+in **608** families.
+
+What are the frequencies of each families?
+
+
+```r
+library(plyr)
+```
+
+```
+## 
+## Attaching package: 'plyr'
+## 
+## Les objets suivants sont masqués from 'package:reshape':
+## 
+##     rename, round_any
+```
+
+```r
+fam.count = count(motifs, "family")
+# Let's select family with more than 1 occurence
+fam.over.one = fam.count[fam.count$freq > 1, ]
+summary(fam.over.one)
+```
+
+```
+##           family         freq     
+##  WGD2ANC00029:  1   Min.   :2.00  
+##  WGD2ANC00051:  1   1st Qu.:2.00  
+##  WGD2ANC00087:  1   Median :2.00  
+##  WGD2ANC00093:  1   Mean   :2.53  
+##  WGD2ANC00097:  1   3rd Qu.:3.00  
+##  WGD2ANC00123:  1   Max.   :8.00  
+##  (Other)     :127
+```
+
+```r
+fam.over.one[fam.over.one$freq == max(fam.over.one$freq), ]
+```
+
+```
+##           family freq
+## 484 WGD2ANC04504    8
+```
+
+With **127** families reoccuring at least once. **WGD2ANC04504** most represented family. When looking at the ".motifs" file, alignment seems problematic.
+
+
+```r
+quantile(motifs$size, c(0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95))
+```
+
+```
+##  5% 10% 25% 50% 75% 90% 95% 
+##   6   6   7  10  13  21  27
+```
+
+```r
+# Show maximum and minimum
+motifs[motifs$size == max(motifs$size), ]
+```
+
+```
+##           family distance size phyloscore alignscore
+## 797 WGD2ANC05671        1  111          1          1
+```
+
+```r
+motifs[motifs$size == min(motifs$size), ]
+```
+
+```
+##           family distance size phyloscore alignscore
+## 2   WGD2ANC00012        9    6     1.0000     1.0000
+## 5   WGD2ANC00029       93    6     1.0000     1.0000
+## 7   WGD2ANC00043       22    6     0.9833     1.0000
+## 13  WGD2ANC00070       10    6     0.9000     1.0000
+## 23  WGD2ANC00097      243    6     1.0000     1.0000
+## 29  WGD2ANC00132       43    6     1.0000     1.0000
+## 37  WGD2ANC00169      196    6     1.0000     1.0000
+## 38  WGD2ANC00182       11    6     1.0000     1.0000
+## 39  WGD2ANC00193       19    6     1.0000     0.9917
+## 40  WGD2ANC00199       10    6     1.0000     1.0000
+## 49  WGD2ANC00265       70    6     0.9417     1.0000
+## 52  WGD2ANC00300        1    6     1.0000     1.0000
+## 53  WGD2ANC00302       44    6     1.0000     1.0000
+## 55  WGD2ANC00306        6    6     0.9250     0.9333
+## 56  WGD2ANC00309      181    6     1.0000     1.0000
+## 59  WGD2ANC00323       64    6     1.0000     1.0000
+## 60  WGD2ANC00324      135    6     1.0000     1.0000
+## 67  WGD2ANC00365      175    6     0.9667     0.9500
+## 82  WGD2ANC00444       20    6     1.0000     1.0000
+## 88  WGD2ANC00482      227    6     1.0000     1.0000
+## 98  WGD2ANC00595        9    6     1.0000     1.0000
+## 105 WGD2ANC00654       12    6     1.0000     1.0000
+## 112 WGD2ANC00736        8    6     1.0000     1.0000
+## 126 WGD2ANC00837      116    6     1.0000     1.0000
+## 139 WGD2ANC00921      148    6     1.0000     1.0000
+## 141 WGD2ANC00928      101    6     1.0000     1.0000
+## 148 WGD2ANC00943      198    6     1.0000     1.0000
+## 153 WGD2ANC00966        1    6     1.0000     1.0000
+## 161 WGD2ANC01015       70    6     1.0000     1.0000
+## 169 WGD2ANC01089      186    6     1.0000     1.0000
+## 172 WGD2ANC01115       15    6     0.9250     0.9667
+## 181 WGD2ANC01171       52    6     1.0000     1.0000
+## 202 WGD2ANC01312      144    6     1.0000     1.0000
+## 214 WGD2ANC01392      166    6     0.9750     1.0000
+## 217 WGD2ANC01424       11    6     0.9750     1.0000
+## 222 WGD2ANC01450       90    6     1.0000     1.0000
+## 226 WGD2ANC01463       88    6     1.0000     1.0000
+## 227 WGD2ANC01469        6    6     1.0000     1.0000
+## 238 WGD2ANC01516       22    6     0.9667     1.0000
+## 243 WGD2ANC01533        7    6     1.0000     1.0000
+## 251 WGD2ANC01586      171    6     1.0000     1.0000
+## 266 WGD2ANC01707       91    6     1.0000     1.0000
+## 269 WGD2ANC01716        1    6     1.0000     1.0000
+## 273 WGD2ANC01729      107    6     1.0000     1.0000
+## 274 WGD2ANC01731       12    6     1.0000     1.0000
+## 284 WGD2ANC01789        6    6     1.0000     1.0000
+## 285 WGD2ANC01794       10    6     1.0000     1.0000
+## 289 WGD2ANC01837      214    6     1.0000     1.0000
+## 290 WGD2ANC01837      224    6     1.0000     1.0000
+## 301 WGD2ANC01925        7    6     1.0000     1.0000
+## 303 WGD2ANC01937       31    6     0.9750     1.0000
+## 306 WGD2ANC01950       47    6     1.0000     1.0000
+## 308 WGD2ANC01962       18    6     0.9917     1.0000
+## 311 WGD2ANC01982       51    6     0.9917     1.0000
+## 315 WGD2ANC02003       68    6     1.0000     1.0000
+## 325 WGD2ANC02031      229    6     1.0000     1.0000
+## 327 WGD2ANC02042      143    6     1.0000     1.0000
+## 335 WGD2ANC02085        6    6     1.0000     1.0000
+## 342 WGD2ANC02133       52    6     1.0000     1.0000
+## 354 WGD2ANC02244      243    6     1.0000     1.0000
+## 361 WGD2ANC02288       35    6     1.0000     1.0000
+## 372 WGD2ANC02352       46    6     1.0000     1.0000
+## 373 WGD2ANC02363        1    6     1.0000     1.0000
+## 392 WGD2ANC02473        2    6     1.0000     1.0000
+## 398 WGD2ANC02598       54    6     1.0000     1.0000
+## 405 WGD2ANC02652        2    6     1.0000     1.0000
+## 406 WGD2ANC02655       53    6     1.0000     1.0000
+## 407 WGD2ANC02671        3    6     1.0000     1.0000
+## 411 WGD2ANC02693       21    6     1.0000     1.0000
+## 418 WGD2ANC02721      188    6     1.0000     1.0000
+## 422 WGD2ANC02758        2    6     1.0000     1.0000
+## 427 WGD2ANC02790       31    6     1.0000     1.0000
+## 435 WGD2ANC02833        1    6     1.0000     1.0000
+## 440 WGD2ANC02893        2    6     1.0000     1.0000
+## 441 WGD2ANC02893       20    6     1.0000     1.0000
+## 442 WGD2ANC02906        3    6     1.0000     1.0000
+## 452 WGD2ANC02964       59    6     1.0000     1.0000
+## 459 WGD2ANC03008       14    6     0.9917     0.9833
+## 460 WGD2ANC03011        5    6     1.0000     1.0000
+## 461 WGD2ANC03035        7    6     0.9917     0.9750
+## 462 WGD2ANC03040        3    6     1.0000     1.0000
+## 487 WGD2ANC03195       39    6     0.9667     1.0000
+## 501 WGD2ANC03297       88    6     1.0000     1.0000
+## 534 WGD2ANC03525       10    6     1.0000     1.0000
+## 535 WGD2ANC03525      173    6     1.0000     1.0000
+## 538 WGD2ANC03545       27    6     1.0000     0.8917
+## 547 WGD2ANC03604      167    6     0.9833     0.9000
+## 553 WGD2ANC03702        1    6     1.0000     1.0000
+## 555 WGD2ANC03707        1    6     1.0000     1.0000
+## 557 WGD2ANC03724        4    6     1.0000     1.0000
+## 564 WGD2ANC03831        8    6     0.9833     1.0000
+## 568 WGD2ANC03877       33    6     1.0000     1.0000
+## 571 WGD2ANC03883      160    6     1.0000     1.0000
+## 574 WGD2ANC03898      102    6     1.0000     1.0000
+## 582 WGD2ANC03968       14    6     1.0000     1.0000
+## 588 WGD2ANC04013       34    6     0.9750     1.0000
+## 600 WGD2ANC04202       37    6     1.0000     1.0000
+## 610 WGD2ANC04265      137    6     1.0000     1.0000
+## 612 WGD2ANC04267       14    6     1.0000     1.0000
+## 618 WGD2ANC04342       25    6     0.9583     1.0000
+## 627 WGD2ANC04378       22    6     0.9667     0.9667
+## 634 WGD2ANC04425        7    6     1.0000     1.0000
+## 638 WGD2ANC04442      195    6     1.0000     1.0000
+## 639 WGD2ANC04442      222    6     1.0000     1.0000
+## 640 WGD2ANC04442      240    6     1.0000     1.0000
+## 646 WGD2ANC04483       20    6     1.0000     1.0000
+## 649 WGD2ANC04504       25    6     1.0000     1.0000
+## 650 WGD2ANC04504      100    6     1.0000     1.0000
+## 656 WGD2ANC04505        9    6     1.0000     1.0000
+## 667 WGD2ANC04663       18    6     0.9167     1.0000
+## 673 WGD2ANC04712        8    6     1.0000     1.0000
+## 675 WGD2ANC04730        4    6     1.0000     1.0000
+## 683 WGD2ANC04801        6    6     1.0000     1.0000
+## 684 WGD2ANC04815       24    6     1.0000     1.0000
+## 686 WGD2ANC04840        8    6     1.0000     1.0000
+## 697 WGD2ANC04963        5    6     1.0000     1.0000
+## 713 WGD2ANC05051       13    6     1.0000     1.0000
+## 714 WGD2ANC05051       36    6     1.0000     1.0000
+## 719 WGD2ANC05067      149    6     1.0000     1.0000
+## 722 WGD2ANC05118        5    6     1.0000     1.0000
+## 727 WGD2ANC05206       11    6     0.9333     0.9833
+## 728 WGD2ANC05213       10    6     0.9833     0.9917
+## 732 WGD2ANC05252        2    6     1.0000     1.0000
+## 754 WGD2ANC05436        6    6     1.0000     1.0000
+## 768 WGD2ANC05505       17    6     1.0000     1.0000
+## 770 WGD2ANC05519       10    6     1.0000     1.0000
+## 772 WGD2ANC05526       19    6     1.0000     1.0000
+## 776 WGD2ANC05532        5    6     1.0000     1.0000
+## 788 WGD2ANC05624        5    6     1.0000     1.0000
+## 801 WGD2ANC05687      218    6     1.0000     1.0000
+## 807 WGD2ANC05722      243    6     1.0000     1.0000
+```
+
+
+**5% of motifs are over 27nt long.**
+
+
+```r
+library(ggplot2)
+library(scales)
+g = ggplot(motifs, aes(x = size))
+g + geom_histogram(aes(y = ..density..), fill = "darkgreen") + geom_density() + 
+    labs(x = "Motif Size", y = "Density") + scale_y_continuous(labels = percent)
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk unnamed-chunk-22](figure/unnamed-chunk-221.png) 
+
+```r
+g + geom_histogram(fill = "darkblue", binwidth = 0.08) + labs(x = "Motif Size", 
+    y = "Counts") + scale_x_log10()
+```
+
+![plot of chunk unnamed-chunk-22](figure/unnamed-chunk-222.png) 
+
+```r
+hist(motifs$size, prob = TRUE)
+```
+
+![plot of chunk unnamed-chunk-22](figure/unnamed-chunk-223.png) 
+
+```r
+g + geom_histogram() + scale_x_log10()
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk unnamed-chunk-22](figure/unnamed-chunk-224.png) 
+
+
+Motifs sizes seems to have an exponential distribution. Some motifs seem highly conserved. When looking at supposedly highly "conserved" motifs, no that conserved. -> Should run BigFoot with higher parameters.
+
+What about the distribution of distance?
+
+
+```r
+g = ggplot(motifs, aes(x = distance))
+g + geom_histogram(fill = "darkblue")
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk unnamed-chunk-23](figure/unnamed-chunk-231.png) 
+
+```r
+g + geom_histogram(aes(y = ..density..), fill = "darkblue") + geom_density() + 
+    labs(x = "Distance", y = "Density") + scale_y_continuous(labels = percent)
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk unnamed-chunk-23](figure/unnamed-chunk-232.png) 
+
+
+Always an exponential distribution. Problem: some motifs are found at the very end of the distribution (243nt) of size 6. Can extend further?
+
+
+```r
+g = ggplot(motifs, aes(x = size, y = distance)) + labs(x = "Motif Size", y = "Distance from Start Codon")
+g + geom_point() + geom_density2d() + scale_x_log10()
+```
+
+![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-241.png) 
+
+```r
+g + geom_density2d()
+```
+
+![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-242.png) 
+
+```r
+l = lm(distance ~ size, motifs)
+summary(l)
+```
+
+```
+## 
+## Call:
+## lm(formula = distance ~ size, data = motifs)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##  -48.1  -42.1  -31.6   18.5  193.8 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   51.692      3.651   14.16   <2e-16 ***
+## size          -0.424      0.237   -1.79    0.074 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 63.4 on 809 degrees of freedom
+## Multiple R-squared:  0.00395,	Adjusted R-squared:  0.00272 
+## F-statistic: 3.21 on 1 and 809 DF,  p-value: 0.0738
+```
+
+```r
+g + geom_point() + coord_polar()
+```
+
+![plot of chunk unnamed-chunk-24](figure/unnamed-chunk-243.png) 
+
+
+No significant correlation between motifs size and distance from the Start Codon.
+
+Scores distribution?
+
+
+```r
+g = ggplot(motifs, aes(x = phyloscore, fill = "darkred"))
+g + geom_histogram() + labs(x = "Phylogenetic Score") + scale_x_log10()
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk unnamed-chunk-25](figure/unnamed-chunk-251.png) 
+
+```r
+hist(motifs$phyloscore)
+```
+
+![plot of chunk unnamed-chunk-25](figure/unnamed-chunk-252.png) 
+
+```r
+quantile(motifs$phyloscore, c(0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.99))
+```
+
+```
+##     5%    10%    25%    50%    75%    90%    95%    99% 
+## 0.9618 0.9846 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000
+```
+
+```r
+g = ggplot(motifs, aes(x = alignscore)) + labs(x = "Alignment Score")
+g + geom_histogram() + scale_x_log10()
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk unnamed-chunk-25](figure/unnamed-chunk-253.png) 
+
+```r
+hist(motifs$alignscore)
+```
+
+![plot of chunk unnamed-chunk-25](figure/unnamed-chunk-254.png) 
+
+```r
+quantile(motifs$alignscore, c(0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.99))
+```
+
+```
+##     1%     5%    10%    25%    50%    75%    90%    95%    99% 
+## 0.8921 0.9773 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000 1.0000
+```
+
+
+Phylogenetic score and Alignment are very high in all the motifs -> Problem with BigFoot's parameters?
+
+Relation between Alignment and Phylogenetic score?
+
+
+```r
+g = ggplot(motifs, aes(x = phyloscore, y = alignscore))
+g + geom_point() + labs(x = "Phylogenetic Score", y = "Alignment Score")
+```
+
+![plot of chunk unnamed-chunk-26](figure/unnamed-chunk-26.png) 
+
+```r
+phyali = lm(phyloscore ~ alignscore, motifs)
+summary(phyali)
+```
+
+```
+## 
+## Call:
+## lm(formula = phyloscore ~ alignscore, data = motifs)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.18312  0.00438  0.00438  0.00438  0.03935 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   0.6809     0.0372   18.30   <2e-16 ***
+## alignscore    0.3147     0.0374    8.42   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.0198 on 809 degrees of freedom
+## Multiple R-squared:  0.0806,	Adjusted R-squared:  0.0795 
+## F-statistic:   71 on 1 and 809 DF,  p-value: <2e-16
+```
+
+
+Highly significant correlation between prediction and alignment scores -> Should look at how these scores are produced.
+
+
+```r
+gen = lm(distance ~ size + phyloscore + alignscore, motifs)
+summary(gen)
+```
+
+```
+## 
+## Call:
+## lm(formula = distance ~ size + phyloscore + alignscore, data = motifs)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+##  -48.6  -42.1  -31.2   18.9  193.4 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)  
+## (Intercept)  -38.390    142.340   -0.27    0.787  
+## size          -0.434      0.239   -1.82    0.069 .
+## phyloscore     7.241    113.289    0.06    0.949  
+## alignscore    83.345    125.048    0.67    0.505  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 63.4 on 807 degrees of freedom
+## Multiple R-squared:  0.00458,	Adjusted R-squared:  0.000878 
+## F-statistic: 1.24 on 3 and 807 DF,  p-value: 0.295
+```
+
+
+Distance from Start Codon does not seem to be explained by the others parameters.
+
+Comparison with MEME length distribution.
+
+```r
+meme.motifs = read.table("../12may14MEMELengths.txt", h = F)
+head(meme.motifs)
+```
+
+```
+##             V1 V2
+## 1 WGD2ANC00001 50
+## 2 WGD2ANC00001 16
+## 3 WGD2ANC00001 15
+## 4 WGD2ANC00001  4
+## 5 WGD2ANC00001 41
+## 6 WGD2ANC00002 40
+```
+
+```r
+colnames(meme.motifs) = c("family", "size")
+summary(meme.motifs)
+```
+
+```
+##           family           size     
+##  WGD2ANC00002:   70   Min.   : 4.0  
+##  WGD2ANC00004:   65   1st Qu.: 4.0  
+##  WGD2ANC00031:   54   Median : 6.0  
+##  WGD2ANC00036:   45   Mean   :11.8  
+##  WGD2ANC00037:   45   3rd Qu.:13.0  
+##  WGD2ANC00038:   45   Max.   :50.0  
+##  (Other)     :42356
+```
+
+
+5006 families scanned. 42680 entries -> 8536*5 scans, problems. Because normally only 5 motifs per family have been computed.
+
+
+```r
+m = ggplot(meme.motifs, aes(x = size))
+m + geom_histogram()
+```
+
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![plot of chunk unnamed-chunk-29](figure/unnamed-chunk-29.png) 
+
