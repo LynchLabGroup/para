@@ -1,0 +1,42 @@
+# Extraction motifs #
+
+Extracted motifs from Paramecium biaurelia, on motif "TAAATTT" from the 150 first nucleotides
+```{r}
+# Load genome extract
+extract.genes = read.table("../extract_test//biTAAATTT13may14genes.res", h=F)
+head(extract.genes)
+colnames(extract.genes)=c("gene_id", "distance", "motifs.number")
+summary(extract.genes)
+
+# Load expression data
+bi.exp = read.table("../../data/biaurelia_RNAseq_xp.tab", h=T)
+head(bi.exp)
+
+length(intersect(bi.exp$gene_id,extract.genes$gene_id))
+```
+
+7513 hits -> all genes in extract.genes are in bi.exp
+
+```{r}
+
+# Match the two data
+bi.match = extract.genes[match(bi.exp$gene_id,extract.genes$gene_id, nomatch=0),]
+bi.merge = merge(bi.match,bi.exp)
+```
+
+Now that the data is merged. Let's look at the data
+
+```{r fig.width=7, fig.height=6}
+library(ggplot2)
+
+g = ggplot(bi.merge, aes(x=distance, y=xp))
+g + geom_point(alpha=0.6, position="jitter") + labs(x="Distance from Start Codon", y="Expression data", main="Paramecium biaurelia TAAATTT motif")
+
+d = ggplot(bi.merge, aes(x=distance))
+d + geom_histogram(aes(y=..density..)) + geom_density(size=1.5, colour="darkblue")
+d  + geom_freqpoly(size=2, colour="darkblue", binwidth = 1)
+lin = lm(xp~distance,data=bi.merge)
+summary(lin)
+```
+
+Very significant negative correlation between distance and expression (P = 0.0003)
