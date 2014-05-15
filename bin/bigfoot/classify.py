@@ -57,7 +57,7 @@ def main():
     parser.add_argument("output", help="Output file with seq, GC and length")
     parser.add_argument("-f", "--field", type=int, help="Field number of \
         sequences", default=None)
-    parser.add_argument("-h", "--header", help="Specifies if file had header",
+    parser.add_argument("-head", "--header", help="Specifies if file had header",
                         action="store_true")
 
     args = parser.parse_args()
