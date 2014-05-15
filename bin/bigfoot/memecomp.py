@@ -74,12 +74,12 @@ ifs found: {}".format(self.filename(), self.date(), self.pred(),
     def __getitem__(self, index):
         """Return the motif of the given index."""
 
-        return self._motifs[index]
+        return self.motifs[index]
 
     def __iter__(self):
         """Iterates over motifs in MotifFile."""
 
-        return self._motifs.__iter__()
+        return self.motifs.__iter__()
 
     def pred(self):
         """Return the prediction score (phylogenetic score) threshold used."""
@@ -203,11 +203,12 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None,
                         if index and stat > threshold:
                             if i == 0:
                                 print >> output, "BigFoot\tBF.length\tMEME\t\
-MEME.length\tsequence\tratio"
+MEME.length\tsequence\tratio\tconsensus"
                                 i = 1
-                            print >> output, "{}\t{}\t{}\t{}\t{}\t{}".format(
+                            print >> output, "{}\t{}\t{}\t{}\t{}\t{}\t{}".format(
                                 inst.motif_name, int(inst.length),
-                                m.motif_name, int(m.length), seq_name, stat)
+                                m.motif_name, int(m.length), seq_name, stat,
+                                bf_mot.consensus.tostring())
                         break
 
 
