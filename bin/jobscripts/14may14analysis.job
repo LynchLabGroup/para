@@ -1,0 +1,30 @@
+#!/bin/bash
+#PBS -k o
+#PBS -l nodes=1:ppn=4,vmem=16gb,walltime=00:10:00:00
+#PBS -M mgrenie@indiana.edu
+#PBS -m be
+#PBS -N BigfootParsing
+#PBS -j oe
+echo "Job Started at: "; date
+module load java/1.7.0_25
+cd para/
+
+for FAM in `ls results/WGD2ANC*/*[0-9].fasta | xargs -n1 basename | cut -d. -f 1`;
+do
+
+CDS="CDS"
+FAMCDS=$FAM$CDS
+TARGET="results/$FAM/"
+echo $FAM
+
+# Parsing BigFoot ouput
+echo "Parsing BigFoot's ouput"
+python bin/bigfoot/setup.py -o $TARGET$FAM.motifs $TARGET$FAM.fasta.mpd $TARGET$FAM.fasta.pred -t 0.9 -a 0.8
+echo "Done."
+
+# Meme comp
+python bin/bigfoot/memecomp.py $TARGET$FAM.motifs $TARGET$FAM.meme.motifs -t 0.9 -o $TARGET$FAM.comp
+
+done
+
+echo "Job Finished at:"; date
