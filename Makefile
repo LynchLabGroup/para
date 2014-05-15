@@ -6,7 +6,8 @@ include config.mak
 
 .PHONY:  all makedir retrieve_upstream retrieve_CDS int_motifs meme_length
 
-all: $(addsuffix .comp, $(LOCS)) int_motifs meme_length
+all: $(addsuffix .comp, $(LOCS)) 
+#int_motifs meme_length
 
 $(addsuffix .comp, $(LOCS)): %.comp: bin/bigfoot/memecomp.py %.motifs %.meme.motifs
 	@echo "Comparing MEME and BF"
