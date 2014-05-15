@@ -7,6 +7,8 @@ USAGE:
 python classify.py input_file output_file [-f]
 """
 
+from __future__ import print_function
+
 import argparse
 from Bio.Alphabet import Gapped
 from Bio.Alphabet.IUPAC import ExtendedIUPACDNA
@@ -40,9 +42,13 @@ def gc_length(input_file, output, field=None, header=None):
             number += 1
 
     with open(output, "w") as o_file:
-        o_file.write("Seq\tGC\tlength")
+        print("GC\tlength\tSeq", file=o_file)
         for seq in sequences:
-            line = "{}\t{}\t{}\n".format(seq.tostring(), GC(seq), len(seq))
+            seq_str = str(seq.tostring())
+            line = "{}\t{}\t{}".format(GC(seq), len(seq), seq_str)
+            line = line.rstrip("\n")
+            print(repr(line))
+            print(line, file=o_file)
 
 
 def main():
