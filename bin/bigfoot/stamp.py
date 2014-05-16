@@ -27,7 +27,7 @@ def extract_ali(input_file, output_file):
         with open(output_file, "w") as out_file:
 
             for line in in_file:
-                line = line.split("\t").rsplit("\n")
+                line = line.rstrip("\n").split("\t")
 
                 if line[0] not in motif_files.keys():
                     # Load motif file if not the case
