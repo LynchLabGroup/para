@@ -32,8 +32,7 @@ def extract_ali(input_file, output_file):
                 if line[0] not in motif_files.keys():
                     # Load motif file if not the case
                     motif_files[line[0]] = MotifFile(fullpath(line[0]))
-
-                print(">".format(line[0]+line[1]), file=out_file)
+                print(">{}".format(line[0]+line[1]), file=out_file)
 
                 for motif in motif_files[line[0]]:
                     if motif.name == line[1]:
