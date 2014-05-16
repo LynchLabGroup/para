@@ -176,6 +176,9 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None,
         evalue = 0.01
 
     i = 0  # printing index
+
+    family = bigfoot_motifs._filename.split("/")[1]
+
     # Look at all motifs of bigfoot file
     for bf_mot in bigfoot_motifs.motifs:
         # Compare only first instance of each bf_mot
@@ -202,11 +205,11 @@ def compare_motifs(bigfoot_motifs, meme_motifs, output=None, threshold=None,
 
                         if index and stat > threshold:
                             if i == 0:
-                                print >> output, "BigFoot\tBF.length\tMEME\t\
+                                print >> output, "family\tBigFoot\tBF.length\tMEME\t\
 MEME.length\tsequence\tratio\tconsensus"
                                 i = 1
-                            print >> output, "{}\t{}\t{}\t{}\t{}\t{}\t{}".format(
-                                inst.motif_name, int(inst.length),
+                            print >> output, "{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}".format(
+                                family, inst.motif_name, int(inst.length),
                                 m.motif_name, int(m.length), seq_name, stat,
                                 bf_mot.consensus.tostring())
                         break
