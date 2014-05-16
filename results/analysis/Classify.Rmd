@@ -1,0 +1,18 @@
+# Sequence classifier #
+
+## May 15th 2014 ##
+Seek to classify sequences but have to use relevant indicators.
+```{r}
+seqs = read.table("../15may14classify.txt", h=T)
+summary(seqs)
+
+library(ggplot2)
+seqs.plots = ggplot(seqs, aes(x=length, y=GCm, label=Seq))
+seqs.plots + geom_point(alpha=0.5) + labs(x="Motif Length", y="Total GC Content")
+```
+With simply size and GC content, no real distinction.
+
+```{r fig.width=7, fig.height=6}
+plot(cars)
+```
+
