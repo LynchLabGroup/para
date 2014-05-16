@@ -9,12 +9,13 @@ extract(){
     local gff=$3
     local assembly=$4
 
-    /N/u/jgout/Quarry/bin/extractGenesWithExactMotif $3 GFF Parent $4 250 $1 > $2.res 2> $2.log
+    /N/u/jgout/Quarry/bin/extractGenesWithExactMotif $gff GFF Parent $assembly 250 $motif > $name.res 2> $name.log
 
 }
 
 while read -r line; 
-do 
+do
+    set -x 
     fields=(${line//\/})  # Splitting line in array
     echo ${fields[0]}
 
