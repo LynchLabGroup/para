@@ -9,7 +9,7 @@ extract(){
     local gff=$3
     local assembly=$4
 
-    /N/u/jgout/Quarry/bin/extractGenesWithExactMotif $gff GFF Parent $assembly 250 $motif > $name.res 2> $name.log
+    /N/u/jgout/Quarry/bin/extractGenesWithExactMotif $gff GFF Parent $assembly $motif 250 > $name.res 2> $name.log
 
 }
 
