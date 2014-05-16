@@ -12,7 +12,7 @@ from __future__ import print_function
 import argparse
 from Bio.Alphabet import Gapped
 from Bio.Alphabet.IUPAC import ExtendedIUPACDNA
-from Bio.SeqUtils import GC
+from Bio.SeqUtils import GC123
 from Bio.Seq import Seq
 
 
@@ -42,13 +42,30 @@ def gc_length(input_file, output, field=None, header=None):
             number += 1
 
     with open(output, "w") as o_file:
-        print("GC\tlength\tSeq", file=o_file)
+        print("AoverAT\tGCm\tGC1\tGC2\tGC3\tlength\tSeq", file=o_file)
         for seq in sequences:
-            seq_str = str(seq.tostring())
-            line = "{}\t{}\t{}".format(GC(seq), len(seq), seq_str)
+            gc = GC123(seq)
+            at = AoverAT(seq)
+            line = "{}\t{}\t{}\t{}\t{}\t{}\t{}".format(at, gc[0], gc[1], gc[2],
+                gc[3], len(seq), seq.tostring())
             line = line.rstrip("\n")
-            print(repr(line))
             print(line, file=o_file)
+
+
+def AoverAT(sequence):
+    """
+    Return the A over AT ratio in sequence
+    """
+    AT = 0
+    A = 0
+    for base in sequence:
+        if base == "A":
+            A += 1
+            AT += 1
+        elif base == "T":
+            AT += 1
+
+    return float(A)/AT
 
 
 def main():
