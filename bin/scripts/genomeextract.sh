@@ -17,6 +17,7 @@ while read -r line;
 do 
     fields=(${line//\/})  # Splitting line in array
     echo ${fields[0]}
-
+    touch results/motif_extraction/${fields[0]}bi.res
+    touch results/motif_extraction/${fields[0]}bi.log
     extract ${fields[1]} results/motif_extraction/${fields[0]}bi data/biaurelia/biaurelia_V1-4_annotation_v1.gff3 data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
 done < <(awk '{print $1$2, $9}' results/15may14consensuscomp.txt | head)
