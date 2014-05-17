@@ -20,7 +20,7 @@ do
     # To solve non existing files problem
 
     extract ${fields[1]} results/motifs_extraction/${fields[0]}bi data/biaurelia/biaurelia_cds.gff data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
-    extract ${fields[1]} results/motifs_extraction/${fields[0]}ca data/caudatum/caudatum_43c3d_annotation_v1.gff3 data/caudatum/caudatum_43c3d_assembly_v1.fasta
-    extract ${fields[1]} results/motifs_extraction/${fields[0]}sex data/sexaurelia/sexaurelia_AZ8-4_annotation_v1.gff3 data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta
-    extract ${fields[1]} results/motifs_extraction/${fields[0]}bi data/tetraurelia/tetraurelia51_EuGene_annotation.gff3 data/tetraurelia/ptetraurelia_mac_51.fa
+    extract ${fields[1]} results/motifs_extraction/${fields[0]}ca data/caudatum/caudatum_cds.gff data/caudatum/caudatum_43c3d_assembly_v1.fasta
+    extract ${fields[1]} results/motifs_extraction/${fields[0]}sex data/sexaurelia/sexaurelia_cds.gff data/sexaurelia/sexaurelia_AZ8-4_assembly_v1.fasta
+    extract ${fields[1]} results/motifs_extraction/${fields[0]}bi data/tetraurelia/tetraurelia_cds.gff data/tetraurelia/ptetraurelia_mac_51.fa
 done < <(awk '{print $1$2, $9}' results/15may14consensuscomp.txt | head)
