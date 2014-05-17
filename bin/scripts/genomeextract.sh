@@ -19,5 +19,5 @@ do
     echo ${fields[0]}
     # To solve non existing files problem
 
-    extract ${fields[1]} results/motifs_extraction/${fields[0]}bi data/biaurelia/biaurelia_V1-4_annotation_v1.gff3 data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
+    extract ${fields[1]} results/motifs_extraction/${fields[0]}bi data/biaurelia/biaurelia_cds.gff data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
 done < <(awk '{print $1$2, $9}' results/15may14consensuscomp.txt | head)
