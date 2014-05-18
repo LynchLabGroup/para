@@ -27,4 +27,4 @@ do
 	sed -e 's/./G/7' results/motifs_extraction/${fields[0]}sex.res
 	extract ${fields[1]} results/motifs_extraction/${fields[0]}tet data/tetraurelia/tetraurelia_cds.gff data/tetraurelia/ptetraurelia_mac_51.fa
 	sed -e 's/./G/8' results/motifs_extraction/${fields[0]}tet.res
-done < <(awk '{print $1$2, $9}' results/15may14consensuscomp.txt | head )
+done < <(awk '{print $1$2, $9}' results/15may14consensuscomp.txt)
