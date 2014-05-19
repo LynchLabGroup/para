@@ -190,7 +190,7 @@ expression.modifier <- function(extract_file, exp_file) {
   extract_no = exp_file[!match(exp_file$gene_id, extract_table$gene_id, nomatch=0),]
   # Compare if the means, null hypothesis: means are equal (better than t-test because non-normal distribution)
   w.test = wilcox.test(extract_match$xp, extract_no$xp)
-  if (w.test$p.value < 0.001) {
+  if (w.test$p.value < pval.thre) {
     
     # If genes with motif are more expressed, the motif is increasing expression
     if (mean(extract_match$xp > mean(extract_no$xp))) {
@@ -200,11 +200,43 @@ expression.modifier <- function(extract_file, exp_file) {
       classifier = "low"
     }
   }
+  else {
+    classifier = NA
+  }
 }
+```
 
+
+```{r}
 bi.classify = data.frame()
 
 for (i in 1:length(extract_bi)) {
+  filename = extract_bi[i]
+  filename = strsplit(filename, "/")
+  filename = filename[[1]][3]
+  fam = substr(filename, 1, 12)
+  fam.motif = substr(filename, 13, 18)
+  
+  modifier = expression.modifier(extract_bi[i], exp_bi)
+  motif_data = subset(motifs, family == fam & BF.motif == fam.motif)
+  bi.classify = rbind(bi.classify ,cbind(motif_data, modifier))
+  
+}
+```
+
+```{r}
+ca.classify = data.frame()
+
+for (i in 1:length(extract_ca)) {
+  filename = extract_ca[i]
+  filename = strsplit(filename, "/")
+  filename = filename[[1]][3]
+  fam = substr(filename, 1, 12)
+  fam.motif = substr(filename, 13, 18)
+  
+  modifier = expression.modifier(extract_ca[i], exp_ca)
+  motif_data = subset(motifs, family == fam & BF.motif == fam.motif)
+  ca.classify = rbind(ca.classify ,cbind(motif_data, modifier))
   
 }
 ```
