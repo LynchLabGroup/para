@@ -28,10 +28,9 @@ corr.dist.exp <- function(extract_file, expression_file) {
 }
 
 # Function to returns p.value of fitted models
-lm.pvalue <- function(table.merged){
+lm.pvalue <- function(table.merged) {
   model = lm(xp~distance, data=table.merged)  # Produce a linear model for data
-  p.value = summary(model)$coefficients[2,4]
-  return p.value
+  p.value = summary(model)$coefficients[[8]]
 }
 ```
 
@@ -42,7 +41,13 @@ bi.pvalues = rep(NA,length(extract_bi))
 
 for (i in 1:length(extract_bi)) {
   merged = corr.dist.exp(extract_bi[i], exp_bi)
-  p.value = lm.pvalue(merged)
-  bi.pvalues[i] = p.value
+
+  if (length(merged[,1])>2) {
+    p.value = lm.pvalue(merged)
+    bi.pvalues[i] = p.value
+  }
 }
+length(bi.pvalues)
+summary(bi.pvalues)
+length(subset(bi.pvalues, bi.pvalues < 0.001))
 ```
