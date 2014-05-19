@@ -19,11 +19,30 @@ exp_tet = read.table("../../data/tetraurelia_RNAseq_xp.tab", h=T)
 
 Function to treat each files from each list
 ```{r}
+# Function to use on every file, returns a table of matching genes between expression and extracted data
 corr.dist.exp <- function(extract_file, expression_file) {
   extract_table = read.table(extract_file, h=F)
   colnames(extract_table) = c("gene_id", "distance", "motifs.number")
-  extract_match = extract_file[match(expression_file$gene_id, extract_file$gene_id, nomatch=0),]
+  extract_match = extract_table[match(expression_file$gene_id, extract_table$gene_id, nomatch=0),]
   extract.merge = merge(extract_match,expression_file)
+}
+
+# Function to returns p.value of fitted models
+lm.pvalue <- function(table.merged){
+  model = lm(xp~distance, data=table.merged)  # Produce a linear model for data
+  p.value = summary(model)$coefficients[2,4]
+  return p.value
 }
 ```
 
+Test on *Paramecium biaurelia*, see the number of significant correlations.
+
+```{r}
+bi.pvalues = rep(NA,length(extract_bi))
+
+for (i in 1:length(extract_bi)) {
+  merged = corr.dist.exp(extract_bi[i], exp_bi)
+  p.value = lm.pvalue(merged)
+  bi.pvalues[i] = p.value
+}
+```
