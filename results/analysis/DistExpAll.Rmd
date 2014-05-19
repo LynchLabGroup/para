@@ -51,3 +51,56 @@ length(bi.pvalues)
 summary(bi.pvalues)
 length(subset(bi.pvalues, bi.pvalues < 0.001))
 ```
+
+For *P. caudatum*
+
+```{r}
+ca.pvalues = rep(NA,length(extract_ca))
+
+for (i in 1:length(extract_ca)) {
+  merged = corr.dist.exp(extract_ca[i], exp_ca)
+
+  if (length(merged[,1])>2) {
+    p.value = lm.pvalue(merged)
+    ca.pvalues[i] = p.value
+  }
+}
+length(ca.pvalues)
+summary(ca.pvalues)
+length(subset(ca.pvalues, ca.pvalues < 0.001))
+```
+
+For *P. sexaurelia*
+
+```{r}
+sex.pvalues = rep(NA,length(extract_sex))
+
+for (i in 1:length(extract_sex)) {
+  merged = corr.dist.exp(extract_sex[i], exp_sex)
+
+  if (length(merged[,1])>2) {
+    p.value = lm.pvalue(merged)
+    sex.pvalues[i] = p.value
+  }
+}
+length(sex.pvalues)
+summary(sex.pvalues)
+length(subset(sex.pvalues, sex.pvalues < 0.001))
+```
+
+For *P. tetraurelia*
+```{r}
+tet.pvalues = rep(NA,length(extract_tet))
+
+for (i in 1:length(extract_tet)) {
+  merged = corr.dist.exp(extract_tet[i], exp_tet)
+
+  if (length(merged[,1])>2) {
+    p.value = lm.pvalue(merged)
+    tet.pvalues[i] = p.value
+  }
+}
+length(tet.pvalues)
+summary(tet.pvalues)
+length(subset(tet.pvalues, tet.pvalues < 0.001))
+```
