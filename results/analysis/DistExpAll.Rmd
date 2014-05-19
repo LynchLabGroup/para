@@ -1,0 +1,29 @@
+# Correlate distance with motifs #
+
+Loop trough all the files and analyze the results.
+
+First step: loading data
+```{r}
+# Load files of genes for each motifs of each species
+extract_bi <- dir("../motifs_extraction", full.names=TRUE, pattern="bi.res$")
+extract_ca <- dir("../motifs_extraction", full.names=TRUE, pattern="ca.res$")
+extract_sex <- dir("../motifs_extraction", full.names=TRUE, pattern="sex.res$")
+extract_tet <- dir("../motifs_extraction", full.names=TRUE, pattern="tet.res$")
+
+# Load expression data
+exp_bi = read.table("../../data/biaurelia_RNAseq_xp.tab", h=T)
+exp_ca = read.table("../../data/caudatum_RNAseq_xp.tab", h=T)
+exp_sex = read.table("../../data/sexaurelia_RNAseq_xp.tab", h=T)
+exp_tet = read.table("../../data/tetraurelia_RNAseq_xp.tab", h=T)
+```
+
+Function to treat each files from each list
+```{r}
+corr.dist.exp <- function(extract_file, expression_file) {
+  extract_table = read.table(extract_file, h=F)
+  colnames(extract_table) = c("gene_id", "distance", "motifs.number")
+  extract_match = extract_file[match(expression_file$gene_id, extract_file$gene_id, nomatch=0),]
+  extract.merge = merge(extract_match,expression_file)
+}
+```
+
