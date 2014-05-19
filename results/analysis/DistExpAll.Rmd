@@ -15,6 +15,11 @@ exp_bi = read.table("../../data/biaurelia_RNAseq_xp.tab", h=T)
 exp_ca = read.table("../../data/caudatum_RNAseq_xp.tab", h=T)
 exp_sex = read.table("../../data/sexaurelia_RNAseq_xp.tab", h=T)
 exp_tet = read.table("../../data/tetraurelia_RNAseq_xp.tab", h=T)
+
+# Load motifs name <-> motif correspondance table
+motifs = read.table("../15may14consensuscomp.txt", sep="\t")
+head(motifs)
+colnames(motifs) = c("family", "BF.motif", "BF.size", "MEME.motif", "MEME.size", "gene", "match.ratio", "consensus")
 ```
 
 Function to treat each files from each list
@@ -104,3 +109,19 @@ length(tet.pvalues)
 summary(tet.pvalues)
 length(subset(tet.pvalues, tet.pvalues < 0.001))
 ```
+
+Let see if there are some motifs in common.
+```{r}
+
+# To have indexes of elements
+bi.match = match(subset(bi.pvalues, bi.pvalues < 0.001), bi.pvalues)
+ca.match = match(subset(ca.pvalues, ca.pvalues < 0.001), ca.pvalues)
+sex.match = match(subset(sex.pvalues, sex.pvalues < 0.001), sex.pvalues)
+tet.match = match(subset(tet.pvalues, tet.pvalues < 0.001), tet.pvalues)
+
+# Common elements
+common = intersect(intersect(intersect(bi.match, ca.match), sex.match), tet.match)
+length(common)
+```
+
+Let's extract the sequence of conserved motifs
