@@ -36,6 +36,8 @@ corr.dist.exp <- function(extract_file, expression_file) {
 lm.pvalue <- function(table.merged) {
   model = lm(xp~distance, data=table.merged)  # Produce a linear model for data
   p.value = summary(model)$coefficients[[8]]
+  rsq = summary(model)$adj.r.squared
+  list(p.value, rsq)
 }
 ```
 
@@ -43,13 +45,17 @@ Test on *Paramecium biaurelia*, see the number of significant correlations.
 
 ```{r}
 bi.pvalues = rep(NA,length(extract_bi))
+bi.rsq = rep(NA, length(extract_bi))
 
 for (i in 1:length(extract_bi)) {
   merged = corr.dist.exp(extract_bi[i], exp_bi)
 
   if (length(merged[,1])>2) {
-    p.value = lm.pvalue(merged)
+    mod = lm.pvalue(merged)
+    p.value = mod[[1]][1]
+    rsq = mod[[2]][1]
     bi.pvalues[i] = p.value
+    bi.rsq[i] = rsq
   }
 }
 length(bi.pvalues)
@@ -61,13 +67,17 @@ For *P. caudatum*
 
 ```{r}
 ca.pvalues = rep(NA,length(extract_ca))
+ca.rsq = rep(NA, length(extract_ca))
 
 for (i in 1:length(extract_ca)) {
   merged = corr.dist.exp(extract_ca[i], exp_ca)
 
   if (length(merged[,1])>2) {
-    p.value = lm.pvalue(merged)
+    mod = lm.pvalue(merged)
+    p.value = mod[[1]][1]
+    rsq = mod[[2]][1]
     ca.pvalues[i] = p.value
+    ca.rsq[i] = rsq
   }
 }
 length(ca.pvalues)
@@ -79,13 +89,17 @@ For *P. sexaurelia*
 
 ```{r}
 sex.pvalues = rep(NA,length(extract_sex))
+sex.rsq = rep(NA, length(extract_sex))
 
 for (i in 1:length(extract_sex)) {
   merged = corr.dist.exp(extract_sex[i], exp_sex)
 
   if (length(merged[,1])>2) {
-    p.value = lm.pvalue(merged)
+    mod = lm.pvalue(merged)
+    p.value = mod[[1]][1]
+    rsq = mod[[2]][1]
     sex.pvalues[i] = p.value
+    sex.rsq[i] = rsq
   }
 }
 length(sex.pvalues)
@@ -96,13 +110,17 @@ length(subset(sex.pvalues, sex.pvalues < 0.001))
 For *P. tetraurelia*
 ```{r}
 tet.pvalues = rep(NA,length(extract_tet))
+tet.rsq = rep(NA, length(extract_tet))
 
 for (i in 1:length(extract_tet)) {
   merged = corr.dist.exp(extract_tet[i], exp_tet)
 
   if (length(merged[,1])>2) {
-    p.value = lm.pvalue(merged)
+    mod = lm.pvalue(merged)
+    p.value = mod[[1]][1]
+    rsq = mod[[2]][1]
     tet.pvalues[i] = p.value
+    tet.rsq[i] = rsq
   }
 }
 length(tet.pvalues)
@@ -125,3 +143,24 @@ length(common)
 ```
 
 Let's extract the sequence of conserved motifs
+```{r}
+common.motifs = data.frame()
+for (i in 1:length(common)) {
+  index = common[i]
+  filename = extract_bi[index]
+  print(filename)
+  filename = strsplit(filename, "/")
+  filename = filename[[1]][3]
+  fam = substr(filename, 1, 12)
+  fam.motif = substr(filename, 13, 18)
+  common.motifs = rbind(common.motifs, subset(motifs, family == fam & BF.motif == fam.motif))
+}
+```
+Look at the scatterplots
+```{r}
+library(ggplot2)
+for (i in 1:length(common)) {
+  merged = corr.dist.exp(extract_bi[common[i]], exp_bi)
+  ggplot(merged, aes(x = distance, y = xp)) + geom_point(alpha = 0.5, position = "jitter")
+}
+```
