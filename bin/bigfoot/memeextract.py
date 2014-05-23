@@ -22,11 +22,15 @@ def parse_file(filename, evalue):
             for matrix in matrices:
                 scores = mat_scores(matrix)
                 found_motifs = motifs(scores)
+
+                # Add motif number to list
                 found_motifs = [list(motif) for motif in found_motifs]
                 [motif.append(meme_motif.attrib["id"])
                  for motif in found_motifs]
+
                 sign_motifs.extend(found_motifs)
 
+    # Add name of data file to list
     sign_motifs = [list(elm) for elm in sign_motifs]
     [elm.append(meme_root.getchildren()[0].attrib["datafile"])
      for elm in sign_motifs]
@@ -200,6 +204,45 @@ def avg_bestscore(start, end, scores_list):
     for index in xrange(start, end):
         score_sum += best_score(scores_list[index])
     return float(score_sum)/(end - start + 1)
+
+
+def write_tabfile(motifs_list, out_file):
+    """Write a tab-delimited file from a motif list."""
+    with open(out_file, "w") as out:
+        header = "start\tstop\tavg.score\tmotif\tMEME.motif\tdatafile\n"
+        out.write(header)
+        for motif in motifs_list:
+            line = ""
+            for elm in motif:
+                line += "{}\t".format(elm)
+            line.rstrip("\t")
+            line += "\n"
+
+            out.write(line)
+
+
+def main():
+    import argparse
+    parser = argparse.ArgumentParser(description="Command-line interface to\
+        extract motifs from MEME XML outputs.")
+
+    parser.add_argument("evalue", help="motif evalue", type=float)
+    parser.add_argument("output_file", help="Output file for motifs")
+    parser.add_argument("memefiles", help="One or more meme.xml files",
+                        nargs="+")
+
+    args = parser.parse_args()
+
+    int_motifs = []
+    # Extend list of found motifs with motif from each files
+    for mfile in args.memefiles:
+        print mfile
+        int_motifs.extend(parse_file(mfile, args.evalue))
+
+    write_tabfile(int_motifs, args.output_file)
+
+if __name__ == "__main__":
+    main()
 
 
 
