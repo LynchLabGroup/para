@@ -3,16 +3,28 @@
 ## May 15th 2014 ##
 Seek to classify sequences but have to use relevant indicators.
 ```{r}
-seqs = read.table("../15may14classify.txt", h=T)
+setwd("~/Documents/ENS/M1/Stage/para/results/analysis/")
+seqs = read.table("../22may14classify.txt", h=T)
 summary(seqs)
 
 library(ggplot2)
 seqs.plots = ggplot(seqs, aes(x=length, y=GCm, label=Seq))
 seqs.plots + geom_point(alpha=0.5) + labs(x="Motif Length", y="Total GC Content")
 ```
-With simply size and GC content, no real distinction.
 
-```{r fig.width=7, fig.height=6}
-plot(cars)
+Let's try clustering method, without sequence column. Use of `dist` to compute distances between clusters
+```{r fig.width=9, fig.height=9}
+hc.complete = hclust(dist(seqs[c(1:2, 4:23)]), method="complete")
+plot(hc.complete)
+hc.cut = cutree(hc.complete, 25)
+plot(hc.complete, labels=hc.cut)
+```
+We cut in 25 clusters, look like we have a good cluster #1
+```{r}
+seqs[hc.cut == 1,]
+```
+```{r}
+hc.average = hclust(dist(seqs[1:23]), method="average")
+plot(hc.average)
 ```
 

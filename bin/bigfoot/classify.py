@@ -14,6 +14,7 @@ from Bio.Alphabet import Gapped
 from Bio.Alphabet.IUPAC import ExtendedIUPACDNA
 from Bio.SeqUtils import GC123
 from Bio.Seq import Seq
+from itertools import product
 
 
 def gc_length(input_file, output, field=None, header=None):
@@ -42,12 +43,29 @@ def gc_length(input_file, output, field=None, header=None):
             number += 1
 
     with open(output, "w") as o_file:
-        print("AoverAT\tGCm\tGC1\tGC2\tGC3\tlength\tSeq", file=o_file)
+
+        dinuc_list = ["".join(x) for x in product("ATCG", repeat=2)]
+        header = "AoverAT\tGCm\tlength"
+        for nuc in "ATCG":
+            header += "\t{}.freq".format(nuc)
+        for dinuc in dinuc_list:
+            header += "\t{}.freq".format(dinuc)
+        header += "\tSeq"
+
+        print(header, file=o_file)
         for seq in sequences:
             gc = GC123(seq)
             at = AoverAT(seq)
-            line = "{}\t{}\t{}\t{}\t{}\t{}\t{}".format(at, gc[0], gc[1], gc[2],
-                gc[3], len(seq), seq.tostring())
+            nuc_freq = nucleotide(seq)
+            dinuc_freq = dinucleotide(seq)
+
+            line = "{}\t{}\t{}".format(at, gc[0], len(seq)-1)
+            for nuc in "ATCG":
+                line += "\t{}".format(float(nuc_freq[nuc]))
+            for dinuc in dinuc_list:
+                line += "\t{}".format(float(dinuc_freq[dinuc]))
+            line += "\t{}".format(seq.tostring())
+
             line = line.rstrip("\n")
             print(line, file=o_file)
 
@@ -65,7 +83,31 @@ def AoverAT(sequence):
         elif base == "T":
             AT += 1
 
-    return float(A)/AT
+    return float(A)/float(AT)
+
+
+def nucleotide(sequence):
+    """Return a dictionary of nucleotide frequency"""
+    nuc_list = ["A", "T", "G", "C"]
+    nuc_freq = {}
+    for nuc in nuc_list:
+        count = sequence.count(nuc)
+        nuc_freq[nuc] = float(count)/len(sequence)
+
+    return nuc_freq
+
+
+def dinucleotide(sequence):
+    """Returns a dictionary of frequencies of dinucleotide in the sequence."""
+
+    dinuc_list = ["".join(x) for x in product("ATCG", repeat=2)]
+    dinuc_freq = {}
+
+    for dinuc in dinuc_list:
+        count = sequence.count(dinuc)
+        dinuc_freq[dinuc] = float(count)/(len(sequence)/2)
+
+    return dinuc_freq
 
 
 def main():
