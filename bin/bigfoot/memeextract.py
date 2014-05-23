@@ -11,18 +11,27 @@ def parse_file(filename, evalue):
     Parse the list of MEME XML outputs and seek motifs with given
     evalue and width.
     """
-    significant_motifs = []
+    sign_motifs = []
     meme_root = load_MEME_xml(filename)
     meme_motifs = meme_root.findall(".//motif")
 
+    # Loop through all motifs in file and extract interesting motifs
     for meme_motif in meme_motifs:
-        if meme_motif.attrib["evalue"] <= evalue:
+        if float(meme_motif.attrib["e_value"]) <= evalue:
             matrices = find_score_mat(meme_motif)
             for matrix in matrices:
                 scores = mat_scores(matrix)
-                significant_motifs.extend(motifs(scores))
+                found_motifs = motifs(scores)
+                found_motifs = [list(motif) for motif in found_motifs]
+                [motif.append(meme_motif.attrib["id"])
+                 for motif in found_motifs]
+                sign_motifs.extend(found_motifs)
 
-    return significant_motifs
+    sign_motifs = [list(elm) for elm in sign_motifs]
+    [elm.append(meme_root.getchildren()[0].attrib["datafile"])
+     for elm in sign_motifs]
+
+    return sign_motifs
 
 
 def load_MEME_xml(filename):
