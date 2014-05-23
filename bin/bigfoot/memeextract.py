@@ -6,12 +6,23 @@ from MEME XM outputs.
 """
 
 
-def parse_files(files_list, evalue, minwidth=None, maxwidth=None):
+def parse_file(filename, evalue):
     """
     Parse the list of MEME XML outputs and seek motifs with given
     evalue and width.
     """
-    pass
+    significant_motifs = []
+    meme_root = load_MEME_xml(filename)
+    meme_motifs = meme_root.findall(".//motif")
+
+    for meme_motif in meme_motifs:
+        if meme_motif.attrib["evalue"] <= evalue:
+            matrices = find_score_mat(meme_motif)
+            for matrix in matrices:
+                scores = mat_scores(matrix)
+                significant_motifs.extend(motifs(scores))
+
+    return significant_motifs
 
 
 def load_MEME_xml(filename):
@@ -21,13 +32,12 @@ def load_MEME_xml(filename):
     return xml_tree.getroot()
 
 
-def find_score_mat(xml_root):
+def find_score_mat(meme_motif):
     """
     From the root of parsed MEME, return list of score elements children of
     probabilities. Assumes that all motifs in file have good scores.
     """
-    assert xml_root.tag == "MEME"
-    return xml_root.findall(".//probabilities/alphabet_matrix")
+    return meme_motif.findall(".//probabilities/alphabet_matrix")
 
 
 def mat_scores(alpha_matrix):
