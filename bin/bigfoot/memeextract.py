@@ -21,16 +21,16 @@ def load_MEME_xml(filename):
     return xml_tree.getroot()
 
 
-def find_score_matrices(xml_root):
+def find_score_mat(xml_root):
     """
     From the root of parsed MEME, return list of score elements children of
-    probabilities.
+    probabilities. Assumes that all motifs in file have good scores.
     """
     assert xml_root.tag == "MEME"
     return xml_root.findall(".//probabilities/alphabet_matrix")
 
 
-def matrix_scores(alpha_matrix):
+def mat_scores(alpha_matrix):
     """
     From an alphabet matrix return a data structure containing a list of
     dictonaries containing scores for each letter at each position.
@@ -48,5 +48,146 @@ def matrix_scores(alpha_matrix):
 
             scores_list.append(letter_scores)
     return scores_list
+
+
+def best_base(letter_scores):
+    """
+    From a letter_score dictionary, extract best score. If all letters have
+    the same score, returns the first letter in alphabetical order.
+
+    >>> let = {'A':0.4, 'T':0.0, 'C':0.7, 'G':0.9}
+    >>> best_base(let)
+    'G'
+    >>> let = {'A':0.0, 'T':0.0, 'C':0.0, 'G':0.0}
+    >>> best_base(let)
+    'A'
+    >>> let = {'A':1.0, 'T':1.0, 'C':1.0, 'G':1.0}
+    >>> best_base(let)
+    'A'
+    >>> let = {'A':0.0, 'T':1.0, 'C':1.0, 'G':1.0}
+    >>> best_base(let)
+    'C'
+    """
+    letter = max(sorted(letter_scores.keys()), key=(lambda key:
+                                                    letter_scores[key]))
+    return letter
+
+
+def best_score(letter_scores):
+    """
+    Return the score of the best base."""
+    letter = best_base(letter_scores)
+    return letter_scores[letter]
+
+
+def motifs(scores, window_size=None, good_pos=None, threshold=None):
+    """
+    Using a scores list, look for potential motif And return a list of them.
+    """
+    import pdb
+    if window_size is None:
+        window_size = 8
+    if good_pos is None:
+        good_pos = 6
+    if threshold is None:
+        threshold = 0.8
+    pos = 0  # Position in the scores list
+    motifs = []
+    while pos < len(scores) - window_size + 1:
+        valid_pos = 0  # Number of positions with good scores
+        curr_mot = ""
+
+        # Sliding window along positions
+        for curr_wind in xrange(window_size):
+            if curr_wind == 0:
+                wind_start = pos  # Record precisely beginning of window
+            best_nt = best_base(scores[pos])
+            curr_mot += best_nt
+            if scores[pos][best_nt] >= threshold:
+                valid_pos += 1
+            pos += 1
+
+        # What happens if the motif has enough good pos
+        if valid_pos >= good_pos:
+            #pdb.set_trace()
+            start_pos = pos - window_size
+
+            # Extend motif left than right
+            while best_score(scores[start_pos-1]) >= threshold \
+             and start_pos > 0:
+                start_pos -= 1
+                curr_mot = best_base(scores[start_pos]) + curr_mot
+            while best_score(scores[pos]) >= threshold \
+             and pos < len(scores) - 1:
+                curr_mot = curr_mot + best_base(scores[pos])
+                pos += 1
+
+            # Trim motifs for eventual non relevant bases on the edges
+            while best_score(scores[start_pos]) < threshold:
+                start_pos += 1
+                curr_mot = curr_mot[1:]
+            while best_score(scores[pos - 1]) < threshold:
+                pos -= 1
+                curr_mot = curr_mot[:-1]
+            motifs.append((start_pos, pos, curr_mot))
+            pos = wind_start + 1
+        else:
+            pos = pos - window_size + 1
+
+    if motifs != []:
+        motifs = best_motifs(motifs, scores)
+
+    return motifs
+
+
+def best_motifs(motifs_list, scores_list):
+    """
+    From a list of motifs, return non-overlapping motifs having best scores.
+    """
+    from memecomp import overlap
+
+    assert type(motifs_list) == list and type(scores_list) == list and\
+     motifs_list != [] and scores_list != []
+
+    motifs = [list(motif) for motif in motifs_list]  # Make a mutable copy
+
+    # Compute the score for all motifs
+    for motif in motifs:
+        motif.insert(2, avg_bestscore(motif[0], motif[1], scores_list))
+
+    # Sort motif by best score
+    motifs.sort(key=lambda motif: motif[2], reverse=True)
+    best = []
+    best.append(tuple(motifs[0]))
+
+    for i in range(1, len(motifs)):
+        coord = (motifs[i][0], motifs[i][1])
+        indexes = set()
+        for selected in best:
+            s_coord = (selected[0], selected[1])
+            index = overlap(s_coord, coord, False)
+            indexes.add(index)
+
+        if True not in indexes:
+            best.append(tuple(motifs[i]))
+    return best
+
+
+def avg_bestscore(start, end, scores_list):
+    """
+    Return the mean of the best scores from start to end included
+    """
+    assert type(start) == int and type(end) == int and\
+    type(scores_list) == list
+    score_sum = 0
+    for index in xrange(start, end):
+        score_sum += best_score(scores_list[index])
+    return float(score_sum)/(end - start + 1)
+
+
+
+
+
+
 
     
