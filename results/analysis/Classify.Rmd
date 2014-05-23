@@ -14,7 +14,7 @@ seqs.plots + geom_point(alpha=0.5) + labs(x="Motif Length", y="Total GC Content"
 
 Let's try clustering method, without sequence column. Use of `dist` to compute distances between clusters
 ```{r fig.width=9, fig.height=9}
-hc.complete = hclust(dist(seqs[1:23]), method="complete")
+hc.complete = hclust(dist(seqs[c(1:2, 4:23)]), method="complete")
 plot(hc.complete)
 hc.cut = cutree(hc.complete, 25)
 plot(hc.complete, labels=hc.cut)
