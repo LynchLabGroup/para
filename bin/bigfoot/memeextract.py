@@ -84,7 +84,6 @@ def motifs(scores, window_size=None, good_pos=None, threshold=None):
     """
     Using a scores list, look for potential motif And return a list of them.
     """
-    import pdb
     if window_size is None:
         window_size = 8
     if good_pos is None:
@@ -109,7 +108,6 @@ def motifs(scores, window_size=None, good_pos=None, threshold=None):
 
         # What happens if the motif has enough good pos
         if valid_pos >= good_pos:
-            #pdb.set_trace()
             start_pos = pos - window_size
 
             # Extend motif left than right
