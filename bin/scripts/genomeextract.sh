@@ -27,4 +27,7 @@ do
 	sed -e 's/./G/7' results/motifs_extraction/${fields[0]}sex.res > results/motifs_extraction/${fields[0]}sex.res
 	extract ${fields[1]} results/motifs_extraction/${fields[0]}tet data/tetraurelia/tetraurelia_cds.gff data/tetraurelia/ptetraurelia_mac_51.fa
 	sed -e 's/./G/8' results/motifs_extraction/${fields[0]}tet.res > results/motifs_extraction/${fields[0]}tet.res
-done < <(awk '{print $1$2, $9}' results/15may14consensuscomp.txt)
+done < <(awk '{sub(/\.\/WGD2ANC0[0-9][0-9][0-9][0-9]\/\.\//, "", $6); print}'
+    results/23may14mememotifs.txt | awk '{sub(/\.fasta/, "", $6); print}' | awk '{print $6$5, $4}')
+
+# <(awk '{print $1$2, $9}' results/15may14consensuscomp.txt)
