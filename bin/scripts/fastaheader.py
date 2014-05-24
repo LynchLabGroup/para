@@ -16,8 +16,8 @@ def shorten_name(seqrecord,char):
 
 	ident = name[0]
 
-	if len(ident) > 10:
-		ident = ident[0:10]
+	#if len(ident) > 10:
+	#	ident = ident[0:10]
 
 	return ident
 
