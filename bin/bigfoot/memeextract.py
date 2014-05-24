@@ -4,7 +4,7 @@
 Memeextract.py is a python command-line program to extract relevant TFBS motifs
 from MEME XM outputs.
 """
-
+import pdb
 
 def parse_file(filename, evalue):
     """
@@ -132,14 +132,12 @@ def motifs(scores, window_size=None, good_pos=None, threshold=None):
         # What happens if the motif has enough good pos
         if valid_pos >= good_pos:
             start_pos = pos - window_size
-
             # Extend motif left than right
             while best_score(scores[start_pos-1]) >= threshold \
              and start_pos > 0:
                 start_pos -= 1
                 curr_mot = best_base(scores[start_pos]) + curr_mot
-            while best_score(scores[pos]) >= threshold \
-             and pos < len(scores) - 1:
+            while pos < len(scores) -1 and best_score(scores[pos]) >= threshold:
                 curr_mot = curr_mot + best_base(scores[pos])
                 pos += 1
 
@@ -237,7 +235,7 @@ def main():
     # Extend list of found motifs with motif from each files
     for mfile in args.memefiles:
         print mfile
-        int_motifs.extend(parse_file(mfile, args.evalue))
+	int_motifs.extend(parse_file(mfile, args.evalue))
 
     write_tabfile(int_motifs, args.output_file)
 
