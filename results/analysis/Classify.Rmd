@@ -27,4 +27,8 @@ seqs[hc.cut == 1,]
 hc.average = hclust(dist(seqs[1:23]), method="average")
 plot(hc.average)
 ```
-
+We could try to show a heatmap of all motifs
+```{r}
+seqs.mat = data.matrix(seqs)
+heatmap(seqs.mat[,c(1:2, 4:23)], col = heat.colors(256), scale="column")
+```
