@@ -6,6 +6,7 @@ from MEME XM outputs.
 """
 import pdb
 
+
 def parse_file(filename, evalue):
     """
     Parse the list of MEME XML outputs and seek motifs with given
