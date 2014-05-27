@@ -4,6 +4,7 @@ Loop trough all the files and analyze the results.
 
 First step: loading data
 ```{r}
+setwd("~/Documents/ENS/M1/Stage/para/results/analysis/")
 # Load files of genes for each motifs of each species
 extract_bi <- dir("../motifs_extraction", full.names=TRUE, pattern="bi.res$")
 extract_ca <- dir("../motifs_extraction", full.names=TRUE, pattern="ca.res$")
@@ -276,4 +277,13 @@ for (i in 1:length(extract_tet)) {
   
 }
 colnames(tet.classify)[9]= "modifier"
+```
+
+# MEME Motifs #
+Let's compare with motifs found by MEME
+```{r}
+meme.bi = read.table("../motifs_extraction/26may14MEMEMotifs.bi.res")
+meme.ca = read.table("../motifs_extraction/26may14MEMEMotifs.ca.res")
+meme.sex = read.table("../motifs_extraction/26may14MEMEMotifs.sex.res")
+meme.tet = read.table("../motifs_extraction/26may14MEMEMotifs.tet.res")
 ```
