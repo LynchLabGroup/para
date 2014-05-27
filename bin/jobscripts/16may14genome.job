@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -k o
+#PBS -l nodes=1:ppn=4,vmem=18gb,walltime=00:04:00:00
+#PBS -M mgrenie@indiana.edu
+#PBS -m be
+#PBS -N GenomeExtract
+#PBS -j oe
+echo "Job Started at: "; date
+cd para/
+bin/scripts/genomeextract.sh
+echo "Job Finished at:"; date

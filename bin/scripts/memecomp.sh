@@ -7,6 +7,6 @@ do
 if [ ! -f $FAM.meme.motifs ]
 then
 	meme $FAM.fasta -minw 4 -nmotifs 5 -dna -text> $FAM.meme.motifs
-	python bin/bigfoot/memecomp.py $FAM.motifs $FAM.meme.motifs -t 0.9 -e 0.001 -o $FAM.comp
 fi
+python bin/bigfoot/memecomp.py $FAM.motifs $FAM.meme.motifs -t 0.9 -e 0.001 -o $FAM.comp
 done

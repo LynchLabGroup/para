@@ -1,37 +1,34 @@
-# May 2nd 2014 pipeline file
+# May 12th 2014 pipeline file
 # This pipeline compute for all given families
 #
 #
+include config.mak
 
-SUBDIRS = $(shell find results/ -type d -name "WGD2ANC00051") 
+.PHONY:  all makedir retrieve_upstream retrieve_CDS int_motifs meme_length
 
-FAM = $(subst results, ,$(SUBDIRS))
-LOCS = $(join $(SUBDIRS), $(FAM))
-MOTIFS = $(addsuffix .motifs, $(LOCS))
-MPD = $(addsuffix .fasta.mpd, $(LOCS))
-PRED = $(addsuffix .fasta.pred, $(LOCS))
-UP = data/families/WGD2/upstream/
-UP_S = data/families/WGD2/upstream
-CDS = data/families/WGD2/CDS/nt/
-#OBJ = $(wildcard results/WGD2ANC*/WGD2ANC[0-9]*.motifs)
-DIRS = $(wildcard results/WGD2ANC*/)
-SRC = $(wildcard $(addsuffix WGD2ANC*.motifs,$(DIRS)))
-OBJ = $(filter %.motifs, $(SRC))
-.PHONY:  all makedir retrieve_upstream retrieve_CDS
+all: $(addsuffix .comp, $(LOCS)) 
+#int_motifs meme_length
 
-all: $(MOTIFS)
-#makedir $(MOTIFS)
-#echo $(DIRS)
-#	echo $(OBJ)
-	# echo $(sources)
-	# echo $(objects)
-#$(MOTIFS): %.motifs : %.fasta.mpd %.fasta.pred 
-#	@echo "Making $@" 
+$(addsuffix .comp, $(LOCS)): %.comp: bin/bigfoot/memecomp.py %.motifs %.meme.motifs
+	@echo "Comparing MEME and BF"
+	python $^ -e 0.001 -o $@
+	@echo "Done"
+
+meme_length:
+	@echo "Comparing MEME outputs lengths"
+	@bin/scripts/memelen.sh > results/MEMEOutputsLengths.txt
+	@echo "Done"
+
+# Underline Interesting motifs
+int_motifs:
+	cd results/ && echo "Looking for interesting motifs..." && \
+	  ../bin/scripts/intmotifs.sh BFMotifsSummary.txt &&
+	 cd ..
 
 # Parse BigFoot's output
 $(MOTIFS): %.motifs : bin/bigfoot/setup.py %.fasta.mpd
 	@echo "Parsing bigfoot's output"
-	@python $^ $(subst mpd,pred, $(word 2, $^)) -o $@ -s 4 -t 0.9 -a 0.8
+	@python $^ $(subst mpd,pred, $(word 2, $^)) -o $@ -t 0.9 -a 0.8
 	@echo "Done."
 
 # Compute Motifs using MEME
@@ -43,7 +40,7 @@ $(addsuffix .meme.motifs, $(LOCS)): %.meme.motifs : %.fasta
 # Compute Motifs using BigFoot
 $(MPD) : %.fasta.mpd : %.fasta %.newick
 	@echo "Computing Motifs using BigFoot"
-	@java -jar ../BigFoot/BigFoot.jar -t $(word 2, $^) -p=1000,2000,1000 $<
+	@java -jar ../BigFoot/BigFoot.jar -t $(word 2, $^) -p=10000,20000,1000 $<
 	@echo "Done."
 
 # Operations to obtain .newick tree
@@ -96,6 +93,7 @@ retrieve_upstream: bin/gff/main.py
 	@echo "Retrieving upstream sequences..."
 	@python $^ -l 250 -ml 15 -f 4 -mf 4 -loc $(UP) --head
 	@echo "Done."
+
 retrieve_CDS: bin/ntseq.py
 	@echo "Retrieving CDSs"
 	@python $^ -f 4 --header -loc $(CDS)
