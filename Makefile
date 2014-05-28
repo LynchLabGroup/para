@@ -95,6 +95,6 @@ retrieve_CDS: bin/ntseq.py
 	@echo "Done."
 
 retrieve_upstream: bin/gff/main.py
-        @echo "Retrieving upstream sequences..."
-        @python $^ -l 250 -ml 15 -f 4 -mf 4 -loc $(UP) --head
-        @echo "Done."
+	@echo "Retrieving upstream sequences..."
+	@python $^ -l 250 -ml 15 -f 4 -mf 4 -loc $(UP) --head
+	@echo "Done."
