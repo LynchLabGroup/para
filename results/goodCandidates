@@ -1,0 +1,442 @@
+WGD2ANC00208 - motif = A[AT]T[TA]A[AT][AT]C[CT][TA][TA][AG]A[TA][TG][GT]TT[TAG]G[GA]AATTCGTTTTTAAT[AT]TATA (ATTCGTTTTT)
+Higher xp (signif in Tet, Bi, Sex and Caud)
+--> TMP (Trichocyst membrane proteins)
+- cor: 0.17 - p<2.2e-16
+
+
+WGD2ANC00341 / motif = [TC]T[TC][CAG][AGT]ATA[TG]TT[CT][GTC]T[AC]A[GA]G[AT]T[AG]A[TC]A[AT][TA]GATATTT[TA]GG[ACT][GAT][AT]TT  (GATATTT[TA]GG)
+--> Microtubule proteins (very high expression level)
+No evidence on xp pattern
+-cor: NO cor
+
+
+WGD2ANC00347 / motif =  AAAATTA[AT]TAT[AT]AT[AT]ACACGTATATTTATACTTA[AT]TTT[TA]TT[AT][CAT][AC]A[ACT][GT][AG]AA  (ACACGTAT)
+High expression level
+Go analysis to do ! --> PTHR12309	SEC61 GAMMA SUBUNIT
+- repressed during reciliation
+- induced during exocytosis
+- Low then high during autogamy
+--> cor: 0.16 (signif)
+
+
+WGD2ANC00348 / motif =  A[AT]G[TC]ATAAA[TA]ATACGTGT[TA]A[TA][TA]ATA[TA]TAAT (ATACGTGT)
+High expression level
+Membrane proteins?
+- reciliation: low than high (small effect)
+- exocytosis: induced
+- autogamy: repressed early
+---> cor autog = 0.1 (signif)
+
+
+
+WGD2ANC00448 /  [ACG][AT][TC][TG]A[TC][TA][CA][AG][TA][TG][AG]AT[AT][GA]T[TA][AT]ATTACTG[GA]G[TC][TA][CT]ATA[AT][TA][GACT][TA]A[TA]T[AT]AT[TG]  (ATTACTG[GA]G)
+Lower xp level in all three species, very clear. (significant in all three species)
+- no xp pattern
+- no cor
+
+
+WGD2ANC00462 / TATAATATTAATAATATCCGTTTTA (TATCCGTTTT)
+Super high expressin level in all three species. TMP proteins???
+- recil: early repressed
+- exocytosis: induced (quite strong)
+- autog: no effect
+cor: 0.05 (borderline signif) p=0.02
+
+
+
+
+WGD2ANC00475:  [GA][CT]AACACCAGTATTATATTAAT[AT]A[AT]TT[TA]TT (ACA[CT]CAGTATT)
+Higher xp level, to do with motif find
+- might be induced in recil, but too few genes to be signif
+- late repression in autogamy (signif!)
+cor: 0.21 (highly signif)
+
+
+WGD2ANC00485 /  [AG][GA][GA]GA[AT][AGT][TC][TA][TG][AG][GA]GAACTT[AGT][AT][GA][TA][TC][GA][GT]TTTT[CTG]TTGTT[TC][TCG][CGT]G[TA][GT][ACT][ACGT][ACG][TG][CA]T 
+Lower expression level / Possibly multiple motifs next to each other
+Use the full motif to reduce the number of genes (~1,000 genes with the consensus: GAACTT only)
+Protein binding?
+- small induction in autogamy early (to do with extended motif ? --> now the induction is only in late autogamy)
+- no cor
+
+
+
+WGD2ANC00492 /  [GT][TG][TG][AT]TA[AT]T[AT][AT][TA]A[TA][AT]TATAAATATCGTTA (ATCGTTA)
+Lower expression level in Tet and Bi but not in Sex
+(374 genes in Tet / 200nt)
+- recil: slight repressed
+- exocytosis: no pattern
+- autogamy: early induction, late repression
+cor: 0.05 (highly signif because many genes)
+
+
+
+WGD2ANC00493 / CGATATTTATATATTTAATTATAACAACT (TAACAACT)
+Lower expression in all 3 species (significant in all three, ~100 genes)
+- late repression in recil and autog (not obvious)
+- nothing in exocytosis
+-cor: 0.012, p=0.01
+
+
+
+WGD2ANC00534 /  [GA][GT][GT][TG][TG]T[GT][TA]T[AGT]T[GAT][TA][AT][TG][AT][TA][AT][AT][GA]TAT[AT][AT][AT][GAT][AT][GA][TG]GA[TA]A[AC][ACG][CTA]AAAAGATATTAAT (AAAGATATTAA)
+High expression level in all 3 species. Families ~30 genes
+- repressed in all 3 tests (very weak in exo, relatively obvious in recil and autogamy)
+-cor: 0.06 (p=1e-6)
+
+
+
+WGD2ANC00567 /  AATAATT[TA]ATACACGT[TG][TA][AT][GA] (ATACACGT)
+Higher expression level
+GO: catalytic activity
+- recil: no pattern
+- exocytosis: early induction (clear)
+- autogamy: early repression (clear)
+cor: 0.07 , p=0.04
+
+
+WGD2ANC00620 /  AA[AT]GTCGTTT[GT]CA[TAC]A[AC]AT[AG][ACGT][TG][AT][ACG][AT][AT][GAC][AGT]T[TAG][GAC][CAT][AT][AG][TC][CT]  (GTCGTTT)
+Higher expression level (significant in all three species) / Families ~120 genes
+- recil: early repression
+- exocy: induction
+- autog: no pattern
+-no cor
+
+
+WGD2ANC00630 /  ATTACAACTTAT[CT]AAGA[AC]TTCATCATTA[TC][TG]AA[CT]A[AG][AG][CT]ATTT[AG]CATCA[TC]G[AG]  (ATTACAAC)
+Lower expression level (border line significant in all three species)
+-no obvious xp pattern
+-cor: NS (p=0.07)
+
+
+
+WGD2ANC00656 /  [AG][ATG][GAC][CA]A[AG]AA[AT]TT[AT][AT]TT[CT]TTAACGT[CT]A[AT]TA[TA]T[AT]AAA[AT]T[CT][TA]A[AC][TA][TA][TA][TA][CTA]T[TG][AC]  (TTAACGT)
+Lower xp level in all three species
+--> CDC20 --> Check xp pattern during autogamy
+GO: Enzyme activator activity / protein binding
+- recil: late repression
+- exocy: early induction
+- autog: late repression
+cor: 0.045, p<2e-16
+
+
+WGD2ANC00672 /  TTT[TA]ACACGTA (ACACGTA)
+High expression level (significant and very strong in all 3 species). Family size ~60 genes
+Membrane (+ribosome?)
+GO: transferase activity (weak signal)
+- recil: continuous repression
+- exocy: induction
+- autog: repression
+cor: 0.12 p<2e-16
+
+
+
+WGD2ANC00804 /  [TA]TAT[AT]A[AT]T[TA]TTTGATCGTTTTT[CT]AATTATTAATAT[AT][TA][AT]ATATA[TA]TC  (ATCGTTTTT)
+Higher expression level (significant in all three species)
+GO: Hydrolase activity (more specifically: aspartic-type endopeptidase activity) / pretty clear signal
+- recil: repressed
+- exocy: induction
+- autog: no pattern
+cor: 0.05 p<2e-16
+
+
+
+WGD2ANC00812 /  TTTAAAA[TA]A[TA]T[AT]A[TA]T[AT]AAAAAAGATATA[CT] (AAAAAAGATATA)
+High expression level, small families (15-20 genes per species)
+ATP Binding + Detected in cilium !!!
+--> Involved in reciliation?
+-no cor
+
+
+
+WGD2ANC00815 / AAATTAAAATATTAAAGAATT (ATTAAAGAATT)
+High xp (significant in all 3) / Families ~70 genes (150nt)
+GO: translation regulator activity (quite clear signal)
+- recil: no pattern
+- exocy: repression
+- autog: early repression
+-cor: 0.04 , p=0.01
+
+
+WGD2ANC00866 /  [TC][CTA][TG][GC][AT][GT][ACG][TG][TCG][GTC][TC]T[CAG][TA][TAG][CG][CA]ATACGTAAT[CT]ATAATAAT[TA]A  (ATACGTAAT)
+48-52 genes per species (300nt)
+High expression
+- recil: repression
+- exocy: repression
+- autog: repression
+-cor: 0.07 , p<0.01
+
+
+WGD2ANC00888 /  ACGTCAT[TC][CT][CGA][TAG][TCG][GA][GT]TT[TA]A[TA][GA][AG][GC]CA[GC][CTA][GA][TA][GAT][AGT][AT][CT]A[AT]T[AT]A[AG][GT][AT]A[TG][CA]T[AT]A[TA]AA  (ACGTCAT)
+72-94 genes (200nt) - High xp (significant in all 3)
+GO: weak support for peptidase / oxidoreductase activity
+- recil: repression
+- exocy: no pattern
+- autog: no pattern
+-cor: 0.026 , p<0.01
+
+
+
+WGD2ANC00910 /  ATGACGT[GA]AT[CT][GA]T[TA]AA[TA]T[AT]A[TA][AT]TTGA[TC][CT][TC][CA]A[TA]T[AGT][AC][TA][TG][ACGT][AT]T[TG][CAT][AGT][TA][AT][TC][AG][CAT][AG][GCT]  (ATGACGT)
+82-91 genes (200nt) / High xp (signif)
+- recil: repression
+- exocy: no obvious pattern (small early repression)
+- autog: no pattern
+cor: 0.02, p=0.02
+
+
+WGD2ANC00928 /  [TA][TA][TA][AT][TA][TA]A[TC]TTT[CG][AT][GT][CA][TC]TTTATAATTGATTAAT[AT][AT][AT][AT]AAT[CT][AG]A  (TGATTAAT)
+Higher xp, signif in all three species (families ~500 genes / 50nt)
+-no xp pattern
+-cor: NS
+
+
+WGD2ANC00943 /  [TC][CG]TAATTCTATTA  (TAATTCTATTA)
+Much lower xp level in Tet, but not in Bi or Sex (very strange). Motif is conserved in Caudatum
+Families 60-90 genes (200nt)
+GO: some signal for kinase activity
+- recil: no pattern
+- exocy: repression
+- autog: induction
+cor: 0.08, p<2e-16
+
+
+WGD2ANC00973 /  [CT][TA][GT][AC][AT]A[TAC]A[AT][AT][TA]T[GAT][AT]AA[TA][TG][GT]AA[AT]T[AT]A[TA]AATTTGAATTA[CT][TG][CT][AT]AT[AT]GT[CT]T[CA][TC]  (AATTTGAATTA)
+Lower xp, signif in all 3 species
+75-98 genes (150nt)
+- early induction in autogamy
+no cor
+
+
+WGD2ANC01066 /  GA[AT]TTCATCTTTTATTGTGACGATATCAAAAGAA[TA]TTTAAA (TGTGACG)
+Higher xp, conserved in Caudatum
+19-24 genes (150nt)
+- late induction in autogamy
+cor: NS, p=0.08
+
+
+WGD2ANC01120 /  [AC][AC]AA[TA]TAACAG[AT][ACT]GA[TA][GT]ACT[AC][AT]AT[GT][AT][GAT][AT][GT][GT][AG]  (TAACAG)
+Lower xp (signi Tet, Bi , NS Sex)
+GO: Kinase activator / transferase activity
+cor (50nt): 0.14, p<2e-16
+
+
+WGD2ANC01172 /  [AG][AT][GCT]AATTAAA[TA]A[CT]TAACTGATT[AG][CT]AATAT[AT]T[AT][AT][AT]T[TA][AT][AT][TA][CTA]  (TAACTGATT)
+Lower xp
+- recil: no pattern
+- exocy: early induction and late repression
+- autog: early induction
+no cor
+
+
+WGD2ANC01231 /  [AG][AGT][CT][CA][CA][TAG][TA][TA]T[CA][AT][TA][AT]A[TC][AC][TC][TA]TATTT[AT]AA[AG]C[AT]GTAGA[TA]TATTATA  (C[TA]GTAGA)
+Lower xp (signif) in Tet and Bi, but not in sex --> good candidate for motif evolution between Tet-Bi and Sex
+-no xp pattern
+no cor
+
+
+WGD2ANC01374 /  TTTTCTAGAAATTTCTAATA[GA]A  (TTCTAGAA)
+146-170 genes - 100nt
+Higher xp (signif) in all 3 species
+GO: isomerase activity
+- slight late repression in autogamy, nothing obvious
+cor (100nt): 0.05, p<2e-16
+
+
+WGD2ANC01391 / (TCAATCTT)
+Lower xp / borderline signif in all 3
+- induced during autogamy (small)
+no cor
+
+
+WGD2ANC01397 (TCATCTTT)
+107-130 genes (100nt)
+Lower xp in all 3 species (signif in Tet and Bi)
+-no xp pattern
+no cor
+
+
+WGD2ANC01485 /  TTTGTAAC[CT]T[CA][CA][AC]  (TTTGTAAC)
+~100 genes (200nt)
+Lower xp (signif in Tet and Sex, not Bi)
+-recil: no pattern
+-exocy: small late repression
+-autog: no pattern
+no cor
+
+
+WGD2ANC01588 / (ATTCTAC) + more conserved regions
+Large families (~500 genes - 200nt)
+Lower xp (signif) in all 3 species
+pattern (100nt):
+-recil: no pattern
+-exocy: no pattern
+-autog: no pattern
+cor: 0.01, p<0.01
+
+
+WGD2ANC01691 (TATCCGTTA)
+~24 genes (200nt)
+Higher xp (signif only in Sex)
+-recil: strong repression
+-exocy: small late repression
+-autog: strong late repression
+cor: 0.34 , p<2e-16
+
+
+WGD2ANC01704 (TACACGTATTA)
+6-7 genes (200nt)
+Higher xp, signif in Tet and Bi (high but NS in Sex)
+-recil: repression
+-exocy: induction
+-autog: repression
+cor: 0.72, p<0.01
+
+
+WGD2ANC01776 / (AAAAGTCAT)
+~70 genes
+Lower xp (signif in Tet and Sex, not in Bi)
+-recil: NS
+-exocy: NS
+-autog: NS
+no cor
+
+
+WGD2ANC01827 (AAAGATTT)
+~800 genes (200nt)
+Higher xp, signif in all 3 aurelias + caudatum
+reduced to 100nt for cor and pattern
+-recil: early repression
+-exocy: early repression
+-autog: Late induction
+cor: 0.02, p<2e-16
+
+
+
+WGD2ANC01918 (TATTAACGA)
+~75 genes
+Lower xp in Tet and Bi, NS in Sex and Caud (possible candidate for ((tet,bi),sex) divergence
+-recil: Late repression
+-exocy: Late repression
+-autog: Early induction / Late repression
+cor: 0.1 , p<2e-16
+
+
+
+WGD2ANC01925 (GATACA)
+~800 genes
+Lower xp (signif) in Tet, sex and caud but not in bi
+-recil: Early repression
+-exocy: NS
+-autog: Induction
+(50nt --> 147genes) --> cor: 0.03 , p<<0.01
+
+
+WGD2ANC01930 (GTT[TA]GGTC)
+23 genes in all aurelias, only 4 in caud
+Lower xp signif in Tet and Bi, NS in Sex and Caud
+-recil: NS
+-exocy: NS
+-autog: Induction
+cor: 0.13, p=0.03
+
+
+WGD2ANC02136 (CGTTAAA) / motif present in WGD2ANC00365
+~300 genes (200nt)
+Lowest xp (signif in bi and sex, not in tet) - borderline signif in caud
+(150nt for patterns)
+-recil: Repression
+-exocy: Early induction, late repression
+-autog: Early induction, Late repression
+cor: 0.18 , p<2e-16
+
+
+WGD2ANC02207 / (TACGTCATT)
+22-28 genes (200nt)
+Higher xp signif in all 3 + caud
+-recil: Repression
+-exocy: NS
+-autog: Early repression
+cor: 0.11 , p<0.01
+
+
+WGD2ANC02208 / (ATAAACTTGA) / very strange case
+28 genes in tet, 46 in bi and sex , 7 in caud
+Lower xp (Signif) in Tet, Higher (signif) in Bi, NS in Sex and Caud !!!!!
+-recil: NS
+-exocy: Early repression
+-autog: Induction
+No cor
+
+
+WGD2AN???? / (TCAGCT)
+275-363 genes (200nt)
+Lower xp, signif in all 3 + caudatum
+-recil: NS
+-exocy: NS
+-autog: NS
+no cor
+
+
+WGD2ANC02240 / (CACTGAAAT)
+Lower xp signif in Sex only
+-recil: NS
+-exocy: NS
+-autog: NS
+cor (100nt): 0.16 but NS (7 genes only)
+
+
+(TGAGTAT)
+~600-800 genes (200nt)
+Higher xp signif in all 3 but not in caud
+-recil: NS
+-exocy: NS
+-autog: NS
+no cor
+
+
+WGD2ANC02390 / (GTGATTCATGA)
+14-17 genes
+High xp signif in all 3, NS in caud (but only because too few genes)
+-recil: NS
+-exocy: NS
+-autog: NS
+no cor
+
+
+WGD2ANC02400 / (CGTTAA)
+Lower xp (signif) in Tet, Bi and Caud but NS in Sex !!!
+~300 genes (50nt) / very close from ATG --> repressor?
+-recil: Strong repression
+-exocy: Early induction, late repression
+-autog: Late repression
+cor: 0.22, p<2e-16
+
+
+
+WGD2ANC02409 / (AATTTGAATT)
+50nt - 100-131 genes
+lower xp (signif in Tet and Bi + Caud) but Not in Sex
+-recil: Repression
+-exocy: NS
+-autog: Early induction, late repression
+cor: 0.13, p<2e-16
+
+
+-----------------
+
+
+WGD2ANC00487 /  T[CT]GATTGCGTA[AT]T[GT]T[GT][GA][GC][TA]ATTCAAA[GT]C[AC][TA]A[AT][AC]T[TC]AT[CT][AT][AC][TA][AC][AG][AG]A[TA][TA][TA][AG][TC] (ATTCAAA)
+No evidence with average expression level, but looks like a good motif. --> GO ANALYSIS TO DO
+GO: Enzyme activity
+- repressed in recil and exocytosis / small induction in autog (too many genes)
+
+
+WGD2ANC00805 /  ATTGCAGTTA[TA]TTC[AG]C[TAG]A[AT]GTT[GT][GA][TG]GTATT[TA]AGCGAA[GT]AAA  (TTGCAGTTA)
+Small families (23-30 per species), no evidence with expression level, but looks like a very good motif
+--> Could be a family of transcription factor !!!
+GO: sequence-specific DNA binding transcription factor activity (not very strong signal)
+- recil: no pattern
+- exocy: late repression
+- autog: repression (non-signif)
+- no cor
