@@ -5,13 +5,9 @@
 include config.mak
 
 .PHONY:  all makedir retrieve_upstream retrieve_CDS int_motifs meme_length
+.NOTPARALLEL: retrieve_upstream
 
 all: retrieve_upstream $(addsuffix .comp, $(LOCS)) int_motifs meme_length
-
-retrieve_upstream: bin/gff/main.py
-        @echo "Retrieving upstream sequences..."
-        @python $^ -l 250 -ml 15 -f 4 -mf 4 -loc $(UP) --head
-        @echo "Done."
 
 $(addsuffix .comp, $(LOCS)): %.comp: bin/bigfoot/memecomp.py %.motifs %.meme.motifs
 	@echo "Comparing MEME and BF"
@@ -97,3 +93,8 @@ retrieve_CDS: bin/ntseq.py
 	@echo "Retrieving CDSs"
 	@python $^ -f 4 --header -loc $(CDS)
 	@echo "Done."
+
+retrieve_upstream: bin/gff/main.py
+        @echo "Retrieving upstream sequences..."
+        @python $^ -l 250 -ml 15 -f 4 -mf 4 -loc $(UP) --head
+        @echo "Done."
