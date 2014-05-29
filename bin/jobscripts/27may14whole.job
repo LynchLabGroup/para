@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -k o
-#PBS -l nodes=1:ppn=4,vmem=18gb,walltime=48:00:00
+#PBS -l nodes=1:ppn=16,vmem=18gb,walltime=48:00:00
 #PBS -M mgrenie@indiana.edu
 #PBS -m be
 #PBS -N NewRun
@@ -8,5 +8,5 @@
 echo "Job Started at: "; date
 module load java/1.7.0_25
 cd para/
-make all -r -j 4 -k
+make all -r -j 16 -k
 echo "Job Finished at:";date
