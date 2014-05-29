@@ -39,8 +39,7 @@ def retrieve_up(geneids, gff_dic, fasta_dic, length=100, minlength=1):
                 start, end, strand = l
                 break
 
-        seq, overlap = retrieve_up_single(g, seq_id, gff_dic, fasta_dic,
-                                          length, minlength)
+        seq, overlap = retrieve_up_single(g, seq_id, gff_dic, fasta_dic, length, minlength)
         if seq != -1:
             upstream.append([start, end, strand, g, seq_id, seq])
         else:
@@ -85,8 +84,7 @@ def retrieve_up_single(geneid, seqid, gff_dic, fasta_dic, length=100,
                     overlap += 1
             seqlen = len(fasta_dic[seqid][extract-1:start-1])
             if seqlen >= minlength:
-                return fasta_dic[seqid][extract-1:start-1][::-1],
-                overlap
+                return fasta_dic[seqid][extract-1:start-1][::-1], overlap
                 # extract natural position, reverse the return to begin with
                 # first base just before the beginning of the gene
             else:
