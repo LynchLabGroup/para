@@ -1,0 +1,54 @@
+# Scores example #
+
+Here is a quick code to generate the figure of scores distribution used in the Report.
+
+```{r}
+# Data preparation
+setwd("~/Documents/ENS/M1/Stage/para/results/analysis/")
+mpd.score = read.table("../WGD2ANC00137.fasta.mpd", skip=9, col.names="mpd")
+# Delete rows with "-"
+mpd.score = as.data.frame(mpd.score[c(1:68,89:114,116:253,256:273),])
+colnames(mpd.score) = "mpd"
+pred.score = read.table("../WGD2ANC00137.fasta.pred", col.names="pred")
+```
+
+Refactor data to be easier to plot
+
+```{r fig.width=7, fig.height=6}
+# Data reshaping step
+library(reshape2)
+corr = cbind(mpd.score, pred.score)
+melt.data = melt(corr)
+melt.data = cbind(melt.data,c(1:250,1:250))
+colnames(melt.data)[3] = "base"
+```
+
+Plotting graphs
+
+```{r}
+library(ggplot2)
+
+melt.plot = ggplot(melt.data[c(1:50, 251:301),], aes(x=base, y=value, color=variable)) +
+  geom_line(size=2, alpha=0.7) +
+  labs(x="Nucleotide number", y="Score", colour="Type") +
+  geom_hline(yintercept=0.9, linetype=2, colour="#F8766D") +
+  geom_hline(yintercept=0.8, linetype=2, colour="#00BFC4") +
+  theme(axis.title = element_text(size=rel(1.2)), axis.text=element_text(size=rel(0.9))) +
+  annotate("text", x=45,y=0.93, colour="#F8766D", label="Prediction threshold") +
+  annotate("text", x=45, y=0.83, colour="#00BFC4", label="Alignment Threshold") +
+  scale_x_continuous(breaks=c(1,seq(10,50,10))) +
+  annotate("rect", xmin=10, xmax=25, ymin=1.03, ymax= 1.06, alpha=0.5) +
+  annotate("rect", xmin=32, xmax=39, ymin=1.03, ymax=1.06, alpha=0.5) +
+  scale_colour_manual(values=c("#00BFC4", "#F8766D"),labels=c( "Align. Score", "Prediction Score"))
+# Version with legend
+melt.plot
+
+# Version without legend
+melt.plot + theme(legend.position="none")
+```
+Obtain the real colors used in the object to match hline colors with groups
+```{r}
+g <- ggplot_build(melt.plot)
+unique(g$data[[1]]["colour"])
+
+```
