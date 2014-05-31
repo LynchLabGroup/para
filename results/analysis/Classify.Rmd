@@ -14,21 +14,91 @@ seqs.plots + geom_point(alpha=0.5) + labs(x="Motif Length", y="Total GC Content"
 
 Let's try clustering method, without sequence column. Use of `dist` to compute distances between clusters
 ```{r fig.width=9, fig.height=9}
-hc.complete = hclust(dist(seqs[c(1:2, 4:23)]), method="complete")
+hc.complete = hclust(dist(scale(seqs[c(1:23)])), method="complete")
 plot(hc.complete)
 hc.cut = cutree(hc.complete, 25)
 plot(hc.complete, labels=hc.cut)
+rect.hclust(hc.complete,25, border=1:25)
 ```
 We cut in 25 clusters, look like we have a good cluster #1
 ```{r}
 seqs[hc.cut == 1,]
-```
-```{r}
-hc.average = hclust(dist(seqs[1:23]), method="average")
+hc.average = hclust(dist(scale(seqs[1:23])), method="average")
 plot(hc.average)
 ```
+If we try to color the dendrogram according to cuts
+```{r}
+library(RColorBrewer)
+source("http://addictedtor.free.fr/packages/A2R/lastVersion/R/code.R")
+par(bg="#FFFFFF")
+colorSet = brewer.pal(12, "Paired")
+#colorSet = rainbow(20)
+hc.complete$labels = new.cut
+A2Rplot(hc.complete, k = 12, boxes = FALSE, col.up = "black", col.down = colorSet, knot.pos="mean", show.labels=F)
+
+# Extend color palette
+extSet = colorRampPalette(brewer.pal(9,"Set1"))(25)
+
+# Randomize order
+extSet = sample(extSet, 25, replace=F)
+hc.cut = cutree(hc.complete, 25)
+hc.complete$labels=hc.cut
+A2Rplot(hc.complete, k = 25, boxes = FALSE, col.up = "black", col.down = extSet, knot.pos="mean", show.labels=F, lwd.down=3)
+
+# With average cluster
+extSet = sample(extSet, 20, replace=F)
+hc.avg = cutree(hc.average, 25)
+hc.average$labels=hc.avg
+A2Rplot(hc.average, k = 25, boxes = FALSE, col.up = "black", col.down = extSet, knot.pos="mean", show.labels=F, lwd.down=3)
+
+# Try several plots
+test.list = c(10,15,20,25)
+for (i in test.list) {
+  A2Rplot(hc.complete, k = i, boxes = FALSE, col.up = "black", col.down = rainbow(i), knot.pos="mean", show.labels=F)
+}
+
+
+plot(as.dendrogram(hc.complete, hang=-20))
+
+new.cut = cutree(hc.complete, 11)
+labelColors = brewer.pal(11, "Paired")
+hc.complete$labels = new.cut
+# function to get color labels
+colLab <- function(n) {
+    if (is.leaf(n)) {
+        a <- attributes(n)
+        labCol <- labelColors[new.cut[which(names(new.cut) == a$label)]]
+        attr(n, "nodePar") <- c(a$nodePar, lab.col = labCol)
+    }
+    n
+}
+# using dendrapply
+clusDendro = dendrapply(as.dendrogram(hc.complete), colLab)
+# make plot
+plot(clusDendro, main = "Cool Dendrogram")
+```
+
 We could try to show a heatmap of all motifs
 ```{r}
 seqs.mat = data.matrix(seqs)
 heatmap(seqs.mat[,c(1:2, 4:23)], col = heat.colors(256), scale="column")
+```
+
+May be we should try with `vegan` package?
+
+```{r}
+library(vegan)
+kclus <- kmeans(seqs[1:23], centers=11)
+seqs_dist <- dist(seqs[1:23])
+cmd <- cmdscale(seqs_dist)
+groups <- levels(factor(kclus$cluster))
+ordiplot(cmd, type = "n")
+cols <- brewerpal(10, "Paired")
+for(i in seq_along(groups)){
+  points(cmd[factor(kclus$cluster) == groups[i], ], col = cols[i], pch = 16)
+}
+
+# add spider and hull
+ordispider(cmd, factor(kclus$cluster), label = TRUE)
+ordihull(cmd, factor(kclus$cluster), lty = "dotted")
 ```
