@@ -41,9 +41,9 @@ extSet = colorRampPalette(brewer.pal(9,"Set1"))(25)
 
 # Randomize order
 extSet = sample(extSet, 25, replace=F)
-hc.cut = cutree(hc.complete, 25)
+hc.cut = cutree(hc.complete, 20)
 hc.complete$labels=hc.cut
-A2Rplot(hc.complete, k = 25, boxes = FALSE, col.up = "black", col.down = extSet, knot.pos="mean", show.labels=F, lwd.down=3)
+A2Rplot(hc.complete, k = 20, boxes = FALSE, col.up = "black", col.down = extSet, knot.pos="mean", show.labels=F, lwd.down=3)
 
 # With average cluster
 extSet = sample(extSet, 20, replace=F)
