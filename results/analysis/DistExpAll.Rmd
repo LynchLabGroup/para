@@ -5,15 +5,21 @@ Loop trough all the files and analyze the results.
 First step: loading data
 ```{r}
 setwd("~/Documents/ENS/M1/Stage/para/results/analysis/")
+
+extraction <- function(patt) {
+  extract <- dir("../motifs_extraction", full.names=TRUE, pattern=patt)
+  extract <- extract[2:length(extract)]
+}
+
 # Load files of genes for each motifs of each species
-extract_bi <- dir("../motifs_extraction", full.names=TRUE, pattern="bi.res$")
-extract_sex <- dir("../motifs_extraction", full.names=TRUE, pattern="sex.res$")
-extract_sex <- dir("../motifs_extraction", full.names=TRUE, pattern="sex.res$")
-extract_tet <- dir("../motifs_extraction", full.names=TRUE, pattern="tet.res$")
+extract_bi <- extraction("bi.res$")
+extract_ca <- extraction("ca.res$")
+extract_sex <- extraction("sex.res$")
+extract_tet <- extraction("tet.res$")
 
 # Load expression data
 exp_bi = read.table("../../data/biaurelia_RNAseq_xp.tab", h=T)
-exp_sex = read.table("../../data/sexudatum_RNAseq_xp.tab", h=T)
+exp_ca = read.table("../../data/caudatum_RNAseq_xp.tab", h=T)
 exp_sex = read.table("../../data/sexaurelia_RNAseq_xp.tab", h=T)
 exp_tet = read.table("../../data/tetraurelia_RNAseq_xp.tab", h=T)
 
@@ -67,26 +73,26 @@ summary(bi.pvalues)
 length(subset(bi.pvalues, bi.pvalues < pval.thre))
 ```
 
-For *P. sexudatum*
+For *P. caudatum*
 
 ```{r}
-sex.pvalues = rep(NA,length(extract_sex))
-sex.rsq = rep(NA, length(extract_sex))
+ca.pvalues = rep(NA,length(extract_ca))
+ca.rsq = rep(NA, length(extract_ca))
 
-for (i in 1:length(extract_sex)) {
-  merged = corr.dist.exp(extract_sex[i], exp_sex)
+for (i in 1:length(extract_ca)) {
+  merged = corr.dist.exp(extract_ca[i], exp_ca)
 
   if (length(merged[,1])>2) {
     mod = lm.pvalue(merged)
     p.value = mod[[1]][1]
     rsq = mod[[2]][1]
-    sex.pvalues[i] = p.value
-    sex.rsq[i] = rsq
+    ca.pvalues[i] = p.value
+    ca.rsq[i] = rsq
   }
 }
-length(sex.pvalues)
-summary(sex.pvalues)
-length(subset(sex.pvalues, sex.pvalues < pval.thre))
+length(ca.pvalues)
+summary(ca.pvalues)
+length(subset(ca.pvalues, ca.pvalues < pval.thre))
 ```
 
 For *P. sexaurelia*
@@ -137,12 +143,12 @@ Let see if there are some motifs in common.
 
 # To have indexes of elements
 bi.match = match(subset(bi.pvalues, bi.pvalues < pval.thre), bi.pvalues)
-sex.match = match(subset(sex.pvalues, sex.pvalues < pval.thre), sex.pvalues)
+ca.match = match(subset(ca.pvalues, ca.pvalues < pval.thre), ca.pvalues)
 sex.match = match(subset(sex.pvalues, sex.pvalues < pval.thre), sex.pvalues)
 tet.match = match(subset(tet.pvalues, tet.pvalues < pval.thre), tet.pvalues)
 
 # Common elements
-common = intersect(intersect(intersect(bi.match, sex.match), sex.match), tet.match)
+common = intersect(intersect(intersect(bi.match, ca.match), sex.match), tet.match)
 length(common)
 ```
 
@@ -161,7 +167,8 @@ for (i in 1:length(common)) {
 }
 common.motifs
 ```
-Look at the ssextterplots
+
+Look at the scatterplots
 ```{r}
 library(ggplot2)
 for (i in 1:length(common)) {
@@ -203,6 +210,7 @@ expression.modifier <- function(extract_file, exp_file) {
   else {
     classifier = NA
   }
+  list(mod=classifier, match=length(extract_match[,1]), nomatch=length(extract_no[,1]))
 }
 ```
 
@@ -219,10 +227,10 @@ for (i in 1:length(extract_bi)) {
   
   modifier = expression.modifier(extract_bi[i], exp_bi)
   motif_data = subset(motifs, family == fam & BF.motif == fam.motif)
-  bi.classify = rbind(bi.classify ,cbind(motif_data, as.factor(modifier)))
+  bi.classify = rbind(bi.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch))
   
 }
-colnames(bi.classify)[9]= "modifier"
+colnames(bi.classify)[9:11]= c("modifier", "bi.match", "bi.nomatch")
 ```
 
 ```{r}
@@ -237,10 +245,10 @@ for (i in 1:length(extract_ca)) {
   
   modifier = expression.modifier(extract_ca[i], exp_ca)
   motif_data = subset(motifs, family == fam & BF.motif == fam.motif)
-  ca.classify = rbind(ca.classify ,cbind(motif_data, as.factor(modifier))
+  ca.classify = rbind(ca.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch))
   
 }
-colnames(ca.classify)[9]= "modifier"
+colnames(ca.classify)[9:11]= c("modifier", "ca.match", "ca.nomatch")
 ```
 
 ```{r}
@@ -255,10 +263,10 @@ for (i in 1:length(extract_sex)) {
   
   modifier = expression.modifier(extract_sex[i], exp_sex)
   motif_data = subset(motifs, family == fam & BF.motif == fam.motif)
-  sex.classify = rbind(sex.classify ,cbind(motif_data, as.factor(modifier)))
+  sex.classify = rbind(sex.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch))
   
 }
-colnames(sex.classify)[9]= "modifier"
+colnames(sex.classify)[9:11]= c("modifier", "sex.match", "sex.nomatch")
 ```
 
 ```{r}
@@ -273,10 +281,45 @@ for (i in 1:length(extract_tet)) {
   
   modifier = expression.modifier(extract_tet[i], exp_tet)
   motif_data = subset(motifs, family == fam & BF.motif == fam.motif)
-  tet.classify = rbind(tet.classify ,cbind(motif_data, as.factor(modifier)))
+  tet.classify = rbind(tet.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch))
   
 }
-colnames(tet.classify)[9]= "modifier"
+colnames(tet.classify)[9:11]= c("modifier", "tet.match", "tet.nomatch")
+```
+
+Let's look at coregulation patterns in all the species
+
+```{r}
+common.regulation = cbind(bi.classify[common, 8:11], ca.classify[common,9:11], sex.classify[common,9:11], tet.classify[common,9:11])
+colnames(common.regulation)[c(2,5,8,11)] = c("bi.mod", "ca.mod", "sex.mod", "tet.mod")
+common.regulation
+common.melt = melt(common.regulation)[,c(1,6,7)]
+com = cbind(common.melt, colsplit(common.melt$variable, names=c("species", "type"), pattern="\\."))
+common.cast = dcast(com, consensus+species~type)
+
+c = cbind(common.cast, common.cast$match/(common.cast$match+common.cast$nomatch))
+colnames(c)[5] = "ratio"
+
+# Each motif separated
+ggplot(c, aes(x=species, y=ratio)) +
+  geom_point() +
+  labs(x="Species", y="Proportion of genes with motifs") +
+  facet_wrap(~consensus, ncol=5) +
+  theme(text=element_text(size=rel(4.5)))
+
+# All motifs by species
+ggplot(c, aes(x=species, y=ratio, fill=species))+
+  geom_boxplot() +
+  geom_jitter() +
+  labs(x="Species", y="Proportion of genes with motifs") +
+  scale_fill_discrete(labels=c("P. biaurelia", "P. caudatum", "P. sexaurelia", "P. tetraurelia")) +
+  theme(text=element_text(size=rel(4.5)), axis.text.x=element_text(size=rel(5)), legend.position="none")
+  
+  
+for (i in 1:length(unique(common.cast$consensus))) {
+  glm = glm(cbind(match,nomatch)~species*consensus, family=binomial, common.cast[common.cast,])
+  Anova(glm)
+}
 ```
 
 # MEME Motifs #
