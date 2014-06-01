@@ -305,9 +305,10 @@ tot.cast = dcast(common.tot, consensus+bi.mod+ca.mod+sex.mod+tet.mod~type+specie
 c = cbind(common.cast, common.cast$match/(common.cast$match+common.cast$nomatch))
 colnames(c)[5] = "ratio"
 
-reduced = dcast(c, consensus~species)
+reduced = dcast(melt(c), consensus~species+variable)[,c(1,2,4,5,7,8,10,11,13)]
 reduced = cbind(reduced, tot.cast$bi.mod, tot.cast$ca.mod, tot.cast$sex.mod, tot.cast$tet.mod)
-colnames(reduced)[6:9] = c("bi.mod", "ca.mod", "sex.mod", "tet.mod")
+colnames(reduced)[10:13] = c("bi_mod", "ca_mod", "sex_mod", "tet_mod")
+reduced[,c(3,5,7,9)] = round(reduced[,c(3,5,7,9)]*100,2)
 
 # Each motif separated
 ggplot(c, aes(x=species, y=ratio)) +
