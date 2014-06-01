@@ -290,6 +290,7 @@ colnames(tet.classify)[9:11]= c("modifier", "tet.match", "tet.nomatch")
 Let's look at coregulation patterns in all the species
 
 ```{r}
+library(scales)
 common.regulation = cbind(bi.classify[common, 8:11], ca.classify[common,9:11], sex.classify[common,9:11], tet.classify[common,9:11])
 colnames(common.regulation)[c(2,5,8,11)] = c("bi.mod", "ca.mod", "sex.mod", "tet.mod")
 common.regulation
@@ -305,6 +306,7 @@ ggplot(c, aes(x=species, y=ratio)) +
   geom_point() +
   labs(x="Species", y="Proportion of genes with motifs") +
   facet_wrap(~consensus, ncol=5) +
+  scale_y_continuous(labels=percent) +
   theme(text=element_text(size=rel(4.5)))
 
 # All motifs by species
@@ -313,8 +315,16 @@ ggplot(c, aes(x=species, y=ratio, fill=species))+
   geom_jitter() +
   labs(x="Species", y="Proportion of genes with motifs") +
   scale_fill_discrete(labels=c("P. biaurelia", "P. caudatum", "P. sexaurelia", "P. tetraurelia")) +
+  scale_y_continuous(labels=percent) +
   theme(text=element_text(size=rel(4.5)), axis.text.x=element_text(size=rel(5)), legend.position="none")
-  
+
+# Group Motifs
+ggplot(c, aes(x=consensus, y=ratio)) +
+  geom_boxplot() +
+  geom_jitter() +
+  labs(x="Motifs", y="Proportion of genes with motifs") +
+  scale_y_continuous(labels=percent) +
+  theme(legend.position="none", text=element_text(size=rel(4.5)), axis.text.x=element_text(size=rel(4.5)))
   
 for (i in 1:length(unique(common.cast$consensus))) {
   glm = glm(cbind(match,nomatch)~species*consensus, family=binomial, common.cast[common.cast,])
