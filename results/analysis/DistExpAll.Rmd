@@ -210,7 +210,7 @@ expression.modifier <- function(extract_file, exp_file) {
   else {
     classifier = NA
   }
-  list(mod=classifier, match=length(extract_match[,1]), nomatch=length(extract_no[,1]))
+  list(mod=classifier, match=length(extract_match[,1]), nomatch=length(extract_no[,1]), avg.dist=mean(extract_table$distance))
 }
 ```
 
@@ -227,7 +227,7 @@ for (i in 1:length(extract_bi)) {
   
   modifier = expression.modifier(extract_bi[i], exp_bi)
   motif_data = subset(motifs, family == fam & BF.motif == fam.motif)
-  bi.classify = rbind(bi.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch))
+  bi.classify = rbind(bi.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch,modifier$avg.dist))
   
 }
 colnames(bi.classify)[9:11]= c("modifier", "bi.match", "bi.nomatch")
@@ -294,12 +294,20 @@ library(scales)
 common.regulation = cbind(bi.classify[common, 8:11], ca.classify[common,9:11], sex.classify[common,9:11], tet.classify[common,9:11])
 colnames(common.regulation)[c(2,5,8,11)] = c("bi.mod", "ca.mod", "sex.mod", "tet.mod")
 common.regulation
-common.melt = melt(common.regulation)[,c(1,6,7)]
+common.melt = melt(common.regulation)[,c(1, 6, 7)]
+common.tot = melt(common.regulation)
 com = cbind(common.melt, colsplit(common.melt$variable, names=c("species", "type"), pattern="\\."))
 common.cast = dcast(com, consensus+species~type)
 
+common.tot = cbind(common.tot, colsplit(common.tot$variable, names=c("species", "type"), pattern="\\."))
+tot.cast = dcast(common.tot, consensus+bi.mod+ca.mod+sex.mod+tet.mod~type+species)
+
 c = cbind(common.cast, common.cast$match/(common.cast$match+common.cast$nomatch))
 colnames(c)[5] = "ratio"
+
+reduced = dcast(c, consensus~species)
+reduced = cbind(reduced, tot.cast$bi.mod, tot.cast$ca.mod, tot.cast$sex.mod, tot.cast$tet.mod)
+colnames(reduced)[6:9] = c("bi.mod", "ca.mod", "sex.mod", "tet.mod")
 
 # Each motif separated
 ggplot(c, aes(x=species, y=ratio)) +
@@ -343,7 +351,7 @@ meme.sex = read.table("../motifs_extraction/26may14MEMEMotifs.sex.res", col.name
 meme.tet = read.table("../motifs_extraction/26may14MEMEMotifs.tet.res", col.names=names)
 ```
 
-Typisexl function to classify motifs
+Typical function to classify motifs
 ```{r}
 meme.modifier <- function(meme_table, exp_file) {
   # Expression of genes that contain the motif
