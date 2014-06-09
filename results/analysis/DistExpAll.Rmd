@@ -335,9 +335,32 @@ ggplot(c, aes(x=consensus, y=ratio)) +
   labs(x="Motifs", y="Proportion of genes with motifs") +
   scale_y_continuous(labels=percent) +
   theme(legend.position="none", text=element_text(size=rel(4.5)), axis.text.x=element_text(size=rel(4.5)))
+```
+
+GLM
+```{r}
 library(car)
+# With all sequences
 for (i in 1:length(unique(common.cast$consensus))) {
-  glm = glm(cbind(match,nomatch)~species, family=binomial, common.cast[1+(i-1)*4:4+(i-1)*4,])
-  Anova(glm)
+  start = 1+(i-1)*4
+  end = 4+(i-1)*4
+  print(i)
+  glm = glm(cbind(match,nomatch)~species, family=binomial, common.cast[start:end,])
+  print(Anova(glm))
 }
+
+# Without caudatum
+for (i in 1:length(unique(common.cast$consensus))) {
+  start = 1+(i-1)*4
+  end = 4+(i-1)*4
+  print(i)
+  sub = subset(common.cast[start:end,], species != "ca")
+  glm = glm(cbind(match,nomatch)~species, family=binomial, common.cast[start:end,])
+  print(Anova(glm))
+}
+```
+
+```{r}
+val.common = data.frame(bi.pvalues[common], bi.rsq[common], ca.pvalues[common], ca.rsq[common], sex.pvalues[common], sex.rsq[common], tet.pvalues[common], tet.rsq[common])
+colnames(val.common) = c("bi.pval", "bi.rsq", "ca.pval", "ca.rsq", "sex.pval", "sex.rsq", "tet.pval", "tet.rsq")
 ```
