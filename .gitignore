@@ -7,3 +7,4 @@ bin/gff/BCBio
 *.DS_Store
 *.Rhistory
 *.pyc
+*.snakemake/
