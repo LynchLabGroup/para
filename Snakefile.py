@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
-# Snakemake.py file for Snakemake
+# Snakefile.py file for Snakemake
+import os
+import glob
+RES = [os.path.splitext(famfile)[0]+".comp" for famfile in glob.glob("results/WGD2ANC0000*/WGD2ANC0[0-9][0-9][0-9][0-9].motifs")]
 
-RES = "results/"
+rule all:
+    input: RES
 
 rule comp:
-    input: "{RES}/{family,WGD2ANC0000.*}/{family}.motifs", "{RES}/{family,WGD2ANC0000.*}/{family}.meme.motifs"
-    output: "{RES}/{family}/{family}.comp"
-    shell: "python bin/bigfoot/memecomp.py {input} -e 0.001 -o {output}"
+    input: "{family}.motifs", "{family}.meme.motifs"
+    output: "{family}.comp"
+    shell: "echo {input} && echo {output}"
