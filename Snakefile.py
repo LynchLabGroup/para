@@ -37,3 +37,15 @@ rule bigfoot:
     input: "{family}.fasta", "{family}.newick"
     output: "{family}.fasta.mpd", "{family}.fasta.pred"
     shell: "java -jar ../BigFoot/BigFoot.jar -t {input[1]} -p={BFPARAM} {input[0]}"
+
+rule gene_tree:
+    """Create a new tree to be compatible with BigFoot"""
+    input: "bin/scripts/editnewick.py", "{family}CDS.phyl_phyml_tree.txt"
+    output: "{family}.newick"
+    shell: "python2 {input} {output}"
+
+rule phyml_tree:
+    """Compute ML gene tree."""
+    input: "{family}CDS.phyl"
+    output: "{family}CDS.phyl_phyml_tree"
+    shell: "phyml -i {input}"
