@@ -49,3 +49,11 @@ rule phyml_tree:
     input: "{family}CDS.phyl"
     output: "{family}CDS.phyl_phyml_tree"
     shell: "phyml -i {input}"
+
+rule fasta_to_phylip:
+    """Convert Fasta to Phylip sequences."""
+    input: "{family}CDS.e.fasta"
+    output: "{family}CDS.phyl"
+    shell: "bin/scripts/ConvertFastatoPhylip.pl {input} {output}"
+
+
