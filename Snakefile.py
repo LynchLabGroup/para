@@ -116,12 +116,9 @@ rule comp:
     output: "{family}.comp"
     shell: "python2 bin/bigfoot/memecomp.py {input} -e {EVAL} -o {output}"
 
-### Analysis
-
-
 ### General Rules ###
 rule all:
-    input: RES
+    input: rules.retrieve_up.output, rules.retrieve_CDS.output, RES
 
 rule meme_lengths:
     input: all
