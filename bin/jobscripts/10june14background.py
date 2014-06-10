@@ -20,4 +20,6 @@ with open("results/highnonmatch.txt", "r") as infile:
 pdb.set_trace()
 upstream_seqs = gff_func.retrieve_up(records, gff, fasta)[0]
 
-gff_func.write_fasta("results/ribo.background.fasta", upstream_seqs)
+# Select only retrieved sequences
+upstream = [seq for seq in upstream_seqs if len(seq) > 1]
+gff_func.write_fasta("results/ribo.background.fasta", upstream)
