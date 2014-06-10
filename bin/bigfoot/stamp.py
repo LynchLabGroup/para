@@ -8,12 +8,14 @@ from memecomp import MotifFile
 import argparse
 
 
-def fullpath(fam_name):
+def fullpath(fam_name, directory=None):
     """
     From a family name return the path of the motif file
     """
+    if directory is None:
+        directory = "results/"
     local_str = str(fam_name)
-    directory = "results/"
+
     return directory+local_str+"/"+local_str+".motifs"
 
 
