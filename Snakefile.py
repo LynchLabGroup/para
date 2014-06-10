@@ -54,6 +54,11 @@ rule fasta_to_phylip:
     """Convert Fasta to Phylip sequences."""
     input: "{family}CDS.e.fasta"
     output: "{family}CDS.phyl"
-    shell: "bin/scripts/ConvertFastatoPhylip.pl {input} {output}"
+    shell: "perl bin/scripts/ConvertFastatoPhylip.pl {input} {output}"
 
-
+rule match_seqs:
+    """Matching sequences between CDS and family."""
+    $(addsuffix CDS.e.fasta, $(LOCS)): %CDS.e.fasta :bin/scripts/extractmatch.py %.fasta %CDS.fasta
+    input: "bin/scripts/extractmatch.py", "{family}.fasta", "{family}CDS.fasta"
+    output: "{family}CDS.e.fasta"
+    shell "python2 {input} {output}"
