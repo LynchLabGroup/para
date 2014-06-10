@@ -4,7 +4,7 @@ import os
 import glob
 
 RES = [os.path.splitext(famfile)[0]+".comp" for famfile in glob.glob("results/WGD2ANC0000*/WGD2ANC0[0-9][0-9][0-9][0-9].motifs")]
-BASENAME = [os.path.basename(family).rstrip(".comp")+".fasta" for family in RES]
+BASENAME = [os.path.basename(family).rstrip(".comp") for family in RES]
 UPSTREAM = "data/families/WGD2/upstream"
 CDSLOC = "data/families/WGD2/CDS/nt"
 RESULTS = "results"
@@ -21,9 +21,11 @@ BFPARAM = "10000,20000,1000"
 
 rule make_dir:
     """Make given dir"""
-    input: UPSTREAM+"/{family}.fasta"
-    output: RESULTS+"/{family}/"
-    shell: "mkdir -p {output}"
+    input: expand("{UPSTREAM}/{family}.fasta", UPSTREAM=UPSTREAM, family=BASENAME)
+    output: expand("{RESULTS}/{family}/{family}.fasta", RESULTS=RESULTS, family=BASENAME) #"results/{family}/{family}.fasta"
+    log: "logfile"
+    shell: "echo {input}"
+#"mkdir -p {RESULTS}/{family}; touch {output[0]}"
 
 rule all:
     input: RES
