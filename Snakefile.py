@@ -58,7 +58,15 @@ rule fasta_to_phylip:
 
 rule match_seqs:
     """Matching sequences between CDS and family."""
-    $(addsuffix CDS.e.fasta, $(LOCS)): %CDS.e.fasta :bin/scripts/extractmatch.py %.fasta %CDS.fasta
     input: "bin/scripts/extractmatch.py", "{family}.fasta", "{family}CDS.fasta"
     output: "{family}CDS.e.fasta"
     shell "python2 {input} {output}"
+
+rule transform_CDS_header:
+    """Reduce CDS header."""
+    input: "bin/scripts/fastaheader.py", "{family}CDS.nt_ali.fasta"
+    output: "{family}CDS.fasta"
+    shell: "python2 {input} '|' {output}"
+
+rule align_CDS:
+    """Aligning CDSs"""
