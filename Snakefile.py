@@ -21,11 +21,10 @@ BFPARAM = "10000,20000,1000"
 
 rule make_dir:
     """Make given dir"""
-    input: expand("{UPSTREAM}/{family}.fasta", UPSTREAM=UPSTREAM, family=BASENAME)
-    output: expand("{RESULTS}/{family}/{family}.fasta", RESULTS=RESULTS, family=BASENAME) #"results/{family}/{family}.fasta"
-    log: "logfile"
-    shell: "echo {input}"
-#"mkdir -p {RESULTS}/{family}; touch {output[0]}"
+    input: expand("{UPSTREAM}/{{family}}.fasta", UPSTREAM=UPSTREAM)
+    output: outfiles=expand("{RESULTS}/{{family}}/temp", RESULTS=RESULTS) #"results/{family}/{family}.fasta"
+    run:
+        shell("mkdir -p  " + output.outfiles)
 
 rule all:
     input: RES
