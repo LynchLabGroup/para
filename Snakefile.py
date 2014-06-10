@@ -72,5 +72,5 @@ rule align_CDS:
     """Aligning CDSs"""
     input: "{family}.fasta"
     params: prefix="{family}CDS"
-    output: "{family}CDS.nt_ali.fasta"
+    output: "{params.prefix}.nt_ali.fasta"
     shell: "perl bin/scripts/translatorx_vLocal.pl -c 6 -i {input} -o {params.prefix}"
