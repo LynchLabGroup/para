@@ -10,14 +10,12 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'gff'))
 
 import gff_func
 import parse_gff_v2 as pg
-import pdb
 
 gff = pg.load_gff("data/tetraurelia/tetraurelia51_EuGene_annotation.gff3", ["CDS","gene"])
 fasta = pg.load_fasta("data/tetraurelia/ptetraurelia_mac_51.fa")
 
 with open("results/highnonmatch.txt", "r") as infile:
     records = [line.rstrip("\n") for line in infile.xreadlines()]
-pdb.set_trace()
 upstream_seqs = gff_func.retrieve_up(records, gff, fasta, 250, 15)[0]
 
 # Select only retrieved sequences
