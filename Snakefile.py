@@ -70,3 +70,8 @@ rule transform_CDS_header:
 
 rule align_CDS:
     """Aligning CDSs"""
+    input: "{family}.fasta"
+    output: "{family}CDS.nt_ali.fasta"
+    run:
+        outfile = output.split(".")[0]
+        shell("perl bin/scripts/translatorx_vLocal.pl -c 6 -i {input} -o {outfile}")
