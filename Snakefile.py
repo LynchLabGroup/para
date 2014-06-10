@@ -4,8 +4,14 @@ import os
 import glob
 
 RES = [os.path.splitext(famfile)[0]+".comp" for famfile in glob.glob("results/WGD2ANC0000*/WGD2ANC0[0-9][0-9][0-9][0-9].motifs")]
+BASENAME = [os.path.basename(family).rstrip(".comp")+".fasta" for family in RES]
 UPSTREAM = "data/families/WGD2/upstream"
+CDSLOC = "data/families/WGD2/CDS/nt"
 RESULTS = "results"
+MINLEN = 15
+MAXLEN = 250
+MINFAMMEMBER = 4
+LOWFAMMEMBER = 4
 EVAL = 0.001
 PREDTHRE = 0.9
 ALITHRE = 0.8
@@ -72,7 +78,7 @@ rule transform_CDS_header:
 
 rule align_CDS:
     """Aligning CDSs"""
-    input: "{family}.fasta"
+    input: "{family}.fasta", "{family}.CDS.fasta"
     params: prefix="{family}.CDS"
     output: "{family}.CDS.nt_ali.fasta"
     shell: "perl bin/scripts/translatorx_vLocal.pl -c 6 -i {input} -o {params.prefix}"
@@ -88,3 +94,11 @@ rule make_dir:
     input: "{UPSTREAM}/{family}.fasta"
     output: "{RESULTS}/{family}/"
     shell: "mkdir -p"
+
+rule retrieve_CDS:
+    """Retrieve CDSs according to families"""
+    shell: "python2 bin/ntseq.py -f {MINFAMMEMBER} --header -loc {CDSLOC}/"
+
+rule retrieve_up:
+    """Retrieve upstream sequences."""
+    shell: "python2 bin/gff/main.py -l {MAXLEN} -ml {MINLEN} -f {LOWFAMMEMBER} -mf {MINFAMMEMBER} -loc {UPSTREAM}/ --head"
