@@ -40,38 +40,38 @@ rule bigfoot:
 
 rule gene_tree:
     """Create a new tree to be compatible with BigFoot"""
-    input: "bin/scripts/editnewick.py", "{family}CDS.phyl_phyml_tree.txt"
+    input: "bin/scripts/editnewick.py", "{family}.CDS.phyl_phyml_tree.txt"
     output: "{family}.newick"
     shell: "python2 {input} {output}"
 
 rule phyml_tree:
     """Compute ML gene tree."""
-    input: "{family}CDS.phyl"
-    output: "{family}CDS.phyl_phyml_tree"
+    input: "{family}.CDS.phyl"
+    output: "{family}.CDS.phyl_phyml_tree"
     shell: "phyml -i {input}"
 
 rule fasta_to_phylip:
     """Convert Fasta to Phylip sequences."""
-    input: "{family}CDS.e.fasta"
-    output: "{family}CDS.phyl"
+    input: "{family}.CDS.e.fasta"
+    output: "{family}.CDS.phyl"
     shell: "perl bin/scripts/ConvertFastatoPhylip.pl {input} {output}"
 
 rule match_seqs:
     """Matching sequences between CDS and family."""
-    input: "bin/scripts/extractmatch.py", "{family}.fasta", "{family}CDS.fasta"
-    output: "{family}CDS.e.fasta"
+    input: "bin/scripts/extractmatch.py", "{family}.fasta", "{family}.CDS.fasta"
+    output: "{family}.CDS.e.fasta"
     shell: "python2 {input} {output}"
 
 rule transform_CDS_header:
     """Reduce CDS header."""
-    input: "bin/scripts/fastaheader.py", "{family}CDS.nt_ali.fasta"
-    output: "{family}CDS.fasta"
+    input: "bin/scripts/fastaheader.py", "{family}.CDS.nt_ali.fasta"
+    output: "{family}.CDS.fasta"
     shell: "python2 {input} '|' {output}"
 
 rule align_CDS:
     """Aligning CDSs"""
     input: "{family}.fasta"
-    output: "{family}CDS.nt_ali.fasta"
+    output: "{family}.CDS.nt_ali.fasta"
     run:
         outfile = output.split(".")[0]
         shell("perl bin/scripts/translatorx_vLocal.pl -c 6 -i {input} -o {outfile}")
