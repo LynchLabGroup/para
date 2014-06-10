@@ -22,7 +22,7 @@ threshold = as.numeric(quant[9]) # Take 98% quantile
 high_exp = subset(expression_file, xp >= threshold)
 
 # Return list of non ribosomal highly expressed genes
-matching = high_exp[!high_exp %in% as.factor(ribo.names), 1]
+matching = high_exp[!high_exp[,1] %in% as.factor(ribo.names), 1]
 
 write.table(matching, "results/highnonmatch.txt", quote=FALSE, row.names=FALSE, col.names=FALSE)
 }
