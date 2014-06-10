@@ -19,10 +19,20 @@ MINWIDTH = 4
 NMOTIFS = 5
 BFPARAM = "10000,20000,1000"
 
+ruleorder: all > meme_lengths > int_motifs
+
 rule all:
     input: RES
 
+rule meme_lengths:
+    input: all
+    threads: 1
+    output: "results/MEMEOutputsLengths.txt"
+    shell: "bin/scripts/memelen.sh > {input}"
+
 rule int_motifs:
+    input: all
+    threads: 1
     output: "{RESULTS}/BFMotifsSummary.txt"
     shell: "cd results/ && echo 'Looking for interesting motifs...'' && \
       .. /bin/scripts/intmotifs.sh BFMotifsSummary.txt && cd .."
@@ -95,8 +105,8 @@ rule edit_upstream:
 
 rule make_dir:
     """Make given dir"""
-    input: "{UPSTREAM}/{family}.fasta"
-    output: "{RESULTS}/{family}/"
+    input: UPSTREAM+"/{family}.fasta"
+    output: RESULTS+"/{family}/"
     shell: "mkdir -p"
 
 rule retrieve_CDS:
