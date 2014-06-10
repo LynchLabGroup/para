@@ -4,6 +4,8 @@ import os
 import glob
 
 RES = [os.path.splitext(famfile)[0]+".comp" for famfile in glob.glob("results/WGD2ANC0000*/WGD2ANC0[0-9][0-9][0-9][0-9].motifs")]
+UPSTREAM = "data/families/WGD2/upstream"
+RESULTS = "results"
 EVAL = 0.001
 PREDTHRE = 0.9
 ALITHRE = 0.8
@@ -16,15 +18,15 @@ rule all:
 
 rule comp:
     """Rule to produce motifs comparison between Bigfoot and MEME motifs"""
-    input: "bin/bigfoot/memecomp.py", "{family}.motifs", "{family}.meme.motifs"
+    input: "{family}.motifs", "{family}.meme.motifs"
     output: "{family}.comp"
-    shell: "python2 {input} -e {EVAL} -o {output}"
+    shell: "python2 bin/bigfoot/memecomp.py {input} -e {EVAL} -o {output}"
 
 rule bigfoot_motifs:
     """Parse BigFoot's outputs to produce .motifs files"""
-    input: "bin/bigfoot/setup.py", "{family}.fasta.mpd", "{family}.fasta.pred"
+    input:  "{family}.fasta.mpd", "{family}.fasta.pred"
     output: "{family}.motifs"
-    shell: "python2 {input} -o {output} -t {PREDTHRE} -a {ALITHRE}"
+    shell: "python2 bin/bigfoot/setup.py {input} -o {output} -t {PREDTHRE} -a {ALITHRE}"
 
 rule meme_motifs:
     """Find motifs in sequence with MEME."""
@@ -40,9 +42,9 @@ rule bigfoot:
 
 rule gene_tree:
     """Create a new tree to be compatible with BigFoot"""
-    input: "bin/scripts/editnewick.py", "{family}.CDS.phyl_phyml_tree.txt"
+    input: "{family}.CDS.phyl_phyml_tree.txt"
     output: "{family}.CDS.newick"
-    shell: "python2 {input} {output}"
+    shell: "python2 bin/scripts/editnewick.py {input} {output}"
 
 rule phyml_tree:
     """Compute ML gene tree."""
@@ -58,15 +60,15 @@ rule fasta_to_phylip:
 
 rule match_seqs:
     """Matching sequences between CDS and family."""
-    input: "bin/scripts/extractmatch.py", "{family}.fasta", "{family}.CDS.fasta"
+    input: "{family}.fasta", "{family}.CDS.fasta"
     output: "{family}.CDS.e.fasta"
-    shell: "python2 {input} {output}"
+    shell: "python2 bin/scripts/extractmatch.py {input} {output}"
 
 rule transform_CDS_header:
     """Reduce CDS header."""
-    input: "bin/scripts/fastaheader.py", "{family}.CDS.nt_ali.fasta"
+    input: "{family}.CDS.nt_ali.fasta"
     output: "{family}.CDS.fasta"
-    shell: "python2 {input} '|' {output}"
+    shell: "python2 bin/scripts/fastaheader.py {input} '|' {output}"
 
 rule align_CDS:
     """Aligning CDSs"""
@@ -74,3 +76,15 @@ rule align_CDS:
     params: prefix="{family}.CDS"
     output: "{family}.CDS.nt_ali.fasta"
     shell: "perl bin/scripts/translatorx_vLocal.pl -c 6 -i {input} -o {params.prefix}"
+
+rule edit_upstream:
+    """Edit upstream sequences and move them into results folder."""
+    input: "{UPSTREAM}/{family}.fasta", "{RESULTS}/{family}/"
+    output: "{RESULTS}/{family}/{family}.fasta"
+    shell: "python2 bin/scripts/fastaheader.py {input[0]} '|' {output}"
+
+rule make_dir:
+    """Make given dir"""
+    input: "{UPSTREAM}/{family}.fasta"
+    output: "{RESULTS}/{family}/"
+    shell: "mkdir -p"
