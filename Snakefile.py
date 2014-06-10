@@ -22,6 +22,10 @@ BFPARAM = "10000,20000,1000"
 rule all:
     input: RES
 
+rule int_motifs:
+    output: "{RESULTS}/BFMotifsSummary.txt"
+    shell: "cd results/ && echo 'Looking for interesting motifs...'' && \
+      .. /bin/scripts/intmotifs.sh BFMotifsSummary.txt && cd .."
 rule comp:
     """Rule to produce motifs comparison between Bigfoot and MEME motifs"""
     input: "{family}.motifs", "{family}.meme.motifs"
@@ -97,8 +101,10 @@ rule make_dir:
 
 rule retrieve_CDS:
     """Retrieve CDSs according to families"""
+    threads: 1
     shell: "python2 bin/ntseq.py -f {MINFAMMEMBER} --header -loc {CDSLOC}/"
 
 rule retrieve_up:
     """Retrieve upstream sequences."""
+    threads: 1
     shell: "python2 bin/gff/main.py -l {MAXLEN} -ml {MINLEN} -f {LOWFAMMEMBER} -mf {MINFAMMEMBER} -loc {UPSTREAM}/ --head"
