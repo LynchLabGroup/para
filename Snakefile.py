@@ -24,7 +24,7 @@ rule bigfoot_motifs:
     """Parse BigFoot's outputs to produce .motifs files"""
     input: "bin/bigfoot/setup.py", "{family}.fasta.mpd", "{family}.fasta.pred"
     output: "{family}.motifs"
-    shell "python2 {input} -o {output} -t {PREDTHRE} -a {ALITHRE}"
+    shell: "python2 {input} -o {output} -t {PREDTHRE} -a {ALITHRE}"
 
 rule meme_motifs:
     """Find motifs in sequence with MEME."""
