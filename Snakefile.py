@@ -19,6 +19,21 @@ MINWIDTH = 4
 NMOTIFS = 5
 BFPARAM = "10000,20000,1000"
 
+### Rules for Retrieving Sequences
+
+rule retrieve_CDS:
+    """Retrieve CDSs according to families"""
+    output: temp("{RESULTS}/tempCDS")
+    threads: 1
+    shell: "python2 bin/ntseq.py -f {MINFAMMEMBER} --header -loc {CDSLOC}/"
+
+rule retrieve_up:
+    """Retrieve upstream sequences."""
+    output: temp("{RESULTS}/tempup")
+    threads: 1
+    shell: "python2 bin/gff/main.py -l {MAXLEN} -ml {MINLEN} -f {LOWFAMMEMBER} -mf {MINFAMMEMBER} -loc {UPSTREAM}/ --head"
+
+### Making dir
 rule make_dir:
     """Make given dir"""
     input: expand("{UPSTREAM}/{{family}}.fasta", UPSTREAM=UPSTREAM)
@@ -26,6 +41,85 @@ rule make_dir:
     run:
         shell("mkdir -p  " + output.outfiles)
 
+
+### Operations on upstream seqs
+rule edit_upstream:
+    """Edit upstream sequences and move them into results folder."""
+    input: UPSTREAM+"/{family}.fasta", rules.make_dir.output
+    output: RESULTS+"/{family}/{family}.fasta"
+    shell: """
+    python2 bin/scripts/fastaheader.py {input[0]} '|' {output}
+    rm {input[1]}
+    """
+
+### Operations on CDSs
+rule align_CDS:
+    """Aligning CDSs"""
+    input: "{family}.fasta", "{family}.CDS.fasta"
+    params: prefix="{family}.CDS"
+    output: "{family}.CDS.nt_ali.fasta"
+    shell: "perl bin/scripts/translatorx_vLocal.pl -c 6 -i {input} -o {params.prefix}"
+
+rule transform_CDS_header:
+    """Reduce CDS header."""
+    input: "{family}.CDS.nt_ali.fasta"
+    output: "{family}.CDS.fasta"
+    shell: "python2 bin/scripts/fastaheader.py {input} '|' {output}"
+
+rule match_seqs:
+    """Matching sequences between CDS and family."""
+    input: "{family}.fasta", "{family}.CDS.fasta"
+    output: "{family}.CDS.e.fasta"
+    shell: "python2 bin/scripts/extractmatch.py {input} {output}"
+
+rule fasta_to_phylip:
+    """Convert Fasta to Phylip sequences."""
+    input: "{family}.CDS.e.fasta"
+    output: "{family}.CDS.phyl"
+    shell: "perl bin/scripts/ConvertFastatoPhylip.pl {input} {output}"
+
+rule phyml_tree:
+    """Compute ML gene tree."""
+    input: "{family}.CDS.phyl"
+    output: "{family}.CDS.phyl_phyml_tree"
+    shell: "phyml -i {input}"
+
+rule gene_tree:
+    """Create a new tree to be compatible with BigFoot"""
+    input: "{family}.CDS.phyl_phyml_tree.txt"
+    output: "{family}.CDS.newick"
+    shell: "python2 bin/scripts/editnewick.py {input} {output}"
+
+
+### Motif finding
+rule bigfoot:
+    """Use BigFoot on given files"""
+    input: "{family}.fasta", "{family}.newick"
+    output: "{family}.fasta.mpd", "{family}.fasta.pred"
+    shell: "java -jar ../BigFoot/BigFoot.jar -t {input[1]} -p={BFPARAM} {input[0]}"
+
+rule meme_motifs:
+    """Find motifs in sequence with MEME."""
+    input: "{family}.fasta"
+    output: "{family}.meme.motifs"
+    shell: "meme -minw {MINWIDTH} -nmotifs {NMOTIFS} -evt {EVAL} -dna -text {input} >> {output}"
+
+rule bigfoot_motifs:
+    """Parse BigFoot's outputs to produce .motifs files"""
+    input:  "{family}.fasta.mpd", "{family}.fasta.pred"
+    output: "{family}.motifs"
+    shell: "python2 bin/bigfoot/setup.py {input} -o {output} -t {PREDTHRE} -a {ALITHRE}"
+
+rule comp:
+    """Rule to produce motifs comparison between Bigfoot and MEME motifs"""
+    input: "{family}.motifs", "{family}.meme.motifs"
+    output: "{family}.comp"
+    shell: "python2 bin/bigfoot/memecomp.py {input} -e {EVAL} -o {output}"
+
+### Analysis
+
+
+### General Rules ###
 rule all:
     input: RES
 
@@ -34,88 +128,16 @@ rule meme_lengths:
     threads: 1
     output: "results/MEMEOutputsLengths.txt"
     shell: "bin/scripts/memelen.sh > {input}"
-
 rule int_motifs:
     input: all
     threads: 1
     output: "{RESULTS}/BFMotifsSummary.txt"
     shell: "cd results/ && echo 'Looking for interesting motifs...'' && \
       .. /bin/scripts/intmotifs.sh BFMotifsSummary.txt && cd .."
-rule comp:
-    """Rule to produce motifs comparison between Bigfoot and MEME motifs"""
-    input: "{family}.motifs", "{family}.meme.motifs"
-    output: "{family}.comp"
-    shell: "python2 bin/bigfoot/memecomp.py {input} -e {EVAL} -o {output}"
-
-rule bigfoot_motifs:
-    """Parse BigFoot's outputs to produce .motifs files"""
-    input:  "{family}.fasta.mpd", "{family}.fasta.pred"
-    output: "{family}.motifs"
-    shell: "python2 bin/bigfoot/setup.py {input} -o {output} -t {PREDTHRE} -a {ALITHRE}"
-
-rule meme_motifs:
-    """Find motifs in sequence with MEME."""
-    input: "{family}.fasta"
-    output: "{family}.meme.motifs"
-    shell: "meme -minw {MINWIDTH} -nmotifs {NMOTIFS} -evt {EVAL} -dna -text {input} >> {output}"
-
-rule bigfoot:
-    """Use BigFoot on given files"""
-    input: "{family}.fasta", "{family}.newick"
-    output: "{family}.fasta.mpd", "{family}.fasta.pred"
-    shell: "java -jar ../BigFoot/BigFoot.jar -t {input[1]} -p={BFPARAM} {input[0]}"
-
-rule gene_tree:
-    """Create a new tree to be compatible with BigFoot"""
-    input: "{family}.CDS.phyl_phyml_tree.txt"
-    output: "{family}.CDS.newick"
-    shell: "python2 bin/scripts/editnewick.py {input} {output}"
-
-rule phyml_tree:
-    """Compute ML gene tree."""
-    input: "{family}.CDS.phyl"
-    output: "{family}.CDS.phyl_phyml_tree"
-    shell: "phyml -i {input}"
-
-rule fasta_to_phylip:
-    """Convert Fasta to Phylip sequences."""
-    input: "{family}.CDS.e.fasta"
-    output: "{family}.CDS.phyl"
-    shell: "perl bin/scripts/ConvertFastatoPhylip.pl {input} {output}"
-
-rule match_seqs:
-    """Matching sequences between CDS and family."""
-    input: "{family}.fasta", "{family}.CDS.fasta"
-    output: "{family}.CDS.e.fasta"
-    shell: "python2 bin/scripts/extractmatch.py {input} {output}"
-
-rule transform_CDS_header:
-    """Reduce CDS header."""
-    input: "{family}.CDS.nt_ali.fasta"
-    output: "{family}.CDS.fasta"
-    shell: "python2 bin/scripts/fastaheader.py {input} '|' {output}"
-
-rule align_CDS:
-    """Aligning CDSs"""
-    input: "{family}.fasta", "{family}.CDS.fasta"
-    params: prefix="{family}.CDS"
-    output: "{family}.CDS.nt_ali.fasta"
-    shell: "perl bin/scripts/translatorx_vLocal.pl -c 6 -i {input} -o {params.prefix}"
-
-rule edit_upstream:
-    """Edit upstream sequences and move them into results folder."""
-    input: UPSTREAM+"/{family}.fasta", rules.make_dir.output
-    output: RESULTS+"/{family}/{family}.fasta"
-    shell: "python2 bin/scripts/fastaheader.py {input[0]} '|' {output}"
 
 
 
-rule retrieve_CDS:
-    """Retrieve CDSs according to families"""
-    threads: 1
-    shell: "python2 bin/ntseq.py -f {MINFAMMEMBER} --header -loc {CDSLOC}/"
 
-rule retrieve_up:
-    """Retrieve upstream sequences."""
-    threads: 1
-    shell: "python2 bin/gff/main.py -l {MAXLEN} -ml {MINLEN} -f {LOWFAMMEMBER} -mf {MINFAMMEMBER} -loc {UPSTREAM}/ --head"
+
+
+
