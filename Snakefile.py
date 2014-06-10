@@ -19,8 +19,6 @@ MINWIDTH = 4
 NMOTIFS = 5
 BFPARAM = "10000,20000,1000"
 
-ruleorder: all > meme_lengths > int_motifs
-
 rule all:
     input: RES
 
@@ -97,17 +95,19 @@ rule align_CDS:
     output: "{family}.CDS.nt_ali.fasta"
     shell: "perl bin/scripts/translatorx_vLocal.pl -c 6 -i {input} -o {params.prefix}"
 
-rule edit_upstream:
-    """Edit upstream sequences and move them into results folder."""
-    input: UPSTREAM+"/{family}.fasta", RESULTS+"/{family}/"
-    output: RESULTS+"/{family}/{family}.fasta"
-    shell: "python2 bin/scripts/fastaheader.py {input[0]} '|' {output}"
-
 rule make_dir:
     """Make given dir"""
     input: UPSTREAM+"/{family}.fasta"
     output: RESULTS+"/{family}/"
-    shell: "mkdir -p"
+    shell: "mkdir -p {output}"
+
+rule edit_upstream:
+    """Edit upstream sequences and move them into results folder."""
+    input: UPSTREAM+"/{family}.fasta", make_dir
+    output: RESULTS+"/{family}/{family}.fasta"
+    shell: "python2 bin/scripts/fastaheader.py {input[0]} '|' {output}"
+
+
 
 rule retrieve_CDS:
     """Retrieve CDSs according to families"""
