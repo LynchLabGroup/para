@@ -60,7 +60,7 @@ rule match_seqs:
     """Matching sequences between CDS and family."""
     input: "bin/scripts/extractmatch.py", "{family}.fasta", "{family}CDS.fasta"
     output: "{family}CDS.e.fasta"
-    shell "python2 {input} {output}"
+    shell: "python2 {input} {output}"
 
 rule transform_CDS_header:
     """Reduce CDS header."""
