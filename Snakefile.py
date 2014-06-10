@@ -7,6 +7,9 @@ RES = [os.path.splitext(famfile)[0]+".comp" for famfile in glob.glob("results/WG
 EVAL = 0.001
 PREDTHRE = 0.9
 ALITHRE = 0.8
+MINWIDTH = 4
+NMOTIFS = 5
+BFPARAM = "10000,20000,1000"
 
 rule all:
     input: RES
@@ -22,3 +25,15 @@ rule bigfoot_motifs:
     input: "bin/bigfoot/setup.py", "{family}.fasta.mpd", "{family}.fasta.pred"
     output: "{family}.motifs"
     shell "python2 {input} -o {output} -t {PREDTHRE} -a {ALITHRE}"
+
+rule meme_motifs:
+    """Find motifs in sequence with MEME."""
+    input: "{family}.fasta"
+    output: "{family}.meme.motifs"
+    shell: "meme -minw {MINWIDTH} -nmotifs {NMOTIFS} -evt {EVAL} -dna -text {input} >> {output}"
+
+rule bigfoot:
+    """Use BigFoot on given files"""
+    input: "{family}.fasta", "{family}.newick"
+    output: "{family}.fasta.mpd", "{family}.fasta.pred"
+    shell: "java -jar ../BigFoot/BigFoot.jar -t {input[1]} -p={BFPARAM} {input[0]}"
