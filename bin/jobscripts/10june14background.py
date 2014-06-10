@@ -18,7 +18,7 @@ fasta = pg.load_fasta("data/tetraurelia/ptetraurelia_mac_51.fa")
 with open("results/highnonmatch.txt", "r") as infile:
     records = [line.rstrip("\n") for line in infile.xreadlines()]
 pdb.set_trace()
-upstream_seqs = gff_func.retrieve_up(records, gff, fasta)[0]
+upstream_seqs = gff_func.retrieve_up(records, gff, fasta, 250, 15)[0]
 
 # Select only retrieved sequences
 upstream = [seq for seq in upstream_seqs if len(seq) > 1]
