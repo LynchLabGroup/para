@@ -99,8 +99,8 @@ rule align_CDS:
 
 rule edit_upstream:
     """Edit upstream sequences and move them into results folder."""
-    input: "{UPSTREAM}/{family}.fasta", "{RESULTS}/{family}/"
-    output: "{RESULTS}/{family}/{family}.fasta"
+    input: UPSTREAM+"/{family}.fasta", RESULTS+"/{family}/"
+    output: RESULTS+"/{family}/{family}.fasta"
     shell: "python2 bin/scripts/fastaheader.py {input[0]} '|' {output}"
 
 rule make_dir:
