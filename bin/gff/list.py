@@ -29,11 +29,11 @@ def main():
     parser = argparse.ArgumentParser(description="Setup program to extract \
         upstream sequences")
 
-    parser.add_argument("genelist", description="Simple list of genes you want \
+    parser.add_argument("genelist", help="Simple list of genes you want \
         to extract upstream regions, without header")
-    parser.add_argument("outputname", description="Fasta output file")
-    parser.add_argument("gff", description="GFF file to use")
-    parser.add_argument("fasta", description="Genome Fasta file to use")
+    parser.add_argument("outputname", help="Fasta output file")
+    parser.add_argument("gff", help="GFF file to use")
+    parser.add_argument("fasta", help="Genome Fasta file to use")
 
     args = parser.parse_args()
 
