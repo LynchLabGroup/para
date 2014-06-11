@@ -10,17 +10,17 @@ suppressPackageStartupMessages(library(argparse))
 ### Functions ###
 high.non.match <- function(expression_file, ribo.seqs, quantile) {
 # Extract names of ribosomal genes
-expression_file = read.table(expression_file, h=TRUE)
+expression_table = read.table(expression_file, h=TRUE)
 ribo.seqs = read.fasta(ribo.seqs)
 ribo.names = attr(ribo.seqs, "name")
 
 # Compute quantile 
-print(quantile(expression_file$xp, probs=seq(0.9,1,0.01)))
-quant = quantile(expression_file$xp, probs=quantile)
+print(quantile(expression_table$xp, probs=seq(0.9,1,0.01)))
+quant = quantile(expression_table$xp, probs=quantile)
 
 threshold = as.numeric(quant)  # Take 98% quantile
 
-high_exp = subset(expression_file, xp >= threshold)
+high_exp = subset(expression_table, xp >= threshold)
 
 # Return list of non ribosomal highly expressed genes
 matching = high_exp[!high_exp$gene_id %in% as.factor(ribo.names), 1]
