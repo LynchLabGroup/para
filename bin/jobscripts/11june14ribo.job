@@ -24,10 +24,11 @@ getriboids() {
     local output=$2
     local rep_field=$3
     grep "RIBOSOMAL PROTEIN" $annotation | awk '{print $1}' > $output
-    sed s:.:G:$rep_field $output
+    sed s:.:G:$rep_field $output > $output.temp
+    mv $output.tmp > $output
 }
 
-DIRECTORY="results/ribo"
+DIRECTORY="results/ribo/"
 THRESHOLD=0.98
 FILES="data/biaurelia/biaurelia_allinfo.panther \
 data/caudatum/caudatum_allinfo.panther \
