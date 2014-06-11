@@ -18,6 +18,7 @@ ALITHRE = 0.8
 MINWIDTH = 4
 NMOTIFS = 5
 BFPARAM = "10000,20000,1000"
+OVERLAP = 0.9
 
 ### Rules for Retrieving Sequences
 
@@ -114,7 +115,7 @@ rule comp:
     """Rule to produce motifs comparison between Bigfoot and MEME motifs"""
     input: "{family}.motifs", "{family}.meme.motifs"
     output: "{family}.comp"
-    shell: "python2 bin/bigfoot/memecomp.py {input} -e {EVAL} -o {output}"
+    shell: "python2 bin/bigfoot/memecomp.py {input} -t {OVERLAP} -e {EVAL} -o {output}"
 
 ### General Rules ###
 rule all:
