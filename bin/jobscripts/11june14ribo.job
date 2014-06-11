@@ -6,7 +6,7 @@
 #PBS -N RiboProteins
 #PBS -j oe
 module load R
-
+set -xv
 # for each species
 #    grep RIBOSOMAL PROTEINS in annotation
 #    get prot ids
