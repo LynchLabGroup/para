@@ -5,6 +5,7 @@
 #PBS -m be
 #PBS -N RiboProteins
 #PBS -j oe
+module load R
 
 # for each species
 #    grep RIBOSOMAL PROTEINS in annotation
