@@ -37,7 +37,7 @@ data/tetraurelia/tetraurelia_allinfo.panther"
 
 echo "Job Started at: "; date
 cd para/
-if [! -d "$DIRECTORY" ]; then
+if [ ! -d "$DIRECTORY" ]; then
     mkdir $DIRECTORY
 fi
 
