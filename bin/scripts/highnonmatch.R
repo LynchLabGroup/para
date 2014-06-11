@@ -37,8 +37,8 @@ args <- parser$parse_args()
 
 
 ### Data loading ###
-exp = read.table(args$expfile, h=TRUE)  # Expression data
-ribo.seqs = read.fasta(args$sequences)  # Ribosomal upstream sequences
+exp = args$expfile  # Expression data
+ribo.seqs = args$sequences  # Ribosomal upstream sequences
 
 
 ### Computing ###
