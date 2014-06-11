@@ -18,6 +18,13 @@ Depending on what you want to do, several programs can be used.
 
 Contains all the files for parsing bigfoot's outputs:
 
++ **classify.py** command-line interface script to produce various indexes on motifs
+   Usage:
+   ```shell
+   python classify.py seqtabfile outputfile -f seqfieldnumber [--header]
+   ```
+   see `python classify.py -h` for more detailed help
+
 + **memecomp.py** use Biopython motifs subpackage to compute the differences between MEME and BigFoot outputs
 
    Usage:
@@ -25,13 +32,27 @@ Contains all the files for parsing bigfoot's outputs:
    python memecomp.py bigfoot_output meme_output
    ```
    See `python memecomp.py -h` for detailed help
+
++ **memeextract.py** extract motifs from MEME XML files.
+   Usage:
+   ```shell
+   python memeextract.py evalue outputfile memexmlfile1 [memexmlfile2 ...]
+   ```
+   See `python memeextract.py -h` for detailed help
+
 + **parser.py** contains the class SeqParser to parse BigFoot's outputs file `.mpd` and `.pred`
+
 + **setup.py** uses `weight.py` and `parser.py` to parse BigFoot's outputs file. Command-line interface.
    Usage:
    ```shell
    python setup.py bigfoot_file.mpd bigfoot_file.pred
    ```
    See `python setup.py -h` for detailed help
++ **stamp.py** generate motif alignment from `memecomp.sh` output
+   Usage:
+   ```shell
+   python stamp.py memecomp_output output_file
+   ```
 + **weight.py** contains WeightedSeq class, to parse the various sequences in `.pred` files
 
 ### `gff` folder ###
@@ -45,6 +66,8 @@ Contains all the jobscripts submitted to Mason. `setup.job` contains the whole p
 ### `scripts` folder ###
 
 Folder containing all little scripts to automate certain tasks:
+
++ **allcomp.sh** contains command to create a summary of found motifs in .comp files
 
 + **ConvertFastatoPhylip.pl** Perl script to convert Fasta format files to Phylip format -> make sequences usable by PhyML. from [drmuhammadmunir](https://github.com/drmuhammadmunir/perl)
 + **diff.sh** script to compare two (local folders) and print the result in a out file.
@@ -60,6 +83,8 @@ Folder containing all little scripts to automate certain tasks:
    ```shell
    python editnewick.py inputfile outputfile
    ```
+
++ **erasediscard.sh** erase families in discarded files, *USELESS* now that discarded families are not retrieved
 
 + **extractmatch.py** Python script to write a fasta file from matching names with another fasta files.
 
@@ -87,10 +112,17 @@ Folder containing all little scripts to automate certain tasks:
    python fastaheader.py fastafile "|" outputfile
    ```
 
++ **genomeextract.sh** use custom script to extract motifs in all species, work on BigFoot's and MEME's
+
++ **highnonmatch.R**, R script to extract non ribosomal highly expressed genes 
+
 + **intergenic.sh** script to compute intergenic distances in specific species
    **/!\\** Modify to change path to files.
 
 + **intmotifs.sh** script to extract motifs sizes and distances from results.
++ **memecomp.sh** script to use MEME and `memecomp.py` on all available families
++ **memelen.sh** show the length of all motifs in `.meme.motifs` files
++ **motifslengths.sh** command example to compute the length of all BigFoot's motifs
 + **multialign.sh** creates multialignment file using MUSCLE
 + **mvoverlap.sh** move families described in overlap file
 + **order.sh** recreate sequences file from multialignment to conserve original family order
@@ -136,3 +168,11 @@ Contains several scripts to study various subjects:
 + **familysize** contains scripts to study family sizes and according results
 + **intergene** contains intergenic distance computation
 + **motifs sizes** contains everything to compute sizes of motifs and family
+
+### TO DO ###
+
+- [ ] Implement testing
+- [ ] Add example codes
+- [ ] Tidy Up repo (delete tests and unused bash script)
+- [ ] Implement R script CLI
+- [ ] Implement bash script CLI 
