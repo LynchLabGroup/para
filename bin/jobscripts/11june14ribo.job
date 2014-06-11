@@ -25,7 +25,7 @@ getriboids() {
     local rep_field=$3
     grep "RIBOSOMAL PROTEIN" $annotation | awk '{print $1}' > $output
     sed s:.:G:$rep_field $output > $output.temp
-    mv $output.tmp > $output
+    mv $output.temp $output
 }
 
 DIRECTORY="results/ribo/"
@@ -37,7 +37,7 @@ data/tetraurelia/tetraurelia_allinfo.panther"
 
 echo "Job Started at: "; date
 cd para/
-if [ -d "$DIRECTORY" ]; then
+if [! -d "$DIRECTORY" ]; then
     mkdir $DIRECTORY
 fi
 
