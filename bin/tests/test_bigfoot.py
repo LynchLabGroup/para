@@ -11,6 +11,9 @@ class WeightSeq(unittest.TestCase):
 
     def setUp(self):
         seq = weight.WeightSeq("test\tATTTGC")
+        gapped = weight.WeightSeq("gapped\tGCG-GGGCCC")
+        real = weight.WeightSeq("")
+
     def test_individual_positions(self):
         self.assertEqual(seq[1], "A")
         self.assertEqual(seq[5], "G")
@@ -26,8 +29,12 @@ class WeightSeq(unittest.TestCase):
 
     def test_rawseq(self):
         self.assertEqual(seq.rawseq(), "ATTTGC")
+        self.assertEqual(gapped.rawseq(), "GCGGGGCCC")
 
     def test_name(self):
         self.assertEqual(seq.name(), "test")
-        
+
+    def get_real_pos(self):
+        self.assertEqual(seq.get_real_pos(1), 1)
+        self.assertEqual(gapped.get_real_pos(4), 3)
 
