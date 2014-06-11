@@ -74,7 +74,7 @@ findMotifs.pl ${DIRECTORY}ca.ribo.fa fasta ${DIRECTORY}camotifResults/ -fasta ${
 
 ### Paramecium sexaurelia ###
 # get ribosomal protein IDs
-getriboids data/sexaurelia/sexaurelia_allinfo.panther ${DIRECTORY}sex.ribo 6
+getriboids data/sexaurelia/sexaurelia_allinfo.panther ${DIRECTORY}sex.ribo 7
 # Extract ribosomal proteins upstream sequences
 python bin/gff/list.py ${DIRECTORY}sex.ribo ${DIRECTORY}sex.ribo.fa data/sexaurelia/*gff3 data/sexaurelia/*.fasta
 
@@ -90,7 +90,7 @@ findMotifs.pl ${DIRECTORY}sex.ribo.fa fasta ${DIRECTORY}sexmotifResults/ -fasta 
 
 ### Paramecium tetraurelia ###
 # get ribosomal protein IDs
-getriboids data/tetraurelia/tetraurelia_allinfo.panther ${DIRECTORY}tet.ribo 6
+getriboids data/tetraurelia/tetraurelia_allinfo.panther ${DIRECTORY}tet.ribo 8
 # Extract ribosomal proteins upstream sequences
 python bin/gff/list.py ${DIRECTORY}tet.ribo ${DIRECTORY}tet.ribo.fa data/tetraurelia/*gff3 data/tetraurelia/*.fa
 
