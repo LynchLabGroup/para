@@ -24,7 +24,7 @@ getriboids() {
     local output=$2
     local rep_field=$3
     grep "RIBOSOMAL PROTEIN" $annotation | awk '{print $1}' > $output
-    sed 's/./G/$rep_field' $output
+    sed s:.:G:$rep_field $output
 }
 
 DIRECTORY="results/ribo"
@@ -42,18 +42,18 @@ fi
 
 ### Paramecium biaurelia ###
 
-getriboids data/biaurelia/biaurelia_allinfo.panther $DIRECTORYbi.ribo 6
+getriboids data/biaurelia/biaurelia_allinfo.panther ${DIRECTORY}bi.ribo 6
 
 # Extract ribosomal proteins upstream sequences
-python bin/gff/list.py $DIRECTORYbi.ribo $DIRECTORYbi.ribo.fa data/biaurelia/biaurelia_V1-4_annotation_v1.gff3 data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
+python bin/gff/list.py ${DIRECTORY}bi.ribo ${DIRECTORY}bi.ribo.fa data/biaurelia/biaurelia_V1-4_annotation_v1.gff3 data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
 
 # Get non ribosomal highly expressed genes
-Rscript bin/scripts/highnonmatch.R data/biaurelia/biaurelia_RNAseq_xp.tab $DIRECTORYbi.ribo.fa -t $THRESHOLD -o $DIRECTORYbi.high
+Rscript bin/scripts/highnonmatch.R data/biaurelia/biaurelia_RNAseq_xp.tab ${DIRECTORY}bi.ribo.fa -t $THRESHOLD -o ${DIRECTORY}bi.high
 
 # Extract highly expressed genes upstream sequences
-python bin/gff/list.py $DIRECTORYbi.high $DIRECTORYbi.high.fa data/biaurelia/biaurelia_V1-4_annotation_v1.gff3 data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
+python bin/gff/list.py ${DIRECTORY}bi.high ${DIRECTORY}bi.high.fa data/biaurelia/biaurelia_V1-4_annotation_v1.gff3 data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
 
 # Use HOMER to search for motifs
-findMotifs.pl $DIRECTORYbi.ribo.fa fasta bimotifResults/ -fasta $DIRECTORYbi.high.fa
+findMotifs.pl ${DIRECTORY}bi.ribo.fa fasta bimotifResults/ -fasta ${DIRECTORY}bi.high.fa
 
 echo "Job Finished at:";date
