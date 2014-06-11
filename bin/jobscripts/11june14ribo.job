@@ -1,0 +1,34 @@
+#!/bin/env bash
+#PBS -k o
+#PBS -l nodes=1:ppn=2,vmem=14gb,walltime=03:00:00
+#PBS -M mgrenie@indiana.edu
+#PBS -m be
+#PBS -N RiboProteins
+#PBS -j oe
+
+# for each species
+#    grep RIBOSOMAL PROTEINS in annotation
+#    get prot ids
+#    replace them with gene ids
+#    write file
+#    extract upstream sequences
+#    list 2% higher expressed non ribo genes
+#    write file
+#    extract their upstream sequences
+#    use Homer to compare
+
+# Retrieve all ribosomal protein in annotation and create file with gene ids
+getriboids() {
+    local annotation=$1
+    local output=$2
+    local rep_field=$3
+    grep "RIBOSOMAL PROTEIN" $annotation | awk '{print $1}' > $output
+    sed 's/./G/$rep_field' $output
+    mv $output
+}
+echo "Job Started at: "; date
+cd para/
+
+
+
+echo "Job Finished at:";date
