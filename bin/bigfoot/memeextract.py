@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 """
 Memeextract.py is a python command-line program to extract relevant TFBS motifs
-from MEME XM outputs.
+from MEME XML outputs.
 """
-import pdb
 
 
 def parse_file(filename, evalue):
