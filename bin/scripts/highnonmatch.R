@@ -1,11 +1,10 @@
+#!/usr/bin/Rscript
 # highnonmatch.R
 # Find non matching names between highly expressed and ribosomal genes
 
-library(seqinr)
-
-# Data loading
-exp = read.table("data/tetraurelia_RNAseq_xp.tab", h=TRUE) # Expression data
-ribo.seqs = read.fasta("../ribo.upstream.fa") # Ribosomal upstream sequences
+# Command-line parser
+options(echo=FALSE) # if you want see commands in output file
+args <- commandArgs(trailingOnly = TRUE)
 
 high.non.match <- function(expression_file, ribo.seqs) {
 # Extract names of ribosomal genes
@@ -26,3 +25,12 @@ matching = high_exp[!high_exp[,1] %in% as.factor(ribo.names), 1]
 
 write.table(matching, "results/highnonmatch.txt", quote=FALSE, row.names=FALSE, col.names=FALSE)
 }
+
+
+print(args[1])
+
+library(seqinr)
+
+# Data loading
+exp = read.table("data/tetraurelia_RNAseq_xp.tab", h=TRUE) # Expression data
+ribo.seqs = read.fasta("../ribo.upstream.fa") # Ribosomal upstream sequences
