@@ -42,19 +42,66 @@ if [ ! -d "$DIRECTORY" ]; then
 fi
 
 ### Paramecium biaurelia ###
-
+# get ribosomal protein IDs
 getriboids data/biaurelia/biaurelia_allinfo.panther ${DIRECTORY}bi.ribo 6
-
 # Extract ribosomal proteins upstream sequences
-python bin/gff/list.py ${DIRECTORY}bi.ribo ${DIRECTORY}bi.ribo.fa data/biaurelia/biaurelia_V1-4_annotation_v1.gff3 data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
+python bin/gff/list.py ${DIRECTORY}bi.ribo ${DIRECTORY}bi.ribo.fa data/biaurelia/*gff3 data/biaurelia/*.fasta
 
 # Get non ribosomal highly expressed genes
-Rscript bin/scripts/highnonmatch.R data/biaurelia/biaurelia_RNAseq_xp.tab ${DIRECTORY}bi.ribo.fa -t $THRESHOLD -o ${DIRECTORY}bi.high
+Rscript bin/scripts/highnonmatch.R data/biaurelia/*.tab ${DIRECTORY}bi.ribo.fa -t $THRESHOLD -o ${DIRECTORY}bi.high
 
 # Extract highly expressed genes upstream sequences
-python bin/gff/list.py ${DIRECTORY}bi.high ${DIRECTORY}bi.high.fa data/biaurelia/biaurelia_V1-4_annotation_v1.gff3 data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
+python bin/gff/list.py ${DIRECTORY}bi.high ${DIRECTORY}bi.high.fa data/biaurelia/*gff3 data/biaurelia/*.fasta
 
 # Use HOMER to search for motifs
-findMotifs.pl ${DIRECTORY}bi.ribo.fa fasta bimotifResults/ -fasta ${DIRECTORY}bi.high.fa
+findMotifs.pl ${DIRECTORY}bi.ribo.fa fasta ${DIRECTORY}bimotifResults/ -fasta ${DIRECTORY}bi.high.fa
+
+
+### Paramecium caudatum ###
+# get ribosomal protein IDs
+getriboids data/caudatum/caudatum_allinfo.panther ${DIRECTORY}ca.ribo 6
+# Extract ribosomal proteins upstream sequences
+python bin/gff/list.py ${DIRECTORY}ca.ribo ${DIRECTORY}ca.ribo.fa data/caudatum/*gff3 data/caudatum/*.fasta
+
+# Get non ribosomal highly expressed genes
+Rscript bin/scripts/highnonmatch.R data/caudatum/*.tab ${DIRECTORY}ca.ribo.fa -t $THRESHOLD -o ${DIRECTORY}ca.high
+
+# Extract highly expressed genes upstream sequences
+python bin/gff/list.py ${DIRECTORY}ca.high ${DIRECTORY}ca.high.fa data/caudatum/*gff3 data/caudatum/*.fasta
+
+# Use HOMER to search for motifs
+findMotifs.pl ${DIRECTORY}ca.ribo.fa fasta ${DIRECTORY}camotifResults/ -fasta ${DIRECTORY}ca.high.fa
+
+
+### Paramecium sexaurelia ###
+# get ribosomal protein IDs
+getriboids data/sexaurelia/sexaurelia_allinfo.panther ${DIRECTORY}sex.ribo 6
+# Extract ribosomal proteins upstream sequences
+python bin/gff/list.py ${DIRECTORY}sex.ribo ${DIRECTORY}sex.ribo.fa data/sexaurelia/*gff3 data/sexaurelia/*.fasta
+
+# Get non ribosomal highly expressed genes
+Rscript bin/scripts/highnonmatch.R data/sexaurelia/*.tab ${DIRECTORY}sex.ribo.fa -t $THRESHOLD -o ${DIRECTORY}sex.high
+
+# Extract highly expressed genes upstream sequences
+python bin/gff/list.py ${DIRECTORY}sex.high ${DIRECTORY}sex.high.fa data/sexaurelia/*gff3 data/sexaurelia/*.fasta
+
+# Use HOMER to search for motifs
+findMotifs.pl ${DIRECTORY}sex.ribo.fa fasta ${DIRECTORY}sexmotifResults/ -fasta ${DIRECTORY}sex.high.fa
+
+
+### Paramecium tetraurelia ###
+# get ribosomal protein IDs
+getriboids data/tetraurelia/tetraurelia_allinfo.panther ${DIRECTORY}tet.ribo 6
+# Extract ribosomal proteins upstream sequences
+python bin/gff/list.py ${DIRECTORY}tet.ribo ${DIRECTORY}tet.ribo.fa data/tetraurelia/*gff3 data/tetraurelia/*.fa
+
+# Get non ribosomal highly expressed genes
+Rscript bin/scripts/highnonmatch.R data/tetraurelia/*.tab ${DIRECTORY}tet.ribo.fa -t $THRESHOLD -o ${DIRECTORY}tet.high
+
+# Extract highly expressed genes upstream sequences
+python bin/gff/list.py ${DIRECTORY}tet.high ${DIRECTORY}tet.high.fa data/tetraurelia/*gff3 data/tetraurelia/*.fa
+
+# Use HOMER to search for motifs
+findMotifs.pl ${DIRECTORY}tet.ribo.fa fasta ${DIRECTORY}tetmotifResults/ -fasta ${DIRECTORY}tet.high.fa
 
 echo "Job Finished at:";date
