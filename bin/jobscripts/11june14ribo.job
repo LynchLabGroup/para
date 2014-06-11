@@ -24,11 +24,35 @@ getriboids() {
     local rep_field=$3
     grep "RIBOSOMAL PROTEIN" $annotation | awk '{print $1}' > $output
     sed 's/./G/$rep_field' $output
-    mv $output
 }
+
+DIRECTORY="results/ribo"
+THRESHOLD=0.98
+FILES="data/biaurelia/biaurelia_allinfo.panther \
+data/caudatum/caudatum_allinfo.panther \
+data/sexaurelia/sexaurelia_allinfo.panther \
+data/tetraurelia/tetraurelia_allinfo.panther"
+
 echo "Job Started at: "; date
 cd para/
+if [ -d "$DIRECTORY" ]; then
+    mkdir $DIRECTORY
+fi
 
+### Paramecium biaurelia ###
 
+getriboids data/biaurelia/biaurelia_allinfo.panther $DIRECTORYbi.ribo 6
+
+# Extract ribosomal proteins upstream sequences
+python bin/gff/list.py $DIRECTORYbi.ribo $DIRECTORYbi.ribo.fa data/biaurelia/biaurelia_V1-4_annotation_v1.gff3 data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
+
+# Get non ribosomal highly expressed genes
+Rscript bin/scripts/highnonmatch.R data/biaurelia/biaurelia_RNAseq_xp.tab $DIRECTORYbi.ribo.fa -t $THRESHOLD -o $DIRECTORYbi.high
+
+# Extract highly expressed genes upstream sequences
+python bin/gff/list.py $DIRECTORYbi.high $DIRECTORYbi.high.fa data/biaurelia/biaurelia_V1-4_annotation_v1.gff3 data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
+
+# Use HOMER to search for motifs
+findMotifs.pl $DIRECTORYbi.ribo.fa fasta bimotifResults/ -fasta $DIRECTORYbi.high.fa
 
 echo "Job Finished at:";date
