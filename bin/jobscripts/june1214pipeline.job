@@ -1,0 +1,12 @@
+#!/bin/env bash
+#PBS -k o
+#PBS -l nodes=1:ppn=2,vmem=14gb,walltime=03:00:00
+#PBS -M mgrenie@indiana.edu
+#PBS -m be
+#PBS -N Snakefile
+#PBS -j oe
+echo "Job Started at: "; date
+cd para/
+source activate py3para
+snakemake -s Snakefile.py all
+echo "Job Finished at:";date
