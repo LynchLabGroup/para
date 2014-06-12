@@ -1,0 +1,1 @@
+cmd = results/ribo/sex.ribo.fa fasta results/ribo/sexmotifResults/ -fasta results/ribo/sex.high.fa

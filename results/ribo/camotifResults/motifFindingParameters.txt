@@ -1,0 +1,1 @@
+cmd = results/ribo/ca.ribo.fa fasta results/ribo/camotifResults/ -fasta results/ribo/ca.high.fa

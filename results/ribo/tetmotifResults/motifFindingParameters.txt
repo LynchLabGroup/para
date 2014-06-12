@@ -1,0 +1,1 @@
+cmd = results/ribo/tet.ribo.fa fasta results/ribo/tetmotifResults/ -fasta results/ribo/tet.high.fa
