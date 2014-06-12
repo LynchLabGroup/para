@@ -85,7 +85,6 @@ class WeightSeq(object):
         mpd -- file with all alignment scores (.mpd format)
         pred -- file with phylogenetic prediction scores
         """
-        assert mpd.endswith(".mpd"), pred.endswith(".pred")
         weighted = []
 
         # Create a list of each base with its prediction weight
@@ -103,6 +102,7 @@ class WeightSeq(object):
             for i, line in enumerate(f.readlines()):
                 try:
                     float(line)
+                    break
                 except ValueError:
                     j += 1  # count number of lines without number
             f.seek(0)  # rewinds the file
