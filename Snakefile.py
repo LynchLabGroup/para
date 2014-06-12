@@ -24,13 +24,13 @@ OVERLAP = 0.9
 
 rule retrieve_CDS:
     """Retrieve CDSs according to families"""
-    output: temp("{RESULTS}/tempCDS")
+    output: dynamic(UPSTREAM+"/{family}.fasta")
     threads: 1
     shell: "python2 bin/ntseq.py -f {MINFAMMEMBER} --header -loc {CDSLOC}/"
 
 rule retrieve_up:
     """Retrieve upstream sequences."""
-    output: temp("{RESULTS}/tempup")
+    output: dynamic(UPSTREAM+"/{family}.fasta")
     threads: 1
     shell: "python2 bin/gff/main.py -l {MAXLEN} -ml {MINLEN} -f {LOWFAMMEMBER} -mf {MINFAMMEMBER} -loc {UPSTREAM}/ --head"
 
@@ -46,11 +46,10 @@ rule make_dir:
 ### Operations on upstream seqs
 rule edit_upstream:
     """Edit upstream sequences and move them into results folder."""
-    input: UPSTREAM+"/{family}.fasta", rules.make_dir.output
+    input: UPSTREAM+"/{family}.fasta"
     output: RESULTS+"/{family}/{family}.fasta"
     shell: """
     python2 bin/scripts/fastaheader.py {input[0]} '|' {output}
-    rm {input[1]}
     """
 
 ### Operations on CDSs
@@ -119,7 +118,7 @@ rule comp:
 
 ### General Rules ###
 rule all:
-    input: rules.retrieve_up.output, rules.retrieve_CDS.output, RES
+    input: rules.retrieve_up.output, rules.retrieve_CDS.output, "RESULTS/{family}/{family}.comp"
 
 rule meme_lengths:
     input: all
