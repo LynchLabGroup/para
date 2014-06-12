@@ -75,10 +75,10 @@ def retrieve_up_single(geneid, seqid, gff_dic, fasta_dic, length=100,
             if extract <= 0:
                 extract = 1  # No negative bases !
             for g in gff_dic[seqid]:
-                if g.end in xrange(extract, start) and g.strand == strand:  # g.end is the last
+                if g.end in xrange(extract, start):  # g.end is the last
                     # position of gene in sequence, whatever its strand
                     extract = g.end + 1
-                elif g.start in xrange(extract, start) and g.strand == strand:
+                elif g.start in xrange(extract, start):
                     print "Detected overlapping element {}\ntype: {} start: {} \
                     end: {}".format(g, g.type, g.start, g.end)
                     overlap += 1
@@ -96,9 +96,9 @@ def retrieve_up_single(geneid, seqid, gff_dic, fasta_dic, length=100,
             if extract >= len(fasta_dic[seqid]):
                 extract = len(fasta_dic[seqid])
             for g in gff_dic[seqid]:
-                if g.start in xrange(end+1, extract+1) and g.strand == strand:
+                if g.start in xrange(end+1, extract+1):
                     extract = g.start
-                elif g.end in xrange(end+1, extract+1) and g.strand == strand:
+                elif g.end in xrange(end+1, extract+1):
                     print "Detected overlapping element {}\ntype: {} start: {}\
                     end: {}".format(g, g.type, g.start, g.end)
                     overlap += 1
