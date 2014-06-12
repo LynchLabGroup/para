@@ -16,11 +16,7 @@ class TestWeight(unittest.TestCase):
     def setUp(self):
         self.seq = weight.WeightSeq("test\tATTTGC")
         self.gapped = weight.WeightSeq("gapped\tgcg-gggccc----atgcggg")
-        self.files = mock.Mock({"pred": StringIO("0.0\n0.95\n1.0\n1.0\n0.8\n0.95\n1.0\n1.0\n\
-            0.95\n0.9\n0.0\n0.0\n0.9\n0.9\n1.0\n1.0\n0.0\n0.9\n0.9\n1.0\n1.0"),
-                                "mpd": StringIO("1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n\
-            1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0")})
-
+        
     def test_individual_positions(self):
         self.assertEqual(self.seq[1], "A")
         self.assertEqual(self.seq[5], "G")
@@ -46,7 +42,15 @@ class TestWeight(unittest.TestCase):
         self.assertEqual(self.gapped.get_real_pos(4), 3)
 
     def test_weight(self):
-        self.seq.weight(self.files.mpd, self.files.pred)
+        mpd = "1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n\
+            1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0"
+        pred = "0.0\n0.95\n1.0\n1.0\n0.8\n0.95\n1.0\n1.0\n\
+            0.95\n0.9\n0.0\n0.0\n0.9\n0.9\n1.0\n1.0\n0.0\n0.9\n0.9\n1.0\n1.0"
+        # print files.mpd
+        with mock.patch('__builtin__.open', mock.mock_open(read_data=mpd)) as m:
+            with mock.patch('__builtin__.open', mock.mock_open(read_data=pred)) as p:
+                self.seq.weight(m, p)
+
         real_pred = [0.0, 0.95, 1.0, 1.0, 0.8, 0.95, 1.0, 1.0,
                      0.95, 0.9, 0.0, 0.0, 0.9, 0.9, 1.0, 1.0, 0.0, 0.9, 0.9,
                      1.0, 1.0]
@@ -54,5 +58,7 @@ class TestWeight(unittest.TestCase):
         real_mpd = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
                     1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                     0.0]
+        print real_pred
+        print [base[1] for base in self.seq._w]
         self.assertEqual([base[1] for base in self.seq._w], real_pred)
         self.assertEqual([base[2] for base in self.seq._w], real_mpd)
