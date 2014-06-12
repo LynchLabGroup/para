@@ -24,10 +24,16 @@ OVERLAP = 0.9
 
 rule retrieve_CDS:
     """Retrieve CDSs according to families"""
-    output: dynamic(UPSTREAM+"/{family}.fasta")
+    output: temp(CDSLOC+"/doneCDS")
     threads: 1
-    shell: "python2 bin/ntseq.py -f {MINFAMMEMBER} --header -loc {CDSLOC}/"
-
+    shell: 
+        """
+        python2 bin/ntseq.py -f {MINFAMMEMBER} --header -loc {CDSLOC}/
+        touch {output[0]}
+        """
+rule CDSs:
+    input: CDSLOC+"/doneCDS"
+    output: dynamic(CDSLOC+"/{family}.fasta")
 rule retrieve_up:
     """Retrieve upstream sequences."""
     output: dynamic(UPSTREAM+"/{family}.fasta")
@@ -118,7 +124,7 @@ rule comp:
 
 ### General Rules ###
 rule all:
-    input: rules.retrieve_up.output, rules.retrieve_CDS.output, "RESULTS/{family}/{family}.comp"
+    input: rules.retrieve_up.output, rules.retrieve_CDS.output, expand("{RESULTS}/{{family}}.comp", RESULTS=RESULTS)
 
 rule meme_lengths:
     input: all
@@ -131,10 +137,3 @@ rule int_motifs:
     output: "{RESULTS}/BFMotifsSummary.txt"
     shell: "cd results/ && echo 'Looking for interesting motifs...'' && \
       .. /bin/scripts/intmotifs.sh BFMotifsSummary.txt && cd .."
-
-
-
-
-
-
-
