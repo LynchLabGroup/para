@@ -72,9 +72,39 @@ rule align_CDS:
     output: RESULTS+"{family}/{family}.CDS.nt_ali.fasta"
     shell: "perl bin/scripts/translatorx_vLocal.pl -c 6 -i {input} -o {params.prefix}"
 
+rule edit_CDS:
+    """Editing CDSs headers"""
+    input: RESULTS+"{family}/{family}.CDS.nt_ali.fasta"
+    output: RESULTS+"{family}/{family}.CDS.fasta"
+    shell: "python2 bin/scripts/fastaheader.py {input} '|' {output}"
+
+rule matching_CDS:
+    """Extract only matching CDS that are in upstream file."""
+    input: RESULTS+"{family}/{family}.fasta", RESULTS+"{family}/{family}.CDS.fasta"
+    output: RESULTS+"{family}/{family}.CDS.e.fasta"
+    shell: "python2 bin/scripts/extractmatch.py {input} {output}"
+
+rule convert_to_phylip:
+    """Convert CDSs to Phylip format"""
+    input: RESULTS+"{family}/{family}.CDS.e.fasta"
+    output: RESULTS+"{family}/{family}.CDS.phyl"
+    shell: "perl bin/scripts/ConvertFastatoPhylip.pl {input} {output}"
+
+rule compute_ml_tree:
+    """Compute ML gene tree on CDSs"""
+    input: RESULTS+"{family}/{family}.CDS.phyl"
+    output: RESULTS+"{family}/{family}.CDS.phyl_phyml_tree.txt"
+    shell: "phyml -i {input}"
+
+rule adapt_tree:
+    """Edit ML tree to be compatible with BigFoot."""
+    input: RESULTS+"{family}/{family}.CDS.phyl_phyml_tree.txt"
+    output: RESULTS+"{family}/{family}.newick"
+    shell: "python2 bin/scripts/editnewick.py {input} {output}"
+
 # ## Operations on files
 rule make_tmp:
-    input: RESULTS+"{family}/{family}.fasta", RESULTS+"{family}/{family}.CDS.nt_ali.fasta"
+    input: RESULTS+"{family}/{family}.newick"
     output: RESULTS+"{family}/{family}.tmp"
     shell: "touch {output}"
 
