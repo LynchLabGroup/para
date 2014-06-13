@@ -13,7 +13,7 @@ PREDTHRE = 0.9
 ALITHRE = 0.8
 MINWIDTH = 4
 NMOTIFS = 5
-BFPARAM = "10000,20000,1000"
+BFPARAM = "1000,2000,1000"
 OVERLAP = 0.9
 
 def dir_list_from_name(prefix, names):
@@ -102,9 +102,23 @@ rule adapt_tree:
     output: RESULTS+"{family}/{family}.newick"
     shell: "python2 bin/scripts/editnewick.py {input} {output}"
 
+# ## Motif Finding
+
+rule run_bigfoot:
+    """Compute scores with BigFoot"""
+    input: RESULTS+"{family}/{family}.fasta", RESULTS+"{family}/{family}.newick"
+    output: RESULTS+"{family}/{family}.fasta.mpd", RESULTS+"{family}/{family}.fasta.pred"
+    shell: "java -jar ../BigFoot/BigFoot.jar -t {input[1]} -p={BFPARAM} {input[0]}"
+
+rule parse_bigfoot_motifs:
+    """From BigFoot scores indentify motifs."""
+    input: RESULTS+"{family}/{family}.fasta.mpd", RESULTS+"{family}/{family}.fasta.pred"
+    output: RESULTS+"{family}/{family}.motifs"
+    shell: "python2 bin/bigfoot/setup.py {input} -o {output} -t {PREDTHRE} -a {ALITHRE}"
+
 # ## Operations on files
 rule make_tmp:
-    input: RESULTS+"{family}/{family}.newick"
+    input: RESULTS+"{family}/{family}.motifs"
     output: RESULTS+"{family}/{family}.tmp"
     shell: "touch {output}"
 
