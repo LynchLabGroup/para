@@ -55,6 +55,12 @@ rule make_dir:
         touch {output}
         """)
 
+rule first_rule:
+    output: dynamic(UPSTREAM+"{family}.fasta")
+    run:
+        c = expand(RESULTS+"{family}/{family}.fasta", family=FAM)
+        shell("touch {c}")
+
 ### Operations on upstream seqs
 rule edit_upstream:
     """Edit upstream sequences and move them into results folder."""
@@ -124,4 +130,4 @@ rule make_tmp:
 
 ### General Rules ###
 rule all:
-    input: expand(RESULTS+"{family}/{family}.tmp",family=FAM)
+    input: dynamic(RESULTS+"{family}/{family}.tmp")
