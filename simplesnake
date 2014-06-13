@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # experimental Snakefile
 import os
-FAM = ["WGD2ANC00002", "WGD2ANC00004", "WGD2ANC00005"]
+
 UPSTREAM = "data/families/WGD2/upstream/"
 CDSLOC = "data/families/WGD2/CDS/nt/"
 RESULTS = "results/"
@@ -128,7 +128,7 @@ rule parse_bigfoot_motifs:
 # MEME
 rule run_meme:
     """Compute motifs with MEME."""
-    input: RESULTS+"{family}/{family}.meme.motifs"
+    input: RESULTS+"{family}/{family}.fasta"
     output: RESULTS+"{family}/{family}.meme.motifs"
     shell: "meme -minw {MINWIDTH} -nmotifs {NMOTIFS} -dna -text {input} >> {output}"
 
