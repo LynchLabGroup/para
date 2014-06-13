@@ -226,9 +226,9 @@ def overlap(r1, r2, need_stat=None):
     >>> overlap((2,3), (5,10))
     (False, 0.0)
     >>> overlap((2,3), (1,10))
-    (True, 0.2)
+    (True, 1.0)
     >>> overlap((5,15), (3,8))
-    (True, 0.36363636363636365)
+    (True, 0.666666666666)
     >>> overlap((3,7), (5,9))
     (True, 0.6)
     """
