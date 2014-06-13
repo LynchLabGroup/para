@@ -13,7 +13,7 @@ import tempfile
 from StringIO import StringIO
 
 
-class TestWeight(unittest.TestCase):
+class TestClassWeight(unittest.TestCase):
     def setUp(self):
         self.seq = weight.WeightSeq("test\tATTTGC")
         self.gapped = weight.WeightSeq("gapped\tgcg-gggccc----atgcggg")
@@ -82,3 +82,22 @@ class TestWeight(unittest.TestCase):
             0, 21, 0.5880952380952381, 0.7142857142857143, 14]])
         self.assertListEqual(no_motifs, [])
         self.assertEqual(motifs, [['GGGCCC', 4, 10, 0.9500000000000001, 1.0, 4]])
+
+
+class TestWeightFunc(unittest.TestCase):
+    def test_best_hits_normal(self):
+        l = [[3, 8, 0.9], [3, 8, 0.0], [4, 8, 0.7]]
+        best = weight.best_hits(l)
+        self.assertEqual(best, [[3, 8, 0.9]])
+
+    def test_best_hits_no_list(self):
+        self.assertRaises(TypeError, weight.best_hits, [])
+
+    def test_best_hits_score_not_float(self):
+        self.assertRaises(TypeError, weight.best_hits, [[0, 0, 2]])
+
+    def test_best_hits_score_too_high(self):
+        self.assertRaises(ValueError, weight.best_hits, [[0, 0, 14.0]])
+
+    def test_best_hits_score_too_low(self):
+        self.assertRaises(ValueError, weight.best_hits, [[0, 0, -1.0]])
