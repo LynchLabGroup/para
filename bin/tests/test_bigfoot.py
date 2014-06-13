@@ -18,6 +18,18 @@ class TestWeight(unittest.TestCase):
         self.seq = weight.WeightSeq("test\tATTTGC")
         self.gapped = weight.WeightSeq("gapped\tgcg-gggccc----atgcggg")
 
+    def weight_gapped(self):
+        mpd = "1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n\
+            1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0"
+        pred = "0.0\n0.95\n1.0\n1.0\n0.8\n0.95\n1.0\n1.0\n\
+            0.95\n0.9\n0.0\n0.0\n0.9\n0.9\n1.0\n1.0\n"
+        self.file_mpd = tempfile.NamedTemporaryFile(delete=False)
+        self.file_mpd.write(mpd)
+        self.file_mpd.close()
+        self.file_pred = tempfile.NamedTemporaryFile(delete=False)
+        self.file_pred.write(pred)
+        self.file_pred.close()
+
     def test_individual_positions(self):
         self.assertEqual(self.seq[1], "A")
         self.assertEqual(self.seq[5], "G")
@@ -43,16 +55,7 @@ class TestWeight(unittest.TestCase):
         self.assertEqual(self.gapped.get_real_pos(4), 3)
 
     def test_weight_pred(self):
-        mpd = "1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n\
-            1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0"
-        pred = "0.0\n0.95\n1.0\n1.0\n0.8\n0.95\n1.0\n1.0\n\
-            0.95\n0.9\n0.0\n0.0\n0.9\n0.9\n1.0\n1.0\n"
-        self.file_mpd = tempfile.NamedTemporaryFile(delete=False)
-        self.file_mpd.write(mpd)
-        self.file_mpd.close()
-        self.file_pred = tempfile.NamedTemporaryFile(delete=False)
-        self.file_pred.write(pred)
-        self.file_pred.close()
+        self.weight_gapped()
         self.gapped.weight(self.file_mpd.name, self.file_pred.name)
         real_pred = [0.0, 0.95, 1.0, 0.0, 1.0, 0.8, 0.95, 1.0, 1.0,
                      0.95, 0.0, 0.0, 0.0, 0.0, 0.9, 0.0, 0.0, 0.9, 0.9,
@@ -60,18 +63,14 @@ class TestWeight(unittest.TestCase):
         self.assertEqual([base[1] for base in self.gapped._w], real_pred)
 
     def test_weight_mpd(self):
-        mpd = "1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n\
-            1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n1.0\n0.0\n0.0\n0.0\n0.0\n0.0\n0.0"
-        pred = "0.0\n0.95\n1.0\n1.0\n0.8\n0.95\n1.0\n1.0\n\
-            0.95\n0.9\n0.0\n0.0\n0.9\n0.9\n1.0\n1.0\n"
-        self.file_mpd = tempfile.NamedTemporaryFile(delete=False)
-        self.file_mpd.write(mpd)
-        self.file_mpd.close()
-        self.file_pred = tempfile.NamedTemporaryFile(delete=False)
-        self.file_pred.write(pred)
-        self.file_pred.close()
+        self.weight_gapped()
         self.gapped.weight(self.file_mpd.name, self.file_pred.name)
         real_mpd = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
                     1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0,
                     0.0]
         self.assertEqual([base[2] for base in self.gapped._w], real_mpd)
+
+    def test_motifs(self):
+        self.weight_gapped()
+        m = self.gapped.motifs(0.0, 0.0)
+        print m
