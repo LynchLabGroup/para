@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # experimental Snakefile
+import os
 FAM = ["WGD2ANC00002", "WGD2ANC00004", "WGD2ANC00005"]
 UPSTREAM = "data/families/WGD2/upstream/"
 CDSLOC = "data/families/WGD2/CDS/nt/"
@@ -16,6 +17,9 @@ NMOTIFS = 5
 BFPARAM = "1000,2000,1000"
 OVERLAP = 0.9
 
+LIST = [elt.startswith("WGD") for elt in os.listdir(UPSTREAM)]
+FINALLIST = [RESULTS+"{}/{}.tmp".format(elt, elt) for elt in LIST]
+
 def dir_list_from_name(prefix, names):
     real_name = []
     for name in names:
@@ -25,22 +29,20 @@ def dir_list_from_name(prefix, names):
 
 # ## Rules for Retrieving Sequences
 
-#rule retrieve_CDS:
-#   """Retrieve CDSs according to families"""
-#   output: dynamic(CDSLOC+"{family}.fasta")
-#   threads: 1
-#   shell: 
-#       """
-#       python2 bin/ntseq.py -f {MINFAMMEMBER} --header -loc {CDSLOC}/
-#       """
-#
-#rule retrieve_up:
-#   """Retrieve upstream sequences."""
-#   output: dynamic(UPSTREAM+"{family}.fasta")
-#   threads: 1
-#   shell: """
-#       python2 bin/gff/main.py -l {MAXLEN} -ml {MINLEN} -f {LOWFAMMEMBER} -mf {MINFAMMEMBER} -loc {UPSTREAM}/ --head
-#       """
+rule retrieve_CDS:
+  """Retrieve CDSs according to families"""
+  threads: 1
+  shell: 
+      """
+      python2 bin/ntseq.py -f {MINFAMMEMBER} --header -loc {CDSLOC}/
+      """
+
+rule retrieve_up:
+  """Retrieve upstream sequences."""
+  threads: 1
+  shell: """
+      python2 bin/gff/main.py -l {MAXLEN} -ml {MINLEN} -f {LOWFAMMEMBER} -mf {MINFAMMEMBER} -loc {UPSTREAM}/ --head
+      """
 # ## Making dir
 rule make_dir:
     """Make given dir"""
@@ -110,6 +112,7 @@ rule adapt_tree:
 
 # ## Motif Finding
 
+# BigFoot
 rule run_bigfoot:
     """Compute scores with BigFoot"""
     input: RESULTS+"{family}/{family}.fasta", RESULTS+"{family}/{family}.newick"
@@ -122,12 +125,26 @@ rule parse_bigfoot_motifs:
     output: RESULTS+"{family}/{family}.motifs"
     shell: "python2 bin/bigfoot/setup.py {input} -o {output} -t {PREDTHRE} -a {ALITHRE}"
 
+# MEME
+rule run_meme:
+    """Compute motifs with MEME."""
+    input: RESULTS+"{family}/{family}.meme.motifs"
+    output: RESULTS+"{family}/{family}.meme.motifs"
+    shell: "meme -minw {MINWIDTH} -nmotifs {NMOTIFS} -dna -text {input} >> {output}"
+
+# Motif Comparison
+rule compare:
+    """Compare MEME and BigFoot motifs."""
+    input: RESULTS+"{family}/{family}.motifs", RESULTS+"{family}/{family}.meme.motifs"
+    output: RESULTS+"{family}/{family}.comp"
+    shell: "python2 bin/bigfoot/memecomp.py {input} -e {EVAL} -o {output}"
+
 # ## Operations on files
 rule make_tmp:
-    input: RESULTS+"{family}/{family}.motifs"
-    output: RESULTS+"{family}/{family}.tmp"
+    input: RESULTS+"{family}/{family}.comp"
+    output: temp(RESULTS+"{family}/{family}.tmp")
     shell: "touch {output}"
 
 ### General Rules ###
 rule all:
-    input: dynamic(RESULTS+"{family}/{family}.tmp")
+    input: FINALLIST
