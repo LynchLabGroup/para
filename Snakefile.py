@@ -124,15 +124,16 @@ rule comp:
 
 ### General Rules ###
 rule all:
-    input: rules.retrieve_up.output, rules.retrieve_CDS.output, expand("{RESULTS}/{{family}}.comp", RESULTS=RESULTS)
+    input: rules.retrieve_up.output, rules.retrieve_CDS.output
+    output: temp("ruleall.tmp")
 
 rule meme_lengths:
-    input: all
+    input: "ruleall.tmp"
     threads: 1
     output: "results/MEMEOutputsLengths.txt"
     shell: "bin/scripts/memelen.sh > {input}"
 rule int_motifs:
-    input: all
+    input: "ruleall.tmp"
     threads: 1
     output: "{RESULTS}/BFMotifsSummary.txt"
     shell: "cd results/ && echo 'Looking for interesting motifs...'' && \

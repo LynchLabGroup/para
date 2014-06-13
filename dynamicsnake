@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # experimental Snakefile
-FAM = ["WGD2ANC00002", "WGD2ANC00004", "WGD2ANC00005"]
+
 UPSTREAM = "data/families/WGD2/upstream/"
 CDSLOC = "data/families/WGD2/CDS/nt/"
 RESULTS = "results/"
@@ -25,22 +25,22 @@ def dir_list_from_name(prefix, names):
 
 # ## Rules for Retrieving Sequences
 
-#rule retrieve_CDS:
-#   """Retrieve CDSs according to families"""
-#   output: dynamic(CDSLOC+"{family}.fasta")
-#   threads: 1
-#   shell: 
-#       """
-#       python2 bin/ntseq.py -f {MINFAMMEMBER} --header -loc {CDSLOC}/
-#       """
-#
-#rule retrieve_up:
-#   """Retrieve upstream sequences."""
-#   output: dynamic(UPSTREAM+"{family}.fasta")
-#   threads: 1
-#   shell: """
-#       python2 bin/gff/main.py -l {MAXLEN} -ml {MINLEN} -f {LOWFAMMEMBER} -mf {MINFAMMEMBER} -loc {UPSTREAM}/ --head
-#       """
+rule retrieve_CDS:
+    """Retrieve CDSs according to families"""
+    output: dynamic(CDSLOC+"{family}.fasta")
+    threads: 1
+    shell: 
+        """
+        python2 bin/ntseq.py -f {MINFAMMEMBER} --header -loc {CDSLOC}/
+        """
+
+rule retrieve_up:
+    """Retrieve upstream sequences."""
+    output: dynamic(UPSTREAM+"{family}.fasta")
+    threads: 1
+    shell: """
+        python2 bin/gff/main.py -l {MAXLEN} -ml {MINLEN} -f {LOWFAMMEMBER} -mf {MINFAMMEMBER} -loc {UPSTREAM}/ --head
+        """
 # ## Making dir
 rule make_dir:
     """Make given dir"""
@@ -74,10 +74,10 @@ rule align_CDS:
 
 # ## Operations on files
 rule make_tmp:
-    input: RESULTS+"{family}/{family}.fasta", RESULTS+"{family}/{family}.CDS.nt_ali.fasta"
+    input: rules.make_dir.outpout, RESULTS+"{family}/{family}.fasta", RESULTS+"{family}/{family}.CDS.nt_ali.fasta"
     output: RESULTS+"{family}/{family}.tmp"
     shell: "touch {output}"
 
 ### General Rules ###
 rule all:
-    input: expand(RESULTS+"{family}/{family}.tmp",family=FAM)
+    input: dynamic(RESULTS+"{family}/{family}.tmp")
