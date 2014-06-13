@@ -70,7 +70,15 @@ class TestWeight(unittest.TestCase):
                     0.0]
         self.assertEqual([base[2] for base in self.gapped._w], real_mpd)
 
-    def test_motifs(self):
+    def test_motifs_various_thresholds(self):
         self.weight_gapped()
-        m = self.gapped.motifs(0.0, 0.0)
-        print m
+        self.gapped.weight(self.file_mpd.name, self.file_pred.name)
+
+        low_threshold = self.gapped.motifs(0.0, 0.0)
+        no_motifs = self.gapped.motifs(1.0, 1.0)
+        motifs = self.gapped.motifs(0.8, 0.9)
+
+        self.assertListEqual(low_threshold, [['GCG-GGGCCC----ATGCGGG',
+            0, 21, 0.5880952380952381, 0.7142857142857143, 14]])
+        self.assertListEqual(no_motifs, [])
+        self.assertEqual(motifs, [['GGGCCC', 4, 10, 0.9500000000000001, 1.0, 4]])
