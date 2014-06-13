@@ -240,8 +240,15 @@ def best_hits(s_list):
     """
     from memecomp import overlap
 
-    assert len(s_list) > 0, sorted(s_list, key=lambda x: x[2]) == s_list
+    if s_list == []:
+        raise TypeError("List is empty!")
 
+    s_list = sorted(s_list, key=lambda x: x[2], reverse=True)
+    for element in s_list:
+        if type(element[2]) != float:
+            raise TypeError("Scores need to be floats!")
+        elif element[2] > 1.0 or element[2] < 0.0:
+            raise ValueError("Scores need to be between 0.0 and 1.0")
     best = []
     best.append(s_list[0])
 
