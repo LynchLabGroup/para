@@ -17,7 +17,7 @@ NMOTIFS = 5
 BFPARAM = "1000,2000,1000"
 OVERLAP = 0.9
 
-LIST = [elt.startswith("WGD") for elt in os.listdir(UPSTREAM)]
+LIST = [elt.rstrip(".fasta") for elt in os.listdir(UPSTREAM) if elt.startswith("WGD")]
 FINALLIST = [RESULTS+"{}/{}.tmp".format(elt, elt) for elt in LIST]
 
 def dir_list_from_name(prefix, names):
@@ -26,9 +26,7 @@ def dir_list_from_name(prefix, names):
         real = name.split("/")[-1].rstrip(".fasta")
         real_name.append(prefix+real)
     return real_name
-
 # ## Rules for Retrieving Sequences
-
 rule retrieve_CDS:
   """Retrieve CDSs according to families"""
   threads: 1
@@ -56,12 +54,6 @@ rule make_dir:
         mkdir -p {dir_list}
         touch {output}
         """)
-
-rule first_rule:
-    output: dynamic(UPSTREAM+"{family}.fasta")
-    run:
-        c = expand(RESULTS+"{family}/{family}.fasta", family=FAM)
-        shell("touch {c}")
 
 ### Operations on upstream seqs
 rule edit_upstream:
