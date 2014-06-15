@@ -37,7 +37,7 @@ args <- parser$parse_args()
 
 ### Data loading ###
 exp = args$expfile  # Expression data
-ribo.seqs = args$sequences  # Ribosomal upstream sequences
+ribo.list = args$ribolist  # Ribosomal upstream sequences
 
 
 ### Computing ###
