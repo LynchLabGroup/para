@@ -41,7 +41,7 @@ ribo.seqs = args$sequences  # Ribosomal upstream sequences
 
 
 ### Computing ###
-matching = high.non.match(exp, ribo.seqs, args$thre)
+high.noribo = high.non.match(exp, ribo.seqs, args$thre)
 print(paste("Writing file ", args$output))
-write.table(matching, args$output, quote=FALSE, row.names=FALSE, col.names=FALSE)
+write.table(high.noribo, args$output, quote=FALSE, row.names=FALSE, col.names=FALSE)
 print("Done.")
