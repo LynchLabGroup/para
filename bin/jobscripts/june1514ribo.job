@@ -1,0 +1,106 @@
+#!/bin/env bash
+#PBS -k o
+#PBS -l nodes=1:ppn=2,vmem=14gb,walltime=03:00:00
+#PBS -M mgrenie@indiana.edu
+#PBS -m be
+#PBS -N RiboProteins
+#PBS -j oe
+module load R
+# for each species
+#    grep RIBOSOMAL PROTEINS in annotation
+#    get prot ids
+#    replace them with gene ids
+#    write file
+#    extract upstream sequences
+#    list 2% higher expressed non ribo genes
+#    write file
+#    extract their upstream sequences
+#    use Homer to compare
+
+# Retrieve all ribosomal protein in annotation and create file with gene ids
+getriboids() {
+    local annotation=$1
+    local output=$2
+    local rep_field=$3
+    grep "RIBOSOMAL PROTEIN" $annotation | awk '{print $1}' > $output
+    sed s:.:G:$rep_field $output | sort > $output.temp
+    mv $output.temp $output
+}
+
+DIRECTORY="results/ribo/"
+THRESHOLD=0.98
+FILES="data/biaurelia/biaurelia_allinfo.panther \
+data/caudatum/caudatum_allinfo.panther \
+data/sexaurelia/sexaurelia_allinfo.panther \
+data/tetraurelia/tetraurelia_allinfo.panther"
+
+echo "Job Started at: "; date
+cd para/
+if [ ! -d "$DIRECTORY" ]; then
+    mkdir $DIRECTORY
+fi
+
+### Paramecium biaurelia ###
+# get ribosomal protein IDs
+getriboids data/biaurelia/biaurelia_allinfo.panther ${DIRECTORY}bi.ribo 6
+# Extract ribosomal proteins upstream sequences
+python bin/gff/list.py ${DIRECTORY}bi.ribo ${DIRECTORY}bi.ribo.fa data/biaurelia/*gff3 data/biaurelia/*.fasta
+
+# Get non ribosomal highly expressed genes
+Rscript bin/scripts/highnonmatch.R data/biaurelia/*.tab ${DIRECTORY}bi.ribo -t $THRESHOLD -o ${DIRECTORY}bi.high
+
+# Extract highly expressed genes upstream sequences
+python bin/gff/list.py ${DIRECTORY}bi.high ${DIRECTORY}bi.high.fa data/biaurelia/*gff3 data/biaurelia/*.fasta
+
+# Use HOMER to search for motifs
+findMotifs.pl ${DIRECTORY}bi.ribo.fa fasta ${DIRECTORY}bimotifResults/ -fasta ${DIRECTORY}bi.high.fa
+
+
+### Paramecium caudatum ###
+# get ribosomal protein IDs
+getriboids data/caudatum/caudatum_allinfo.panther ${DIRECTORY}ca.ribo 6
+# Extract ribosomal proteins upstream sequences
+python bin/gff/list.py ${DIRECTORY}ca.ribo ${DIRECTORY}ca.ribo.fa data/caudatum/*gff3 data/caudatum/*.fasta
+
+# Get non ribosomal highly expressed genes
+Rscript bin/scripts/highnonmatch.R data/caudatum/*.tab ${DIRECTORY}ca.ribo -t $THRESHOLD -o ${DIRECTORY}ca.high
+
+# Extract highly expressed genes upstream sequences
+python bin/gff/list.py ${DIRECTORY}ca.high ${DIRECTORY}ca.high.fa data/caudatum/*gff3 data/caudatum/*.fasta
+
+# Use HOMER to search for motifs
+findMotifs.pl ${DIRECTORY}ca.ribo.fa fasta ${DIRECTORY}camotifResults/ -fasta ${DIRECTORY}ca.high.fa
+
+
+### Paramecium sexaurelia ###
+# get ribosomal protein IDs
+getriboids data/sexaurelia/sexaurelia_allinfo.panther ${DIRECTORY}sex.ribo 7
+# Extract ribosomal proteins upstream sequences
+python bin/gff/list.py ${DIRECTORY}sex.ribo ${DIRECTORY}sex.ribo.fa data/sexaurelia/*gff3 data/sexaurelia/*.fasta
+
+# Get non ribosomal highly expressed genes
+Rscript bin/scripts/highnonmatch.R data/sexaurelia/*.tab ${DIRECTORY}sex.ribo -t $THRESHOLD -o ${DIRECTORY}sex.high
+
+# Extract highly expressed genes upstream sequences
+python bin/gff/list.py ${DIRECTORY}sex.high ${DIRECTORY}sex.high.fa data/sexaurelia/*gff3 data/sexaurelia/*.fasta
+
+# Use HOMER to search for motifs
+findMotifs.pl ${DIRECTORY}sex.ribo.fa fasta ${DIRECTORY}sexmotifResults/ -fasta ${DIRECTORY}sex.high.fa
+
+
+### Paramecium tetraurelia ###
+# get ribosomal protein IDs
+getriboids data/tetraurelia/tetraurelia_allinfo.panther ${DIRECTORY}tet.ribo 8
+# Extract ribosomal proteins upstream sequences
+python bin/gff/list.py ${DIRECTORY}tet.ribo ${DIRECTORY}tet.ribo.fa data/tetraurelia/*gff3 data/tetraurelia/*.fa
+
+# Get non ribosomal highly expressed genes
+Rscript bin/scripts/highnonmatch.R data/tetraurelia/*.tab ${DIRECTORY}tet.ribo -t $THRESHOLD -o ${DIRECTORY}tet.high
+
+# Extract highly expressed genes upstream sequences
+python bin/gff/list.py ${DIRECTORY}tet.high ${DIRECTORY}tet.high.fa data/tetraurelia/*gff3 data/tetraurelia/*.fa
+
+# Use HOMER to search for motifs
+findMotifs.pl ${DIRECTORY}tet.ribo.fa fasta ${DIRECTORY}tetmotifResults/ -fasta ${DIRECTORY}tet.high.fa
+
+echo "Job Finished at:";date
