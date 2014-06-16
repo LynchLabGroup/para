@@ -22,7 +22,7 @@ head(bi.find)
 ca.find = load.distribution("../ribo/ca.find.motif1", "ca")
 sex.find = load.distribution("../ribo/sex.find.motif1", "sex")
 tet.find = load.distribution("../ribo/tet.find.motif1", "tet")
-d = data.frame(rbind(bi.find, ca.find, sex.find, tet.find))
+data.find = data.frame(rbind(bi.find, ca.find, sex.find, tet.find))
 ```
 How many different motifs do we have?
 ```{r}
@@ -39,5 +39,38 @@ g + geom_density(aes(colour=species, fill=species), size=1, alpha=0.5) +
   scale_y_continuous(labels=percent)
 g + geom_bar(aes(fill=species), position="dodge")
 g + geom_freqpoly(aes(colour=species), size=2, alpha=0.7)
-g + geom_boxplot(aes(x=species, y=value, fill=species)) + scale_y_log10()
+g2 = ggplot(data=d, aes(x=species, y=value, fill=species))
+g2 + geom_boxplot(outlier.size=0) + geom_jitter(height=0) +
+  scale_y_log10()
+g2 + geom_violin() + geom_jitter(height=0) +
+  scale_y_log10()
 ```
+
+The visual comparison does not seem to show any significant difference between distributions.
+We could use an ANOVA to see test this difference. But first, we have to test the homoscedasticity
+```{r}
+bartlett.test(value~species, data=data.find)
+```
+
+Variances are significantly different -> cannot compute an ANOVA, must use Kruskal-Wallis test. (Our samples have different sizes)
+
+```{r}
+kruskal.test(value ~ species, data=data.find)
+```
+
+Not significant -> cannot show a difference between populations
+
+If we still compute an Anova what happens?
+```{r}
+model <- lm(value ~ species, data = data.find)
+Anova(model)
+```
+Still non significant test. If we exclude the lowest sample size (*P. tetraurelia*), maybe we would see a significant difference?
+
+```{r}
+red <- subset(data.find, species != "tet")
+redmodel <- lm(value ~ species, data = red)
+Anova(redmodel)
+```
+
+Nothing significant
