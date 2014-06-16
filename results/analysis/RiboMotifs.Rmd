@@ -1,0 +1,76 @@
+# Ribosomal motifs #
+
+Preliminary study of motifs in upstream regions of ribosomal proteins.
+Idea: look if motifs have different distance from start codon distribution for each species, if they have, it may indicate a change in expression or function of the concerned genes?
+
+```{r}
+# Set working directory
+setwd("~/Documents/ENS/M1/Stage/para/results/analysis")
+```
+
+Data loading and preparation step
+```{r}
+load.distribution <- function(motif.find.file, species) {
+  table = read.table(motif.find.file, h=FALSE)
+  colnames(table) = c("gene_id", "value", "motif")
+  result = cbind(table, rep(species, length(table[,1])))
+  colnames(result)[4] = "species"
+  result
+}
+bi.find = load.distribution("../ribo/bi.find.motif1", "bi")
+head(bi.find)
+ca.find = load.distribution("../ribo/ca.find.motif1", "ca")
+sex.find = load.distribution("../ribo/sex.find.motif1", "sex")
+tet.find = load.distribution("../ribo/tet.find.motif1", "tet")
+data.find = data.frame(rbind(bi.find, ca.find, sex.find, tet.find))
+```
+How many different motifs do we have?
+```{r}
+unique(d$motif)
+```
+Only six different motifs are according to the matrix of the searched one.
+Let's now have a look at the distributions
+```{r}
+library(ggplot2)
+library(scales)
+g = ggplot(data=d, aes(x=value))
+g + geom_histogram(aes(fill=species), colour="black", size=1)
+g + geom_density(aes(colour=species, fill=species), size=1, alpha=0.5) +
+  scale_y_continuous(labels=percent)
+g + geom_bar(aes(fill=species), position="dodge")
+g + geom_freqpoly(aes(colour=species), size=2, alpha=0.7)
+g2 = ggplot(data=d, aes(x=species, y=value, fill=species))
+g2 + geom_boxplot(outlier.size=0) + geom_jitter(height=0) +
+  scale_y_log10()
+g2 + geom_violin() + geom_jitter(height=0) +
+  scale_y_log10()
+```
+
+The visual comparison does not seem to show any significant difference between distributions.
+We could use an ANOVA to see test this difference. But first, we have to test the homoscedasticity
+```{r}
+bartlett.test(value~species, data=data.find)
+```
+
+Variances are significantly different -> cannot compute an ANOVA, must use Kruskal-Wallis test. (Our samples have different sizes)
+
+```{r}
+kruskal.test(value ~ species, data=data.find)
+```
+
+Not significant -> cannot show a difference between populations
+
+If we still compute an Anova what happens?
+```{r}
+model <- lm(value ~ species, data = data.find)
+Anova(model)
+```
+Still non significant test. If we exclude the lowest sample size (*P. tetraurelia*), maybe we would see a significant difference?
+
+```{r}
+red <- subset(data.find, species != "tet")
+redmodel <- lm(value ~ species, data = red)
+Anova(redmodel)
+```
+
+Nothing significant
