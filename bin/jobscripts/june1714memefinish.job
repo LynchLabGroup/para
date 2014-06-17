@@ -1,0 +1,17 @@
+#!/bin/bash
+#PBS -k o
+#PBS -l nodes=1:ppn=2,vmem=2gb,walltime=02:30:00
+#PBS -M mgrenie@indiana.edu
+#PBS -m be
+#PBS -N MEME_XML
+#PBS -j oe
+echo "Job Started at: "; date
+module load python
+module load biopython
+cd trashpara/results/
+for FAM in `find . -maxdepth 1 -type d -name "WGD2ANC0*" | awk -F'C' '{if($2>"04049") print $0}'`;
+do
+rm -r $FAM/meme_out/
+meme -dna -minw 4 -nmotifs 5 -evt 0.01 -o $FAM/meme_out $FAM/$FAM.fasta
+done
+echo "Job Finished at:"; date
