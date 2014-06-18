@@ -1,0 +1,11 @@
+ #!/bin/bash
+#PBS -k o
+#PBS -l nodes=1:ppn=2,vmem=8gb,walltime=02:00:00
+#PBS -M mgrenie@indiana.edu
+#PBS -m be
+#PBS -N MotifsExtraction
+#PBS -j oe
+echo "Job Started at: "; date
+cd para/
+bin/scripts/genomeextract.sh results/motifs_extraction results/june1714consensusnogapmotifs.txt june1714consensusnogap
+echo "Job Finished at:"; date
