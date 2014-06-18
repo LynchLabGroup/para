@@ -8,7 +8,6 @@ setwd("~/Documents/ENS/M1/Stage/para/results/analysis/")
 
 extraction <- function(patt) {
   extract <- dir("../motifs_extraction", full.names=TRUE, pattern=patt)
-  extract <- extract[2:length(extract)]
 }
 
 # Load files of genes for each motifs of each species
@@ -24,7 +23,7 @@ exp_sex = read.table("../../data/sexaurelia_RNAseq_xp.tab", h=T)
 exp_tet = read.table("../../data/tetraurelia_RNAseq_xp.tab", h=T)
 
 # Load motifs name <-> motif correspondance table
-motifs = read.table("../15may14consensuscomp.txt", sep="\t")
+motifs = read.table("../june1714consensuscomp.txt", sep="\t", h=T)
 head(motifs)
 colnames(motifs) = c("family", "BF.motif", "BF.size", "MEME.motif", "MEME.size", "gene", "match.ratio", "consensus")
 
@@ -35,10 +34,9 @@ pval.thre = 0.01
 Function to treat each files from each list
 ```{r}
 # Function to use on every file, returns a table of matching genes between expression and extracted data
-corr.dist.exp <- function(extract_file, expression_file) {
-  extract_table = read.table(extract_file, h=F)
-  colnames(extract_table) = c("gene_id", "distance", "motifs.number")
-  extract_match = extract_table[match(expression_file$gene_id, extract_table$gene_id, nomatch=0),]
+corr.dist.exp <- function(extract_table, expression_file) {
+  # Select only gene ids that are in expression file
+  extract_match = subset(extract_table, gene_id %in% intersect(expression_file$gene_id, extract_table$gene_id))
   extract.merge = merge(extract_match,expression_file)
 }
 
@@ -54,20 +52,23 @@ lm.pvalue <- function(table.merged) {
 Test on *Paramecium biaurelia*, see the number of signifisexnt correlations.
 
 ```{r}
-bi.pvalues = rep(NA,length(extract_bi))
-bi.rsq = rep(NA, length(extract_bi))
-
-for (i in 1:length(extract_bi)) {
-  merged = corr.dist.exp(extract_bi[i], exp_bi)
-
+extract_bi_table = read.table(extract_bi)
+colnames(extract_bi_table) = c("motif", "gene_id", "distance", "motifs.number")
+bi_motifs = unique(extract_bi_table$motif)
+bi.pvalues = rep(NA,length(bi_motifs))
+bi.rsq = rep(NA, length(bi_motifs))
+for (i in 1:length(bi_motifs)) {
+  extract_bi_sub = subset(extract_bi_table, motif == bi_motifs[i])
+  merged = corr.dist.exp(extract_bi_sub, exp_bi)
   if (length(merged[,1])>2) {
-    mod = lm.pvalue(merged)
-    p.value = mod[[1]][1]
-    rsq = mod[[2]][1]
-    bi.pvalues[i] = p.value
-    bi.rsq[i] = rsq
+  mod = lm.pvalue(merged)
+  p.value = mod[[1]][1]
+  rsq = mod[[2]][1]
+  bi.pvalues[i] = p.value
+  bi.rsq[i] = rsq
   }
 }
+
 length(bi.pvalues)
 summary(bi.pvalues)
 length(subset(bi.pvalues, bi.pvalues < pval.thre))
@@ -76,20 +77,23 @@ length(subset(bi.pvalues, bi.pvalues < pval.thre))
 For *P. caudatum*
 
 ```{r}
-ca.pvalues = rep(NA,length(extract_ca))
-ca.rsq = rep(NA, length(extract_ca))
-
-for (i in 1:length(extract_ca)) {
-  merged = corr.dist.exp(extract_ca[i], exp_ca)
-
+extract_ca_table = read.table(extract_ca)
+colnames(extract_ca_table) = c("motif", "gene_id", "distance", "motifs.number")
+ca_motifs = unique(extract_ca_table$motif)
+ca.pvalues = rep(NA,length(ca_motifs))
+ca.rsq = rep(NA, length(ca_motifs))
+for (i in 1:length(ca_motifs)) {
+  extract_ca_sub = subset(extract_ca_table, motif == ca_motifs[i])
+  merged = corr.dist.exp(extract_ca_sub, exp_ca)
   if (length(merged[,1])>2) {
-    mod = lm.pvalue(merged)
-    p.value = mod[[1]][1]
-    rsq = mod[[2]][1]
-    ca.pvalues[i] = p.value
-    ca.rsq[i] = rsq
+  mod = lm.pvalue(merged)
+  p.value = mod[[1]][1]
+  rsq = mod[[2]][1]
+  ca.pvalues[i] = p.value
+  ca.rsq[i] = rsq
   }
 }
+
 length(ca.pvalues)
 summary(ca.pvalues)
 length(subset(ca.pvalues, ca.pvalues < pval.thre))
@@ -98,20 +102,23 @@ length(subset(ca.pvalues, ca.pvalues < pval.thre))
 For *P. sexaurelia*
 
 ```{r}
-sex.pvalues = rep(NA,length(extract_sex))
-sex.rsq = rep(NA, length(extract_sex))
-
-for (i in 1:length(extract_sex)) {
-  merged = corr.dist.exp(extract_sex[i], exp_sex)
-
+extract_sex_table = read.table(extract_sex)
+colnames(extract_sex_table) = c("motif", "gene_id", "distance", "motifs.number")
+sex_motifs = unique(extract_sex_table$motif)
+sex.pvalues = rep(NA,length(sex_motifs))
+sex.rsq = rep(NA, length(sex_motifs))
+for (i in 1:length(sex_motifs)) {
+  extract_sex_sub = subset(extract_sex_table, motif == sex_motifs[i])
+  merged = corr.dist.exp(extract_sex_sub, exp_sex)
   if (length(merged[,1])>2) {
-    mod = lm.pvalue(merged)
-    p.value = mod[[1]][1]
-    rsq = mod[[2]][1]
-    sex.pvalues[i] = p.value
-    sex.rsq[i] = rsq
+  mod = lm.pvalue(merged)
+  p.value = mod[[1]][1]
+  rsq = mod[[2]][1]
+  sex.pvalues[i] = p.value
+  sex.rsq[i] = rsq
   }
 }
+
 length(sex.pvalues)
 summary(sex.pvalues)
 length(subset(sex.pvalues, sex.pvalues < pval.thre))
@@ -119,20 +126,23 @@ length(subset(sex.pvalues, sex.pvalues < pval.thre))
 
 For *P. tetraurelia*
 ```{r}
-tet.pvalues = rep(NA,length(extract_tet))
-tet.rsq = rep(NA, length(extract_tet))
-
-for (i in 1:length(extract_tet)) {
-  merged = corr.dist.exp(extract_tet[i], exp_tet)
-
+extract_tet_table = read.table(extract_tet)
+colnames(extract_tet_table) = c("motif", "gene_id", "distance", "motifs.number")
+tet_motifs = unique(extract_tet_table$motif)
+tet.pvalues = rep(NA,length(tet_motifs))
+tet.rsq = rep(NA, length(tet_motifs))
+for (i in 1:length(tet_motifs)) {
+  extract_tet_sub = subset(extract_tet_table, motif == tet_motifs[i])
+  merged = corr.dist.exp(extract_tet_sub, exp_tet)
   if (length(merged[,1])>2) {
-    mod = lm.pvalue(merged)
-    p.value = mod[[1]][1]
-    rsq = mod[[2]][1]
-    tet.pvalues[i] = p.value
-    tet.rsq[i] = rsq
+  mod = lm.pvalue(merged)
+  p.value = mod[[1]][1]
+  rsq = mod[[2]][1]
+  tet.pvalues[i] = p.value
+  tet.rsq[i] = rsq
   }
 }
+
 length(tet.pvalues)
 summary(tet.pvalues)
 length(subset(tet.pvalues, tet.pvalues < pval.thre))
@@ -140,7 +150,6 @@ length(subset(tet.pvalues, tet.pvalues < pval.thre))
 
 Let see if there are some motifs in common.
 ```{r}
-
 # To have indexes of elements
 bi.match = match(subset(bi.pvalues, bi.pvalues < pval.thre), bi.pvalues)
 ca.match = match(subset(ca.pvalues, ca.pvalues < pval.thre), ca.pvalues)
@@ -148,13 +157,14 @@ sex.match = match(subset(sex.pvalues, sex.pvalues < pval.thre), sex.pvalues)
 tet.match = match(subset(tet.pvalues, tet.pvalues < pval.thre), tet.pvalues)
 
 # Common elements
-common = intersect(intersect(intersect(bi.match, ca.match), sex.match), tet.match)
+common = intersect(intersect(intersect(bi_motifs[bi.match], ca_motifs[ca.match]), sex_motifs[sex.match]), tet_motifs[tet.match])
 length(common)
 ```
 
 Let's extract the sequence of conserved motifs
 ```{r}
 common.motifs = data.frame()
+
 for (i in 1:length(common)) {
   index = common[i]
   filename = extract_bi[index]
@@ -189,9 +199,7 @@ The idea is two try to see if genes with given motif are higher or lower express
 
 ```{r}
 # Function to classify motifs as increaser or decreaser of gene expression
-expression.modifier <- function(extract_file, exp_file) {
-  extract_table = read.table(extract_file, h=F)  # Extract file
-  colnames(extract_table) = c("gene_id", "distance", "motifs.number")
+expression.modifier <- function(extract_table, exp_file) {
   # Expression of genes that contain the motif
   extract_match = exp_file[match(extract_table$gene_id, exp_file$gene_id, nomatch=0),] 
   # Expression of genes without the motif
@@ -218,15 +226,11 @@ expression.modifier <- function(extract_file, exp_file) {
 ```{r}
 bi.classify = data.frame()
 
-for (i in 1:length(extract_bi)) {
-  filename = extract_bi[i]
-  filename = strsplit(filename, "/")
-  filename = filename[[1]][3]
-  fam = substr(filename, 1, 12)
-  fam.motif = substr(filename, 13, 18)
+for (i in 1:length(bi_motifs)) {
+  extract_bi_sub = subset(extract_bi_table, motif == bi_motifs[i])
   
-  modifier = expression.modifier(extract_bi[i], exp_bi)
-  motif_data = subset(motifs, family == fam & BF.motif == fam.motif)
+  modifier = expression.modifier(extract_bi_sub, exp_bi)
+  motif_data = subset(motifs, as.character(consensus) == as.character(bi_motifs[i]))
   bi.classify = rbind(bi.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch,modifier$avg.dist))
   
 }
@@ -236,16 +240,12 @@ colnames(bi.classify)[9:11]= c("modifier", "bi.match", "bi.nomatch")
 ```{r}
 ca.classify = data.frame()
 
-for (i in 1:length(extract_ca)) {
-  filename = extract_ca[i]
-  filename = strsplit(filename, "/")
-  filename = filename[[1]][3]
-  fam = substr(filename, 1, 12)
-  fam.motif = substr(filename, 13, 18)
+for (i in 1:length(ca_motifs)) {
+  extract_ca_sub = subset(extract_ca_table, motif == ca_motifs[i])
   
-  modifier = expression.modifier(extract_ca[i], exp_ca)
-  motif_data = subset(motifs, family == fam & BF.motif == fam.motif)
-  ca.classify = rbind(ca.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch))
+  modifier = expression.modifier(extract_ca_sub, exp_ca)
+  motif_data = subset(motifs, as.character(consensus) == as.character(ca_motifs[i]))
+  ca.classify = rbind(ca.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch,modifier$avg.dist))
   
 }
 colnames(ca.classify)[9:11]= c("modifier", "ca.match", "ca.nomatch")
@@ -254,16 +254,12 @@ colnames(ca.classify)[9:11]= c("modifier", "ca.match", "ca.nomatch")
 ```{r}
 sex.classify = data.frame()
 
-for (i in 1:length(extract_sex)) {
-  filename = extract_sex[i]
-  filename = strsplit(filename, "/")
-  filename = filename[[1]][3]
-  fam = substr(filename, 1, 12)
-  fam.motif = substr(filename, 13, 18)
+for (i in 1:length(sex_motifs)) {
+  extract_sex_sub = subset(extract_sex_table, motif == sex_motifs[i])
   
-  modifier = expression.modifier(extract_sex[i], exp_sex)
-  motif_data = subset(motifs, family == fam & BF.motif == fam.motif)
-  sex.classify = rbind(sex.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch))
+  modifier = expression.modifier(extract_sex_sub, exp_sex)
+  motif_data = subset(motifs, as.character(consensus) == as.character(sex_motifs[i]))
+  sex.classify = rbind(sex.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch,modifier$avg.dist))
   
 }
 colnames(sex.classify)[9:11]= c("modifier", "sex.match", "sex.nomatch")
@@ -272,16 +268,12 @@ colnames(sex.classify)[9:11]= c("modifier", "sex.match", "sex.nomatch")
 ```{r}
 tet.classify = data.frame()
 
-for (i in 1:length(extract_tet)) {
-  filename = extract_tet[i]
-  filename = strsplit(filename, "/")
-  filename = filename[[1]][3]
-  fam = substr(filename, 1, 12)
-  fam.motif = substr(filename, 13, 18)
+for (i in 1:length(tet_motifs)) {
+  extract_tet_sub = subset(extract_tet_table, motif == tet_motifs[i])
   
-  modifier = expression.modifier(extract_tet[i], exp_tet)
-  motif_data = subset(motifs, family == fam & BF.motif == fam.motif)
-  tet.classify = rbind(tet.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch))
+  modifier = expression.modifier(extract_tet_sub, exp_tet)
+  motif_data = subset(motifs, as.character(consensus) == as.character(tet_motifs[i]))
+  tet.classify = rbind(tet.classify ,cbind(motif_data, as.factor(modifier$mod), modifier$match, modifier$nomatch,modifier$avg.dist))
   
 }
 colnames(tet.classify)[9:11]= c("modifier", "tet.match", "tet.nomatch")
@@ -291,8 +283,9 @@ Let's look at coregulation patterns in all the species
 
 ```{r}
 library(scales)
-common.regulation = cbind(bi.classify[common, 8:11], ca.classify[common,9:11], sex.classify[common,9:11], tet.classify[common,9:11])
+common.regulation = cbind(subset(bi.classify, consensus %in% common)[8:11], subset(ca.classify, consensus %in% common)[9:11], subset(sex.classify, consensus %in% common)[9:11], subset(tet.classify, consensus %in% common)[9:11])
 colnames(common.regulation)[c(2,5,8,11)] = c("bi.mod", "ca.mod", "sex.mod", "tet.mod")
+common.regulation = common.regulation[!duplicated(common.regulation$consensus),]
 common.regulation
 library(reshape2)
 common.melt = melt(common.regulation)[,c(1, 6, 7)]
