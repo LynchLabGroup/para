@@ -1,7 +1,10 @@
 #!/bin/bash
 # Extract all found motifs in all species
 # USAGE:
-# genomeextract.sh
+# genomeextract.sh location tabfile prefix
+# Location: location where to extract the genes
+# Tabfile: simple file with all the motifs to search, one per line
+# Prefix: prefix name of the file for each species
 
 extract(){
     local tabfile=$1
@@ -28,9 +31,9 @@ replace(){
     mv temp $file
 }
 
-LOCATION="results/motifs_extraction/"
-FILE="results/26may14uniquememe.txt"
-NAME="26may14MEMEMotifs"
+LOCATION=$1
+FILE=$2
+NAME=$3
 
 extract $FILE $LOCATION$NAME.bi data/biaurelia/biaurelia_cds.gff data/biaurelia/biaurelia_V1-4_assembly_v1.fasta
 replace $LOCATION$NAME.bi.res 6
@@ -43,6 +46,3 @@ replace $LOCATION$NAME.sex.res 7
 
 extract $FILE $LOCATION$NAME.tet data/tetraurelia/tetraurelia_cds.gff data/tetraurelia/ptetraurelia_mac_51.fa
 replace $LOCATION$NAME.tet.res 8
-
-# Code for BigFoot motifs
-# <(awk '{print $1$2, $9}' results/15may14consensuscomp.txt)
