@@ -52,7 +52,6 @@ lm.pvalue <- function(table.merged) {
 Test on *Paramecium biaurelia*, see the number of signifisexnt correlations.
 
 ```{r}
-
 extract_bi_table = read.table(extract_bi)
 colnames(extract_bi_table) = c("motif", "gene_id", "distance", "motifs.number")
 bi_motifs = unique(extract_bi_table$motif)
@@ -78,20 +77,24 @@ length(subset(bi.pvalues, bi.pvalues < pval.thre))
 For *P. caudatum*
 
 ```{r}
-ca.pvalues = rep(NA,length(extract_ca))
-ca.rsq = rep(NA, length(extract_ca))
 
-for (i in 1:length(extract_ca)) {
-  merged = corr.dist.exp(extract_ca[i], exp_ca)
-
+extract_ca_table = read.table(extract_ca)
+colnames(extract_ca_table) = c("motif", "gene_id", "distance", "motifs.number")
+ca_motifs = unique(extract_ca_table$motif)
+ca.pvalues = rep(NA,length(ca_motifs))
+ca.rsq = rep(NA, length(ca_motifs))
+for (i in 1:length(ca_motifs)) {
+  extract_ca_sub = subset(extract_ca_table, motif == ca_motifs[i])
+  merged = corr.dist.exp(extract_ca_sub, exp_ca)
   if (length(merged[,1])>2) {
-    mod = lm.pvalue(merged)
-    p.value = mod[[1]][1]
-    rsq = mod[[2]][1]
-    ca.pvalues[i] = p.value
-    ca.rsq[i] = rsq
+  mod = lm.pvalue(merged)
+  p.value = mod[[1]][1]
+  rsq = mod[[2]][1]
+  ca.pvalues[i] = p.value
+  ca.rsq[i] = rsq
   }
 }
+
 length(ca.pvalues)
 summary(ca.pvalues)
 length(subset(ca.pvalues, ca.pvalues < pval.thre))
@@ -100,20 +103,24 @@ length(subset(ca.pvalues, ca.pvalues < pval.thre))
 For *P. sexaurelia*
 
 ```{r}
-sex.pvalues = rep(NA,length(extract_sex))
-sex.rsq = rep(NA, length(extract_sex))
 
-for (i in 1:length(extract_sex)) {
-  merged = corr.dist.exp(extract_sex[i], exp_sex)
-
+extract_sex_table = read.table(extract_sex)
+colnames(extract_sex_table) = c("motif", "gene_id", "distance", "motifs.number")
+sex_motifs = unique(extract_sex_table$motif)
+sex.pvalues = rep(NA,length(sex_motifs))
+sex.rsq = rep(NA, length(sex_motifs))
+for (i in 1:length(sex_motifs)) {
+  extract_sex_sub = subset(extract_sex_table, motif == sex_motifs[i])
+  merged = corr.dist.exp(extract_sex_sub, exp_sex)
   if (length(merged[,1])>2) {
-    mod = lm.pvalue(merged)
-    p.value = mod[[1]][1]
-    rsq = mod[[2]][1]
-    sex.pvalues[i] = p.value
-    sex.rsq[i] = rsq
+  mod = lm.pvalue(merged)
+  p.value = mod[[1]][1]
+  rsq = mod[[2]][1]
+  sex.pvalues[i] = p.value
+  sex.rsq[i] = rsq
   }
 }
+
 length(sex.pvalues)
 summary(sex.pvalues)
 length(subset(sex.pvalues, sex.pvalues < pval.thre))
@@ -121,20 +128,24 @@ length(subset(sex.pvalues, sex.pvalues < pval.thre))
 
 For *P. tetraurelia*
 ```{r}
-tet.pvalues = rep(NA,length(extract_tet))
-tet.rsq = rep(NA, length(extract_tet))
 
-for (i in 1:length(extract_tet)) {
-  merged = corr.dist.exp(extract_tet[i], exp_tet)
-
+extract_tet_table = read.table(extract_tet)
+colnames(extract_tet_table) = c("motif", "gene_id", "distance", "motifs.number")
+tet_motifs = unique(extract_tet_table$motif)
+tet.pvalues = rep(NA,length(tet_motifs))
+tet.rsq = rep(NA, length(tet_motifs))
+for (i in 1:length(tet_motifs)) {
+  extract_tet_sub = subset(extract_tet_table, motif == tet_motifs[i])
+  merged = corr.dist.exp(extract_tet_sub, exp_tet)
   if (length(merged[,1])>2) {
-    mod = lm.pvalue(merged)
-    p.value = mod[[1]][1]
-    rsq = mod[[2]][1]
-    tet.pvalues[i] = p.value
-    tet.rsq[i] = rsq
+  mod = lm.pvalue(merged)
+  p.value = mod[[1]][1]
+  rsq = mod[[2]][1]
+  tet.pvalues[i] = p.value
+  tet.rsq[i] = rsq
   }
 }
+
 length(tet.pvalues)
 summary(tet.pvalues)
 length(subset(tet.pvalues, tet.pvalues < pval.thre))
