@@ -137,7 +137,7 @@ def motifs(scores, window_size=None, good_pos=None, threshold=None):
              and start_pos > 0:
                 start_pos -= 1
                 curr_mot = best_base(scores[start_pos]) + curr_mot
-            while pos < len(scores) -1 and best_score(scores[pos]) >= threshold:
+            while pos < len(scores) - 1 and best_score(scores[pos]) >= threshold:
                 curr_mot = curr_mot + best_base(scores[pos])
                 pos += 1
 
@@ -165,8 +165,8 @@ def best_motifs(motifs_list, scores_list):
     """
     from memecomp import overlap
 
-    assert type(motifs_list) == list and type(scores_list) == list and\
-     motifs_list != [] and scores_list != []
+    assert type(motifs_list) == list and type(scores_list) == list\
+        and motifs_list != [] and scores_list != []
 
     motifs = [list(motif) for motif in motifs_list]  # Make a mutable copy
 
@@ -196,8 +196,8 @@ def avg_bestscore(start, end, scores_list):
     """
     Return the mean of the best scores from start to end included
     """
-    assert type(start) == int and type(end) == int and\
-    type(scores_list) == list
+    assert type(start) == int and type(end) == int\
+        and type(scores_list) == list
     score_sum = 0
     for index in xrange(start, end):
         score_sum += best_score(scores_list[index])
@@ -235,17 +235,8 @@ def main():
     # Extend list of found motifs with motif from each files
     for mfile in args.memefiles:
         print mfile
-	int_motifs.extend(parse_file(mfile, args.evalue))
-
+    int_motifs.extend(parse_file(mfile, args.evalue))
     write_tabfile(int_motifs, args.output_file)
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-    
