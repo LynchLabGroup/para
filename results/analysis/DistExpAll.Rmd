@@ -8,7 +8,6 @@ setwd("~/Documents/ENS/M1/Stage/para/results/analysis/")
 
 extraction <- function(patt) {
   extract <- dir("../motifs_extraction", full.names=TRUE, pattern=patt)
-  extract <- extract[2:length(extract)]
 }
 
 # Load files of genes for each motifs of each species
@@ -24,7 +23,7 @@ exp_sex = read.table("../../data/sexaurelia_RNAseq_xp.tab", h=T)
 exp_tet = read.table("../../data/tetraurelia_RNAseq_xp.tab", h=T)
 
 # Load motifs name <-> motif correspondance table
-motifs = read.table("../15may14consensuscomp.txt", sep="\t")
+motifs = read.table("../june1714consensuscomp.txt", sep="\t", h=T)
 head(motifs)
 colnames(motifs) = c("family", "BF.motif", "BF.size", "MEME.motif", "MEME.size", "gene", "match.ratio", "consensus")
 
@@ -35,10 +34,9 @@ pval.thre = 0.01
 Function to treat each files from each list
 ```{r}
 # Function to use on every file, returns a table of matching genes between expression and extracted data
-corr.dist.exp <- function(extract_file, expression_file) {
-  extract_table = read.table(extract_file, h=F)
-  colnames(extract_table) = c("gene_id", "distance", "motifs.number")
-  extract_match = extract_table[match(expression_file$gene_id, extract_table$gene_id, nomatch=0),]
+corr.dist.exp <- function(extract_table, expression_file) {
+  # Select only gene ids that are in expression file
+  extract_match = subset(extract_table, gene_id %in% intersect(expression_file$gene_id, extract_table$gene_id))
   extract.merge = merge(extract_match,expression_file)
 }
 
@@ -54,20 +52,24 @@ lm.pvalue <- function(table.merged) {
 Test on *Paramecium biaurelia*, see the number of signifisexnt correlations.
 
 ```{r}
-bi.pvalues = rep(NA,length(extract_bi))
-bi.rsq = rep(NA, length(extract_bi))
 
-for (i in 1:length(extract_bi)) {
-  merged = corr.dist.exp(extract_bi[i], exp_bi)
-
+extract_bi_table = read.table(extract_bi)
+colnames(extract_bi_table) = c("motif", "gene_id", "distance", "motifs.number")
+bi_motifs = unique(extract_bi_table$motif)
+bi.pvalues = rep(NA,length(bi_motifs))
+bi.rsq = rep(NA, length(bi_motifs))
+for (i in 1:length(bi_motifs)) {
+  extract_bi_sub = subset(extract_bi_table, motif == bi_motifs[i])
+  merged = corr.dist.exp(extract_bi_sub, exp_bi)
   if (length(merged[,1])>2) {
-    mod = lm.pvalue(merged)
-    p.value = mod[[1]][1]
-    rsq = mod[[2]][1]
-    bi.pvalues[i] = p.value
-    bi.rsq[i] = rsq
+  mod = lm.pvalue(merged)
+  p.value = mod[[1]][1]
+  rsq = mod[[2]][1]
+  bi.pvalues[i] = p.value
+  bi.rsq[i] = rsq
   }
 }
+
 length(bi.pvalues)
 summary(bi.pvalues)
 length(subset(bi.pvalues, bi.pvalues < pval.thre))
