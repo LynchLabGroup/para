@@ -14,7 +14,7 @@ PREDTHRE = 0.9
 ALITHRE = 0.8
 MINWIDTH = 4
 NMOTIFS = 5
-BFPARAM = "1000,2000,1000"
+BFPARAM = "10000,20000,1000"
 OVERLAP = 0.9
 
 LIST = [elt.rstrip(".fasta") for elt in os.listdir(UPSTREAM) if elt.startswith("WGD")]
