@@ -43,9 +43,13 @@ corr.dist.exp <- function(extract_table, expression_file) {
 # Function to returns p.value of fitted models
 lm.pvalue <- function(table.merged) {
   model = lm(xp~distance, data=table.merged)  # Produce a linear model for data
-  p.value = summary(model)$coefficients[[8]]
-  rsq = summary(model)$adj.r.squared
-  list(p.value, rsq)
+  if (!is.na(model$coefficients[[2]])) {
+    p.value = summary(model)$coefficients[[8]]
+    rsq = summary(model)$adj.r.squared
+    list(p.value, rsq)
+  } else {
+    list(NA, NA)
+  }
 }
 ```
 
@@ -58,6 +62,7 @@ bi_motifs = unique(extract_bi_table$motif)
 bi.pvalues = rep(NA,length(bi_motifs))
 bi.rsq = rep(NA, length(bi_motifs))
 for (i in 1:length(bi_motifs)) {
+  print(i)
   extract_bi_sub = subset(extract_bi_table, motif == bi_motifs[i])
   merged = corr.dist.exp(extract_bi_sub, exp_bi)
   if (length(merged[,1])>2) {
@@ -198,6 +203,14 @@ If we try to classify motifs as associated with high or low expression among spe
 The idea is two try to see if genes with given motif are higher or lower expressed than genes without.
 
 ```{r}
+# Reverse consensus in motifs DF
+library(sqldf)
+reverse_consensus <- sqldf("select reverse(consensus) from motifs")
+motifs <- data.frame(cbind(motifs[,1:7], reverse_consensus))
+colnames(motifs)[8] = "consensus"
+```
+
+```{r}
 # Function to classify motifs as increaser or decreaser of gene expression
 expression.modifier <- function(extract_table, exp_file) {
   # Expression of genes that contain the motif
@@ -322,7 +335,7 @@ ggplot(c, aes(x=species, y=ratio, fill=species))+
   theme(text=element_text(size=rel(4.5)), axis.text.x=element_text(size=rel(5)), legend.position="none")
 
 # Group Motifs
-ggplot(c, aes(x=consensus, y=ratio)) +
+ggplot(c[c(1:4, 19:23, 77:92),], aes(x=consensus, y=ratio)) +
   geom_boxplot() +
   geom_jitter() +
   labs(x="Motifs", y="Proportion of genes with motifs") +
