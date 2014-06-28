@@ -6,7 +6,7 @@
 # ## IMPORT ###
 import argparse
 
-from parser import SeqParser
+from seqparser import SeqParser
 
 
 def main():
