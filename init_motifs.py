@@ -4,6 +4,6 @@
 
 from bin.bigfoot import seqparser
 s = 'results/WGD2ANC00051/WGD2ANC00051.fasta'
-p = parser.SeqParser(s+".mpd",s+".pred")
+p = seqparser.SeqParser(s+".mpd",s+".pred")
 p.parse()
 p._parse[0].weight(s+".mpd", s+".pred")
