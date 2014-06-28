@@ -123,17 +123,34 @@ class TestSeqParser(unittest.TestCase):
         self.par.parse()
         self.assertEqual(self.par._parse, [])
 
-    def test_parsing_good_not_empty(self):
-        self.par = seqparser.SeqParser(self.file_mpd.name, self.file_pred.name)
-        self.par.parse()
-        self.assertNotEqual(self.par._parse, [])
-
     def test_parsing_good(self):
         self.par = seqparser.SeqParser(self.file_mpd.name, self.file_pred.name)
         self.par.parse()
+        self.assertNotEqual(self.par._parse, [])
         self.assertEqual(self.par._parse[0].name(), "first")
         self.assertEqual(self.par._parse[0]._seq, "gcg-gggccc----atgcggg")
         self.assertEqual(self.par._parse[1].name(), "second")
         self.assertEqual(self.par._parse[1]._seq, "gcg-gggccc----atgcggg")
+
+    def test_seqparse_motifs_high_thresholds(self):
+        self.par = seqparser.SeqParser(self.file_mpd.name, self.file_pred.name)
+        self.par.parse()
+        self.par.motifs(1.0, 1.0)
+        self.assertEqual(self.par._motifs, {'threshold': 1.0, 'align': 1.0})
+
+    def test_seqparse_motifs_low_thresholds(self):
+        self.par = seqparser.SeqParser(self.file_mpd.name, self.file_pred.name)
+        self.par.parse()
+        self.par.motifs(0.0, 0.0)
+        self.assertDictEqual(self.par._motifs, {'threshold': 0.0, 'align': 0.0,
+            'motif1': {'align': 0.7142857142857143,
+            'first': {'seq': 'gcg-gggccc----atgcggg', 'start': 0},
+            'score': 0.5880952380952381,
+            'second': {'seq': 'gcg-gggccc----atgcggg', 'start': 0},
+            'size': 21,
+            'start': 0,
+            'stop': 21}
+            })
+
 
 
