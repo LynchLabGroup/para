@@ -117,12 +117,23 @@ class TestSeqParser(unittest.TestCase):
         self.file_pred = tempfile.NamedTemporaryFile(delete=False)
         self.file_pred.write(pred)
         self.file_pred.close()
-        print dir(seqparser)
-        self.par = seqparser.SeqParser(self.file_mpd, self.file_pred)
 
-    def test_parsing_not_empty(self):
-        self.assertNotEqual(self.par.parse(), [])
+    def test_parsing_file_not_in_good_order(self):
+        self.par = seqparser.SeqParser(self.file_pred.name, self.file_mpd.name)
+        self.par.parse()
+        self.assertEqual(self.par._parse, [])
+
+    def test_parsing_good_not_empty(self):
+        self.par = seqparser.SeqParser(self.file_mpd.name, self.file_pred.name)
+        self.par.parse()
+        self.assertNotEqual(self.par._parse, [])
 
     def test_parsing_good(self):
-        self.assertEqual(self.par.parse(), [])
+        self.par = seqparser.SeqParser(self.file_mpd.name, self.file_pred.name)
+        self.par.parse()
+        self.assertEqual(self.par._parse[0].name(), "first")
+        self.assertEqual(self.par._parse[0]._seq, "gcg-gggccc----atgcggg")
+        self.assertEqual(self.par._parse[1].name(), "second")
+        self.assertEqual(self.par._parse[1]._seq, "gcg-gggccc----atgcggg")
+
 
