@@ -22,7 +22,6 @@ class SeqParser(object):
         seqfile - BigFoot's StatAlign ouput file '.mpd'
         predfile - BigFoot's '.pred' file of phylogenetic prediction
         """
-        assert seqfile.endswith(".mpd"), predfile.endswith(".pred")
 
         self._seqfile = seqfile
         self._predfile = predfile
