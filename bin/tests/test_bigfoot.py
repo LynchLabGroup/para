@@ -142,7 +142,8 @@ class TestSeqParser(unittest.TestCase):
         self.par = seqparser.SeqParser(self.file_mpd.name, self.file_pred.name)
         self.par.parse()
         self.par.motifs(0.0, 0.0)
-        self.assertDictEqual(self.par._motifs, {'threshold': 0.0, 'align': 0.0,
+        self.assertDictEqual(self.par._motifs,
+            {'threshold': 0.0, 'align': 0.0,
             'motif1': {'align': 0.7142857142857143,
             'first': {'seq': 'gcg-gggccc----atgcggg', 'start': 0},
             'score': 0.5880952380952381,
@@ -151,6 +152,4 @@ class TestSeqParser(unittest.TestCase):
             'start': 0,
             'stop': 21}
             })
-
-
 
