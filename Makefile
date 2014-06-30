@@ -4,8 +4,9 @@
 #
 include config.mak
 
-.PHONY:  all makedir retrieve_upstream retrieve_CDS int_motifs meme_length
-.NOTPARALLEL: retrieve_upstream retrieve_CDS
+.PHONY: all makedir retrieve_upstream retrieve_CDS int_motifs meme_length
+
+#.NOTPARALLEL: retrieve_upstream retrieve_CDS
 
 all: $(MOTIFS) $(addsuffix .comp, $(LOCS)) int_motifs meme_length
 
