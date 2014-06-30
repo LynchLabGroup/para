@@ -35,7 +35,7 @@ CDS = data/families/WGD2/CDS/nt/
 # Results directory (where all families will be treated)
 RESULTS = results/
 # All retrieved family
-RETRIEVED_FAM = $(shell find $(UP) -maxdepth 1 -type f -name "WGD2ANC0*")
+RETRIEVED_FAM = $(shell find $(UP) -maxdepth 1 -type f -name "WGD2ANC0000*")
 # List corresponding subdirectories
 SUBDIRS = $(subst $(UP), $(RESULTS), $(basename $(RETRIEVED_FAM)))
 # List all families with just name of families
