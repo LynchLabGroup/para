@@ -47,9 +47,10 @@ make all -r -j 4
 ## Pipeline Requirements ##
 
 - Python 2.7
-- Biopython 1.63
+- [Biopython (>=1.63)](http://biopython.org/)
 - Java (compatible with BigFoot use)
 - [BigFoot](http://sourceforge.net/projects/bigfoot/) (in the project's parent folder)
 - Perl
 - [TranslatorX](http://translatorx.co.uk/) local version (in the `scripts`folder)
+- [Muscle](http://www.drive5.com/muscle/) (to use within TranslatorX, change TranslatorX options to use another alignment program)
 
