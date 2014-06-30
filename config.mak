@@ -26,17 +26,23 @@ ALI_THRE = 0.8
 # Prediction score threshold to detect motifs
 PRED_THRE = 0.9
 
+
 ### Files and Directories ###
-
+# Upstream sequences location
 UP = data/families/WGD2/upstream/
+# CDSs location
 CDS = data/families/WGD2/CDS/nt/
+# Results directory (where all families will be treated)
 RESULTS = results/
-SUBDIRS = $(shell find results/ -type d -name "WGD2ANC0*")
-GENES = $(shell find $(UP) -maxdepth 1 -type f -name "WGD2ANC0*")
-SUBS = $(subst $(UP), $(RESULTS), $(basename $(GENES)))
-
-MOTIFS = $(addsuffix .motifs, $(LOCS))
+# All retrieved family
+RETRIEVED_FAM = $(shell find $(UP) -maxdepth 1 -type f -name "WGD2ANC0*")
+# List corresponding subdirectories
+SUBDIRS = $(subst $(UP), $(RESULTS), $(basename $(RETRIEVED_FAM)))
+# List all families with just name of families
+FAM = $(shell basename $(RETRIEVED_FAM))
+# Base file names
 LOCS = $(join $(SUBDIRS), $(FAM))
-FAM = $(subst results, ,$(SUBDIRS))
+# Files
+MOTIFS = $(addsuffix .motifs, $(LOCS))
 PRED = $(addsuffix .fasta.pred, $(LOCS))
 MPD = $(addsuffix .fasta.mpd, $(LOCS))
