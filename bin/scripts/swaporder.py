@@ -6,56 +6,61 @@
 
 from Bio import SeqIO
 
-def load_fasta(input_file):
-	"""
-	Return a list of fasta sequences.
-	"""
-	assert input_file.endswith(".fasta") or input_file.endswith(".fa")
-	with open(input_file, "r") as f:
-		fasta_list = []
-		for rec in SeqIO.parse(f, "fasta"):
-			fasta_list.append(rec)
 
-	return fasta_list
+def load_fasta(input_file):
+    """
+    Return a list of fasta sequences.
+    """
+    assert input_file.endswith(".fasta") or input_file.endswith(".fa")
+    with open(input_file, "r") as f:
+        fasta_list = []
+        for rec in SeqIO.parse(f, "fasta"):
+            fasta_list.append(rec)
+
+    return fasta_list
+
 
 def randomize_list(input_list):
-	"""
-	Return a randomized list from input_list.
-	"""
-	import random
-	copy = list(input_list)
-	random.shuffle(copy)
-	return copy
+    """
+    Return a randomized list from input_list.
+    """
+    import random
+    copy = list(input_list)
+    random.shuffle(copy)
+    return copy
+
 
 def write_fasta(input_list, output_file):
-	"""
-	Write fasta file from a given list.
-	"""
-	with open(output_file, "w") as output:
-		SeqIO.write(input_list, output, "fasta")
+    """
+    Write fasta file from a given list.
+    """
+    with open(output_file, "w") as output:
+        SeqIO.write(input_list, output, "fasta")
+
 
 def main(input_file, output_file):
-	"""
-	Main program
-	"""
-	print "Loading file {}...".format(input_file)
-	in_list = load_fasta(input_file)
-	print "Loaded!"
-	
-	r_list = randomize_list(in_list)
+    """
+    Main program
+    """
+    print "Loading file {}...".format(input_file)
+    in_list = load_fasta(input_file)
+    print "Loaded!"
 
-	print "Writing file {}...".format(output_file)
-	write_fasta(r_list, output_file)
-	print "Done."
+    r_list = randomize_list(in_list)
+
+    print "Writing file {}...".format(output_file)
+    write_fasta(r_list, output_file)
+    print "Done."
 
 if __name__ == "__main__":
-	import argparse
+    import argparse
 
-	parser = argparse.ArgumentParser(description="Simple program to generate random ordered fasta files.")
+    parser = argparse.ArgumentParser(description="Simple program to generate\
+        random ordered fasta files.")
 
-	parser.add_argument("i", help="input fasta file")
-	parser.add_argument("o",help="output fasta file")
+    parser.add_argument("i", help="input fasta file")
+    parser.add_argument("o", help="output fasta file")
 
-	args = parser.parse_args()
+    args = parser.parse_args()
 
-	main(args.i,args.o)
+    main(args.i,args.o)

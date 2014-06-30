@@ -1,33 +1,41 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+Edit phylogenetic tree in newick format to be usable
+by BigFoot
+"""
 
 import argparse
 import re
 
-def main(input_tree,output_tree):
 
-	# Read tree and create a string out of it
-	with open(input_tree,"r") as f:
-		l = []
-		for line in f.readlines():
-			l.append(line)
+def main(input_tree, output_tree):
 
-	l = "".join(l)
+    # Read tree and create a string out of it
+    with open(input_tree, "r") as f:
+        l = []
+        for line in f.readlines():
+            l.append(line)
 
-	# Edit tree
-	newtree = re.sub("\)[0-9].[0-9]*.\:","):",l)
+    l = "".join(l)
 
-	# Write output tree
+    # Edit tree
+    newtree = re.sub("\)[0-9].[0-9]*.\:", "):", l)
 
-	with open(output_tree,"w") as g:
-		g.write(newtree)
+    # Write output tree
+
+    with open(output_tree, "w") as g:
+        g.write(newtree)
 if __name__ == "__main__":
 
-	parser = argparse.ArgumentParser(description="Simple program to edit newick tree to be usable with BigFoot.\n Attention tree has to be in Newick format, see http://evolution.genetics.washington.edu/phylip/newicktree.html for specifications.")
+    parser = argparse.ArgumentParser(description="Simple program to edit\
+        newick tree to be usable with BigFoot.\n Attention tree has to be in\
+        Newick format, see http://evolution.genetics.washington.edu/phylip/\
+        newicktree.html for specifications.")
 
-	parser.add_argument("i", help="input newick tree")
-	parser.add_argument("o",help="output newick tree")
+    parser.add_argument("i", help="input newick tree")
+    parser.add_argument("o", help="output newick tree")
 
-	args = parser.parse_args()
+    args = parser.parse_args()
 
-	main(args.i,args.o)
+    main(args.i, args.o)
