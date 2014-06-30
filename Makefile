@@ -79,8 +79,7 @@ $(addsuffix .CDS.nt_ali.fasta, $(LOCS)): %.CDS.nt_ali.fasta : %.fasta
 	@echo "Done."
 # Transforming fasta header
 $(addsuffix .fasta, $(LOCS)): %.fasta: bin/scripts/fastaheader.py
-	@echo "I am here right now"
-	$(eval UPSTREAM = $(shell echo $@ | sed 's/results\/WGD2ANC[0-9]*\//data\/families\/WGD2\/upstream\//'))
+	$(eval UPSTREAM = $(shell echo $@ | sed 's|$(RESULTS)|$(UP)|'))
 	@echo "Transforming upstream header"
 	@python $< $(UPSTREAM) "|" $@
 	@echo "Done."
