@@ -1,6 +1,7 @@
 # para #
 Repository for *Paramecium* Project
 This is suppose to be the swissknife for extracting CDSs and finding motifs in them.
+To understand how to run the pipeline, please read the `HOWTO.md` file, the `README.md` file describes the architecture and the structure of the project.
 
 ## Folders ##
 
@@ -174,5 +175,5 @@ Contains several scripts to study various subjects:
 - [ ] Implement testing
 - [ ] Add example codes
 - [ ] Tidy Up repo (delete tests and unused bash script)
-- [ ] Implement R script CLI
-- [ ] Implement bash script CLI 
+- [X] Implement R script CLI
+- [X] Implement bash script CLI 
