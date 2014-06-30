@@ -1,7 +1,7 @@
 #!/bin/bash
 # Tidy up folder after translatorX script
 # USAGE
-# tidyup file_list
+# tidyup dir1 [dir2 ...]
 
 d=$(date "+%Y-%m-%d") #Stores date value into variable
 echo $d
