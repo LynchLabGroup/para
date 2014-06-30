@@ -31,6 +31,7 @@ These commands won't run on parallel to only load genomes sequences and annotati
 make all -r
 ```
 the `-r` option tells make not to use default rules, as this Makefile is twisted from the original uses of `make`.
+
 When submitting a job using TORQUE, you can parallelize the pipeline by using the `-j` flag.
 Example of Jobscript:
 ```shell
@@ -53,4 +54,5 @@ make all -r -j 4
 - Perl
 - [TranslatorX](http://translatorx.co.uk/) local version (in the `scripts`folder)
 - [Muscle](http://www.drive5.com/muscle/) (to use within TranslatorX, change TranslatorX options to use another alignment program)
+- [PhyML](http://www.atgc-montpellier.fr/phyml/binaries.php)
 
