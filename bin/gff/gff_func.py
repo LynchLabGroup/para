@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# This file contain all
+# This file contains all functions to extract upstream sequences/coordinates
+# from GFF files
 
 # ## IMPORTS ###
 import parse_gff_v2 as pg
