@@ -6,6 +6,7 @@ include config.mak
 
 all:
 	echo $(GENES)
+	echo $(SUBS)
 
 # .PHONY:  all makedir retrieve_upstream retrieve_CDS int_motifs meme_length
 # .NOTPARALLEL: retrieve_upstream
