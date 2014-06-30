@@ -27,11 +27,13 @@ ALI_THRE = 0.8
 PRED_THRE = 0.9
 
 ### Files and Directories ###
-SUBDIRS = $(shell find results/ -type d -name "WGD2ANC0*") 
-FAM = $(subst results, ,$(SUBDIRS))
-LOCS = $(join $(SUBDIRS), $(FAM))
-MOTIFS = $(addsuffix .motifs, $(LOCS))
-MPD = $(addsuffix .fasta.mpd, $(LOCS))
-PRED = $(addsuffix .fasta.pred, $(LOCS))
+
 UP = data/families/WGD2/upstream/
 CDS = data/families/WGD2/CDS/nt/
+SUBDIRS = $(shell find results/ -type d -name "WGD2ANC0*")
+GENES = $(shell find $(UP) -maxdepth 1 -type f -name "WGD2ANC0*")
+MOTIFS = $(addsuffix .motifs, $(LOCS))
+LOCS = $(join $(SUBDIRS), $(FAM))
+FAM = $(subst results, ,$(SUBDIRS))
+PRED = $(addsuffix .fasta.pred, $(LOCS))
+MPD = $(addsuffix .fasta.mpd, $(LOCS))
