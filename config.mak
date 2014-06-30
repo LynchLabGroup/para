@@ -46,3 +46,7 @@ LOCS = $(join $(SUBDIRS), $(FAM))
 MOTIFS = $(addsuffix .motifs, $(LOCS))
 PRED = $(addsuffix .fasta.pred, $(LOCS))
 MPD = $(addsuffix .fasta.mpd, $(LOCS))
+
+### External Programs Locations ###
+BIGFOOT = "../BigFoot/BigFoot.jar"
+TRANSLATORX = "bin/scripts/translatorx_vLocal.pl"

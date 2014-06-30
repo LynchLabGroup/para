@@ -41,7 +41,7 @@ $(addsuffix .meme.motifs, $(LOCS)): %.meme.motifs : %.fasta
 # Compute Motifs using BigFoot
 $(MPD) : %.fasta.mpd : %.fasta %.newick
 	@echo "Computing Motifs using BigFoot"
-	@java -jar ../BigFoot/BigFoot.jar -t $(word 2, $^) -p=$(BF_PARAMS) $<
+	@java -jar $(BIGFOOT) -t $(word 2, $^) -p=$(BF_PARAMS) $<
 	@echo "Done."
 
 # Operations to obtain .newick tree
@@ -76,7 +76,7 @@ $(addsuffix .CDS.fasta, $(LOCS)): %.CDS.fasta : bin/scripts/fastaheader.py %.CDS
 # Aligning CDSs
 $(addsuffix .CDS.nt_ali.fasta, $(LOCS)): %.CDS.nt_ali.fasta : %.fasta
 	@echo "Aligning CDSs."
-	perl bin/scripts/translatorx_vLocal.pl -c 6 -i $^ -o $(subst .nt_ali.fasta, , $@)
+	perl $(TRANSLATORX) -c 6 -i $^ -o $(subst .nt_ali.fasta, , $@)
 	@echo "Done."
 # Transforming fasta header
 $(addsuffix .fasta, $(LOCS)): %.fasta: bin/scripts/fastaheader.py
