@@ -8,8 +8,9 @@ echo $d
 
 for TARGET in $1;
 do
-find $TARGET -name "*.nt[1-3]*_ali.fasta" -delete
-find $TARGET -name "*.aa*" -delete
-find $TARGET -name "*.html" -delete
-find $TARGET -name "*.muscle.log" -delete
+    echo $TARGET
+    find $TARGET -name "*.nt[1-3]*_ali.fasta" -delete
+    find $TARGET -name "*.aa*" -delete
+    find $TARGET -name "*.html" -delete
+    find $TARGET -name "*.muscle.log" -delete
 done
