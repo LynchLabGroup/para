@@ -1,4 +1,4 @@
-# May 12th 2014 pipeline file
+# June 30th 2014 pipeline file
 # This config file contains all variables
 
 ### Parameters ###
