@@ -39,7 +39,7 @@ RETRIEVED_FAM = $(shell find $(UP) -maxdepth 1 -type f -name "WGD2ANC0000*")
 # List corresponding subdirectories
 SUBDIRS = $(foreach DIR, "${RETRIEVED_FAM[0]}", $(subst $(UP), $(RESULTS), $(basename $(DIR))))
 # List all families with just name of families
-FAM = $(shell basename $(RETRIEVED_FAM))
+FAM = $(foreach NAME, $(RETRIEVED_FAM), $(basename $(NAME)))
 # Base file names
 LOCS = $(join $(SUBDIRS), $(FAM))
 # Files
