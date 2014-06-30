@@ -30,9 +30,11 @@ PRED_THRE = 0.9
 
 UP = data/families/WGD2/upstream/
 CDS = data/families/WGD2/CDS/nt/
+RESULTS = results/
 SUBDIRS = $(shell find results/ -type d -name "WGD2ANC0*")
 GENES = $(shell find $(UP) -maxdepth 1 -type f -name "WGD2ANC0*")
-SUBS = $(basename $(GENES))
+SUBS = $(subst $(UP), $(RESULTS), $(basename $(GENES)))
+
 MOTIFS = $(addsuffix .motifs, $(LOCS))
 LOCS = $(join $(SUBDIRS), $(FAM))
 FAM = $(subst results, ,$(SUBDIRS))
