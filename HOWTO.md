@@ -1,5 +1,18 @@
 # How to run the pipeline? #
 
+## Pipeline Requirements ##
+
+Be sure everything is installed and accessible
+
+- Python 2.7
+- [Biopython (>=1.63)](http://biopython.org/)
+- Java (compatible with BigFoot use)
+- [BigFoot](http://sourceforge.net/projects/bigfoot/) (in the project's parent folder)
+- Perl
+- [TranslatorX](http://translatorx.co.uk/) local version (in the `scripts`folder)
+- [Muscle](http://www.drive5.com/muscle/) (to use within TranslatorX, change TranslatorX options to use another alignment program)
+- [PhyML](http://www.atgc-montpellier.fr/phyml/binaries.php)
+
 ## What are the files to run the pipeline? ##
 
 The pipeline consists of a `Makefile` and a configuration file `config.mak`.
@@ -45,14 +58,13 @@ Example of Jobscript:
 make all -r -j 4
 ```
 
-## Pipeline Requirements ##
+### How do I run a single step? ###
 
-- Python 2.7
-- [Biopython (>=1.63)](http://biopython.org/)
-- Java (compatible with BigFoot use)
-- [BigFoot](http://sourceforge.net/projects/bigfoot/) (in the project's parent folder)
-- Perl
-- [TranslatorX](http://translatorx.co.uk/) local version (in the `scripts`folder)
-- [Muscle](http://www.drive5.com/muscle/) (to use within TranslatorX, change TranslatorX options to use another alignment program)
-- [PhyML](http://www.atgc-montpellier.fr/phyml/binaries.php)
+If you want to generate specific files, you can call them directly:
+```shell
+make results/WGD2ANC00002/WGD2ANC00002.comp -r
+```
 
+This will run the approriate rules to make `WGD2ANC00002.comp`
+
+For the moment, it is not possible to rerun simply a given step in the pipeline without specifying all the file names.
