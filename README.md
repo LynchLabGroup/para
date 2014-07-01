@@ -1,7 +1,8 @@
 # para #
+
 Repository for *Paramecium* Project
 This is suppose to be the swissknife for extracting CDSs and finding motifs in them.
-To understand how to run the pipeline, please read the `HOWTO.md` file, the `README.md` file describes the architecture and the structure of the project.
+To understand how to run the pipeline, please read the [`HOWTO.md`](https://github.com/LynchLabGroup/para/blob/master/HOWTO.md) file or go to [HowTo page](https://github.com/LynchLabGroup/para/wiki/HowTo), the `README.md` file describes the architecture and the structure of the project.
 
 ## Folders ##
 
@@ -169,11 +170,3 @@ Contains several scripts to study various subjects:
 + **familysize** contains scripts to study family sizes and according results
 + **intergene** contains intergenic distance computation
 + **motifs sizes** contains everything to compute sizes of motifs and family
-
-### TO DO ###
-
-- [ ] Implement testing
-- [ ] Add example codes
-- [ ] Tidy Up repo (delete tests and unused bash script)
-- [X] Implement R script CLI
-- [X] Implement bash script CLI 
