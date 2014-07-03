@@ -41,6 +41,7 @@ These commands won't run on parallel to only load genomes sequences and annotati
 
 **Then**, to launch the pipeline run:
 ```shell
+make makedir
 make all -r
 ```
 the `-r` option tells make not to use default rules, as this Makefile is twisted from the original uses of `make`.
